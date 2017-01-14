@@ -1,19 +1,24 @@
-# Build and Release Folders
-bin/
-bin-debug/
-bin-release/
-[Oo]bj/ # FlashDevelop obj
-[Bb]in/ # FlashDevelop bin
+#this .gitignore file will only include .java files
+#to help multiple programmers avoid Eclipse metafile conflicts
+#due to differences in local path names
 
-# Other files and folders
-.settings/
+# ignore all files
+*
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+#unignore all directories
+!/**/
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+#unignore all java src files
+!**.java
+
+#use "git -add -n *" to verify it is behaving as expected
+
+#start by creating a new workspace in Eclipse that is free of git
+#I had to read jdk in Eclipse (windows\preferences\java\installedJREs)
+#create new repository in github and add this .gitgnore file
+#clone repository to workspace directory
+#in Eclipse create new robot project
+#git add the .java files
+
+#everyone else can join by repeating all but the 3rd step
+#all adds will only modify .java files
