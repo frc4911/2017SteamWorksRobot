@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrainCaleb;
 import org.usfirst.frc.team4911.robot.subsystems.SS_Logging2;
+import org.usfirst.frc.team4911.robot.subsystems.SS_Motors;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,10 +19,10 @@ import org.usfirst.frc.team4911.robot.subsystems.SS_Logging2;
  * directory.
  */
 public class Robot extends IterativeRobot {
+
+	public static final SS_Logging2 ss_Logging2 = new SS_Logging2();
 	
-	public static final SS_Logging2 ss_logging2 = new SS_Logging2();
-	
-	public static final SS_DriveTrainCaleb ss_DriveTrainCaleb = new SS_DriveTrainCaleb();
+	public static final SS_Motors ss_Motors = new SS_Motors();
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -35,16 +35,25 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		
-		SmartDashboard.putNumber("driveTime", 0);
-		SmartDashboard.putBoolean("forward", true);
+		SmartDashboard.putNumber("joystickTalon", 1);
 		
-		SmartDashboard.putNumber("turnTime", 0);
-    	SmartDashboard.putBoolean("turnLeft", true);
+		SmartDashboard.putNumber("motor1Speed", 1);
+		SmartDashboard.putNumber("motor2Speed", 1);
+		SmartDashboard.putNumber("motor3Speed", 1);
+		SmartDashboard.putNumber("motor4Speed", 1);
+		
+		SmartDashboard.putNumber("motor1.get()", 0);
+		
+		// Logging
+		SmartDashboard.putNumber("Robot.updateLogs()", 0);
+		SmartDashboard.putNumber("SS_Motors.updateLog()", counter++);
+		
+		SmartDashboard.putBoolean("fileCreationFailure", false);
+		SmartDashboard.putBoolean("NewFileCreated", false);
 	}
 
 	/**
@@ -95,6 +104,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		updateLogs();
 	}
 
 	@Override
@@ -113,6 +123,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		updateLogs();
 	}
 
 	/**
@@ -121,5 +132,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+		updateLogs();
+	}
+	
+	double counter = 0;
+	void updateLogs() {
+		SmartDashboard.putNumber("Robot.updateLogs()", counter++);
+		ss_Motors.updateLog();
+		
+		ss_Logging2.logFlush();
 	}
 }
