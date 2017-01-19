@@ -1,6 +1,9 @@
 
 package org.usfirst.frc.team4911.robot;
 
+import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrain;
+import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrainCaleb;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -21,6 +24,8 @@ import org.usfirst.frc.team4911.robot.subsystems.SS_Logging2;
 public class Robot extends IterativeRobot {
 	
 	public static final SS_Logging2 ss_logging2 = new SS_Logging2();
+
+	public static final SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
 	
 	public static final SS_DriveTrainCaleb ss_DriveTrainCaleb = new SS_DriveTrainCaleb();
 	public static OI oi;
@@ -36,8 +41,6 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		
-		//chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		
 		SmartDashboard.putNumber("driveTime", 0);

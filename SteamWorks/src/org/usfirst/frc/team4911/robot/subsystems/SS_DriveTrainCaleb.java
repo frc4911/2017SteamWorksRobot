@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
-import org.usfirst.frc.team4911.robot.commands.C_DriveByJoystickCaleb;
+import org.usfirst.frc.team4911.robot.commands.C_DriveByJoystick;
 
 import com.ctre.CANTalon;
 
@@ -22,7 +22,7 @@ public class SS_DriveTrainCaleb extends Subsystem {
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new C_DriveByJoystickCaleb());
+        setDefaultCommand(new C_DriveByJoystick());
     }
     
     public void driveByJoyStick(double yAxis, double xAxis) {
