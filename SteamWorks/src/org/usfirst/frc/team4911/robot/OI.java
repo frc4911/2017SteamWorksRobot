@@ -1,14 +1,38 @@
 package org.usfirst.frc.team4911.robot;
 
-import edu.wpi.first.wpilibj.buttons.Button;
+import org.usfirst.frc.team4911.robot.commands.CG_DriveToAndFrom;
+import org.usfirst.frc.team4911.robot.commands.C_Drive;
+import org.usfirst.frc.team4911.robot.commands.C_DriveByPID;
+import org.usfirst.frc.team4911.robot.commands.C_Turn;
 
-import org.usfirst.frc.team4911.robot.commands.ExampleCommand;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	public Joystick stickL = new Joystick(0);
+	public Joystick stickR = new Joystick(1);
+	public Button trigger = new JoystickButton(stickL, 1);
+	public Button handle1 = new JoystickButton(stickL, 5);
+	public Button handle2 = new JoystickButton(stickL, 6);
+	
+	public OI() {
+		/*SmartDashboard.putNumber("Move Duration", 0);
+		SmartDashboard.putNumber("Turn Duration", 0);
+		SmartDashboard.putBoolean("Turn Direction", true);*/
+		
+		SmartDashboard.putNumber("Target Position", 0);
+		
+		trigger.whileHeld(new C_DriveByPID());
+		//handle1.whenPressed(new C_Drive(true));
+		//handle2.whenPressed(new C_Drive(false));
+	}
+	
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.
