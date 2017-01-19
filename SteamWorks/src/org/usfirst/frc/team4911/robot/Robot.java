@@ -2,6 +2,8 @@
 package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrain;
+import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrainCaleb;
+import org.usfirst.frc.team4911.robot.subsystems.SS_Test;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -9,7 +11,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -20,6 +21,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static final SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
+	
+	public static final SS_DriveTrainCaleb ss_DriveTrainCaleb = new SS_DriveTrainCaleb();
+	public static final SS_Test ss_Test = new SS_Test();
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -32,8 +36,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		// chooser.addObject("My Auto", new MyAutoCommand());
 		
+		SmartDashboard.putData("Auto mode", chooser);
+		
+		SmartDashboard.putNumber("driveTime", 0);
+		SmartDashboard.putBoolean("forward", true);
+		
+		SmartDashboard.putNumber("turnTime", 0);
+    	SmartDashboard.putBoolean("turnLeft", true);
 	}
 
 	/**
