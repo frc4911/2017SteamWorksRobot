@@ -45,6 +45,7 @@ public class C_DrivetrainPID extends Command {
     	SmartDashboard.putNumber("PIDmode", action);
     	SmartDashboard.putNumber("PID position left", posLeft);
     	SmartDashboard.putNumber("PID position right", -posRight);
+    	SmartDashboard.putBoolean("PIDmode running", true);
     }
 
     int distance=0;
@@ -54,7 +55,7 @@ public class C_DrivetrainPID extends Command {
     protected void execute() {
     	int currentDistance = Robot.ss_DriveTrain.PIDPosition();
     	
-    	if (currentDistance != distance)
+    	if (Math.abs(currentDistance - distance) > 5)
     	{
     		distance = currentDistance;
     		counter = 0;
@@ -68,7 +69,7 @@ public class C_DrivetrainPID extends Command {
     	if ((action != 1) && (action != 3))
 			return true;
 
-    	if (counter > 25)
+    	if (counter > 100)
     		return true;
     	
     	return false;
@@ -76,11 +77,13 @@ public class C_DrivetrainPID extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	SmartDashboard.putBoolean("PIDmode running", false);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.ss_DriveTrain.stopPIDMode();
+    	SmartDashboard.putBoolean("PIDmode running", false);
     }
 }

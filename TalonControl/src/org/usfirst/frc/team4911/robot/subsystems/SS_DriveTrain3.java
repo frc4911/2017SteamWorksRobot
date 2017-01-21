@@ -71,14 +71,14 @@ public class SS_DriveTrain3 extends Subsystem {
 		
 		SmartDashboard.putNumber("PIDPosition", PIDPosition());
 		
-//		SmartDashboard.putNumber("kp", 0);
-//		SmartDashboard.putNumber("kd", 0);
-//		SmartDashboard.putNumber("ki", 0);
-//		SmartDashboard.putNumber("kf", 0);
-//		SmartDashboard.putNumber("ramprate", 0);
-//		SmartDashboard.putNumber("izone", 0);
-//		SmartDashboard.putNumber("peak V", 0);
-//		SmartDashboard.putNumber("nominal V", 0);
+//		SmartDashboard.putNumber("kpR", 0);
+//		SmartDashboard.putNumber("kdR", 0);
+//		SmartDashboard.putNumber("kiR", 0);
+//		SmartDashboard.putNumber("kfR", 0);
+//		SmartDashboard.putNumber("ramprateR", 0);
+//		SmartDashboard.putNumber("izoneR", 0);
+//		SmartDashboard.putNumber("peak VR", 0);
+//		SmartDashboard.putNumber("nominal VR", 0);
     }
     public void setBrakeMode(boolean mode){
     	DriveMotorFrontLeft.enableBrakeMode(mode);
@@ -99,8 +99,16 @@ public class SS_DriveTrain3 extends Subsystem {
     	double peakV = SmartDashboard.getNumber("peak V", 0);
     	double nominalV = SmartDashboard.getNumber("nominal V", 0);
     	
+    	double kpR = SmartDashboard.getNumber("kpR", 0);
+    	double kdR = SmartDashboard.getNumber("kdR", 0);
+    	double kiR = SmartDashboard.getNumber("kiR", 0);
+    	int iZoneR = (int)SmartDashboard.getNumber("izoneR", 0);
+    	double ramprateR = SmartDashboard.getNumber("ramprateR", 0);
+    	double peakVR = SmartDashboard.getNumber("peak VR", 0);
+    	double nominalVR = SmartDashboard.getNumber("nominal VR", 0);
+    	
     	ctrlLeft.setupPIDMode(kp, kd, ki, 0.0, ramprate, iZone, peakV, nominalV);
-    	ctrlRight.setupPIDMode(kp, kd, ki, 0.0, ramprate, iZone, peakV, nominalV);
+    	ctrlRight.setupPIDMode(kpR, kdR, kiR, 0.0, ramprateR, iZoneR, peakVR, nominalVR);
     	
     	SmartDashboard.putNumber("kp actual", kp);
     	SmartDashboard.putNumber("kd actual", kd);
@@ -109,6 +117,14 @@ public class SS_DriveTrain3 extends Subsystem {
     	SmartDashboard.putNumber("ramprate actual", ramprate);
     	SmartDashboard.putNumber("peak V actual", peakV);
     	SmartDashboard.putNumber("nominal V actual", nominalV);
+    	
+    	SmartDashboard.putNumber("kpR actual", kpR);
+    	SmartDashboard.putNumber("kdR actual", kdR);
+    	SmartDashboard.putNumber("kiR actual", kiR);
+    	SmartDashboard.putNumber("izoneR actual", iZoneR);
+    	SmartDashboard.putNumber("ramprateR actual", ramprateR);
+    	SmartDashboard.putNumber("peak VR actual", peakVR);
+    	SmartDashboard.putNumber("nominal VR actual", nominalVR);
     }
     
     public void startPIDMode(){
