@@ -1,12 +1,13 @@
 package org.usfirst.frc.team4911.robot;
 
+import org.usfirst.frc.team4911.robot.commands.C_DriveByPID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4911.robot.commands.CG_DriveCaleb;
 import org.usfirst.frc.team4911.robot.commands.C_DriveToChairsCaleb;
-import org.usfirst.frc.team4911.robot.commands.C_Test;
 import org.usfirst.frc.team4911.robot.commands.C_TurnCaleb;
 
 /**
@@ -14,6 +15,30 @@ import org.usfirst.frc.team4911.robot.commands.C_TurnCaleb;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	public Joystick stickL = new Joystick(0);
+	public Joystick stickR = new Joystick(1);
+	public Button trigger = new JoystickButton(stickL, 1);
+	public Button handle1 = new JoystickButton(stickL, 5);
+	public Button handle2 = new JoystickButton(stickL, 6);
+	
+	public OI() {
+		/*SmartDashboard.putNumber("Move Duration", 0);
+		SmartDashboard.putNumber("Turn Duration", 0);
+		SmartDashboard.putBoolean("Turn Direction", true);*/
+		
+		SmartDashboard.putNumber("Target Position", 0);
+		
+		trigger.whenPressed(new C_DriveByPID());
+		//handle1.whenPressed(new C_Drive(true));
+		//handle2.whenPressed(new C_Drive(false));
+		
+		
+		bTrigger.whenPressed(new CG_DriveCaleb());
+		
+		button5.whenPressed(new C_DriveToChairsCaleb(0, true));
+		button6.whenPressed(new C_TurnCaleb(0, true));
+	}
+	
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.
@@ -38,14 +63,6 @@ public class OI {
 
 	// Start the command when the button is pressed and let it run the command
 	// until it is finished as determined by it's isFinished method.
-	public OI() {
-		bTrigger.whenPressed(new CG_DriveCaleb());
-		
-		button5.whenPressed(new C_DriveToChairsCaleb(0, true));
-		button6.whenPressed(new C_TurnCaleb(0, true));
-		
-		button7.whenPressed(new C_Test());
-	}
 
 	// Run the command while the button is being held down and interrupt it once
 	// the button is released.
