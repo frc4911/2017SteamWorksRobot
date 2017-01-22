@@ -26,9 +26,10 @@ public class CG_Auto1 extends CommandGroup {
         // arm.
     	int ta = 5300;
     	addSequential(new C_DrivetrainPID(0,0,0)); //setup pid
-    	addSequential(new C_DrivetrainPID(3,9655,9655)); // drive straight
-    	addSequential(new C_DrivetrainPID(3,-ta,ta)); // turn around
-    	addSequential(new C_DrivetrainPID(3,10000,10000)); // drive forward
+    	addSequential(new C_DrivetrainPID(3,10700,10700)); // drive straight
+    	addSequential(new C_DrivetrainPID(3,-7846,-7846)); // backup
+    	addSequential(new C_DrivetrainPID(3,2170,-2170)); // turn
+    	addSequential(new C_DrivetrainPID(3,18000,18000)); // turn
     	addSequential(new C_DrivetrainPID(2,0,0)); // disable PID
     }
 }
