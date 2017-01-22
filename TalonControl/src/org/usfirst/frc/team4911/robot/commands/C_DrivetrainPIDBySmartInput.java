@@ -24,6 +24,8 @@ public class C_DrivetrainPIDBySmartInput extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	posLeft = (int)SmartDashboard.getNumber("Target Left", 0);
+    	posRight = (int)SmartDashboard.getNumber("Target Right", 0);
     	
     	switch (action){
     	case 0:
@@ -41,9 +43,6 @@ public class C_DrivetrainPIDBySmartInput extends Command {
     		Robot.ss_DriveTrain.setPIDEncoderGoal(posLeft,posRight);
     		break;
     	}
-    	
-    	posLeft = (int)SmartDashboard.getNumber("Target Left", 0);
-    	posRight = (int)SmartDashboard.getNumber("Target Right", 0);
     	
     	SmartDashboard.putNumber("PIDmode", action);
     	SmartDashboard.putNumber("PID position left", posLeft);

@@ -55,7 +55,7 @@ public class C_DrivetrainPID extends Command {
     protected void execute() {
     	int currentDistance = Robot.ss_DriveTrain.PIDPosition();
     	
-    	if (Math.abs(currentDistance - distance) > 5)
+    	if (Math.abs(currentDistance - distance) > 30)
     	{
     		distance = currentDistance;
     		counter = 0;
@@ -69,7 +69,7 @@ public class C_DrivetrainPID extends Command {
     	if ((action != 1) && (action != 3))
 			return true;
 
-    	if (counter > 100)
+    	if (counter > 25)
     		return true;
     	
     	return false;
