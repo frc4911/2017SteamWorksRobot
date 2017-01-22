@@ -71,14 +71,14 @@ public class SS_DriveTrain3 extends Subsystem {
 		
 		SmartDashboard.putNumber("PIDPosition", PIDPosition());
 		
-//		SmartDashboard.putNumber("kpR", 0);
-//		SmartDashboard.putNumber("kdR", 0);
-//		SmartDashboard.putNumber("kiR", 0);
-//		SmartDashboard.putNumber("kfR", 0);
-//		SmartDashboard.putNumber("ramprateR", 0);
-//		SmartDashboard.putNumber("izoneR", 0);
-//		SmartDashboard.putNumber("peak VR", 0);
-//		SmartDashboard.putNumber("nominal VR", 0);
+//		SmartDashboard.putNumber("kp", 0);
+//		SmartDashboard.putNumber("kd", 0);
+//		SmartDashboard.putNumber("ki", 0);
+//		SmartDashboard.putNumber("kf", 0);
+//		SmartDashboard.putNumber("ramprate", 0);
+//		SmartDashboard.putNumber("izone", 0);
+//		SmartDashboard.putNumber("peak V", 0);
+//		SmartDashboard.putNumber("nominal V", 0);
     }
     public void setBrakeMode(boolean mode){
     	DriveMotorFrontLeft.enableBrakeMode(mode);
