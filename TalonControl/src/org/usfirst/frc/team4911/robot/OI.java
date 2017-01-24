@@ -3,6 +3,9 @@ package org.usfirst.frc.team4911.robot;
 import java.io.FileNotFoundException;
 
 import org.usfirst.frc.team4911.robot.commands.CG_Auto1;
+import org.usfirst.frc.team4911.robot.commands.CG_Auto2;
+import org.usfirst.frc.team4911.robot.commands.CG_Auto3;
+import org.usfirst.frc.team4911.robot.commands.CG_AutoAll;
 import org.usfirst.frc.team4911.robot.commands.C_BrakeByButtonArm;
 import org.usfirst.frc.team4911.robot.commands.C_CompleteDriveByTime;
 import org.usfirst.frc.team4911.robot.commands.C_DriveByJoystick;
@@ -12,6 +15,7 @@ import org.usfirst.frc.team4911.robot.commands.C_MoveArmByButton;
 import org.usfirst.frc.team4911.robot.commands.C_ShooterClosedLoop;
 import org.usfirst.frc.team4911.robot.commands.C_ShooterLiftHome;
 import org.usfirst.frc.team4911.robot.commands.C_DrivetrainPID;
+import org.usfirst.frc.team4911.robot.commands.C_DrivetrainPIDBySmartInput;
 import org.usfirst.frc.team4911.robot.commands.C_ShooterSetBrakeMode;
 import org.usfirst.frc.team4911.robot.commands.C_ShooterSetSoftLimitValues;
 import org.usfirst.frc.team4911.robot.commands.C_ShooterSetSoftLimits;
@@ -75,12 +79,19 @@ public class OI {
 //    	b3.whenPressed(new C_ShooterSetBrakeMode(true));
 //    	b4.whenPressed(new C_ShooterSetSoftLimits(true,4300,1000));
 //    	b5.whenPressed(new C_ShooterSetSoftLimits(false,0,0));
-    	b5.whenPressed(new CG_Auto1());
-
+    	//b3.whenPressed(new CG_Auto3());
+    	b4.whenPressed(new CG_Auto1());
+    	//b5.whenPressed(new CG_Auto2());
+    	
+    	//b4.whenPressed(new C_DrivetrainPID(1,-15000,-15000));
+    	b5.whenPressed(new C_DrivetrainPIDBySmartInput());
+    	//b6.whenPressed(new CG_AutoAll());
     	b7.whenPressed(new C_DrivetrainPID(0,0,0)); // setup PID
     	b8.whenPressed(new C_DrivetrainPID(2,0,0));// stop PID
-    	b9.whenPressed(new C_DrivetrainPID(1,-5000, 5000)); // goto 5000
-    	b10.whenPressed(new C_DrivetrainPID(1,0,0));//goto 42000
+//    	b9.whenPressed(new C_DrivetrainPID(1,8000, 8000)); // goto 5000
+    	b9.whenPressed(new C_DrivetrainPID(1,15000,15000));
+    	b10.whenPressed(new C_DrivetrainPID(1,5300,-5300));    	
+    	b6.whenPressed(new C_DrivetrainPID(1,-5300,5300));
     	//b10.whileHeld(new C_LiftShooterJoy());
     	
     	//b7.whenPressed(new C_ShooterSetVoltageRampRate(-1000.0));

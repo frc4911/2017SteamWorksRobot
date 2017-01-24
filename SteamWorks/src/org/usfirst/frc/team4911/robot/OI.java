@@ -28,7 +28,7 @@ public class OI {
 		
 		SmartDashboard.putNumber("Target Position", 0);
 		
-		trigger.whileHeld(new C_DriveByPID());
+		trigger.whenPressed(new C_DriveByPID());
 		//handle1.whenPressed(new C_Drive(true));
 		//handle2.whenPressed(new C_Drive(false));
 		

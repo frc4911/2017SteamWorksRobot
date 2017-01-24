@@ -56,6 +56,7 @@ public class CANTalonEncoderControl {
     
     public void stopPIDMode(){
     	talon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+    	talon.setVoltageRampRate(rampRate);
     	talon.set(0);
     }
 

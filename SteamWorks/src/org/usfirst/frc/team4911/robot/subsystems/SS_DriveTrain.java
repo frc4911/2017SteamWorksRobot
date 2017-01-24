@@ -34,7 +34,7 @@ public class SS_DriveTrain extends Subsystem {
     final double rampRate = 0;
     final double peakOutputVoltage = 12;
     final double nominalOutputVoltage = 2.2;
-    final int iZone = 1;
+    final int iZone = 0;
     
     public SS_DriveTrain(){
     	DriveMotorRearLeft.changeControlMode(CANTalon.TalonControlMode.Follower);
