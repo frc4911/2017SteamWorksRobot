@@ -27,7 +27,7 @@ public class Robot extends IterativeRobot {
 
 	public static final SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
 	
-	public static final SS_DriveTrainCaleb ss_DriveTrainCaleb = new SS_DriveTrainCaleb();
+	//public static final SS_DriveTrainCaleb ss_DriveTrainCaleb = new SS_DriveTrainCaleb();
 	public static OI oi;
 
 	Command autonomousCommand;

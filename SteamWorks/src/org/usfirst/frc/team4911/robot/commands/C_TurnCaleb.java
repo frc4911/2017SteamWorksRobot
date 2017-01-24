@@ -21,7 +21,7 @@ public class C_TurnCaleb extends Command {
 	
     public C_TurnCaleb(double driveTime, boolean turnLeft) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_DriveTrainCaleb);
+        //requires(Robot.ss_DriveTrainCaleb);
         
         //this.turnTime = driveTime;
         //this.turnLeft = turnLeft;
@@ -39,10 +39,10 @@ public class C_TurnCaleb extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(turnLeft) {
-    		Robot.ss_DriveTrainCaleb.atonomousDrive(-speed, speed);
+    		//Robot.ss_DriveTrainCaleb.atonomousDrive(-speed, speed);
     	}
     	else {
-    		Robot.ss_DriveTrainCaleb.atonomousDrive(speed, -speed);
+    		//Robot.ss_DriveTrainCaleb.atonomousDrive(speed, -speed);
     	}
     }
 

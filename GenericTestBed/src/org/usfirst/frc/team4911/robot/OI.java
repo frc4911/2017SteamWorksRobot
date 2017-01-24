@@ -2,7 +2,12 @@ package org.usfirst.frc.team4911.robot;
 
 
 
+import org.usfirst.frc.team4911.robot.commands.C_ChangeSpeed;
+import org.usfirst.frc.team4911.robot.commands.C_DriveByJoystick;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 
 /**
@@ -15,10 +20,14 @@ public class OI {
 	//// joystick.
 	// You create one by telling it which joystick it's on and which button
 	// number it is.
-	public Joystick stick0 = new Joystick(0);
+	public Joystick stick3 = new Joystick(3);
 	//public Joystick stick1 = new Joystick(1);
 	
-	//Button trigger1 = new JoystickButton(stick0, 1);
+	
+	Button trigger1 = new JoystickButton(stick3, 1);
+	
+	Button b3 = new JoystickButton(stick3, 3);
+	Button b4 = new JoystickButton(stick3, 4);
 	
 	//Button b5 = new JoystickButton(stick0, 5);
 	//Button b6 = new JoystickButton(stick0, 6);
@@ -26,6 +35,10 @@ public class OI {
 	//Button b8 = new JoystickButton(stick0, 8);
 	
 	public OI() {
+		trigger1.whileHeld(new C_DriveByJoystick());
+		
+		b3.whenPressed(new C_ChangeSpeed(-0.025));
+		b4.whenPressed(new C_ChangeSpeed(0.025));
 	}
 
 	// There are a few additional built in buttons you can use. Additionally,

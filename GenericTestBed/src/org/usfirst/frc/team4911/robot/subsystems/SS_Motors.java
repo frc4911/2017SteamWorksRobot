@@ -1,6 +1,8 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
 import org.usfirst.frc.team4911.robot.Robot;
+import org.usfirst.frc.team4911.robot.commands.C_ChangeSpeed;
+import org.usfirst.frc.team4911.robot.commands.C_ConstantDrive;
 import org.usfirst.frc.team4911.robot.commands.C_GetMotorValues;
 
 import com.ctre.CANTalon;
@@ -16,10 +18,12 @@ public class SS_Motors extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	CANTalon motor1 = new CANTalon(1);
-	CANTalon motor2 = new CANTalon(2);
-	CANTalon motor3 = new CANTalon(3);
-	CANTalon motor4 = new CANTalon(4);
+	//CANTalon motor1 = new CANTalon(1);
+	CANTalon follower = new CANTalon(4);
+	//CANTalon motor3 = new CANTalon(3);
+	CANTalon motor = new CANTalon(2);
+	
+	public double motorSpeed = 0;
 	
 	public double speed1 = 0;
 	public double speed2 = 0;
@@ -29,13 +33,58 @@ public class SS_Motors extends Subsystem {
 	
 	public double counter = 0;
 
+	public SS_Motors() {
+		follower.changeControlMode(CANTalon.TalonControlMode.Follower);
+		follower.set(motor.getDeviceID());
+	}
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new C_GetMotorValues());
+        setDefaultCommand(new C_ConstantDrive());
     }
     
+    public void driveByJoystick(double yAxis) {
+    	motor.set(yAxis);
+    }
+    
+    public double getSpeed() {
+    	
+    	
+    	return motorSpeed;
+    }
+    
+    public void changeSpeed(double change) {
+    	motorSpeed += change;
+    	
+    	
+    }
+    
+    
+    
     public void driveMotors(Joystick stick, int joystickTalon) {
-    	yAxis = -stick.getY();
+    	incrementPower(stick);
+    	
+    	powerTalons(stick, joystickTalon);
+    }
+    
+    public void incrementPower(Joystick stick) {
+    	if(stick.getRawButton(11)) {
+    		speed1 += 0.1;
+    	}
+    	else if (stick.getRawButton(12)) {
+    		speed1 -= 0.1;
+    	}
+    	
+    	if(stick.getRawButton(16)) {
+    		speed2 += 0.1;
+    	}
+    	else if (stick.getRawButton(15)) {
+    		speed2 -= 0.1;
+    	}
+    }
+    
+    public void powerTalons(Joystick stick, int joystickTalon) {
+    	/*yAxis = -stick.getY();
     	
     	//motor1
     	if((joystickTalon == 1) && (stick.getY() != 0)) {
@@ -80,7 +129,7 @@ public class SS_Motors extends Subsystem {
     	}
     	else {
     		motor4.set(0);
-    	}
+    	}*/
     }
     
     public void getSpeed(double speed1, double speed2, double speed3, double speed4) {
@@ -91,14 +140,16 @@ public class SS_Motors extends Subsystem {
     }
     
     public void updateLog() {
-    	SmartDashboard.putNumber("motor1.get()", motor1.get());
+    	//SmartDashboard.putNumber("motor1.get()", motor1.get());
     	
-    	SmartDashboard.putNumber("SS_Motors.updateLog()", counter++);
+    	SmartDashboard.putNumber("motorSpeed", motorSpeed);
+    	SmartDashboard.putNumber("encoderPos", motor.getEncPosition());
+    	SmartDashboard.putNumber("encoderVel", motor.getEncVelocity());
     	
-    	Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX3, ""+motor1.get());
+    	/*Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX3, ""+motor1.get());
     	Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX4, ""+motor2.get());
     	Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX5, ""+motor3.get());
-    	Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX6, ""+motor4.get());
+    	Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX6, ""+motor4.get());*/
     }
 }
 

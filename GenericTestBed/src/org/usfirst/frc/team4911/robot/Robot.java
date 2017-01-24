@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+//import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4911.robot.subsystems.SS_Logging2;
@@ -20,13 +20,13 @@ import org.usfirst.frc.team4911.robot.subsystems.SS_Motors;
  */
 public class Robot extends IterativeRobot {
 
-	public static final SS_Logging2 ss_Logging2 = new SS_Logging2();
+	//public static final SS_Logging2 ss_Logging2 = new SS_Logging2();
 	
 	public static final SS_Motors ss_Motors = new SS_Motors();
 	public static OI oi;
 
 	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	//SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -37,11 +37,11 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		//SmartDashboard.putData("Auto mode", chooser);
 		
-		SmartDashboard.putNumber("joystickTalon", 1);
+		//SmartDashboard.putNumber("joystickTalon", 1);
 		
-		SmartDashboard.putNumber("motor1Speed", 1);
+		/*SmartDashboard.putNumber("motor1Speed", 1);
 		SmartDashboard.putNumber("motor2Speed", 1);
 		SmartDashboard.putNumber("motor3Speed", 1);
 		SmartDashboard.putNumber("motor4Speed", 1);
@@ -49,11 +49,15 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("motor1.get()", 0);
 		
 		// Logging
-		SmartDashboard.putNumber("Robot.updateLogs()", 0);
-		SmartDashboard.putNumber("SS_Motors.updateLog()", counter++);
-		
 		SmartDashboard.putBoolean("fileCreationFailure", false);
 		SmartDashboard.putBoolean("NewFileCreated", false);
+		
+		SmartDashboard.putNumber("lineCount", 0);
+		
+		SmartDashboard.putNumber("Robot.updateLogs()", 0);
+		SmartDashboard.putNumber("SS_Motors.updateLog()", counter++);*/
+		
+		
 	}
 
 	/**
@@ -84,7 +88,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		//autonomousCommand = chooser.getSelected();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -94,8 +98,8 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		//if (autonomousCommand != null)
+			//autonomousCommand.start();
 	}
 
 	/**
@@ -104,7 +108,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		updateLogs();
+		//updateLogs();
 	}
 
 	@Override
@@ -132,14 +136,16 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
-		updateLogs();
+		//updateLogs();
 	}
 	
 	double counter = 0;
 	void updateLogs() {
 		SmartDashboard.putNumber("Robot.updateLogs()", counter++);
-		ss_Motors.updateLog();
-		
-		ss_Logging2.logFlush();
+		try {
+			ss_Motors.updateLog();
+		} catch(NullPointerException e) {
+			
+		}
 	}
 }
