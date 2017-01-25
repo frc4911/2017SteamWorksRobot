@@ -20,7 +20,7 @@ import org.usfirst.frc.team4911.robot.subsystems.SS_Motors;
  */
 public class Robot extends IterativeRobot {
 
-	//public static final SS_Logging2 ss_Logging2 = new SS_Logging2();
+	public static final SS_Logging2 ss_Logging2 = new SS_Logging2();
 	
 	public static final SS_Motors ss_Motors = new SS_Motors();
 	public static OI oi;
@@ -39,25 +39,13 @@ public class Robot extends IterativeRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", chooser);
 		
-		//SmartDashboard.putNumber("joystickTalon", 1);
-		
-		/*SmartDashboard.putNumber("motor1Speed", 1);
-		SmartDashboard.putNumber("motor2Speed", 1);
-		SmartDashboard.putNumber("motor3Speed", 1);
-		SmartDashboard.putNumber("motor4Speed", 1);
-		
-		SmartDashboard.putNumber("motor1.get()", 0);
-		
 		// Logging
 		SmartDashboard.putBoolean("fileCreationFailure", false);
 		SmartDashboard.putBoolean("NewFileCreated", false);
 		
 		SmartDashboard.putNumber("lineCount", 0);
 		
-		SmartDashboard.putNumber("Robot.updateLogs()", 0);
-		SmartDashboard.putNumber("SS_Motors.updateLog()", counter++);*/
-		
-		
+		SmartDashboard.putBoolean("ss_Motors log", true);
 	}
 
 	/**
@@ -138,14 +126,14 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run();
 		//updateLogs();
 	}
-	
-	double counter = 0;
 	void updateLogs() {
-		SmartDashboard.putNumber("Robot.updateLogs()", counter++);
 		try {
 			ss_Motors.updateLog();
+			SmartDashboard.putBoolean("ss_Motors log", true);
 		} catch(NullPointerException e) {
-			
+			SmartDashboard.putBoolean("ss_Motors log", false);
 		}
+		
+		Robot.ss_Logging2.logFlush();
 	}
 }

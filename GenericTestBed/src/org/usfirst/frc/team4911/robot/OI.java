@@ -20,14 +20,14 @@ public class OI {
 	//// joystick.
 	// You create one by telling it which joystick it's on and which button
 	// number it is.
-	public Joystick stick3 = new Joystick(3);
+	public Joystick stick0 = new Joystick(0);
 	//public Joystick stick1 = new Joystick(1);
 	
 	
-	Button trigger1 = new JoystickButton(stick3, 1);
+	Button trigger1 = new JoystickButton(stick0, 1);
 	
-	Button b3 = new JoystickButton(stick3, 3);
-	Button b4 = new JoystickButton(stick3, 4);
+	Button b3 = new JoystickButton(stick0, 3);
+	Button b4 = new JoystickButton(stick0, 4);
 	
 	//Button b5 = new JoystickButton(stick0, 5);
 	//Button b6 = new JoystickButton(stick0, 6);

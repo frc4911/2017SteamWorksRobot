@@ -12,7 +12,7 @@ public class C_DriveByJoystick extends Command {
     public C_DriveByJoystick() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.ss_DriveTrain);
-        requires(Robot.ss_DriveTrainCaleb);
+        //requires(Robot.ss_DriveTrainCaleb);
     }
 
     // Called just before this Command runs the first time

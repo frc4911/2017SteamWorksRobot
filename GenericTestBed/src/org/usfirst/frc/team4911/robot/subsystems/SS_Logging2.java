@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Timer;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,10 +25,9 @@ public class SS_Logging2 {
 			"running time",       // 0
 			"delta time",         // 1
 			"index",              // 2
-			"motor1 power",
-			"motor2 power",
-			"motor3 power",
-			"motor4 power",
+			"motor speed",
+			"EncoderPos",
+			"EncoderVel",
 			};
 	Key[] keys = new Key[headers.length];
 	
@@ -93,7 +92,10 @@ public class SS_Logging2 {
     	logKeyOutput(KEYINDEX1,""+(currentTime-lastTime));
     	logKeyOutput(KEYINDEX2,""+lineCount++);
     	
-    	//SmartDashboard.putNumber("lineCount", lineCount);
+    	if (lineCount > 10) {
+    		SmartDashboard.putNumber("lineCount", lineCount);
+    	}
+    	
     	lastTime = currentTime;
     }
     
@@ -220,13 +222,13 @@ public class SS_Logging2 {
     	}
     	
 		if (logfileName == null){
-			//SmartDashboard.putBoolean("fileCreationFailure", true);
+			SmartDashboard.putBoolean("fileCreationFailure", true);
 			fileCreationFailure = true;
 			return fileCreationFailure;
 		}
 		
 		if (logfileName != null){
-			//SmartDashboard.putBoolean("NewFileCreated", true);
+			SmartDashboard.putBoolean("NewFileCreated", true);
 		}
 
 		File file = new File(logfileName);
