@@ -25,9 +25,17 @@ public class SS_Logging2 {
 			"running time",       // 0
 			"delta time",         // 1
 			"index",              // 2
-			"motor speed",
-			"EncoderPos",
-			"EncoderVel",
+			"PIDmode",			  // 3
+			"PIDmode running",
+			"currEncPos",		  // 5
+			"tSpeed",
+			"tEncVel",
+			"tClosedLoopError",
+			"tBusVoltage",
+			
+//			"motor speed",
+//			"EncoderPos",
+//			"EncoderVel",
 			};
 	Key[] keys = new Key[headers.length];
 	

@@ -11,7 +11,7 @@ public class C_DriveByJoystick extends Command {
 
     public C_DriveByJoystick() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_Motors);
+        requires(Robot.ss_MotorPID2);
     }
 
     // Called just before this Command runs the first time
@@ -20,7 +20,7 @@ public class C_DriveByJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_Motors.driveByJoystick(Robot.oi.stick0.getY());
+    	Robot.ss_MotorPID2.driveByJoystick(Robot.oi.stick3.getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -30,7 +30,7 @@ public class C_DriveByJoystick extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_Motors.driveByJoystick(0);
+    	Robot.ss_MotorPID2.driveByJoystick(0);
     }
 
     // Called when another command which requires one or more of the same
