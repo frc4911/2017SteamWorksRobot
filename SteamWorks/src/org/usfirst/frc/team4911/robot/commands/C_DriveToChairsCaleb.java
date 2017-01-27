@@ -53,14 +53,14 @@ public class C_DriveToChairsCaleb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	currentTime = Timer.getFPGATimestamp();
-//    	
-//    	if(currentTime <= speed1Time) {
-//    		Robot.ss_DriveTrainCaleb.atonomousDrive(speed1, speed1);
-//    	}
-//    	else {
-//    		Robot.ss_DriveTrainCaleb.atonomousDrive(speed2, speed2);
-//    	}
+    	currentTime = Timer.getFPGATimestamp();
+    	
+    	if(currentTime <= speed1Time) {
+    		//Robot.ss_DriveTrainCaleb.atonomousDrive(speed1, speed1);
+    	}
+    	else {
+    		//Robot.ss_DriveTrainCaleb.atonomousDrive(speed2, speed2);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

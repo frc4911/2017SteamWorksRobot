@@ -25,10 +25,17 @@ public class SS_Logging2 {
 			"running time",       // 0
 			"delta time",         // 1
 			"index",              // 2
-			"motor1 power",
-			"motor2 power",
-			"motor3 power",
-			"motor4 power",
+			"PIDmode",			  // 3
+			"PIDmode running",
+			"currEncPos",		  // 5
+			"tSpeed",
+			"tEncVel",
+			"tClosedLoopError",
+			"tBusVoltage",
+			
+//			"motor speed",
+//			"EncoderPos",
+//			"EncoderVel",
 			};
 	Key[] keys = new Key[headers.length];
 	
@@ -92,6 +99,10 @@ public class SS_Logging2 {
     	logKeyOutput(KEYINDEX0,""+(currentTime-startTime));
     	logKeyOutput(KEYINDEX1,""+(currentTime-lastTime));
     	logKeyOutput(KEYINDEX2,""+lineCount++);
+    	
+    	if (lineCount > 10) {
+    		SmartDashboard.putNumber("lineCount", lineCount);
+    	}
     	
     	lastTime = currentTime;
     }
