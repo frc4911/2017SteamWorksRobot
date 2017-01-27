@@ -24,7 +24,7 @@ public class C_DriveToChairsCaleb extends Command {
 	
     public C_DriveToChairsCaleb(double driveTime, boolean forward) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_DriveTrainCaleb);
+        //requires(Robot.ss_DriveTrainCaleb);
         
         //this.driveTime = driveTime;
         //this.forward = forward;
@@ -53,14 +53,14 @@ public class C_DriveToChairsCaleb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	currentTime = Timer.getFPGATimestamp();
-    	
-    	if(currentTime <= speed1Time) {
-    		Robot.ss_DriveTrainCaleb.atonomousDrive(speed1, speed1);
-    	}
-    	else {
-    		Robot.ss_DriveTrainCaleb.atonomousDrive(speed2, speed2);
-    	}
+//    	currentTime = Timer.getFPGATimestamp();
+//    	
+//    	if(currentTime <= speed1Time) {
+//    		Robot.ss_DriveTrainCaleb.atonomousDrive(speed1, speed1);
+//    	}
+//    	else {
+//    		Robot.ss_DriveTrainCaleb.atonomousDrive(speed2, speed2);
+//    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -75,7 +75,7 @@ public class C_DriveToChairsCaleb extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_DriveTrainCaleb.atonomousDrive(0, 0);
+    	//Robot.ss_DriveTrainCaleb.atonomousDrive(0, 0);
     }
 
     // Called when another command which requires one or more of the same

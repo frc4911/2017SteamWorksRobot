@@ -7,25 +7,22 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class C_DriveByJoystick extends Command {
-	final String name = "C_DriveByJoystick";
+public class C_AutoTestCheck extends Command {
+	String runningCommand;
 
-    public C_DriveByJoystick() {
+    public C_AutoTestCheck(String runningCommand) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_DriveTrain);
+        requires(Robot.ss_Commands);
         
-        Robot.ss_Commands.commandNames[Robot.ss_Commands.numCommand] = name;
-        Robot.ss_Commands.numCommand++;
+        this.runningCommand = runningCommand;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.ss_Commands.startCommand(name);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_DriveTrain.driveByJoystick(Robot.oi.stickL.getY(), Robot.oi.stickR.getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -35,7 +32,6 @@ public class C_DriveByJoystick extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_Commands.endCommand();
     }
 
     // Called when another command which requires one or more of the same

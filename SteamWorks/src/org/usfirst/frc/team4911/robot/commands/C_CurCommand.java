@@ -3,29 +3,25 @@ package org.usfirst.frc.team4911.robot.commands;
 import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class C_DriveByJoystick extends Command {
-	final String name = "C_DriveByJoystick";
+public class C_CurCommand extends Command {
 
-    public C_DriveByJoystick() {
+    public C_CurCommand() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_DriveTrain);
-        
-        Robot.ss_Commands.commandNames[Robot.ss_Commands.numCommand] = name;
-        Robot.ss_Commands.numCommand++;
+        requires(Robot.ss_Commands);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.ss_Commands.startCommand(name);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_DriveTrain.driveByJoystick(Robot.oi.stickL.getY(), Robot.oi.stickR.getY());
+    	SmartDashboard.putString("Current Command", Robot.ss_Commands.curCommand);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -35,7 +31,6 @@ public class C_DriveByJoystick extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_Commands.endCommand();
     }
 
     // Called when another command which requires one or more of the same

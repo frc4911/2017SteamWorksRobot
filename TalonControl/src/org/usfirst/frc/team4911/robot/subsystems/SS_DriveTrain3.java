@@ -79,6 +79,22 @@ public class SS_DriveTrain3 extends Subsystem {
 //		SmartDashboard.putNumber("izone", 0);
 //		SmartDashboard.putNumber("peak V", 0);
 //		SmartDashboard.putNumber("nominal V", 0);
+//		
+//		SmartDashboard.putNumber("kpR", 0);
+//		SmartDashboard.putNumber("kdR", 0);
+//		SmartDashboard.putNumber("kiR", 0);
+//		SmartDashboard.putNumber("kfR", 0);
+//		SmartDashboard.putNumber("ramprateR", 0);
+//		SmartDashboard.putNumber("izoneR", 0);
+//		SmartDashboard.putNumber("peak VR", 0);
+//		SmartDashboard.putNumber("nominal VR", 0);
+		
+//		kp = 4.0
+//		ramprate = 0.6
+//		peak V = 4.0
+//		nominal V = 0.9
+//		Rest is 0
+		
     }
     public void setBrakeMode(boolean mode){
     	DriveMotorFrontLeft.enableBrakeMode(mode);
