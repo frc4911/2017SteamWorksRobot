@@ -1,11 +1,13 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
+import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.commands.CG_DriveToAndFrom;
 import org.usfirst.frc.team4911.robot.commands.C_DriveByJoystick;
 
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -54,6 +56,8 @@ public class SS_DriveTrain extends Subsystem {
     	
 		DriveMotorFrontRight.set(-rightInput);
 		DriveMotorRearRight.set(-rightInput);
+		
+		SmartDashboard.putNumber("Drive enc pos", Robot.ss_DriveTrain.DriveMotorFrontLeft.getEncPosition());
     }
     
     public void turn(boolean direction) {

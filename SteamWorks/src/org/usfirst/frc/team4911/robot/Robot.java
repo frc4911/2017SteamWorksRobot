@@ -2,7 +2,6 @@
 package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.subsystems.SS_Arm;
-import org.usfirst.frc.team4911.robot.subsystems.SS_Commands;
 import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrain;
 import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrainCaleb;
 
@@ -31,7 +30,6 @@ public class Robot extends IterativeRobot {
 	public static final SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
 	public static final SS_Shooter ss_Shooter = new SS_Shooter();
 	public static final SS_Arm ss_Arm = new SS_Arm();
-	public static final SS_Commands ss_Commands = new SS_Commands();
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -118,12 +116,10 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	
-	int counter = 0;
 	@Override
 	public void teleopPeriodic() {
+		SmartDashboard.putNumber("Shooter Enc Pos", ss_Shooter.shooterLiftMotor.getEncPosition());
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("I AM ALIVE", counter);
-		counter++;
 	}
 
 	/**
