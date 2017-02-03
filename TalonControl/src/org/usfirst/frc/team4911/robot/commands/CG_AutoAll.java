@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class CG_Auto1 extends CommandGroup {
+public class CG_AutoAll extends CommandGroup {
 
-    public CG_Auto1() {
+    public CG_AutoAll() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -24,12 +24,16 @@ public class CG_Auto1 extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	int ta = 5300;
+    	
     	addSequential(new C_DrivetrainPID(0,0,0)); //setup pid
-    	addSequential(new C_DrivetrainPID(3,10335,10335)); // drive straight
-    	addSequential(new C_DrivetrainPID(3,-7846,-7846)); // backup
-    	addSequential(new C_DrivetrainPID(3,2170,-2170)); // turn
-    	addSequential(new C_DrivetrainPID(3,18000,18000)); // turn
+    	addSequential(new C_DrivetrainPID(3, 11070, 10920));
+    	addSequential(new C_DrivetrainPID(3, -2930, -3000));
+    	addSequential(new C_DrivetrainPID(3, 1990, -1130));
+    	addSequential(new C_DrivetrainPID(3, 8030, 8100));
+    	addSequential(new C_DrivetrainPID(3, 1900, -345));
+    	addSequential(new C_DrivetrainPID(3, 12100, 12050));
+    	addSequential(new C_DrivetrainPID(3, -3050, -3400));
+    	addSequential(new C_DrivetrainPID(3, 2355, -2170));
     	addSequential(new C_DrivetrainPID(2,0,0)); // disable PID
     }
 }

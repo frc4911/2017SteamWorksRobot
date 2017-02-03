@@ -8,22 +8,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class C_DrivetrainPID extends Command {
+public class C_DrivetrainPIDBySmartInput extends Command {
 
-	int action=0;
+	int action = 1;
 	int posLeft;
 	int posRight;
 	
-    public C_DrivetrainPID(int action, int posLeft, int posRight) {
+    public C_DrivetrainPIDBySmartInput() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	this.action = action;
-    	this.posLeft = posLeft;
-    	this.posRight = posRight;
+        requires(Robot.ss_DriveTrain);
+        
+        SmartDashboard.putNumber("Target Left", 0);
+        SmartDashboard.putNumber("Target Right", 0);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	posLeft = (int)SmartDashboard.getNumber("Target Left", 0);
+    	posRight = (int)SmartDashboard.getNumber("Target Right", 0);
     	
     	switch (action){
     	case 0:
@@ -53,15 +55,11 @@ public class C_DrivetrainPID extends Command {
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	int combinedDistanceFromGoal = Robot.ss_DriveTrain.PIDPosition();
+    	int currentDistance = Robot.ss_DriveTrain.PIDPosition();
     	
-<<<<<<< HEAD
-    	if (Math.abs(combinedDistanceFromGoal) > 15)
-=======
-    	if (Math.abs(currentDistance - distance) > 30)
->>>>>>> 5774104498d6725378c07fa31971cffbb95f3ab2
+    	if (Math.abs(currentDistance - distance) > 5)
     	{
-    		//distance = combinedDistanceFromGoal;
+    		distance = currentDistance;
     		counter = 0;
     	}
     	else
@@ -73,7 +71,7 @@ public class C_DrivetrainPID extends Command {
     	if ((action != 1) && (action != 3))
 			return true;
 
-    	if (counter > 25)
+    	if (counter > 100)
     		return true;
     	
     	return false;

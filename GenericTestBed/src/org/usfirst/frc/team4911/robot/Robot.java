@@ -45,6 +45,7 @@ public class Robot extends IterativeRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 //		SmartDashboard.putData("Auto mode", chooser);
 		
+
 //		SmartDashboard.putNumber("joystickTalon", 1);
 //		
 //		SmartDashboard.putNumber("motor1Speed", 1);

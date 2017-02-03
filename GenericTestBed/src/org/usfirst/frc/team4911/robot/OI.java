@@ -27,6 +27,7 @@ public class OI {
 	
 	Button trigger1 = new JoystickButton(stick3, 1);
 	
+
 	Button b3 = new JoystickButton(stick3, 3);
 	Button b4 = new JoystickButton(stick3, 4);
 	Button b5 = new JoystickButton(stick3, 5);

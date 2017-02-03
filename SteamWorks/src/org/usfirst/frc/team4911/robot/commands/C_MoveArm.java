@@ -2,17 +2,26 @@ package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.robot.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class C_DriveByJoystick extends Command {
-	final String name = "C_DriveByJoystick";
-
-    public C_DriveByJoystick() {
+public class C_MoveArm extends Command {
+	final String name = "C_MoveArm";
+	boolean direction;
+	double time;
+	double endTime;
+	
+	boolean shooterDown;
+	
+    public C_MoveArm(boolean direction, boolean shooterDown) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_DriveTrain);
+        requires(Robot.ss_Arm);
+        this.direction = direction;
+        this.shooterDown = shooterDown;
     }
 
     // Called just before this Command runs the first time
@@ -21,12 +30,13 @@ public class C_DriveByJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_DriveTrain.driveByJoystick(Robot.oi.stickL.getY(), Robot.oi.stickR.getY());
+    	if(shooterDown)
+    		Robot.ss_Arm.moveArm(direction);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	return true;
     }
 
     // Called once after isFinished returns true

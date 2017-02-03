@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class C_Drive extends Command {
+	final String name = "C_Drive";
 	double duration;
 	boolean direction;
 	double time;
@@ -26,6 +27,7 @@ public class C_Drive extends Command {
     protected void initialize() {
     	//duration = SmartDashboard.getNumber("Move Duration");
     	endTime = Timer.getFPGATimestamp() + duration;
+    	Robot.ss_DriveTrain.DriveMotorFrontLeft.setEncPosition(0);
     }
 
     // Called repeatedly when this Command is scheduled to run

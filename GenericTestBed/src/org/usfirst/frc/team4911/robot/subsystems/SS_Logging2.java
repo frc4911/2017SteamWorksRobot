@@ -101,6 +101,10 @@ public class SS_Logging2 {
     	logKeyOutput(KEYINDEX1,""+(currentTime-lastTime));
     	logKeyOutput(KEYINDEX2,""+lineCount++);
     	
+    	if (lineCount > 10) {
+    		SmartDashboard.putNumber("lineCount", lineCount);
+    	}
+    	
     	lastTime = currentTime;
     }
     

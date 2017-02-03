@@ -1,12 +1,14 @@
 package org.usfirst.frc.team4911.robot;
 
-import org.usfirst.frc.team4911.robot.commands.C_DriveByPID;
+//import org.usfirst.frc.team4911.robot.commands.C_DriveByPID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
 import org.usfirst.frc.team4911.robot.commands.CG_DriveCaleb;
+import org.usfirst.frc.team4911.robot.commands.C_Drive;
 import org.usfirst.frc.team4911.robot.commands.C_DriveToChairsCaleb;
 import org.usfirst.frc.team4911.robot.commands.C_TurnCaleb;
 
@@ -15,28 +17,16 @@ import org.usfirst.frc.team4911.robot.commands.C_TurnCaleb;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	public Joystick stickL = new Joystick(0);
-	public Joystick stickR = new Joystick(1);
-	public Button trigger = new JoystickButton(stickL, 1);
-	public Button handle1 = new JoystickButton(stickL, 5);
-	public Button handle2 = new JoystickButton(stickL, 6);
+	public Joystick stickL = new Joystick(3);
+	public Joystick stickR = new Joystick(4);
+	
+	public Joystick stickTest = new Joystick(0);
+	JoystickButton btn2 = new JoystickButton(stickTest, 2);
+	JoystickButton btn3 = new JoystickButton(stickTest, 3);
 	
 	public OI() {
-		/*SmartDashboard.putNumber("Move Duration", 0);
-		SmartDashboard.putNumber("Turn Duration", 0);
-		SmartDashboard.putBoolean("Turn Direction", true);*/
-		
-		SmartDashboard.putNumber("Target Position", 0);
-		
-		trigger.whenPressed(new C_DriveByPID());
-		//handle1.whenPressed(new C_Drive(true));
-		//handle2.whenPressed(new C_Drive(false));
-		
-		
-		bTrigger.whenPressed(new CG_DriveCaleb());
-		
-		button5.whenPressed(new C_DriveToChairsCaleb(0, true));
-		button6.whenPressed(new C_TurnCaleb(0, true));
+		btn2.whenReleased(new C_Drive(true, 2));
+		btn3.whenReleased(new CG_AutoTest());
 	}
 	
 	//// CREATING BUTTONS
@@ -44,14 +34,6 @@ public class OI {
 	//// joystick.
 	// You create one by telling it which joystick it's on and which button
 	// number it is.
-	public Joystick stick0 = new Joystick(0);
-	public Joystick stick1 = new Joystick(1);
-	Button bTrigger = new JoystickButton(stick0, 1);
-	
-	Button button5 = new JoystickButton(stick0, 5);
-	Button button6 = new JoystickButton(stick0, 6);
-	
-	Button button7 = new JoystickButton(stick0, 7);
 
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
