@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.robot.Robot;
+import org.usfirst.frc.team4911.robot.subsystems.DashboardDoubleValue;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -8,18 +9,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class C_DrivetrainPID extends Command {
+public class C_MotorPID extends Command {
 
-	int action=0;
-	int posLeft;
-	int posRight;
+	int action;
 	
-    public C_DrivetrainPID(int action, int posLeft, int posRight) {
+    public C_MotorPID(int action) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	this.action = action;
-    	this.posLeft = posLeft;
-    	this.posRight = posRight;
     }
 
     // Called just before this Command runs the first time
@@ -27,24 +24,20 @@ public class C_DrivetrainPID extends Command {
     	
     	switch (action){
     	case 0:
-    		Robot.ss_DriveTrain.setupPIDMode();
-    		Robot.ss_DriveTrain.startPIDMode();
+    		Robot.ss_MotorPID2.stopPIDMode();
     		break;
     	case 1:
-    		Robot.ss_DriveTrain.setPIDEncoderGoal(posLeft,posRight);
+    		Robot.ss_MotorPID2.createPID(0);
     		break;
     	case 2:
-    		Robot.ss_DriveTrain.stopPIDMode();
+    		Robot.ss_MotorPID2.createPID(1);
     		break;
     	case 3:
-    		Robot.ss_DriveTrain.clearEncoders();
-    		Robot.ss_DriveTrain.setPIDEncoderGoal(posLeft,posRight);
+    		Robot.ss_MotorPID2.createPID(3);
     		break;
     	}
     	
     	SmartDashboard.putNumber("PIDmode", action);
-    	SmartDashboard.putNumber("PID position left", posLeft);
-    	SmartDashboard.putNumber("PID position right", -posRight);
     	SmartDashboard.putBoolean("PIDmode running", true);
     }
 
@@ -53,37 +46,19 @@ public class C_DrivetrainPID extends Command {
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	int combinedDistanceFromGoal = Robot.ss_DriveTrain.PIDPosition();
-    	
-    	if (Math.abs(combinedDistanceFromGoal) > 15)
-    	{
-    		//distance = combinedDistanceFromGoal;
-    		counter = 0;
-    	}
-    	else
-    		counter ++;
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if ((action != 1) && (action != 3))
-			return true;
-
-    	if (counter > 25)
-    		return true;
-    	
-    	return false;
+    	return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	SmartDashboard.putBoolean("PIDmode running", false);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.ss_DriveTrain.stopPIDMode();
-    	SmartDashboard.putBoolean("PIDmode running", false);
     }
 }
