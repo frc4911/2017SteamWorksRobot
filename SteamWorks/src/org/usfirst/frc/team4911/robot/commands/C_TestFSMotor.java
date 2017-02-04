@@ -1,7 +1,5 @@
 package org.usfirst.frc.team4911.robot.commands;
 
-import java.io.FileNotFoundException;
-
 import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -10,22 +8,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class C_DriveByJoystick extends Command {
-	final String name = "C_DriveByJoystick";
+public class C_TestFSMotor extends Command {
 
-    public C_DriveByJoystick() {
+    public C_TestFSMotor() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_DriveTrain);
+        requires(Robot.ss_TestFreeSpinMotor);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	//Robot.ss_TestFreeSpinMotor.lMotor.zeroEnc();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber("drive train enc pos", Robot.ss_DriveTrain.DriveMotorFrontLeft.getEncPosition() * Robot.ss_Config.driveEncoderConstL);
-    	Robot.ss_DriveTrain.driveByJoystick(Robot.oi.stickL.getY(), Robot.oi.stickR.getY());
+//    	Robot.ss_TestFreeSpinMotor.lMotor.spin(0.5, 2000.0, 0.0);
+//    	Robot.ss_TestFreeSpinMotor.fsMotor.spin(0.5);
+    	Robot.ss_TestFreeSpinMotor.pMotor.spin(-0.5);
+    	//Robot.ss_TestFreeSpinMotor.rDTMotorPair.spin(0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -40,5 +40,6 @@ public class C_DriveByJoystick extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.ss_TestFreeSpinMotor.pMotor.stop();
     }
 }

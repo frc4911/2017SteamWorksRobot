@@ -21,10 +21,12 @@ public class SS_Shooter extends Subsystem {
 	
 	final int TPortShooterLiftMotor = 2;
 	public CANTalon shooterLiftMotor = new CANTalon(TPortShooterLiftMotor);
+	public boolean liftPassedUp = true;
+	public boolean liftPassedDown = true;
 	
 	public Solenoid shooterPlunger = new Solenoid(0, 0);
 	public final double downPos = -4000;
-	public final double upPos = 4700;
+	public final double upPos = 4300;
 	double shooterPos;
 	double targetPos;
 	
@@ -38,7 +40,6 @@ public class SS_Shooter extends Subsystem {
 		else
 			targetPos = upPos;
 		
-		double endTime = Timer.getFPGATimestamp() + 3;
 		while(Math.abs(targetPos - shooterPos) > error) {
 			if(direction)
 				shooterLiftMotor.set(0.75);
@@ -47,9 +48,6 @@ public class SS_Shooter extends Subsystem {
 			}
 			
 			shooterPos = shooterLiftMotor.getEncPosition();
-			
-			if(Timer.getFPGATimestamp() > endTime)
-				break;
 		}
 		
 		shooterLiftMotor.set(0);

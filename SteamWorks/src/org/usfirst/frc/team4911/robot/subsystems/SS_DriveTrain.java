@@ -1,5 +1,8 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
+import java.io.FileNotFoundException;
+import java.util.*;
+
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.commands.CG_DriveToAndFrom;
 import org.usfirst.frc.team4911.robot.commands.C_DriveByJoystick;
@@ -15,11 +18,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class SS_DriveTrain extends Subsystem {
 	
 	final int TPortDriveMotorFrontLeft = 9;
-    //final int TPortDriveMotorMidLeft = 8;
     final int TPortDriveMotorRearLeft = 7;
     
     final int TPortDriveMotorFrontRight = 10;
-    //final int TPortDriveMotorMidRight = 11;
     final int TPortDriveMotorRearRight = 12;
     
     public CANTalon DriveMotorFrontLeft = new CANTalon(TPortDriveMotorFrontLeft);
@@ -28,17 +29,15 @@ public class SS_DriveTrain extends Subsystem {
     public CANTalon DriveMotorFrontRight = new CANTalon(TPortDriveMotorFrontRight);
     public CANTalon DriveMotorRearRight = new CANTalon(TPortDriveMotorRearRight);
     
-    
-    
     public void driveByJoystick(double leftInput, double rightInput) {
-    	DriveMotorFrontLeft.set(leftInput);
-    	DriveMotorRearLeft.set(leftInput);
+    	DriveMotorFrontLeft.set(Robot.ss_Config.driveMotorConstFL * leftInput);
+    	DriveMotorRearLeft.set(Robot.ss_Config.driveMotorConstRL * leftInput);
     	
-		DriveMotorFrontRight.set(-rightInput);
-		DriveMotorRearRight.set(-rightInput);
+		DriveMotorFrontRight.set(Robot.ss_Config.driveMotorConstFR * -rightInput);
+		DriveMotorRearRight.set(Robot.ss_Config.driveMotorConstRR * -rightInput);
     }
     
-	//true = forwards, lasts 2 seconds (50 cycles / second)
+	//true = forwards
     public void drive(boolean direction) {
     	int sign = 0;
     	if(direction) {
@@ -56,8 +55,6 @@ public class SS_DriveTrain extends Subsystem {
     	
 		DriveMotorFrontRight.set(-rightInput);
 		DriveMotorRearRight.set(-rightInput);
-		
-		SmartDashboard.putNumber("Drive enc pos", Robot.ss_DriveTrain.DriveMotorFrontLeft.getEncPosition());
     }
     
     public void turn(boolean direction) {
@@ -89,7 +86,7 @@ public class SS_DriveTrain extends Subsystem {
     }
 
     public void initDefaultCommand() {
-        setDefaultCommand(new C_DriveByJoystick());
+        //setDefaultCommand(new C_DriveByJoystick());
     }
 }
 

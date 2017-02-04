@@ -1,21 +1,28 @@
 package org.usfirst.frc.team4911.robot.commands;
 
-import java.io.FileNotFoundException;
-
-import org.usfirst.frc.team4911.robot.Robot;
-
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Compressor;
 
 /**
  *
  */
-public class C_DriveByJoystick extends Command {
-	final String name = "C_DriveByJoystick";
-
-    public C_DriveByJoystick() {
+public class C_TestSolenoid extends Command {
+	Compressor compressor;
+	Solenoid solenoid;
+	boolean onOff;
+	String name;
+	
+    public C_TestSolenoid(Subsystem subsystem, Solenoid solenoid, String name, boolean onOff) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_DriveTrain);
+        requires(subsystem);
+        this.solenoid = solenoid;
+        this.onOff = onOff;
+        this.name = name;
+        
+        compressor = new Compressor(0);
     }
 
     // Called just before this Command runs the first time
@@ -24,13 +31,14 @@ public class C_DriveByJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber("drive train enc pos", Robot.ss_DriveTrain.DriveMotorFrontLeft.getEncPosition() * Robot.ss_Config.driveEncoderConstL);
-    	Robot.ss_DriveTrain.driveByJoystick(Robot.oi.stickL.getY(), Robot.oi.stickR.getY());
+    	solenoid.set(onOff);
+    	SmartDashboard.putBoolean("compressor pressure low", compressor.getPressureSwitchValue());
+    	SmartDashboard.putNumber("compressor current", compressor.getCompressorCurrent());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
