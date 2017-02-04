@@ -10,6 +10,7 @@ import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
 import org.usfirst.frc.team4911.robot.commands.CG_DriveCaleb;
 import org.usfirst.frc.team4911.robot.commands.C_Drive;
 import org.usfirst.frc.team4911.robot.commands.C_DriveToChairsCaleb;
+import org.usfirst.frc.team4911.robot.commands.C_TestFSMotor;
 import org.usfirst.frc.team4911.robot.commands.C_TurnCaleb;
 
 /**
@@ -20,6 +21,8 @@ public class OI {
 	public Joystick stickL = new Joystick(3);
 	public Joystick stickR = new Joystick(4);
 	
+	JoystickButton btnTest = new JoystickButton(stickR, 2);
+	
 	public Joystick stickTest = new Joystick(0);
 	JoystickButton btn2 = new JoystickButton(stickTest, 2);
 	JoystickButton btn3 = new JoystickButton(stickTest, 3);
@@ -27,6 +30,8 @@ public class OI {
 	public OI() {
 		btn2.whenReleased(new C_Drive(true, 2));
 		btn3.whenReleased(new CG_AutoTest());
+		
+		btnTest.whileHeld(new C_TestFSMotor());
 	}
 	
 	//// CREATING BUTTONS
