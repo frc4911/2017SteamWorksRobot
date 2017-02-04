@@ -132,9 +132,6 @@ public class Robot extends IterativeRobot {
 	void updateLogs() {
 		//SmartDashboard.putNumber("Robot.updateLogs()", counter++);
 		ss_MotorPID2.updateLog();
-		CANTalonPID.updateLog();
-		//ss_MotorPID.updateLog();
-		//ss_Motors.updateLog();
 		
 		ss_Logging2.logFlush();
 	}

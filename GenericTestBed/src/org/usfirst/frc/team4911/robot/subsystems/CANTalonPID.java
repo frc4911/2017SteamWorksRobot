@@ -54,8 +54,4 @@ public class CANTalonPID{
     	talon.set(0);
     	SmartDashboard.putString("PID target","off" );
     }
-    
-    public static void updateLog(){
-    	
-    }
 }
