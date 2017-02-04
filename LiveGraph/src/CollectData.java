@@ -1,30 +1,24 @@
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
-public class CollectData {
+public class CollectData implements Runnable {
 
+	public boolean keepGoing = true;
 	public CollectData(){
-		NetworkTable table = initNetworkTable("10.36.63.25","SmartDashboard");
-		collect(table);
 	}
 	
-	public NetworkTable initNetworkTable(String ip, String tableName){
+	public void run(){
+		String ip = "10.49.11.25";
+		String tableName = "SmartDashboard";
+		
 		NetworkTable.setClientMode();
 		NetworkTable.setIPAddress(ip);
 		NetworkTable table = NetworkTable.getTable(tableName);
-		try {
-			Thread.sleep(1500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		while (keepGoing){
+			try { Thread.sleep(1000); } catch (InterruptedException e) {}
+			double speedTmp = table.getNumber("speedRPM",-999);
+			System.out.println(speedTmp);
 		}
 		
-		return table;
 	}
-	
-	public void collect(NetworkTable table){
-		
-		
-		//table.
-	}
-
 }
