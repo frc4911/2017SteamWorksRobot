@@ -1,32 +1,42 @@
 package org.usfirst.frc.team4911.robot.commands;
 
-import org.usfirst.frc.team4911.robot.Robot;
+import org.usfirst.frc.team4911.robot.subsystems.DashboardDoubleValue;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class C_CurCommand extends Command {
+public class C_ValueAdjuster extends Command {
 
-    public C_CurCommand() {
+	String key;
+	double defaultValue;
+	DashboardDoubleValue ddv = null;
+	double bump;
+	
+    public C_ValueAdjuster(String key, double defaultValue, double bump) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_Commands);
+        // eg. requires(chassis);
+    	
+    	this.key = key;
+    	this.defaultValue = defaultValue;
+    	this.bump = bump;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	ddv = new DashboardDoubleValue(key, defaultValue);
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putString("Current Command", Robot.ss_Commands.curCommand);
+    	ddv.putValue(ddv.getNumber()+bump);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

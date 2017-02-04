@@ -4,6 +4,7 @@ import org.usfirst.frc.team4911.robot.Robot;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,15 +19,22 @@ public class SS_MotorPID2 extends Subsystem {
     }
 
 	int CANID;
+	int follower1_CANID = 0;
 	CANTalon talon;
 	CANTalonPID pid = null;
+	CANTalon talonFollower = null;
+	double kp_val;
+	double kf_val;
+	double kd_val;
+	int ticks_val;
 	
 	public SS_MotorPID2(int CANID, int follower1_CANID){
 
-		CANTalon t2 = new CANTalon(follower1_CANID); 
-		t2.changeControlMode(CANTalon.TalonControlMode.Follower);
-    	t2.set(CANID);
-    	
+		this.follower1_CANID = follower1_CANID;
+		talonFollower = new CANTalon(follower1_CANID); 
+		talonFollower.changeControlMode(CANTalon.TalonControlMode.Follower);
+		talonFollower.set(CANID);
+		talonFollower.enableBrakeMode(false);
     	construct(CANID);
 	}
 
@@ -37,10 +45,13 @@ public class SS_MotorPID2 extends Subsystem {
 	void construct(int CANID){
 		this.CANID = CANID;
 		talon = new CANTalon(CANID);
+		talon.setStatusFrameRateMs(CANTalon.StatusFrameRate.Feedback, 20);
+		talon.enableBrakeMode(false);
 	}
 	
 	String params = "encoderType, ticksPerRev, codesPerRev, reverse, kp, kd, ki, kf, ramp, iZone, peak, nominal, mode, ticks, counter";
 	int PIDCount = 0;
+	boolean firstTime = true;
 	
 	public void createPID(int choice){
  
@@ -122,11 +133,14 @@ public class SS_MotorPID2 extends Subsystem {
 			ticks = 5000;
 			break;
 		case 3:
+			// best values for Ian's shooter
+			// encoderType, ticksPerRev, codesPerRev, reverse, kp, kd, ki, kf, ramp, iZone, peak, nominal, mode, ticks
+			// Quad, 2400, 600, false, 0.23, 0.0, 0.0, 0.051, 0.01, 0, 0.0, 0.0, Speed, 3100, 1
 			create = true;
 			encoderType = CANTalon.FeedbackDevice.QuadEncoder; 
 			ticksPerRev = 2400;
 			encoderCodesPerRev = 600; 
-			reverseSensor= false;
+			reverseSensor= false; //marshall's is flipped, ian's is not flipped
 			kp = 0;
 			kd = 0;
 			ki = 0;
@@ -139,25 +153,25 @@ public class SS_MotorPID2 extends Subsystem {
 			ticks = 0;
 
 	    	String start = "desired "+CANID;
-	    	String params = " kp, kd, ki, kf, ramp, izone, peak, nominal, ticks";
+	    	String params = " ki, ramp, izone, peak, nominal";
 	    	
 	    	String pidValues = SmartDashboard.getString( start+params,"");
-
+	    	
     		String[] split = pidValues.split(",");
-			if (split.length == 9){
-				kp = Double.parseDouble(split[0]);
-				kd = Double.parseDouble(split[1]);
-				ki = Double.parseDouble(split[2]);
-				kf = Double.parseDouble(split[3]); 
-				rampRate = Double.parseDouble(split[4]); 
-				iZone = (int)Double.parseDouble(split[5]);
-				peakOutputVoltage = Double.parseDouble(split[6]);
-				nominalOutputVoltage = Double.parseDouble(split[7]);
-				ticks = (int)Double.parseDouble(split[8]);
+			if (split.length == 5){
+				kp = SmartDashboard.getNumber("Kp",0);
+				kd = SmartDashboard.getNumber("Kd",0);
+				ki = Double.parseDouble(split[0]);
+				kf = SmartDashboard.getNumber("Kf",0); 
+				rampRate = Double.parseDouble(split[1]); 
+				iZone = (int)Double.parseDouble(split[2]);
+				peakOutputVoltage = Double.parseDouble(split[3]);
+				nominalOutputVoltage = Double.parseDouble(split[4]);
+				ticks = (int)SmartDashboard.getNumber("ticks",0);
 			}
 			else
 			{
-		    	SmartDashboard.putString( start+params,"0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0");
+		    	SmartDashboard.putString( start+params,"0.0, 0.0, 0.0, 0.0, 0.0");
 			}
 			break;
 		}
@@ -180,6 +194,11 @@ public class SS_MotorPID2 extends Subsystem {
 					PIDType,
 					ticks);
 			value = ""+ typeToString(encoderType)+", "+ticksPerRev+", "+encoderCodesPerRev+", "+reverseSensor+", "+kp+", "+kd+", "+ki+", "+kf+", "+rampRate+", "+iZone+", "+peakOutputVoltage+", "+nominalOutputVoltage+", "+modeToString(PIDType)+", "+ticks+", "+PIDCount++;
+			kp_val = kp;
+			kd_val = kd;
+			kf_val = kf;
+			ticks_val = ticks;
+			//talon.setStatusFrameRateMs(CANTalon.StatusFrameRate.Feedback, 20);
 		}
 
 		SmartDashboard.putString(key, value);
@@ -201,11 +220,18 @@ public class SS_MotorPID2 extends Subsystem {
 		return "undefined";
 	}
 	
+	public void bumpTicks(int bump){
+		if (pid != null){
+			pid.setTicks(bump+pid.getTicks());
+			SmartDashboard.putNumber("variable ticks",pid.getTicks());
+		}
+	}
 	
 	public void stopPIDMode(){
     	if (pid == null) return;
     	pid.stopPIDMode();
     	pid = null;
+    	//talon.setStatusFrameRateMs(CANTalon.StatusFrameRate.Feedback, 100);
     }
 
     public void driveByJoystick(double yInput) {
@@ -220,17 +246,39 @@ public class SS_MotorPID2 extends Subsystem {
     	
     	SmartDashboard.putNumber("alive"+CANID,counter++);
 
-    	int currEncPos = talon.getEncPosition();    	
-    	SmartDashboard.putNumber("encoder pos"+CANID, currEncPos);
-    	SmartDashboard.putNumber("encoder speed (RPM)"+CANID,talon.getSpeed());
-    	SmartDashboard.putNumber("encoder vel"+CANID,talon.getEncVelocity());
-    	SmartDashboard.putNumber("encoder closed loop err"+CANID,talon.getClosedLoopError());
+    	int currEncPos = talon.getEncPosition();
+    	double current = talon.getOutputCurrent();
+    	double voltage = talon.getOutputVoltage();
+    	double speedRPM = talon.getSpeed();
+    	double error = talon.getClosedLoopError()/4;
+    	int tickGoal = 0;
+    	if (pid != null){
+    		tickGoal = pid.getTicks();
+    	}
     	
-    	Robot.ss_Logging2.logKeyOutput(5, ""+currEncPos);
-    	Robot.ss_Logging2.logKeyOutput(6, ""+talon.getSpeed());
-    	Robot.ss_Logging2.logKeyOutput(7, ""+talon.getEncVelocity());
-    	Robot.ss_Logging2.logKeyOutput(8, ""+talon.getClosedLoopError());
-    	Robot.ss_Logging2.logKeyOutput(9, ""+talon.getBusVoltage());
+    	if (Robot.ss_Logging2 != null){
+    		Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX3, ""+currEncPos);
+    		Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX4, ""+current);
+    		Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX5, ""+voltage);
+    		Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX6, ""+speedRPM);
+    		Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX7, ""+error);
+    		Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX8, ""+tickGoal);
+    		Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX9, ""+talon.getPosition());
+    		Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX10, ""+talon.getEncVelocity());
+    		Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX11, ""+kp_val);
+    		Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX12, ""+kd_val);
+    		Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX13, ""+kf_val);
+    		Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX14, ""+ticks_val);
+    	}
+    	SmartDashboard.putNumber("current"+CANID, current);
+    	SmartDashboard.putNumber("voltage"+CANID, voltage);
+    	SmartDashboard.putNumber("encoder speed (RPM)"+CANID,speedRPM);
+    	SmartDashboard.putNumber("encoder vel"+CANID,talon.getEncVelocity());
+    	SmartDashboard.putNumber("encoder closed loop err"+CANID,error);// 4 is based on comparing output to .getSpeed - .set
+    	if (talonFollower != null){
+        	SmartDashboard.putNumber("current"+follower1_CANID, talonFollower.getOutputCurrent());
+        	SmartDashboard.putNumber("voltage"+follower1_CANID, talonFollower.getOutputVoltage());
+    	}
     }
 
 }

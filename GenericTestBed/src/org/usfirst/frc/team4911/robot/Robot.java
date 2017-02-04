@@ -7,8 +7,10 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.CANTalon;
 
-import org.usfirst.frc.team4911.robot.subsystems.CANTalonPID;
+import org.usfirst.frc.team4911.robot.subsystems.SS_FeederMotor;
+import org.usfirst.frc.team4911.robot.subsystems.SS_Hopper;
 import org.usfirst.frc.team4911.robot.subsystems.SS_Logging2;
 import org.usfirst.frc.team4911.robot.subsystems.SS_MotorPID2;
 
@@ -23,7 +25,9 @@ public class Robot extends IterativeRobot {
 
 	public static final SS_Logging2 ss_Logging2 = new SS_Logging2();
 	
-	public static final SS_MotorPID2 ss_MotorPID2 = new SS_MotorPID2(2,4);
+	public static final SS_MotorPID2 ss_MotorPID2 = new SS_MotorPID2(2,4);	
+	public static final SS_FeederMotor ss_FeederMotor = new SS_FeederMotor(3);
+	public static final SS_Hopper ss_Hopper = new SS_Hopper(1);
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -41,12 +45,22 @@ public class Robot extends IterativeRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 //		SmartDashboard.putData("Auto mode", chooser);
 		
-		// Logging
-		SmartDashboard.putNumber("Robot.updateLogs()", 0);
-		SmartDashboard.putNumber("SS_Motors.updateLog()", counter++);
-		
-		SmartDashboard.putBoolean("fileCreationFailure", false);
-		SmartDashboard.putBoolean("NewFileCreated", false);
+
+//		SmartDashboard.putNumber("joystickTalon", 1);
+//		
+//		SmartDashboard.putNumber("motor1Speed", 1);
+//		SmartDashboard.putNumber("motor2Speed", 1);
+//		SmartDashboard.putNumber("motor3Speed", 1);
+//		SmartDashboard.putNumber("motor4Speed", 1);
+//		
+//		SmartDashboard.putNumber("motor1.get()", 0);
+//		
+//		// Logging
+//		SmartDashboard.putNumber("Robot.updateLogs()", 0);
+//		SmartDashboard.putNumber("SS_Motors.updateLog()", counter++);
+//		
+//		SmartDashboard.putBoolean("fileCreationFailure", false);
+//		SmartDashboard.putBoolean("NewFileCreated", false);
 	}
 
 	/**
@@ -130,7 +144,6 @@ public class Robot extends IterativeRobot {
 	
 	double counter = 0;
 	void updateLogs() {
-		//SmartDashboard.putNumber("Robot.updateLogs()", counter++);
 		ss_MotorPID2.updateLog();
 		
 		ss_Logging2.logFlush();

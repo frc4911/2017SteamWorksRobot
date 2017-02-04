@@ -25,17 +25,18 @@ public class SS_Logging2 {
 			"running time",       // 0
 			"delta time",         // 1
 			"index",              // 2
-			"PIDmode",			  // 3
-			"PIDmode running",
-			"currEncPos",		  // 5
-			"tSpeed",
-			"tEncVel",
-			"tClosedLoopError",
-			"tBusVoltage",
-			
-//			"motor speed",
-//			"EncoderPos",
-//			"EncoderVel",
+			"Encoder Position",
+			"current",
+			"voltage",
+			"speedRPM",
+			"error",
+			"tickGoal",				// 8
+			"Position2",			// 9
+			"velocity2",			//10
+			"kp",
+			"kd",
+			"kf",
+			"ticks goal",			//14
 			};
 	Key[] keys = new Key[headers.length];
 	
@@ -74,7 +75,7 @@ public class SS_Logging2 {
 	double startTime;
 	int counter = 0;
     RandomAccessFile raf = null;
-    boolean headersUpdated;
+    boolean headersWritten;
     boolean fileCreationFailure = false;
     String logfileName;
 	final String MODE = "rw";
@@ -87,7 +88,7 @@ public class SS_Logging2 {
     		keys[i] = new Key(headers[i]);
     	}
     	lastTime = startTime = currentTime();
-    	headersUpdated = true;
+    	headersWritten = false;
     	systemLogger();
     }
     
@@ -113,9 +114,9 @@ public class SS_Logging2 {
     }
 
     public void logKeyOutput(int index, String value) {
-		if (value.equals(keys[index].value) == false){
+		if (!value.equals(keys[index].value)){
 			keys[index].value = value;
-			keys[index].flushed = false;
+			keys[index].needsToBeFlushed = true;
 		}
     }
 
@@ -159,7 +160,7 @@ public class SS_Logging2 {
     	return newFilename;
     }
     
-    void writeKeyHeaders(){
+    void writeHeaders(){
     	if (raf == null)
     		return;
     	
@@ -177,20 +178,20 @@ public class SS_Logging2 {
 		} catch (IOException x) {
 		    System.out.println("I/O Exception: " + x);
 		}
-		headersUpdated = false;
+		headersWritten = true;
     }    
 
-    void writeKeyKeys(){
+    void writeLine(){
     	if (raf == null)
     		return;
     	
     	String line = "";
     	
     	for (int i=0; i<keys.length; i++){
-    		if (!keys[i].flushed)
+    		if (keys[i].needsToBeFlushed)
     		{
     			line += keys[i].value+",";
-    			keys[i].flushed = true;
+    			keys[i].needsToBeFlushed = false;
     		}
     		else
     			line += ",";
@@ -204,7 +205,7 @@ public class SS_Logging2 {
 		}
     }
 
-    boolean initLogFile(){
+    boolean createLogFile(){
     	fileCreationFailure = false;
     	
     	logfileName = findNewFile(path1); 
@@ -261,26 +262,26 @@ public class SS_Logging2 {
 			return;
 		
 		if (raf == null){
-			if (initLogFile() == false)
+			if (createLogFile() == false)
 				return;
 		}
 		
-		if (headersUpdated){
-			writeKeyHeaders();
+		if (!headersWritten){
+			writeHeaders();
 		}
 		systemLogger();
-		writeKeyKeys();
+		writeLine();
     }
 }
 
 class Key{
 	String key;
 	String value;
-	boolean flushed;
+	boolean needsToBeFlushed;
 	
 	Key (String pKey){
 		key = pKey;
 		value = "uninitialized";
-		flushed = true;
+		needsToBeFlushed = false;
 	}
 }

@@ -13,14 +13,10 @@ public class C_MoveShooterByJoystick extends Command {
     public C_MoveShooterByJoystick() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.ss_Shooter);
-        
-        Robot.ss_Commands.commandNames[Robot.ss_Commands.numCommand] = name;
-        Robot.ss_Commands.numCommand++;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.ss_Commands.startCommand(name);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -35,7 +31,6 @@ public class C_MoveShooterByJoystick extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_Commands.endCommand();
     }
 
     // Called when another command which requires one or more of the same

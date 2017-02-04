@@ -7,6 +7,7 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -22,8 +23,8 @@ public class SS_Shooter extends Subsystem {
 	public CANTalon shooterLiftMotor = new CANTalon(TPortShooterLiftMotor);
 	
 	public Solenoid shooterPlunger = new Solenoid(0, 0);
-	final double downPos = -4000;
-	final double upPos = 4700;
+	public final double downPos = -4000;
+	public final double upPos = 4700;
 	double shooterPos;
 	double targetPos;
 	
@@ -37,16 +38,18 @@ public class SS_Shooter extends Subsystem {
 		else
 			targetPos = upPos;
 		
+		double endTime = Timer.getFPGATimestamp() + 3;
 		while(Math.abs(targetPos - shooterPos) > error) {
-	    	SmartDashboard.putNumber("Shooter Pos", Robot.ss_Shooter.shooterLiftMotor.getEncPosition());
-	    	SmartDashboard.putNumber("Shooter motor power", Robot.ss_Shooter.shooterLiftMotor.getBusVoltage());
 			if(direction)
-				shooterLiftMotor.set(0.5);
+				shooterLiftMotor.set(0.75);
 			else {
-				shooterLiftMotor.set(-0.5);
+				shooterLiftMotor.set(-0.75);
 			}
 			
 			shooterPos = shooterLiftMotor.getEncPosition();
+			
+			if(Timer.getFPGATimestamp() > endTime)
+				break;
 		}
 		
 		shooterLiftMotor.set(0);
@@ -62,7 +65,7 @@ public class SS_Shooter extends Subsystem {
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new C_MoveShooterByJoystick());
+        //setDefaultCommand(new C_MoveShooterByJoystick());
     }
 }
 

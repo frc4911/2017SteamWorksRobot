@@ -21,16 +21,13 @@ public class C_Drive extends Command {
         requires(Robot.ss_DriveTrain);
         direction = inDirection;
         duration = inDuration;
-        
-        Robot.ss_Commands.commandNames[Robot.ss_Commands.numCommand] = name;
-        Robot.ss_Commands.numCommand++;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	//duration = SmartDashboard.getNumber("Move Duration");
     	endTime = Timer.getFPGATimestamp() + duration;
-    	Robot.ss_Commands.startCommand(name);
+    	Robot.ss_DriveTrain.DriveMotorFrontLeft.setEncPosition(0);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -51,7 +48,6 @@ public class C_Drive extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.ss_DriveTrain.stop();
-    	Robot.ss_Commands.endCommand();
     }
 
     // Called when another command which requires one or more of the same

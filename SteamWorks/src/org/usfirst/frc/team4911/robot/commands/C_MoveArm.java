@@ -15,23 +15,23 @@ public class C_MoveArm extends Command {
 	double time;
 	double endTime;
 	
-    public C_MoveArm(boolean direction) {
+	boolean shooterDown;
+	
+    public C_MoveArm(boolean direction, boolean shooterDown) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.ss_Arm);
         this.direction = direction;
-        
-        Robot.ss_Commands.commandNames[Robot.ss_Commands.numCommand] = name;
-        Robot.ss_Commands.numCommand++;
+        this.shooterDown = shooterDown;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.ss_Commands.startCommand(name);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_Arm.moveArm(direction);
+    	if(shooterDown)
+    		Robot.ss_Arm.moveArm(direction);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -41,7 +41,6 @@ public class C_MoveArm extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_Commands.endCommand();
     }
 
     // Called when another command which requires one or more of the same
