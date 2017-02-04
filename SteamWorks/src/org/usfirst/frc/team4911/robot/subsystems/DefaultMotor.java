@@ -7,34 +7,22 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class DefaultMotor implements Motor {
+public class DefaultMotor {
 	CANTalon talon;
-	CANTalon encoder;
+	boolean limited;
 	double upLimit;
 	double lowLimit;
 	
 	public DefaultMotor(CANTalon talon) {
 		this.talon = talon;
-		this.encoder = this.talon;
-	}
-	
-	public DefaultMotor(CANTalon talon, CANTalon encoder) {
-		this.talon = talon;
-		this.encoder = encoder;
+		limited = false;
 	}
 	
 	public DefaultMotor(CANTalon talon, double upLimit, double lowLimit) {
 		this.talon = talon;
-		this.encoder = this.talon;
 		this.upLimit = upLimit;
 		this.lowLimit = lowLimit;
-	}
-	
-	public DefaultMotor(CANTalon talon, CANTalon encoder, double upLimit, double lowLimit) {
-		this.talon = talon;
-		this.encoder = encoder;
-		this.upLimit = upLimit;
-		this.lowLimit = lowLimit;
+		limited = true;
 	}
 	
 	
@@ -44,7 +32,7 @@ public class DefaultMotor implements Motor {
 	}
 	
 	public void spin(double pow, double upLimit, double lowLimit) {
-		if(encoder.getEncPosition() <= upLimit && encoder.getEncPosition() >= lowLimit) {
+		if(talon.getEncPosition() <= upLimit && talon.getEncPosition() >= lowLimit) {
 			talon.set(pow);
 		} else {
 			setBrakeMode(true);
@@ -52,34 +40,17 @@ public class DefaultMotor implements Motor {
 		}
 	}
 	
-	public void moveByInput(double input) {
-		spin(input);
-	}
-
-	public void moveByInput(double input, double upLimit, double lowLimit) {
-		spin(input, upLimit, lowLimit);
-	}
-	
-	public void moveToEncPos(double pos, double pow) {
-		pow = Math.abs(pow);
-		zeroEnc();
-		
-		if((Math.signum(pos) < 0 && encoder.getEncPosition() < pos) || 
-		   (Math.signum(pos) > 0 && encoder.getEncPosition() > pos))
-			stop();
-		else
-			spin(Math.signum(pos) * pow);
-	}
-	
 	public void moveToEncPos(double pos, double pow, double upLimit, double lowLimit) {
 		pow = Math.abs(pow);
-		zeroEnc();
 		
-		if((Math.signum(pos) < 0 && encoder.getEncPosition() < pos) || 
-		   (Math.signum(pos) > 0 && encoder.getEncPosition() > pos))
+		if((Math.signum(pos) < 0 && getEncPos() < pos) || 
+		   (Math.signum(pos) > 0 && getEncPos() > pos))
 			stop();
 		else
-			spin(Math.signum(pos) * pow, upLimit, lowLimit);
+			if(limited)
+				spin(Math.signum(pos) * pow, upLimit, lowLimit);
+			else
+				spin(Math.signum(pos) * pow);
 	}
 
 	public void stop() {
@@ -89,9 +60,12 @@ public class DefaultMotor implements Motor {
 	public void setBrakeMode(boolean set) {
 		talon.enableBrakeMode(set);
 	}
+	public double getEncPos() {
+		return talon.getEncPosition();
+	}
 	
 	public void zeroEnc() {
-		encoder.setEncPosition(0);
+		talon.setEncPosition(0);
 	}
 }
 
