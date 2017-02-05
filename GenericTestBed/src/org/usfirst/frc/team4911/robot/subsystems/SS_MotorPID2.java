@@ -103,16 +103,16 @@ public class SS_MotorPID2 extends Subsystem {
 			ticksPerRev = 2400;
 			encoderCodesPerRev = 600; 
 			reverseSensor= false;
-			kp = 0;
+			kp = 023;
 			kd = 0;
 			ki = 0;
-			kf = 1.0; 
+			kf = 0.051; 
 			rampRate = 0; 
 			iZone = 0;
 			peakOutputVoltage = 12;
 			nominalOutputVoltage = 0;
 			PIDType = CANTalon.TalonControlMode.Speed;
-			ticks = 5000;
+			ticks = 3100;	// rpm of encoder
 			break;
 		case 2:
 			create = true;
@@ -121,16 +121,16 @@ public class SS_MotorPID2 extends Subsystem {
 			ticksPerRev = 2400;
 			encoderCodesPerRev = 600; 
 			reverseSensor= false;
-			kp = 0;
+			kp = 0.1;
 			kd = 0;
 			ki = 0;
-			kf = 1.0; 
+			kf = 0.01; 
 			rampRate = 0; 
 			iZone = 0;
 			peakOutputVoltage = 12;
 			nominalOutputVoltage = 0;
 			PIDType = CANTalon.TalonControlMode.Speed;
-			ticks = 5000;
+			ticks = 4000;
 			break;
 		case 3:
 			// best values for Ian's shooter
@@ -149,7 +149,7 @@ public class SS_MotorPID2 extends Subsystem {
 			iZone = 0;
 			peakOutputVoltage = 0;
 			nominalOutputVoltage = 0;
-			PIDType = CANTalon.TalonControlMode.Speed;
+			PIDType = CANTalon.TalonControlMode.Current;
 			ticks = 0;
 
 	    	String start = "desired "+CANID;
@@ -216,6 +216,8 @@ public class SS_MotorPID2 extends Subsystem {
 			return "Position";
 		else if (mode == CANTalon.TalonControlMode.Speed)
 			return "Speed";
+		else if (mode == CANTalon.TalonControlMode.Current)
+			return "Current";
 		
 		return "undefined";
 	}
@@ -271,10 +273,13 @@ public class SS_MotorPID2 extends Subsystem {
     		Robot.ss_Logging2.logKeyOutput(Robot.ss_Logging2.KEYINDEX14, ""+ticks_val);
     	}
     	SmartDashboard.putNumber("current"+CANID, current);
+    	SmartDashboard.putNumber("get"+CANID, talon.get());
     	SmartDashboard.putNumber("voltage"+CANID, voltage);
     	SmartDashboard.putNumber("encoder speed (RPM)"+CANID,speedRPM);
     	SmartDashboard.putNumber("encoder vel"+CANID,talon.getEncVelocity());
     	SmartDashboard.putNumber("encoder closed loop err"+CANID,error);// 4 is based on comparing output to .getSpeed - .set
+    	SmartDashboard.putNumber("talon err"+CANID,talon.getError());
+    	SmartDashboard.putNumber("getSetpoint"+CANID,talon.getSetpoint());
     	if (talonFollower != null){
         	SmartDashboard.putNumber("current"+follower1_CANID, talonFollower.getOutputCurrent());
         	SmartDashboard.putNumber("voltage"+follower1_CANID, talonFollower.getOutputVoltage());
