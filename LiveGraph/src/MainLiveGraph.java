@@ -6,10 +6,12 @@ public class MainLiveGraph {
 	
 	public static void main(String[] args) {
 
-		(new Thread(new CollectData())).start();
+		cd = new CollectData();
+		(new Thread(cd)).start();
 		
 		msc = new MinimalStaticChart();
 		msc.init();
+		(new Thread(msc)).start();
 	}
 
 }

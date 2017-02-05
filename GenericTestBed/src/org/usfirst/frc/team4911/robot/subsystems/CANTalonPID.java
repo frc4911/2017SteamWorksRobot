@@ -36,7 +36,7 @@ public class CANTalonPID{
     	talon.setPID(kp, ki, kd, kf, iZone, rampRate, profile);
     	talon.changeControlMode(PIDType);
     	talon.setVoltageRampRate(rampRate);
-    	talon.setCloseLoopRampRate(rampRate);
+    	//talon.setCloseLoopRampRate(rampRate);
     	talon.setEncPosition(0);
     	double set = 0;
     	if (encoderType == CANTalon.FeedbackDevice.QuadEncoder){

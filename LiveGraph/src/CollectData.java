@@ -3,6 +3,8 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 public class CollectData implements Runnable {
 
 	public boolean keepGoing = true;
+	public double graphValue = 0;
+	
 	public CollectData(){
 	}
 	
@@ -15,9 +17,14 @@ public class CollectData implements Runnable {
 		NetworkTable table = NetworkTable.getTable(tableName);
 		
 		while (keepGoing){
-			try { Thread.sleep(1000); } catch (InterruptedException e) {}
-			double speedTmp = table.getNumber("speedRPM",-999);
-			System.out.println(speedTmp);
+			try { Thread.sleep(100); } catch (InterruptedException e) {}
+			double speedTmp = table.getNumber("encoder speed (RPM)2",-999);
+			
+			if (speedTmp != 999){
+				graphValue = speedTmp;
+				System.out.println(speedTmp);
+			}
+			//System.out.println(speedTmp);
 		}
 		
 	}
