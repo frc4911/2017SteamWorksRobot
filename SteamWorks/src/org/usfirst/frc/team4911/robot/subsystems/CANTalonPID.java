@@ -1,55 +1,72 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
 import com.ctre.CANTalon;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
-public class CANTalonPID {
-    
+public class CANTalonPID{
+
 	CANTalon talon;
-	double kf, kp, kd, ki, rampRate;
-	int iZone;
-	double peakOutputVoltage, nominalOutputVoltage;
+	int currTicks = 0;
 	
-	public CANTalonPID(CANTalon talon, double kf, double kp, double kd, double ki, double rampRate, int iZone, double peakOutputVoltage, double nominalOutputVoltage){
-		this.talon = talon;
-		this.kf = kf;
-		this.kp = kp;
-		this.kd = kd;
-		this.ki = ki;
-		this.iZone = iZone;
-		this.rampRate = rampRate;
-		this.peakOutputVoltage = peakOutputVoltage;
-		this.nominalOutputVoltage = nominalOutputVoltage;
-	}
-	
-    public void enterClosedLoop(){
+	public CANTalonPID(
+			CANTalon talon, 
+			CANTalon.FeedbackDevice encoderType, 
+			int ticksPerRev, 
+			int encoderCodesPerRev, 
+			boolean reverseSensor, 
+			double kp, double kd, double ki, double kf, 
+			double rampRate, 
+			int iZone, 
+			double peakOutputVoltage, 
+			double nominalOutputVoltage, 
+			CANTalon.TalonControlMode PIDType,
+			int ticks)
+	{
+		
     	int profile = 0;
+
+    	this.talon = talon;
+    	//talon.changeMotionControlFramePeriod(20);
+    	
+    	talon.setFeedbackDevice(encoderType);
+		talon.configEncoderCodesPerRev(encoderCodesPerRev);
+		talon.reverseSensor(reverseSensor);
     	talon.configPeakOutputVoltage(peakOutputVoltage, -peakOutputVoltage);
     	talon.configNominalOutputVoltage(nominalOutputVoltage,  -nominalOutputVoltage);
     	talon.setPID(kp, ki, kd, kf, iZone, rampRate, profile);
-    	talon.changeControlMode(CANTalon.TalonControlMode.Position);
-    }
-    
-    public void exitClosedLoop(){
+    	talon.changeControlMode(PIDType);
+    	talon.setVoltageRampRate(rampRate);
+    	talon.setCloseLoopRampRate(rampRate);
+    	talon.setEncPosition(0);
+    	double set = 0;
+    	if (encoderType == CANTalon.FeedbackDevice.QuadEncoder){
+    		if (PIDType == CANTalon.TalonControlMode.Position){
+    			set = ((double)ticks)/((double)ticksPerRev);
+    		}
+    		else if (PIDType == CANTalon.TalonControlMode.Speed){
+    			set = ticks; //encoder rpm
+    			currTicks = ticks;
+    		}
+    	}
+    	talon.set(set);
+    	SmartDashboard.putString("PID target",""+set);
+	}
+	
+	public void setTicks(int newTicks){
+			talon.set(newTicks);
+			currTicks = newTicks;
+			SmartDashboard.putString("PID target",""+newTicks);
+	}
+	
+	public int getTicks(){
+		return currTicks;
+	}
+	
+    public void stopPIDMode(){
+    	//talon.changeMotionControlFramePeriod(100);
     	talon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+    	talon.setVoltageRampRate(0);
+    	talon.set(0);
+    	SmartDashboard.putString("PID target","off" );
     }
-
-    public void setPositionGoal(double pos){
-    	//talon.set(pos/4096.0); For mag encoders
-    	talon.set(pos/1440.0); // For quad encoders with 1440 ticks/revolution
-    }
-
-
 }
-
-//double kp = 3;
-//double kd = 0;
-//double ki = 0;
-//double kf = 0;
-//int iZone = 0;
-//double rampRate = 0;
-//int profile = 0;
-//talon.configPeakOutputVoltage(8.0, -8.0);
-//talon.configNominalOutputVoltage(0.0,  -0.0);

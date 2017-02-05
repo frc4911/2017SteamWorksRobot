@@ -17,15 +17,12 @@ public class C_TestFSMotor extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	//Robot.ss_TestFreeSpinMotor.lMotor.zeroEnc();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	Robot.ss_TestFreeSpinMotor.lMotor.spin(0.5, 2000.0, 0.0);
-//    	Robot.ss_TestFreeSpinMotor.fsMotor.spin(0.5);
-    	Robot.ss_TestFreeSpinMotor.pMotor.spin(-0.5);
-    	//Robot.ss_TestFreeSpinMotor.rDTMotorPair.spin(0.5);
+    	Robot.ss_TestFreeSpinMotor.motor.moveToEncPos(2000);
+    	SmartDashboard.putNumber("motor enc pos", Robot.ss_TestFreeSpinMotor.motor.getEncPos());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -40,6 +37,5 @@ public class C_TestFSMotor extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.ss_TestFreeSpinMotor.pMotor.stop();
     }
 }

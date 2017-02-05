@@ -95,18 +95,18 @@ public class SS_Shooter3 extends Subsystem {
 //    }
     CANTalonPID pid=null;
     public void initializeClosedLoop(){
-    	pid = new CANTalonPID(shooterLiftTalon,0.0,3.0,0.0,0.0,0.0,0,8.0,0.0);
-    	pid.enterClosedLoop();
+//    	pid = new CANTalonPID(shooterLiftTalon,0.0,3.0,0.0,0.0,0.0,0,8.0,0.0);
+//    	pid.enterClosedLoop();
     }
     
     public void exitClosedLoop(){
-    	if (pid != null)
-    		pid.exitClosedLoop();
+//    	if (pid != null)
+//    		pid.exitClosedLoop();
     	//shooterLiftTalon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     }
 
     public void setPositionGoal(double pos){
-    	pid.setPositionGoal(pos);
+//    	pid.setPositionGoal(pos);
     	//shooterLiftTalon.set(pos/4096.0);
     }
 
