@@ -15,12 +15,7 @@ public class SS_TestDefaultMotor extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	int TPortMP = 9;
-	CANTalon primeMotor = new CANTalon(TPortMP);
-	CANTalon followMotor = new CANTalon(7);
-	
-	
-	public DefaultMotorPair pMotor = new DefaultMotorPair(primeMotor, TPortMP, followMotor);
+	public DefaultMotor motor = new DefaultMotor(10, 4, 0, 0, 0.5, 0, 3.5, 1.0, CANTalon.TalonControlMode.Position);
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
