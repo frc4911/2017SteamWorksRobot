@@ -36,7 +36,7 @@ public class CANTalonPID{
     	talon.setPID(kp, ki, kd, kf, iZone, rampRate, profile);
     	talon.changeControlMode(PIDType);
     	talon.setVoltageRampRate(rampRate);
-    	talon.setCloseLoopRampRate(rampRate);
+    	//talon.setCloseLoopRampRate(rampRate);
     	talon.setEncPosition(0);
     	double set = 0;
     	if (encoderType == CANTalon.FeedbackDevice.QuadEncoder){
@@ -47,11 +47,14 @@ public class CANTalonPID{
     			set = ticks; //encoder rpm
     			currTicks = ticks;
     		}
+    		else if(PIDType == CANTalon.TalonControlMode.Current) {
+    			set = ticks; //amps
+    			currTicks = ticks;
+    		}
     	}
     	talon.set(set);
     	SmartDashboard.putString("PID target",""+set);
 	}
-	
 	public void setTicks(int newTicks){
 			talon.set(newTicks);
 			currTicks = newTicks;
@@ -65,7 +68,7 @@ public class CANTalonPID{
     public void stopPIDMode(){
     	//talon.changeMotionControlFramePeriod(100);
     	talon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-    	talon.setVoltageRampRate(0);
+    	//talon.setVoltageRampRate(0);
     	talon.set(0);
     	SmartDashboard.putString("PID target","off" );
     }
