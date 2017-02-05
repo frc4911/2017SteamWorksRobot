@@ -19,10 +19,13 @@ public class SS_Arm extends Subsystem {
 	int TPortArmLiftMotor = 14;
 	public CANTalon armLiftMotor = new CANTalon(TPortArmLiftMotor);
 	
+	 public boolean liftPassedUp = true;
+	 public boolean liftPassedDown = true;
+	
 	public AnalogPotentiometer armPotentiometer = new AnalogPotentiometer(1);
 	
-	public final double retracted = 0.48;
-	public final double extended = 0.523;
+	public final double extended = 0.48;
+	public final double retracted = 0.523;
 	final double error = 0.00215;
 	
 	//5% error = 0.00215

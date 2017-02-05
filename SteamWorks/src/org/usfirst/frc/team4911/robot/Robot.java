@@ -2,6 +2,7 @@
 package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.subsystems.SS_Arm;
+import org.usfirst.frc.team4911.robot.subsystems.SS_Config;
 import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrain;
 import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrainCaleb;
 
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrainCaleb;
 import org.usfirst.frc.team4911.robot.subsystems.SS_Logging2;
 import org.usfirst.frc.team4911.robot.subsystems.SS_Shooter;
+import org.usfirst.frc.team4911.robot.subsystems.SS_TestDefaultMotor;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,6 +33,10 @@ public class Robot extends IterativeRobot {
 	public static final SS_Shooter ss_Shooter = new SS_Shooter();
 	public static final SS_Arm ss_Arm = new SS_Arm();
 	public static OI oi;
+	
+	public static final SS_Config ss_Config = new SS_Config();
+	
+	public static final SS_TestDefaultMotor ss_TestFreeSpinMotor = new SS_TestDefaultMotor();
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -118,7 +124,8 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("Shooter Enc Pos", ss_Shooter.shooterLiftMotor.getEncPosition());
+//		SmartDashboard.putNumber("pow p", this.ss_TestFreeSpinMotor.pMotor.pTalon.get());
+//		SmartDashboard.putNumber("pow f", this.ss_TestFreeSpinMotor.pMotor.fTalon.get());
 		Scheduler.getInstance().run();
 	}
 
