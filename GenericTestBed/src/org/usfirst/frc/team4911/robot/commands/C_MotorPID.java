@@ -30,7 +30,7 @@ public class C_MotorPID extends Command {
     		Robot.ss_MotorPID2.createPID(0);
     		break;
     	case 2:
-    		Robot.ss_MotorPID2.createPID(1);
+    		Robot.ss_MotorPID2.createPID(2);
     		break;
     	case 3:
     		Robot.ss_MotorPID2.createPID(3);

@@ -103,7 +103,7 @@ public class SS_MotorPID2 extends Subsystem {
 			ticksPerRev = 2400;
 			encoderCodesPerRev = 600; 
 			reverseSensor= false;
-			kp = 023;
+			kp = 0.23;
 			kd = 0;
 			ki = 0;
 			kf = 0.051; 
@@ -121,16 +121,16 @@ public class SS_MotorPID2 extends Subsystem {
 			ticksPerRev = 2400;
 			encoderCodesPerRev = 600; 
 			reverseSensor= false;
-			kp = 0.1;
+			kp = 0.35;
 			kd = 0;
 			ki = 0;
-			kf = 0.01; 
+			kf = 0.051; 
 			rampRate = 0; 
 			iZone = 0;
 			peakOutputVoltage = 12;
 			nominalOutputVoltage = 0;
 			PIDType = CANTalon.TalonControlMode.Speed;
-			ticks = 4000;
+			ticks = 3150;
 			break;
 		case 3:
 			// best values for Ian's shooter
