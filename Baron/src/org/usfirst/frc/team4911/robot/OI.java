@@ -23,8 +23,10 @@ public class OI {
 	JoystickButton testBtnDTRR = new JoystickButton(autoTestStick, 4);
 	
 	public OI() {
-		testBtnDTFL.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft));
-		testBtnDTFR.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainRight));
+		testBtnDTFL.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft.talon));
+		testBtnDTRL.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft.fTalon));
+		testBtnDTFR.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainRight.talon));
+		testBtnDTRR.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainRight.fTalon));
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
+import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.commands.C_DriveByJoystick;
 
 import com.ctre.CANTalon;
@@ -41,11 +42,11 @@ public class SS_DriveTrain extends Subsystem {
 	double nominalOutputVoltageRight = 0.0; 
 	CANTalon.TalonControlMode PIDTypeRight = CANTalon.TalonControlMode.Position;
 	
-	public DefaultMotor driveTrainLeft = new DefaultMotor(tPortDriveTrainFrontLeft, tPortDriveTrainRearLeft, kpLeft, kdLeft, kiLeft, rampRateLeft, 
-														  iZoneLeft, peakOutputVoltageLeft, nominalOutputVoltageLeft, PIDTypeLeft);
+	public DefaultMotor driveTrainLeft = new DefaultMotor(tPortDriveTrainFrontLeft, Robot.ss_Config.driveMotorConstFL, Robot.ss_Config.driveEncoderConstL,
+			tPortDriveTrainRearLeft, kpLeft, kdLeft, kiLeft, rampRateLeft, iZoneLeft, peakOutputVoltageLeft, nominalOutputVoltageLeft, PIDTypeLeft);
 	
-	public DefaultMotor driveTrainRight = new DefaultMotor(tPortDriveTrainFrontRight, tPortDriveTrainRearRight, kpRight, kdRight, kiRight, rampRateRight, 
-														   iZoneRight, peakOutputVoltageRight, nominalOutputVoltageRight, PIDTypeRight);
+	public DefaultMotor driveTrainRight = new DefaultMotor(tPortDriveTrainFrontRight, Robot.ss_Config.driveMotorConstFL, Robot.ss_Config.driveEncoderConstL, 
+			tPortDriveTrainRearRight, kpRight, kdRight, kiRight, rampRateRight, iZoneRight, peakOutputVoltageRight, nominalOutputVoltageRight, PIDTypeRight);
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

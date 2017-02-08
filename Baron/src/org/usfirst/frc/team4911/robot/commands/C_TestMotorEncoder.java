@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.robot.Robot;
+import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
 
 import com.ctre.CANTalon;
 
@@ -13,8 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class C_TestMotorEncoder extends Command {
-	CANTalon motor;
-	CANTalon encoder;
+	DefaultMotor talon;
 	double motorConst;
 	double encoderConst;
 	
@@ -37,13 +37,12 @@ public class C_TestMotorEncoder extends Command {
 	
 	boolean driveTrain;
 	
-    public C_TestMotorEncoder(Subsystem subsystem, CANTalon motor, CANTalon encoder, double motorConst, double encoderConst, boolean direction, 
+    public C_TestMotorEncoder(Subsystem subsystem, DefaultMotor talon, double motorConst, double encoderConst, boolean direction, 
     				   		  double targetPos, double duration, double normBusVoltage, String name, boolean driveTrain) {
         // Use requires() here to declare subsystem dependencies
         requires(subsystem);
         this.direction = direction;
-        this.motor = motor;
-        this.encoder = encoder;
+        this.talon = talon;
         this.targetPos = targetPos;
         this.normBusVoltage = normBusVoltage;
         this.duration = duration;
@@ -62,7 +61,7 @@ public class C_TestMotorEncoder extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	encoder.setEncPosition(0);
+    	talon.zeroEnc();
     	
     	startTime = Timer.getFPGATimestamp();
     	endTime = startTime + duration;
@@ -88,31 +87,31 @@ public class C_TestMotorEncoder extends Command {
     double realEndTime;
     protected void execute() {
     	if(Timer.getFPGATimestamp() < endTime && 
-    	    	   Math.abs(encoder.get() - targetPos) > Math.abs(targetPos * 0.1)) {
+    	   Math.abs(talon.getEncPos() - targetPos) > Math.abs(targetPos * 0.1)) {
     				if(direction)
-    					motor.set(0.5);
+    					talon.spin(0.5);
     				else {
-    					motor.set(-0.5);
+    					talon.spin(-0.5);
     				}
     	    	} else {
-    	    		motor.set(0);
+    	    		talon.stop();
     	    	}
 		
 		realEndTime = Timer.getFPGATimestamp();
-		totalBV += motor.getBusVoltage();
+		totalBV += talon.talon.getBusVoltage();
 		BVDataCount++;
-		SmartDashboard.putNumber("current draw "+ dir + " " + name, motor.getBusVoltage());
-		SmartDashboard.putNumber("curr pos " + dir + " " + name, Robot.ss_Config.getEncoderValue(encoder, encoderConst));
+		SmartDashboard.putNumber("current draw "+ dir + " " + name, talon.talon.getBusVoltage());
+		SmartDashboard.putNumber("curr pos " + dir + " " + name, talon.getEncPos());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	if((Timer.getFPGATimestamp() < endTime) && 
- 			Math.abs(encoder.getEncPosition() - targetPos) > Math.abs(targetPos * 0.03))
+ 			Math.abs(talon.getEncPos() - targetPos) > Math.abs(targetPos * 0.03))
     		return false;
     	else
-    		distTravelled = encoder.getEncPosition();
-			motor.set(0);
+    		distTravelled = talon.getEncPos();
+			talon.stop();
     		return true;
     }
 
