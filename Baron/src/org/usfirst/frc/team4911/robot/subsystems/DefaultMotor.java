@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class DefaultMotor {
-	CANTalon talon;
-	CANTalon fTalon;
+	public CANTalon talon;
+	public CANTalon fTalon;
 	public CANTalonPID pid;
-	boolean limited;
+	public boolean limited;
 	public double upLimit;
-	double lowLimit;
+	public double lowLimit;
 	
 	final int TICKS_PER_REV = 1440;
 	final int ENCODER_CODES_PER_REV = 360;
@@ -48,10 +48,10 @@ public class DefaultMotor {
 		limited = false;
 	}
 	
-	public DefaultMotor(int TPort, CANTalon fTalon, double kp, double kd, double ki, double rampRate, int iZone, double peakOutputVoltage, 
+	public DefaultMotor(int TPort, int TPortF, double kp, double kd, double ki, double rampRate, int iZone, double peakOutputVoltage, 
 						double nominalOutputVoltage, CANTalon.TalonControlMode PIDType) {
 		this.talon = new CANTalon(TPort);
-		this.fTalon = fTalon;
+		this.fTalon = new CANTalon(TPortF);
 		this.kp = kp;
 		this.kd = kd;
 		this.ki = ki;
@@ -87,10 +87,10 @@ public class DefaultMotor {
 		enableSoftLimits(talon, true);
 	}
 	
-	public DefaultMotor(int TPort, CANTalon fTalon, double upLimit, double lowLimit, double kp, double kd, double ki, double rampRate, int iZone, 
+	public DefaultMotor(int TPort, int TPortF, double upLimit, double lowLimit, double kp, double kd, double ki, double rampRate, int iZone, 
 						double peakOutputVoltage, double nominalOutputVoltage, CANTalon.TalonControlMode PIDType) {
 		this.talon = new CANTalon(TPort);
-		this.fTalon = fTalon;
+		this.fTalon = new CANTalon(TPortF);
 		this.upLimit = upLimit;
 		this.lowLimit = lowLimit;
 		this.kp = kp;

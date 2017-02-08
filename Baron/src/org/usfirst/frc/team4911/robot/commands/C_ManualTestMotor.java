@@ -1,37 +1,35 @@
 package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.robot.Robot;
+import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  *
  */
-public class C_TestFSMotor extends Command {
-
-    public C_TestFSMotor() {
+public class C_ManualTestMotor extends Command {
+	DefaultMotor motor;
+	
+    public C_ManualTestMotor(Subsystem subsystem, DefaultMotor motor) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_TestFreeSpinMotor);
+        requires(subsystem);
+        this.motor = motor;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.ss_TestFreeSpinMotor.motor.zeroEnc();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_TestFreeSpinMotor.motor.spin(0.3);
-    	SmartDashboard.putNumber("motor enc pos", Robot.ss_TestFreeSpinMotor.motor.getEncPos());
+    	motor.spin(Robot.oi.autoTestStick.getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(Robot.ss_TestFreeSpinMotor.motor.getEncPos() > Robot.ss_TestFreeSpinMotor.motor.upLimit)
-    		return true;
-    	else
-    		return false;
+        return true;
     }
 
     // Called once after isFinished returns true

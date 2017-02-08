@@ -3,35 +3,34 @@ package org.usfirst.frc.team4911.robot.commands;
 import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class C_TestFSMotor extends Command {
+public class C_DriveByJoystick extends Command {
 
-    public C_TestFSMotor() {
+    public C_DriveByJoystick() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_TestFreeSpinMotor);
+        requires(Robot.ss_DriveTrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.ss_TestFreeSpinMotor.motor.zeroEnc();
+    	Robot.ss_DriveTrain.driveTrainLeft.enableSoftLimits(Robot.ss_DriveTrain.driveTrainLeft.talon, false);
+    	Robot.ss_DriveTrain.driveTrainLeft.enableSoftLimits(Robot.ss_DriveTrain.driveTrainLeft.fTalon, false);
+    	Robot.ss_DriveTrain.driveTrainLeft.enableSoftLimits(Robot.ss_DriveTrain.driveTrainRight.talon, false);
+    	Robot.ss_DriveTrain.driveTrainLeft.enableSoftLimits(Robot.ss_DriveTrain.driveTrainRight.fTalon, false);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_TestFreeSpinMotor.motor.spin(0.3);
-    	SmartDashboard.putNumber("motor enc pos", Robot.ss_TestFreeSpinMotor.motor.getEncPos());
+    	Robot.ss_DriveTrain.driveTrainLeft.spin(Robot.oi.stickL.getY());
+    	Robot.ss_DriveTrain.driveTrainRight.spin(Robot.oi.stickR.getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(Robot.ss_TestFreeSpinMotor.motor.getEncPos() > Robot.ss_TestFreeSpinMotor.motor.upLimit)
-    		return true;
-    	else
-    		return false;
+        return false;
     }
 
     // Called once after isFinished returns true
