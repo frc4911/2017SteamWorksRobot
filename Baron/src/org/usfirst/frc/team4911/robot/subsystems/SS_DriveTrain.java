@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
+import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.commands.C_DriveByJoystick;
 
 import com.ctre.CANTalon;
@@ -50,6 +51,29 @@ public class SS_DriveTrain extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         setDefaultCommand(new C_DriveByJoystick());
+    }
+    
+    public void updateLog() {
+    	if (Robot.ss_Logging != null){
+// driveTrainLeft
+    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX3, "" + this.driveTrainLeft.talon.get());
+    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX4, "" + this.driveTrainLeft.talon.getOutputVoltage());
+    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX5, "" + this.driveTrainLeft.talon.getOutputCurrent());
+    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX6, "" + this.driveTrainLeft.talon.getSpeed());
+    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX7, "" + this.driveTrainLeft.talon.getEncVelocity());
+    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX8, "" + this.driveTrainLeft.talon.getEncPosition());
+//    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX9, "" + this.driveTrainLeft.talon.get());
+//    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX10, "" + this.driveTrainLeft.talon.get());
+// driveTrainRight
+    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX11, "" + this.driveTrainRight.talon.get());
+    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX12, "" + this.driveTrainRight.talon.getOutputVoltage());
+    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX13, "" + this.driveTrainRight.talon.getOutputCurrent());
+    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX14, "" + this.driveTrainRight.talon.getSpeed());
+    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX15, "" + this.driveTrainRight.talon.getEncVelocity());
+    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX16, "" + this.driveTrainRight.talon.getEncPosition());
+//    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX17, "" + this.driveTrainRight.talon.get());
+//    		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX18, "" + this.driveTrainRight.talon.get());
+    	}
     }
 }
 

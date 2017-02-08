@@ -22,21 +22,29 @@ public class SS_Logging {
 		return Timer.getFPGATimestamp();
 	}
 	String[] headers = {
-			"running time",       // 0
-			"delta time",         // 1
-			"index",              // 2
-			"Encoder Position",
+			"running time",       	// 0
+			"delta time",        	// 1
+			"index",        		// 2
+			"driveTrainLeft speed",		// 3
+			"voltage",				
 			"current",
+			"rpm",	
+			"velocity",						
+			"currEncPos",				// 8
+			"",
+			"",
+			"driveTrainRight speed",	// 11
 			"voltage",
-			"speedRPM",
-			"error",
-			"tickGoal",				// 8
-			"Position2",			// 9
-			"velocity2",			//10
-			"kp",
-			"kd",
-			"kf",
-			"ticks goal",			//14
+			"current",
+			"rpm",
+			"velocity",
+			"currEncPos",				// 16
+			"",
+			"",
+//			"",
+//			"",
+//			"",
+			
 			};
 	Key[] keys = new Key[headers.length];
 	

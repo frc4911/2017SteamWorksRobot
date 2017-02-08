@@ -107,6 +107,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		updateLogs();
 	}
 
 	/**
@@ -115,5 +116,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+	}
+	
+	public void updateLogs() {
+		ss_DriveTrain.updateLog();
+		
+		
+		ss_Logging.logFlush();
 	}
 }
