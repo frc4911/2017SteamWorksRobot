@@ -20,7 +20,7 @@ public class SS_Config extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	public Scanner read;
-	public String configFilepath = "/config.txt";
+	public final String configFilepath = "/config.txt";
 	
 	public double driveMotorConstFL;
     public double driveMotorConstFR;
