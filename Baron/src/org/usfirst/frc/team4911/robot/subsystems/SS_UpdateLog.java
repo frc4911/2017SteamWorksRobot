@@ -1,9 +1,11 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
 import org.usfirst.frc.team4911.robot.Robot;
+import org.usfirst.frc.team4911.robot.commands.C_UpdateLog;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -16,11 +18,12 @@ public class SS_UpdateLog extends Subsystem {
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new C_UpdateLog());
     }
     
     public void log() {
     	if (Robot.ss_Logging != null){
+        	SmartDashboard.putBoolean("SS_Logging present", true);
 // PDP
     		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX3, "" + pdp.getVoltage());
     		Robot.ss_Logging.logKeyOutput(Robot.ss_Logging.KEYINDEX4, "" + pdp.getTotalCurrent());
@@ -54,6 +57,9 @@ public class SS_UpdateLog extends Subsystem {
 
 // logFlush
     		Robot.ss_Logging.logFlush();
+    	}
+    	else {
+    		SmartDashboard.putBoolean("SS_Logging present", false);
     	}
     }
 }

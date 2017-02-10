@@ -27,8 +27,8 @@ public class SS_Logging {
 			"index",        		// 2
 			"pdpVolt",
 			"pdpCurr",
-			"leftJoyStickY",		//5
-			"rightJoyStickY",		//6
+			"leftStickY",		//5
+			"rightStickY",		//6
 			"",
 			"",
 			"SS_DriveTrain currCommand",// 9
@@ -49,7 +49,7 @@ public class SS_Logging {
 			"",
 			"",
 //			"",
-			
+//			"",
 			};
 	Key[] keys = new Key[headers.length];
 	
@@ -250,7 +250,7 @@ public class SS_Logging {
 		}
 		
 		if (logfileName != null){
-			SmartDashboard.putBoolean("NewFileCreated", true);
+			SmartDashboard.putBoolean("fileCreationFailure", false);
 		}
 
 		File file = new File(logfileName);

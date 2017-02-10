@@ -11,7 +11,7 @@ public class C_UpdateLog extends Command {
 
     public C_UpdateLog() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        requires(Robot.ss_UpdateLog);
     }
 
     // Called just before this Command runs the first time
