@@ -11,7 +11,7 @@ public class C_UpdateLog extends Command {
 
     public C_UpdateLog() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_UpdateLog);
+        //requires(Robot.ss_UpdateLog);
     }
 
     // Called just before this Command runs the first time
@@ -20,7 +20,7 @@ public class C_UpdateLog extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_UpdateLog.log();
+    	//Robot.ss_UpdateLog.log();
     }
 
     // Make this return true when this Command no longer needs to run execute()

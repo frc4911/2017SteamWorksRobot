@@ -1,17 +1,14 @@
 
 package org.usfirst.frc.team4911.robot;
 
-import org.usfirst.frc.team4911.robot.subsystems.SS_Config;
-import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrain;
-import org.usfirst.frc.team4911.robot.subsystems.SS_Logging;
-import org.usfirst.frc.team4911.robot.subsystems.SS_UpdateLog;
-
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc.team4911.robot.subsystems.SS_Motor;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,10 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	//public final static SS_Config ss_Config = new SS_Config();
-	public final static SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
-	//public final static SS_UpdateLog ss_UpdateLog = new SS_UpdateLog();
-	//public final static SS_Logging ss_Logging = new SS_Logging();
+	public static final SS_Motor ss_Motor = new SS_Motor();
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -38,7 +32,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		//chooser.addDefault("Default Auto", <insert command here>);
+		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 	}
@@ -51,10 +45,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit() {
 
-	}
-	
-	public void robotPeriodic() {
-		
 	}
 
 	@Override
@@ -110,11 +100,8 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during operator control
 	 */
-	int counter = 0;
-	
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("I am alive", counter++);
 		Scheduler.getInstance().run();
 	}
 

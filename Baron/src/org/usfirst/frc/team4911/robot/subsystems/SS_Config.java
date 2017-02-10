@@ -83,13 +83,13 @@ public class SS_Config extends Subsystem {
 	}
     
     public void updateInfo() {
-    	Robot.ss_Config.driveMotorConstFL = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstFL");
-    	Robot.ss_Config.driveMotorConstFR = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstFR");
-    	Robot.ss_Config.driveMotorConstRL = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstRL");
-    	Robot.ss_Config.driveMotorConstRR = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstRR");
-    	
-    	Robot.ss_Config.driveEncoderConstL = findInfoDouble(Robot.ss_Config.configFilepath, "driveEncoderConstL");
-    	Robot.ss_Config.driveEncoderConstR = findInfoDouble(Robot.ss_Config.configFilepath, "driveEncoderConstR");
+//    	Robot.ss_Config.driveMotorConstFL = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstFL");
+//    	Robot.ss_Config.driveMotorConstFR = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstFR");
+//    	Robot.ss_Config.driveMotorConstRL = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstRL");
+//    	Robot.ss_Config.driveMotorConstRR = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstRR");
+//    	
+//    	Robot.ss_Config.driveEncoderConstL = findInfoDouble(Robot.ss_Config.configFilepath, "driveEncoderConstL");
+//    	Robot.ss_Config.driveEncoderConstR = findInfoDouble(Robot.ss_Config.configFilepath, "driveEncoderConstR");
     }
 	
     public void initDefaultCommand() {

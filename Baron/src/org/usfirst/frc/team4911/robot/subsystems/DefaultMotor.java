@@ -131,6 +131,7 @@ public class DefaultMotor {
 	
 	public void spin(double pow, double constant) {
 		pow *= constant;
+		talon.set(pow);
 }
 
 	public void stop() {

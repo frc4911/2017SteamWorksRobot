@@ -3,16 +3,15 @@ package org.usfirst.frc.team4911.robot.commands;
 import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class C_TestDefaultMotor extends Command {
+public class C_MoveMotor extends Command {
 
-    public C_TestDefaultMotor() {
+    public C_MoveMotor() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_DriveTrain);
+        requires(Robot.ss_Motor);
     }
 
     // Called just before this Command runs the first time
@@ -21,6 +20,7 @@ public class C_TestDefaultMotor extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.ss_Motor.talon.set(Robot.oi.stick.getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()
