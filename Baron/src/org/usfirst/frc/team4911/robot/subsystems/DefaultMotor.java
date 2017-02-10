@@ -1,20 +1,23 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
+import org.usfirst.frc.team4911.robot.Robot;
+
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class DefaultMotor {
-	CANTalon talon;
-	CANTalon fTalon;
+	public CANTalon talon;
+	public CANTalon fTalon;
 	public CANTalonPID pid;
-	boolean limited;
+	public boolean limited;
 	public double upLimit;
-	double lowLimit;
+	public double lowLimit;
 	
 	final int TICKS_PER_REV = 1440;
 	final int ENCODER_CODES_PER_REV = 360;
@@ -30,6 +33,7 @@ public class DefaultMotor {
 	
 	public DefaultMotor(int TPort) {
 		this.talon = new CANTalon(TPort);
+		
 		limited = false;
 	}
 	
@@ -48,10 +52,10 @@ public class DefaultMotor {
 		limited = false;
 	}
 	
-	public DefaultMotor(int TPort, CANTalon fTalon, double kp, double kd, double ki, double rampRate, int iZone, double peakOutputVoltage, 
+	public DefaultMotor(int TPort, int TPortF, double kp, double kd, double ki, double rampRate, int iZone, double peakOutputVoltage, 
 						double nominalOutputVoltage, CANTalon.TalonControlMode PIDType) {
 		this.talon = new CANTalon(TPort);
-		this.fTalon = fTalon;
+		this.fTalon = new CANTalon(TPortF);
 		this.kp = kp;
 		this.kd = kd;
 		this.ki = ki;
@@ -67,8 +71,8 @@ public class DefaultMotor {
 		this.fTalon.set(TPort);
 	}
 	
-	public DefaultMotor(int TPort, double upLimit, double lowLimit, double kp, double kd, double ki, double rampRate, int iZone, double peakOutputVoltage, 
-						double nominalOutputVoltage, CANTalon.TalonControlMode PIDType) {
+	public DefaultMotor(int TPort, double upLimit, double lowLimit, double kp, double kd, double ki, double rampRate, 
+						int iZone, double peakOutputVoltage, double nominalOutputVoltage, CANTalon.TalonControlMode PIDType) {
 		this.talon = new CANTalon(TPort);
 		this.upLimit = upLimit;
 		this.lowLimit = lowLimit;
@@ -87,10 +91,10 @@ public class DefaultMotor {
 		enableSoftLimits(talon, true);
 	}
 	
-	public DefaultMotor(int TPort, CANTalon fTalon, double upLimit, double lowLimit, double kp, double kd, double ki, double rampRate, int iZone, 
+	public DefaultMotor(int TPort, int TPortF, double upLimit, double lowLimit, double kp, double kd, double ki, double rampRate, int iZone, 
 						double peakOutputVoltage, double nominalOutputVoltage, CANTalon.TalonControlMode PIDType) {
 		this.talon = new CANTalon(TPort);
-		this.fTalon = fTalon;
+		this.fTalon = new CANTalon(TPortF);
 		this.upLimit = upLimit;
 		this.lowLimit = lowLimit;
 		this.kp = kp;
@@ -125,12 +129,13 @@ public class DefaultMotor {
 		pid.stopPIDMode();
 	}
 	
-	public void spin(double pow) {
+	public void spin(double pow, double constant) {
+		pow *= constant;
 		talon.set(pow);
-	}
+}
 
 	public void stop() {
-		spin(0);
+		spin(0, 0);
 	}
 	
 	public void setSoftLimits(CANTalon talon) {
@@ -148,7 +153,7 @@ public class DefaultMotor {
 	}
 	
 	public double getEncPos() {
-		return talon.getEncPosition();
+		return (talon.getEncPosition());
 	}
 	
 	public void zeroEnc() {

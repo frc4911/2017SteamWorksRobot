@@ -55,11 +55,8 @@ public class C_DrivetrainPID extends Command {
     protected void execute() {
     	int combinedDistanceFromGoal = Robot.ss_DriveTrain.PIDPosition();
     	
-<<<<<<< HEAD
     	if (Math.abs(combinedDistanceFromGoal) > 15)
-=======
     	if (Math.abs(currentDistance - distance) > 30)
->>>>>>> 5774104498d6725378c07fa31971cffbb95f3ab2
     	{
     		//distance = combinedDistanceFromGoal;
     		counter = 0;
