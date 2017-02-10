@@ -25,26 +25,31 @@ public class SS_Logging {
 			"running time",       	// 0
 			"delta time",        	// 1
 			"index",        		// 2
-			"driveTrainLeft speed",		// 3
+			"pdpVolt",
+			"pdpCurr",
+			"leftStickY",		//5
+			"rightStickY",		//6
+			"",
+			"",
+			"SS_DriveTrain currCommand",// 9
+			"driveTrainLeft speed",		// 10
 			"voltage",				
 			"current",
 			"rpm",	
 			"velocity",						
-			"currEncPos",				// 8
+			"currEncPos",				// 15
 			"",
 			"",
-			"driveTrainRight speed",	// 11
+			"driveTrainRight speed",	// 19
 			"voltage",
 			"current",
 			"rpm",
 			"velocity",
-			"currEncPos",				// 16
+			"currEncPos",				// 23
 			"",
 			"",
 //			"",
 //			"",
-//			"",
-			
 			};
 	Key[] keys = new Key[headers.length];
 	
@@ -245,7 +250,7 @@ public class SS_Logging {
 		}
 		
 		if (logfileName != null){
-			SmartDashboard.putBoolean("NewFileCreated", true);
+			SmartDashboard.putBoolean("fileCreationFailure", false);
 		}
 
 		File file = new File(logfileName);
