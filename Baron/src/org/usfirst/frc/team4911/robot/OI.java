@@ -1,10 +1,12 @@
 package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
+import org.usfirst.frc.team4911.robot.commands.C_TestDefaultMotor;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -22,11 +24,15 @@ public class OI {
 	JoystickButton testBtnDTFR = new JoystickButton(autoTestStick, 6);
 	JoystickButton testBtnDTRR = new JoystickButton(autoTestStick, 4);
 	
+	JoystickButton testBtnTest = new JoystickButton(autoTestStick, 1);
+	
 	public OI() {
 		testBtnDTFL.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft.talon));
 		testBtnDTRL.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft.fTalon));
 		testBtnDTFR.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainRight.talon));
 		testBtnDTRR.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainRight.fTalon));
+		
+		testBtnTest.whileHeld(new C_TestDefaultMotor());
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a

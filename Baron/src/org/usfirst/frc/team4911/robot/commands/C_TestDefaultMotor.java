@@ -8,25 +8,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class C_DriveByJoystick extends Command {
+public class C_TestDefaultMotor extends Command {
 
-    public C_DriveByJoystick() {
+    public C_TestDefaultMotor() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.ss_DriveTrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.ss_DriveTrain.driveTrainLeft.enableSoftLimits(Robot.ss_DriveTrain.driveTrainLeft.talon, false);
-    	Robot.ss_DriveTrain.driveTrainLeft.enableSoftLimits(Robot.ss_DriveTrain.driveTrainLeft.fTalon, false);
-    	Robot.ss_DriveTrain.driveTrainLeft.enableSoftLimits(Robot.ss_DriveTrain.driveTrainRight.talon, false);
-    	Robot.ss_DriveTrain.driveTrainLeft.enableSoftLimits(Robot.ss_DriveTrain.driveTrainRight.fTalon, false);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_DriveTrain.driveTrainLeft.spin(Robot.oi.stickL.getY(), 1);
-    	Robot.ss_DriveTrain.driveTrainRight.spin(Robot.oi.stickR.getY(), 1);
     }
 
     // Make this return true when this Command no longer needs to run execute()

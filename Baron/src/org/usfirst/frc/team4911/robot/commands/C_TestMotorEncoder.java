@@ -89,9 +89,9 @@ public class C_TestMotorEncoder extends Command {
     	if(Timer.getFPGATimestamp() < endTime && 
     	   Math.abs(talon.getEncPos() - targetPos) > Math.abs(targetPos * 0.1)) {
     				if(direction)
-    					talon.spin(0.5);
+    					talon.spin(0.5, motorConst);
     				else {
-    					talon.spin(-0.5);
+    					talon.spin(-0.5, motorConst);
     				}
     	    	} else {
     	    		talon.stop();
