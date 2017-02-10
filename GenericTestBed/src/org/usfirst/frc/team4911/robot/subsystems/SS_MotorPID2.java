@@ -149,7 +149,7 @@ public class SS_MotorPID2 extends Subsystem {
 			iZone = 0;
 			peakOutputVoltage = 0;
 			nominalOutputVoltage = 0;
-			PIDType = CANTalon.TalonControlMode.Current;
+			PIDType = CANTalon.TalonControlMode.Speed;
 			ticks = 0;
 
 	    	String start = "desired "+CANID;
@@ -163,7 +163,7 @@ public class SS_MotorPID2 extends Subsystem {
 				kd = SmartDashboard.getNumber("Kd",0);
 				ki = Double.parseDouble(split[0]);
 				kf = SmartDashboard.getNumber("Kf",0); 
-				rampRate = Double.parseDouble(split[1]); 
+				rampRate = SmartDashboard.getNumber("initial Ramp",0); 
 				iZone = (int)Double.parseDouble(split[2]);
 				peakOutputVoltage = Double.parseDouble(split[3]);
 				nominalOutputVoltage = Double.parseDouble(split[4]);
@@ -229,6 +229,13 @@ public class SS_MotorPID2 extends Subsystem {
 		}
 	}
 	
+	public void setRamp(double newRamp){
+		if (pid != null){
+			pid.setRamp(newRamp);
+			SmartDashboard.putNumber("ramp restored",newRamp);
+		}
+	}
+	
 	public void stopPIDMode(){
     	if (pid == null) return;
     	pid.stopPIDMode();
@@ -280,6 +287,7 @@ public class SS_MotorPID2 extends Subsystem {
     	SmartDashboard.putNumber("encoder closed loop err"+CANID,error);// 4 is based on comparing output to .getSpeed - .set
     	SmartDashboard.putNumber("talon err"+CANID,talon.getError());
     	SmartDashboard.putNumber("getSetpoint"+CANID,talon.getSetpoint());
+    	SmartDashboard.putNumber("getEncPosition"+CANID,currEncPos);
     	if (talonFollower != null){
         	SmartDashboard.putNumber("current"+follower1_CANID, talonFollower.getOutputCurrent());
         	SmartDashboard.putNumber("voltage"+follower1_CANID, talonFollower.getOutputVoltage());

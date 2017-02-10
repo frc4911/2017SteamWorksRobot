@@ -1,7 +1,10 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Random;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import info.monitorenter.gui.chart.Chart2D;
@@ -33,6 +36,13 @@ public class MinimalStaticChart implements Runnable {
 		// Make it visible:
 		// Create a frame.
 		JFrame frame = new JFrame("MinimalStaticChart");
+
+		JButton clearButton = new JButton("clear");
+		clearButton.setSize(30, 30);
+		clearButton.setLocation(0, 0);
+		frame.getContentPane().add(clearButton);
+		clearButton.addActionListener(new ButtonListener());
+
 		// add the chart to the frame: 
 		frame.getContentPane().add(chart);
 		frame.setSize(400,300);
@@ -41,6 +51,7 @@ public class MinimalStaticChart implements Runnable {
 //			trace.addPoint(i,random.nextDouble()*10.0+i);
 //			//trace.addPoint(i,MainLiveGraph.cd.graphValue);
 //		}
+				
 		// Enable the termination button [cross on the upper right edge]: 
 		frame.addWindowListener(
 				new WindowAdapter(){
@@ -56,18 +67,62 @@ public class MinimalStaticChart implements Runnable {
 	Random random = new Random();
 	@Override
 	public void run() {
+		
+		double pt;
 		while (true){
-			//trace.addPoint((counter++)%100,random.nextDouble()*10.0+counter);
-			double pt = MainLiveGraph.cd.graphValue;
-			if (pt > 2000)
-				trace.addPoint(counter++,pt);
-			
-			if (counter >= 1000){
-				trace.removeAllPoints();
-				counter =0;
+
+			int choice = 0;
+			switch (choice){
+				case 0:
+					pt = MainLiveGraph.cd.speedRPM;
+					if (pt > 2500){
+						if (counter > 2)
+							trace.addPoint(counter++,pt);
+						else if (counter == 0)
+							trace.addPoint(counter++,2500);
+						else
+							trace.addPoint(counter++,3000);
+					}
+					break;
+				case 1:
+					pt = MainLiveGraph.cd.current;
+					if (pt != -999)
+						trace.addPoint(counter++,pt);
+					break;
+				case 2:
+					pt = MainLiveGraph.cd.voltage;
+					if (pt != -999)
+						trace.addPoint(counter++,pt);
+					break;
+				case 3:
+					pt = MainLiveGraph.cd.position;
+					if (pt != -999)
+						trace.addPoint(counter++,pt);
+					break;
+				case 4:
+					pt = MainLiveGraph.cd.get;
+					if (pt != -999)
+						trace.addPoint(counter++,pt);
+					break;
+				case 5:
+					pt = MainLiveGraph.cd.lineCount;
+					if (pt != -999)
+						trace.addPoint(counter++,pt);
+					break;
 			}
-			//trace.removePoint(counter-200);
+			
 			try { Thread.sleep(100); } catch (InterruptedException e) {}
 		}
 	}
+	class ButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			trace.removeAllPoints();
+			counter =0;
+			
+		}
+		
+	}
+	
 }
