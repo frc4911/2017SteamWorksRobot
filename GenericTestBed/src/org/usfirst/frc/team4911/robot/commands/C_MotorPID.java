@@ -3,6 +3,7 @@ package org.usfirst.frc.team4911.robot.commands;
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.subsystems.DashboardDoubleValue;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -12,6 +13,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class C_MotorPID extends Command {
 
 	int action;
+	double endTime = 0;
+	double finalRamp = 0;
+	DashboardDoubleValue ddv = null;
 	
     public C_MotorPID(int action) {
         // Use requires() here to declare subsystem dependencies
@@ -33,10 +37,12 @@ public class C_MotorPID extends Command {
     		Robot.ss_MotorPID2.createPID(2);
     		break;
     	case 3:
+    		ddv = new DashboardDoubleValue("final Ramp", 0);
+    		SmartDashboard.putNumber("ramp restored",-1);
     		Robot.ss_MotorPID2.createPID(3);
     		break;
     	}
-    	
+    	endTime = Timer.getFPGATimestamp()+1;
     	SmartDashboard.putNumber("PIDmode", action);
     	SmartDashboard.putBoolean("PIDmode running", true);
     }
@@ -50,6 +56,14 @@ public class C_MotorPID extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	if (action == 3){
+    		if (Timer.getFPGATimestamp() < endTime){
+    			return false;
+    		}
+    		Robot.ss_MotorPID2.setRamp(ddv.getNumber());
+    		return true;
+    	}
+    	
     	return true;
     }
 
