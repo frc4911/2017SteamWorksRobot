@@ -2,6 +2,8 @@ package org.usfirst.frc.team4911.robot.subsystems;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -20,12 +22,10 @@ public class SS_Config extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	public Scanner read;
-	public final String configFilepath = "/config.txt";
+	public final String configFilepath = "/C/config.txt";
 	
-	public double driveMotorConstFL;
-    public double driveMotorConstFR;
-    public double driveMotorConstRL;
-    public double driveMotorConstRR;
+	public double driveMotorConstL;
+    public double driveMotorConstR;
     
     public double driveEncoderConstL;
     public double driveEncoderConstR;
@@ -44,6 +44,12 @@ public class SS_Config extends Subsystem {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			File file = new File(filepath);
+			try {
+				file.createNewFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			ScannerSetup = false;
 			return null;
 		}
@@ -67,10 +73,8 @@ public class SS_Config extends Subsystem {
 	}
     
     public void updateInfo() {
-    	Robot.ss_Config.driveMotorConstFL = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstFL");
-    	Robot.ss_Config.driveMotorConstFR = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstFR");
-    	Robot.ss_Config.driveMotorConstRL = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstRL");
-    	Robot.ss_Config.driveMotorConstRR = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstRR");
+    	Robot.ss_Config.driveMotorConstL = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstFL");
+    	Robot.ss_Config.driveMotorConstR = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstFR");
     	
     	Robot.ss_Config.driveEncoderConstL = findInfoDouble(Robot.ss_Config.configFilepath, "driveEncoderConstL");
     	Robot.ss_Config.driveEncoderConstR = findInfoDouble(Robot.ss_Config.configFilepath, "driveEncoderConstR");

@@ -22,8 +22,6 @@ public class C_UpdateConst extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.ss_Config.updateInfo();
-    	
-    	SmartDashboard.putBoolean("Scanner setup", Robot.ss_Config.ScannerSetup);
     }
 
     // Make this return true when this Command no longer needs to run execute()
