@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.robot;
 
+import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
 import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveByJoystick;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;
@@ -28,8 +29,11 @@ public class OI {
 	JoystickButton testBtn4 = new JoystickButton(autoTestStick, 4);
 	JoystickButton testBtn5 = new JoystickButton(autoTestStick, 5);
 	JoystickButton testBtn6 = new JoystickButton(autoTestStick, 6);
+	JoystickButton testBtn7 = new JoystickButton(autoTestStick, 7);
 	
 	public OI() {
+		testBtn7.whenReleased(new CG_AutoTest());
+		
 		testBtn1.whileHeld(new C_TestDriveByJoystick());
 		testBtn2.whileHeld(new C_TestDriveBySet());
 		

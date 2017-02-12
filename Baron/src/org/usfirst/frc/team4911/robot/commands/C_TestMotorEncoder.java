@@ -21,12 +21,9 @@ public class C_TestMotorEncoder extends Command {
 	double duration;
 	boolean direction;
 	String dir;
-	String name;
 	
 	double targetPos;
 	
-	double normBusVoltage;
-	final double percentErrorBV = 0.6; //5% error
 	double totalBV = 0;
 	int BVDataCount = 0;
 	
@@ -35,23 +32,17 @@ public class C_TestMotorEncoder extends Command {
 	double distTravelled;
 	double velocity;
 	
-	boolean follower;
-	
     public C_TestMotorEncoder(Subsystem subsystem, DefaultMotor talon, double motorConst, double encoderConst, boolean direction, 
-    				   		  double targetPos, double duration, double normBusVoltage, String name, boolean follower) {
+    				   		  double targetPos, double duration) {
         // Use requires() here to declare subsystem dependencies
         requires(subsystem);
         this.direction = direction;
         this.talon = talon;
         this.targetPos = targetPos;
-        this.normBusVoltage = normBusVoltage;
         this.duration = duration;
-        this.name = name;
         
         this.motorConst = motorConst;
         this.encoderConst = encoderConst;
-        
-        this.follower = follower;
         
         if(direction)
         	dir = "forward";
@@ -65,15 +56,6 @@ public class C_TestMotorEncoder extends Command {
     	
     	startTime = Timer.getFPGATimestamp();
     	endTime = startTime + duration;
-    }
-    
-    private boolean checkBusVoltage() {
-    	if((totalBV / BVDataCount) > (percentErrorBV + normBusVoltage))
-    		return false;
-    	else if((totalBV / BVDataCount) < Math.abs(percentErrorBV - normBusVoltage))
-    		return false;
-    	else
-    		return true;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -91,43 +73,39 @@ public class C_TestMotorEncoder extends Command {
     	    	}
 		
 		realEndTime = Timer.getFPGATimestamp();
-		totalBV += talon.getBusVoltage(follower);
+		totalBV += talon.getOutputVoltage(false);
 		BVDataCount++;
-		SmartDashboard.putNumber("current draw "+ dir + " " + name, talon.getBusVoltage(follower));
-		SmartDashboard.putNumber("curr pos " + dir + " " + name, talon.getEncPos());
+		SmartDashboard.putNumber("current draw "+ dir + " " + talon.getDescription(), talon.getOutputVoltage(false));
+		SmartDashboard.putNumber("curr pos " + dir + " " + talon.getDescription(), talon.getEncPos());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	if((Timer.getFPGATimestamp() < endTime) && 
- 			Math.abs(talon.getEncPos() - targetPos) > Math.abs(targetPos * 0.03))
+ 			Math.abs(talon.getEncPos() - targetPos) > Math.abs(targetPos * 0.03)) {
     		return false;
-    	else
-    		distTravelled = talon.getEncPos();
-			talon.stop();
-    		return true;
-    }
-
+    	}
+    	
+		distTravelled = talon.getEncPos();
+		talon.stop();
+		return true;
+	}
+    
     // Called once after isFinished returns true
     protected void end() {
     	//ticks/millisecond
     	velocity = ((distTravelled) / ((realEndTime - startTime) * 1000));
-    	SmartDashboard.putNumber("ave velocity " + dir + " " + name, velocity);
-    	SmartDashboard.putNumber("dist " + dir + " " + name, distTravelled);
+    	SmartDashboard.putNumber("ave velocity " + dir + " " + talon.getDescription(), velocity);
+    	SmartDashboard.putNumber("dist " + dir + " " + talon.getDescription(), distTravelled);
     	
     	//3% error allowed
     	if((Math.abs(distTravelled) + (targetPos * 0.03)) >= targetPos) {
-    		SmartDashboard.putString(("dist reached " + dir + " " + name), "yes");
+    		SmartDashboard.putString(("dist reached " + dir + " " + talon.getDescription()), "yes");
     	} else {
-    		SmartDashboard.putString(("dist reached " + dir + " " + name), "no");
+    		SmartDashboard.putString(("dist reached " + dir + " " + talon.getDescription()), "no");
     	}
     	
-    	SmartDashboard.putNumber("ave curr draw " + dir + " " + name, (totalBV / BVDataCount));
-    	if(checkBusVoltage()) {
-    		SmartDashboard.putString(("curr draw " + dir + " " + name), "normal");
-    	} else {
-    		SmartDashboard.putString(("curr draw " + dir + " " + name), "high/low");
-    	}
+    	SmartDashboard.putNumber("ave curr draw " + dir + " " + talon.getDescription(), (totalBV / BVDataCount));
     }
 
     // Called when another command which requires one or more of the same

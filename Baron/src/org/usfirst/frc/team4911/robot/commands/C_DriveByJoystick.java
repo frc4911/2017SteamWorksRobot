@@ -22,14 +22,14 @@ public class C_DriveByJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	SmartDashboard.putNumber("input", Robot.oi.stickL.getY());
-    	Robot.ss_DriveTrain.driveTrainLeft.spin(Robot.oi.stickL.getY(), Robot.ss_Config.driveEncoderConstL); //	-1
-    	Robot.ss_DriveTrain.driveTrainRight.spin(Robot.oi.stickR.getY(), Robot.ss_Config.driveEncoderConstR); //  1
+    	Robot.ss_DriveTrain.driveTrainLeft.spin(Robot.oi.stickL.getY(), -1); //	-1
+    	Robot.ss_DriveTrain.driveTrainRight.spin(Robot.oi.stickR.getY(), 1); //  1
     	
-    	SmartDashboard.putNumber("left cur", Robot.ss_DriveTrain.driveTrainLeft.getCurrent(false));
-    	SmartDashboard.putNumber("right cur", Robot.ss_DriveTrain.driveTrainRight.getCurrent(false));
+    	SmartDashboard.putNumber("left cur", Robot.ss_DriveTrain.driveTrainLeft.getOutputCurrent(false));
+    	SmartDashboard.putNumber("right cur", Robot.ss_DriveTrain.driveTrainRight.getOutputCurrent(false));
     	
-    	SmartDashboard.putNumber("left volt", Robot.ss_DriveTrain.driveTrainLeft.getBusVoltage(false));
-    	SmartDashboard.putNumber("right volt", Robot.ss_DriveTrain.driveTrainRight.getBusVoltage(false));
+    	SmartDashboard.putNumber("left volt", Robot.ss_DriveTrain.driveTrainLeft.getOutputVoltage(false));
+    	SmartDashboard.putNumber("right volt", Robot.ss_DriveTrain.driveTrainRight.getOutputVoltage(false));
     	
     	SmartDashboard.putNumber("left enc pos", Robot.ss_DriveTrain.driveTrainLeft.getEncPos());
     }

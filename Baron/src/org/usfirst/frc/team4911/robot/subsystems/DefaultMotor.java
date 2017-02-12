@@ -12,103 +12,50 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class DefaultMotor {
-	CANTalon talon;
-	CANTalon fTalon;
-	CANTalonPID pid;
-	boolean limited;
-	boolean motorPair;
-	double upLimit;
-	double lowLimit;
+	private CANTalon talon;
+	private CANTalon fTalon;
+	private CANTalonPID pid;
+	private boolean limited;
+	private boolean motorPair;
+	private double upLimit;
+	private double lowLimit;
 	
-	final int TICKS_PER_REV = 1440;
-	final int ENCODER_CODES_PER_REV = 360;
-	double kf = 0;
-	double kp;
-	double kd;
-	double ki;
-	double rampRate;
-	int iZone;
-	double peakOutputVoltage; 
-	double nominalOutputVoltage; 
-	CANTalon.TalonControlMode PIDType;
+	private String description;
 	
-	public DefaultMotor(int TPort) {
-		this.talon = new CANTalon(TPort);
+	public DefaultMotor(int TPort, String description) {
 		limited = false;
 		motorPair = false;
-	}
-	
-	public DefaultMotor(int TPort, double kp, double kd, double ki, double rampRate, int iZone, double peakOutputVoltage, 
-						double nominalOutputVoltage, CANTalon.TalonControlMode PIDType) {
-		this.talon = new CANTalon(TPort);
-		this.kp = kp;
-		this.kd = kd;
-		this.ki = ki;
-		this.rampRate = rampRate;
-		this.iZone = iZone;
-		this.peakOutputVoltage = peakOutputVoltage;
-		this.nominalOutputVoltage = nominalOutputVoltage;
-		this.PIDType = PIDType;
 		
-		limited = false;
-		motorPair = false;
+		construct(TPort, description);
 	}
 	
-	public DefaultMotor(int TPort, int TPortF, double kp, double kd, double ki, double rampRate, int iZone, double peakOutputVoltage, 
-						double nominalOutputVoltage, CANTalon.TalonControlMode PIDType) {
-		this.talon = new CANTalon(TPort);
+	public DefaultMotor(int TPort, int TPortF, String description) {
 		this.fTalon = new CANTalon(TPortF);
-		this.kp = kp;
-		this.kd = kd;
-		this.ki = ki;
-		this.rampRate = rampRate;
-		this.iZone = iZone;
-		this.peakOutputVoltage = peakOutputVoltage;
-		this.nominalOutputVoltage = nominalOutputVoltage;
-		this.PIDType = PIDType;
 		
 		limited = false;
 		motorPair = true;
 		
 		this.fTalon.changeControlMode(TalonControlMode.Follower);
 		this.fTalon.set(TPort);
+		
+		construct(TPort, description);
 	}
 	
-	public DefaultMotor(int TPort, double upLimit, double lowLimit, double kp, double kd, double ki, double rampRate, 
-						int iZone, double peakOutputVoltage, double nominalOutputVoltage, CANTalon.TalonControlMode PIDType) {
-		this.talon = new CANTalon(TPort);
+	public DefaultMotor(int TPort, double upLimit, double lowLimit, String description) {
 		this.upLimit = upLimit;
 		this.lowLimit = lowLimit;
-		this.kp = kp;
-		this.kd = kd;
-		this.ki = ki;
-		this.rampRate = rampRate;
-		this.iZone = iZone;
-		this.peakOutputVoltage = peakOutputVoltage;
-		this.nominalOutputVoltage = nominalOutputVoltage;
-		this.PIDType = PIDType;
+		this.description = description;
 		
 		limited = true;
 		motorPair = false;
 		
-		setSoftLimits(talon);
-		enableSoftLimits(talon, true);
+		construct(TPort, description);
 	}
 	
-	public DefaultMotor(int TPort, int TPortF, double upLimit, double lowLimit, double kp, double kd, double ki, double rampRate, int iZone, 
-						double peakOutputVoltage, double nominalOutputVoltage, CANTalon.TalonControlMode PIDType) {
-		this.talon = new CANTalon(TPort);
+	public DefaultMotor(int TPort, int TPortF, double upLimit, double lowLimit, String description) {
 		this.fTalon = new CANTalon(TPortF);
 		this.upLimit = upLimit;
 		this.lowLimit = lowLimit;
-		this.kp = kp;
-		this.kd = kd;
-		this.ki = ki;
-		this.rampRate = rampRate;
-		this.iZone = iZone;
-		this.peakOutputVoltage = peakOutputVoltage;
-		this.nominalOutputVoltage = nominalOutputVoltage;
-		this.PIDType = PIDType;
 		
 		limited = true;
 		motorPair = true;
@@ -116,17 +63,22 @@ public class DefaultMotor {
 		this.fTalon.changeControlMode(TalonControlMode.Follower);
 		this.fTalon.set(TPort);
 		
-		setSoftLimits(talon);
-		enableSoftLimits(talon, true);
-		
-		setSoftLimits(this.fTalon);
-		enableSoftLimits(this.fTalon, true);
+		construct(TPort, description);
 	}
 	
+	private void construct(int TPort, String description) {
+		this.talon = new CANTalon(TPort);
+		this.description = description;
+		
+		if(limited) {
+			setSoftLimits(talon);
+			enableSoftLimits(talon, true);
+		}
+	}
 	
-	
-	public void moveToEncPos(int ticks) {
-		pid = new CANTalonPID(talon, CANTalon.FeedbackDevice.QuadEncoder, TICKS_PER_REV, ENCODER_CODES_PER_REV, false,
+	public void moveToEncPos(int ticks, int tickPerRev, int encoderTicksPerRev, double kp, double kd, double ki, double kf, double rampRate, int iZone, 
+							 double peakOutputVoltage, double nominalOutputVoltage, CANTalon.TalonControlMode PIDType) {
+		pid = new CANTalonPID(talon, CANTalon.FeedbackDevice.QuadEncoder, tickPerRev, encoderTicksPerRev, false,
 				   			  kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType, ticks);
 	}
 	
@@ -179,20 +131,40 @@ public class DefaultMotor {
 		return fTalon;
 	}
 	
-	public double getBusVoltage(boolean follower) {
+	public double getOutputVoltage(boolean follower) {
 		if(follower) {
-			return fTalon.getBusVoltage();
+			return fTalon.getOutputVoltage();
 		} else {
-			return talon.getBusVoltage();
+			return talon.getOutputVoltage();
 		}
 	}
 	
-	public double getCurrent(boolean follower) {
+	public double getOutputCurrent(boolean follower) {
 		if(follower) {
 			return fTalon.getOutputCurrent();
 		} else {
 			return talon.getOutputCurrent();
 		}
+	}
+	
+	public double getTalonValue(boolean follower) {
+		if(follower) {
+			return fTalon.get();
+		} else {
+			return talon.get();
+		}
+	}
+	
+	public double getTalonSpeed() {
+		return talon.getSpeed();
+	}
+	
+	public double getEncVelocity() {
+		return talon.getEncVelocity();
+	}
+	
+	public String getDescription() {
+		return description;
 	}
 }
 

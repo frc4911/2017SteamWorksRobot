@@ -17,37 +17,12 @@ public class SS_DriveTrain extends Subsystem {
     // here. Call these from Commands.
 	int tPortDriveTrainFrontLeft = 0;
 	int tPortDriveTrainRearLeft = 1;
-	double upLimitLeft;
-	double lowLimitLeft;
-	double kpLeft = 0.0;
-	double kdLeft = 0.0;
-	double kiLeft = 0.0;
-	double kfLeft = 0.0;
-	double rampRateLeft = 0.0;
-	int iZoneLeft = 0; 
-	double peakOutputVoltageLeft = 0.0; 
-	double nominalOutputVoltageLeft = 0.0; 
-	CANTalon.TalonControlMode PIDTypeLeft = CANTalon.TalonControlMode.Position;
 	
 	int tPortDriveTrainFrontRight = 2;
 	int tPortDriveTrainRearRight = 3;
-	double upLimitRight;
-	double lowLimitRight;
-	double kpRight = 0.0;
-	double kdRight = 0.0;
-	double kiRight = 0.0;
-	double kfRight = 0.0;
-	double rampRateRight = 0.0;
-	int iZoneRight = 0; 
-	double peakOutputVoltageRight = 0.0; 
-	double nominalOutputVoltageRight = 0.0; 
-	CANTalon.TalonControlMode PIDTypeRight = CANTalon.TalonControlMode.Position;
 	
-	public DefaultMotor driveTrainLeft = new DefaultMotor(tPortDriveTrainFrontLeft, tPortDriveTrainRearLeft, kpLeft, kdLeft, kiLeft, rampRateLeft, 
-			iZoneLeft, peakOutputVoltageLeft, nominalOutputVoltageLeft, PIDTypeLeft);
-	
-	public DefaultMotor driveTrainRight = new DefaultMotor(tPortDriveTrainFrontRight, tPortDriveTrainRearRight, kpRight, kdRight, kiRight, rampRateRight, 
-			iZoneRight, peakOutputVoltageRight, nominalOutputVoltageRight, PIDTypeRight);
+	public DefaultMotor driveTrainLeft = new DefaultMotor(tPortDriveTrainFrontLeft, tPortDriveTrainRearLeft, "DriveTrain Left");
+	public DefaultMotor driveTrainRight = new DefaultMotor(tPortDriveTrainFrontRight, tPortDriveTrainRearRight, "DriveTrain Right");
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
