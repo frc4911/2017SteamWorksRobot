@@ -155,6 +155,54 @@ public class DefaultMotor {
 		}
 	}
 	
+	public int getStickyFaultUnderVoltage(boolean follower) {
+		if(follower) {
+			return fTalon.getStickyFaultUnderVoltage();
+		}
+		else {
+			return talon.getStickyFaultUnderVoltage();
+		}
+	}
+	
+	public int getStickyFaultOverTemp(boolean follower) {
+		if(follower) {
+			return fTalon.getStickyFaultOverTemp();
+		}
+		else {
+			return talon.getStickyFaultOverTemp();
+		}
+	}
+	
+	public void clearStickyFaults(boolean follower) {
+		if(follower) {
+			fTalon.clearStickyFaults();
+		}
+		else {
+			talon.clearStickyFaults();
+		}
+	}
+	
+	public String checkStickyFaults(DefaultMotor motor, boolean follower) {
+    	int underVolt = getStickyFaultUnderVoltage(follower);
+    	int overTemp = getStickyFaultOverTemp(follower);
+    	
+    	if((underVolt == 0) && (overTemp == 0)) {
+    		return "none";
+    	}
+    	
+    	clearStickyFaults(follower);
+    	
+    	String fault = "";
+    	if(underVolt != 0) {
+    		fault += "underVoltage ";
+    	}
+    	if(overTemp != 0) {
+    		fault += "overTemp ";
+    	}
+    	
+    	return fault;
+    }
+	
 	public double getTalonSpeed() {
 		return talon.getSpeed();
 	}

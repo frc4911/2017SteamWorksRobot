@@ -1,11 +1,5 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
-import java.lang.management.ManagementFactory;
-
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import javax.swing.text.html.parser.AttributeList;
-
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.commands.C_UpdateLog;
 
@@ -58,43 +52,43 @@ public class SS_UpdateLog extends Subsystem {
     int leftJoystickYIndex = 0;
     int rightJoystickYIndex = 0;
     
-    int dtLSpeedIndex = 0;
-    int dtLTalonVoltageIndex = 0;
-    int dtLTalonCurrentIndex = 0;
-    int dtLFTalonVoltageIndex = 0;
-    int dtLFTalonCurrentIndex = 0;
-    int dtLRPMIndex = 0;
-    int dtLEncVelIndex = 0;
-    int dtLEncPosIndex = 0;
+    int dtLStartIndex = 0;
+    int dtRStartIndex = 0;
     
-    int dtRSpeedIndex = 0;
-    int dtRTalonVoltageIndex = 0;
-    int dtRTalonCurrentIndex = 0;
-    int dtRFTalonVoltageIndex = 0;
-    int dtRFTalonCurrentIndex = 0;
-    int dtRRPMIndex = 0;
-    int dtREncVelIndex = 0;
-    int dtREncPosIndex = 0;
+    int fCollStartIndex = 0;
+    int fHopStartIndex = 0;
     
     public SS_UpdateLog() {
-// DriverStation
+    	// DriverStation
     	driveModeIndex = Robot.ss_Logging.addColumn("driveMode");
     	fmsConnectionIndex = Robot.ss_Logging.addColumn("fmsConnection");
     	brownoutIndex = Robot.ss_Logging.addColumn("brownout");
     	
-// PDP
+    	// PDP
     	pdpVoltIndex = Robot.ss_Logging.addColumn("pdpVolt");
     	pdpCurrentIndex = Robot.ss_Logging.addColumn("pdpCurr");
-
-// joystickY values
+    	
+    	// joystickY values
     	leftJoystickYIndex = Robot.ss_Logging.addColumn("leftStickY");
     	rightJoystickYIndex = Robot.ss_Logging.addColumn("rightStickY");
     	
-// driveTrainLeft
-    	dtLSpeedIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainLeft.getDescription());
+    	// driveTrainLeft
+    	dtLStartIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainLeft.getDescription(), true);
     	
-// driveTrainRight
-    	dtRSpeedIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainRight.getDescription());
+    	// driveTrainRight
+    	dtRStartIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainRight.getDescription(), true);
+    	
+    	// fuelCollector
+//		fCollStartIndex = add1MotorIndices();
+    	
+    	// fuelHopper
+//    	fHopStartIndex = add1MotorIndices();
+    	
+		// fuelShooter
+		
+		// gear assembly
+		
+		// hanger
     }
 
     public void log() {
@@ -102,35 +96,47 @@ public class SS_UpdateLog extends Subsystem {
 
     		SmartDashboard.putBoolean("SS_Logging present", true);
 
-// DriverStation
+    		// DriverStation
     		boolean dsSmart = false;
     		boolean dsLog = true;
     		smartLog(dsSmart, dsLog, driveModeIndex, driveMode());
     		smartLog(dsSmart, dsLog, fmsConnectionIndex, "" + ds.isFMSAttached());
     		smartLog(dsSmart, dsLog, brownoutIndex, "" + ds.isBrownedOut());
     		
-// PDP
+    		// PDP
     		boolean pdpSmart = false;
     	    boolean pdpLog = true;
     		smartLog(pdpSmart, pdpLog, pdpVoltIndex, "" + pdp.getVoltage());
     		smartLog(pdpSmart, pdpLog, pdpCurrentIndex, "" + pdp.getTotalCurrent());
     	
-// joystickY values
+    		// joystickY values
     		boolean joySmart = false;
     		boolean joyLog = true;
     		smartLog(joySmart, joyLog, leftJoystickYIndex, "" + Robot.oi.stickL.getY());
     		smartLog(joySmart, joyLog, rightJoystickYIndex, "" + Robot.oi.stickR.getY());
     		
-// current running command    		
+    		// current running command    		
 //    		smartLog(false, true, Robot.ss_Logging.KEYINDEX9, "" + Robot.ss_DriveTrain.getCurrentCommand());
     		
-// driveTrainLeft
-    		logDefaultMotor(Robot.ss_DriveTrain.driveTrainLeft, dtLSpeedIndex);
+    		// driveTrainLeft
+    		logDefaultMotors(Robot.ss_DriveTrain.driveTrainLeft, true, dtLStartIndex);
     		
-// driveTrainRight
-    		logDefaultMotor(Robot.ss_DriveTrain.driveTrainRight, dtRSpeedIndex);
+    		// driveTrainRight
+    		logDefaultMotors(Robot.ss_DriveTrain.driveTrainRight, true, dtRStartIndex);
 
-// flush
+    		// fuelCollector
+//    		logDefaultMotor(null, false, fCollStartIndex);
+    		
+    		// fuelHopper
+//    		logDefaultMotor(null, false, fHopStartIndex);
+    		
+    		// fuelShooter
+    		
+    		// gear assembly
+    		
+    		// hanger
+
+    		// flush
     		Robot.ss_Logging.logFlush();
     	}
     	else {
@@ -138,35 +144,42 @@ public class SS_UpdateLog extends Subsystem {
     	}
     }
     
-    public int addMotorIndices(String desc) {
-    	int speedIndex = Robot.ss_Logging.addColumn(desc + " speed");
+    public int addMotorIndices(String desc, boolean hasFollower) {
+    	int startIndex = Robot.ss_Logging.addColumn(desc + " speed");
+    	Robot.ss_Logging.addColumn(desc + " TalonStickyFaultsUnderVolt");
     	Robot.ss_Logging.addColumn(desc + " TalonVoltage");
     	Robot.ss_Logging.addColumn(desc + " TalonCurrent");
-    	Robot.ss_Logging.addColumn(desc + " FTalonVoltage");
-    	Robot.ss_Logging.addColumn(desc + " FTalonCurrrent");
+    	if(hasFollower) {
+	    	Robot.ss_Logging.addColumn(desc + " FTalonStickyFaultsUnderVolt");
+	    	Robot.ss_Logging.addColumn(desc + " FTalonVoltage");
+	    	Robot.ss_Logging.addColumn(desc + " FTalonCurrrent");
+    	}
     	Robot.ss_Logging.addColumn(desc + " RPM");
-    	Robot.ss_Logging.addColumn(desc + " encVel");
     	Robot.ss_Logging.addColumn(desc + " currEncPos");
-    	return speedIndex;
+    	return startIndex;
     }
     
-    public void logDefaultMotor(DefaultMotor motor, int index) {
+    public void logDefaultMotors(DefaultMotor motor, boolean hasFollower, int index) {
     	boolean smart = false;
 		boolean log = true;
 		smartLog(smart, log, index++, 
 				"" + motor.getTalonValue(false));
+		smartLog(smart, log, index++,
+				motor.checkStickyFaults(motor, false));
 		smartLog(smart, log, index++, 
 				"" + motor.getOutputVoltage(false));
 		smartLog(smart, log, index++, 
 				"" + motor.getOutputCurrent(false));
-		smartLog(smart, log, index++, 
-				"" + motor.getOutputVoltage(true));
-		smartLog(smart, log, index++, 
-				"" + motor.getOutputCurrent(true));
+		if(hasFollower) {
+			smartLog(smart, log, index++,
+					motor.checkStickyFaults(motor, true));
+			smartLog(smart, log, index++, 
+					"" + motor.getOutputVoltage(true));
+			smartLog(smart, log, index++, 
+					"" + motor.getOutputCurrent(true));
+		}
 		smartLog(smart, log, index++, 
 				"" + motor.getTalonSpeed());
-		smartLog(smart, log, index++, 
-				"" + motor.getEncVelocity());
 		smartLog(smart, log, index++, 
 				"" + motor.getEncPos());
     }
@@ -179,5 +192,7 @@ public class SS_UpdateLog extends Subsystem {
     		Robot.ss_Logging.logKeyOutput(keyIndex, value);
     	}
     }
+    
+    
 }
 
