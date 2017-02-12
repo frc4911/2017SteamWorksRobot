@@ -91,24 +91,10 @@ public class SS_UpdateLog extends Subsystem {
     	rightJoystickYIndex = Robot.ss_Logging.addColumn("rightStickY");
     	
 // driveTrainLeft
-    	dtLSpeedIndex = Robot.ss_Logging.addColumn("driveTrainLSpeed");
-    	dtLTalonVoltageIndex = Robot.ss_Logging.addColumn("driveTrainL TalonVoltage");
-    	dtLTalonCurrentIndex = Robot.ss_Logging.addColumn("driveTrainL TalonCurrent");
-    	dtLFTalonVoltageIndex = Robot.ss_Logging.addColumn("driveTrainL FTalonVoltage");
-    	dtLFTalonCurrentIndex = Robot.ss_Logging.addColumn("driveTrainL FTalonCurrrent");
-    	dtLRPMIndex = Robot.ss_Logging.addColumn("driveTrainL RPM");
-    	dtLEncVelIndex = Robot.ss_Logging.addColumn("driveTrainL encVel");
-    	dtLEncPosIndex = Robot.ss_Logging.addColumn("driveTrainL currEncPos");
+    	dtLSpeedIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainLeft.getDescription());
     	
 // driveTrainRight
-    	dtRSpeedIndex = Robot.ss_Logging.addColumn("driveTrainRSpeed");
-    	dtRTalonVoltageIndex = Robot.ss_Logging.addColumn("driveTrainR TalonVoltage");
-    	dtRTalonCurrentIndex = Robot.ss_Logging.addColumn("driveTrainR TalonCurrent");
-    	dtRFTalonVoltageIndex = Robot.ss_Logging.addColumn("driveTrainR FTalonVoltage");
-    	dtRFTalonCurrentIndex = Robot.ss_Logging.addColumn("driveTrainR FTalonCurrrent");
-    	dtRRPMIndex = Robot.ss_Logging.addColumn("driveTrainR RPM");
-    	dtREncVelIndex = Robot.ss_Logging.addColumn("driveTrainR encVel");
-    	dtREncPosIndex = Robot.ss_Logging.addColumn("driveTrainR currEncPos");
+    	dtRSpeedIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainRight.getDescription());
     }
 
     public void log() {
@@ -139,44 +125,10 @@ public class SS_UpdateLog extends Subsystem {
 //    		smartLog(false, true, Robot.ss_Logging.KEYINDEX9, "" + Robot.ss_DriveTrain.getCurrentCommand());
     		
 // driveTrainLeft
-    		boolean dtLeftSmart = false;
-    		boolean dtLeftLog = true;
-    		smartLog(dtLeftSmart, dtLeftLog, dtLSpeedIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainLeft.getTalonValue(false));
-    		smartLog(dtLeftSmart, dtLeftLog, dtLTalonVoltageIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainLeft.getOutputVoltage(false));
-    		smartLog(dtLeftSmart, dtLeftLog, dtLTalonCurrentIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainLeft.getOutputCurrent(false));
-    		smartLog(dtLeftSmart, dtLeftLog, dtLFTalonVoltageIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainLeft.getOutputVoltage(true));
-    		smartLog(dtLeftSmart, dtLeftLog, dtLFTalonCurrentIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainLeft.getOutputCurrent(true));
-    		smartLog(dtLeftSmart, dtLeftLog, dtLRPMIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainLeft.getTalonSpeed());
-    		smartLog(dtLeftSmart, dtLeftLog, dtLEncVelIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainLeft.getEncVelocity());
-    		smartLog(dtLeftSmart, dtLeftLog, dtLEncPosIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainLeft.getEncPos());
+    		logDefaultMotor(Robot.ss_DriveTrain.driveTrainLeft, dtLSpeedIndex);
     		
 // driveTrainRight
-    		boolean dtRightSmart = false;
-    		boolean dtRightLog = true;
-    		smartLog(dtRightSmart, dtRightLog, dtRSpeedIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainRight.getTalonValue(false));
-    		smartLog(dtLeftSmart, dtLeftLog, dtRTalonVoltageIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainRight.getOutputVoltage(false));
-    		smartLog(dtLeftSmart, dtLeftLog, dtRTalonCurrentIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainRight.getOutputCurrent(false));
-    		smartLog(dtLeftSmart, dtLeftLog, dtRFTalonVoltageIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainRight.getOutputVoltage(true));
-    		smartLog(dtLeftSmart, dtLeftLog, dtRFTalonCurrentIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainRight.getOutputCurrent(true));
-    		smartLog(dtRightSmart, dtRightLog, dtRRPMIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainRight.getTalonSpeed());
-    		smartLog(dtRightSmart, dtRightLog, dtREncVelIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainRight.getEncVelocity());
-    		smartLog(dtRightSmart, dtRightLog, dtREncPosIndex, 
-    				"" + Robot.ss_DriveTrain.driveTrainRight.getEncPos());
+    		logDefaultMotor(Robot.ss_DriveTrain.driveTrainRight, dtRSpeedIndex);
 
 // flush
     		Robot.ss_Logging.logFlush();
@@ -184,6 +136,39 @@ public class SS_UpdateLog extends Subsystem {
     	else {
     		SmartDashboard.putBoolean("SS_Logging present", false);
     	}
+    }
+    
+    public int addMotorIndices(String desc) {
+    	int speedIndex = Robot.ss_Logging.addColumn(desc + " speed");
+    	Robot.ss_Logging.addColumn(desc + " TalonVoltage");
+    	Robot.ss_Logging.addColumn(desc + " TalonCurrent");
+    	Robot.ss_Logging.addColumn(desc + " FTalonVoltage");
+    	Robot.ss_Logging.addColumn(desc + " FTalonCurrrent");
+    	Robot.ss_Logging.addColumn(desc + " RPM");
+    	Robot.ss_Logging.addColumn(desc + " encVel");
+    	Robot.ss_Logging.addColumn(desc + " currEncPos");
+    	return speedIndex;
+    }
+    
+    public void logDefaultMotor(DefaultMotor motor, int index) {
+    	boolean smart = false;
+		boolean log = true;
+		smartLog(smart, log, index++, 
+				"" + motor.getTalonValue(false));
+		smartLog(smart, log, index++, 
+				"" + motor.getOutputVoltage(false));
+		smartLog(smart, log, index++, 
+				"" + motor.getOutputCurrent(false));
+		smartLog(smart, log, index++, 
+				"" + motor.getOutputVoltage(true));
+		smartLog(smart, log, index++, 
+				"" + motor.getOutputCurrent(true));
+		smartLog(smart, log, index++, 
+				"" + motor.getTalonSpeed());
+		smartLog(smart, log, index++, 
+				"" + motor.getEncVelocity());
+		smartLog(smart, log, index++, 
+				"" + motor.getEncPos());
     }
     
     public void smartLog(boolean smart, boolean log, int keyIndex, String value) {
