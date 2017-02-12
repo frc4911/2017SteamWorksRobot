@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 
 public class SS_Logging {
 
@@ -21,69 +22,21 @@ public class SS_Logging {
 	double currentTime (){
 		return Timer.getFPGATimestamp();
 	}
-	String[] headers = {
-			"running time",       	// 0
-			"delta time",        	// 1
-			"index",        		// 2
-			"pdpVolt",
-			"pdpCurr",
-			"leftStickY",		//5
-			"rightStickY",		//6
-			"",
-			"",
-			"SS_DriveTrain currCommand",// 9
-			"driveTrainLeft speed",		// 10
-			"voltage",				
-			"current",
-			"rpm",	
-			"velocity",						
-			"currEncPos",				// 15
-			"",
-			"",
-			"driveTrainRight speed",	// 19
-			"voltage",
-			"current",
-			"rpm",
-			"velocity",
-			"currEncPos",				// 23
-			"",
-			"",
-//			"",
-//			"",
-			};
-	Key[] keys = new Key[headers.length];
 	
-	final int KEYINDEX0 = 0;
-	final int KEYINDEX1 = 1;
-	final int KEYINDEX2 = 2;
-	final int KEYINDEX3 = 3;
-	final int KEYINDEX4 = 4;
-	final int KEYINDEX5 = 5;
-	final int KEYINDEX6 = 6;
-	final int KEYINDEX7 = 7;
-	final int KEYINDEX8 = 8;
-	final int KEYINDEX9 = 9;
-	final int KEYINDEX10 = 10;
-	final int KEYINDEX11 = 11;
-	final int KEYINDEX12 = 12;
-	final int KEYINDEX13 = 13;
-	final int KEYINDEX14 = 14;
-	final int KEYINDEX15 = 15;
-	final int KEYINDEX16 = 16;
-	final int KEYINDEX17 = 17;
-	final int KEYINDEX18 = 18;
-	final int KEYINDEX19 = 19;
-	final int KEYINDEX20 = 20;
-	final int KEYINDEX21 = 21;
-	final int KEYINDEX22 = 22;
-	final int KEYINDEX23 = 23;
-	final int KEYINDEX24 = 24;
-	final int KEYINDEX25 = 25;
-	final int KEYINDEX26 = 26;
-	final int KEYINDEX27 = 27;
-	final int KEYINDEX28 = 28;
-	final int KEYINDEX29 = 29;
-	final int KEYINDEX30 = 30;
+	public String getHeader(int keyIndex) {
+		return indivHeaders.get(keyIndex);
+	}
+	
+	String allHeaders = "";
+	int headerCount = 0;
+	ArrayList<String> indivHeaders = new ArrayList(100);
+	ArrayList<Key> indivKeys = new ArrayList(100); 
+	public int addColumn(String header) {
+		allHeaders += header + ",";
+		indivHeaders.add(header);
+		indivKeys.add(new Key());
+		return headerCount++;
+	}
 	
 	double startTime;
 	int counter = 0;
@@ -96,12 +49,17 @@ public class SS_Logging {
 	final int MAXFILENUM = 30;
 	final String EXTENSION = ".csv";
 
+	int lineCountIndex = 0;
+	int runningTimeIndex = 0;
+	int deltaTimeIndex = 0;
+	int matchTimeIndex = 0;
     public SS_Logging(){
-    	for (int i=0; i<keys.length; i++){
-    		keys[i] = new Key(headers[i]);
-    	}
     	lastTime = startTime = currentTime();
     	headersWritten = false;
+    	lineCountIndex = addColumn("lineCount");
+    	runningTimeIndex = addColumn("runningTime");
+    	deltaTimeIndex = addColumn("deltaTime");
+    	matchTimeIndex = addColumn("matchTime");
     	systemLogger();
     }
     
@@ -110,14 +68,10 @@ public class SS_Logging {
     void systemLogger(){
     	double currentTime = currentTime();
     	
-    	logKeyOutput(KEYINDEX0,""+(currentTime-startTime));
-    	logKeyOutput(KEYINDEX1,""+(currentTime-lastTime));
-    	logKeyOutput(KEYINDEX2,""+lineCount++);
-    	
-    	if (lineCount > 10) {
-    		SmartDashboard.putNumber("lineCount", lineCount);
-    	}
-    	
+       	logKeyOutput(lineCountIndex,""+lineCount++);
+    	logKeyOutput(runningTimeIndex,""+(currentTime-startTime));
+    	logKeyOutput(deltaTimeIndex,""+(currentTime-lastTime));
+    	logKeyOutput(matchTimeIndex,""+Timer.getMatchTime());
     	lastTime = currentTime;
     }
     
@@ -127,9 +81,10 @@ public class SS_Logging {
     }
 
     public void logKeyOutput(int index, String value) {
-		if (!value.equals(keys[index].value)){
-			keys[index].value = value;
-			keys[index].needsToBeFlushed = true;
+    	Key key = indivKeys.get(index);
+		if (!value.equals(key.value)){
+			key.value = value;
+			key.needsToBeFlushed = true;
 		}
     }
 
@@ -177,16 +132,9 @@ public class SS_Logging {
     	if (raf == null)
     		return;
     	
-    	String tmpHeaders = "";
-    	
-    	for (int i=0; i<headers.length; i++){
-    		tmpHeaders+= headers[i]+",";
-    	}
-    	tmpHeaders += "\r\n";
+    	String tmpHeaders = allHeaders + "\r\n";
     	
 		try {
-//			long currentFilePos = raf.getFilePointer();
-//			raf.seek(0);
 			raf.write(tmpHeaders.getBytes());
 		} catch (IOException x) {
 		    System.out.println("I/O Exception: " + x);
@@ -200,11 +148,12 @@ public class SS_Logging {
     	
     	String line = "";
     	
-    	for (int i=0; i<keys.length; i++){
-    		if (keys[i].needsToBeFlushed)
+    	for (int i=0; i<indivKeys.size(); i++){
+    		Key key = indivKeys.get(i);
+    		if (key.needsToBeFlushed)
     		{
-    			line += keys[i].value+",";
-    			keys[i].needsToBeFlushed = false;
+    			line += key.value+",";
+    			key.needsToBeFlushed = false;
     		}
     		else
     			line += ",";
@@ -288,12 +237,10 @@ public class SS_Logging {
 }
 
 class Key{
-	String key;
 	String value;
 	boolean needsToBeFlushed;
 	
-	Key (String pKey){
-		key = pKey;
+	Key (){
 		value = "uninitialized";
 		needsToBeFlushed = false;
 	}

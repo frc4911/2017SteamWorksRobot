@@ -1,11 +1,13 @@
 package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
+import org.usfirst.frc.team4911.robot.commands.C_TestDriveByJoystick;
+import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;
+import org.usfirst.frc.team4911.robot.commands.C_TestSetMotorSpeed;
+import org.usfirst.frc.team4911.robot.commands.C_TestSetTalonNum;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -18,14 +20,30 @@ public class OI {
 	public Joystick opGamepad = new Joystick(2);
 	
 	public Joystick autoTestStick = new Joystick(3);
-	JoystickButton testBtnDTFL = new JoystickButton(autoTestStick, 5);
-	JoystickButton testBtnDTRL = new JoystickButton(autoTestStick, 3);
-	JoystickButton testBtnDTFR = new JoystickButton(autoTestStick, 6);
-	JoystickButton testBtnDTRR = new JoystickButton(autoTestStick, 4);
+//	JoystickButton testBtnDTFL = new JoystickButton(autoTestStick, 5);
+//	JoystickButton testBtnDTRL = new JoystickButton(autoTestStick, 3);
+//	JoystickButton testBtnDTFR = new JoystickButton(autoTestStick, 6);
+//	JoystickButton testBtnDTRR = new JoystickButton(autoTestStick, 4);
 	
-	JoystickButton testBtnTest = new JoystickButton(autoTestStick, 1);
+	JoystickButton testBtn1 = new JoystickButton(autoTestStick, 1);
+	JoystickButton testBtn2 = new JoystickButton(autoTestStick, 2);
+	JoystickButton testBtn3 = new JoystickButton(autoTestStick, 3);
+	JoystickButton testBtn4 = new JoystickButton(autoTestStick, 4);
+	JoystickButton testBtn5 = new JoystickButton(autoTestStick, 5);
+	JoystickButton testBtn6 = new JoystickButton(autoTestStick, 6);
 	
 	public OI() {
+		testBtn1.whileHeld(new C_TestDriveByJoystick());
+		testBtn2.whileHeld(new C_TestDriveBySet());
+		
+		// change the talon num
+		testBtn5.whenPressed(new C_TestSetTalonNum(false));
+		testBtn6.whenPressed(new C_TestSetTalonNum(true));
+		
+		// change the motor speed
+		testBtn3.whenPressed(new C_TestSetMotorSpeed(false));
+		testBtn4.whenPressed(new C_TestSetMotorSpeed(true));
+		
 //		testBtnDTFL.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft.talon));
 //		testBtnDTRL.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft.fTalon));
 //		testBtnDTFR.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainRight.talon));

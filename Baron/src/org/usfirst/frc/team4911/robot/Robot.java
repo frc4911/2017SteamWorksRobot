@@ -4,6 +4,7 @@ package org.usfirst.frc.team4911.robot;
 import org.usfirst.frc.team4911.robot.subsystems.SS_Config;
 import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrain;
 import org.usfirst.frc.team4911.robot.subsystems.SS_Logging;
+import org.usfirst.frc.team4911.robot.subsystems.SS_TestMotor;
 import org.usfirst.frc.team4911.robot.subsystems.SS_UpdateLog;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -24,8 +25,9 @@ public class Robot extends IterativeRobot {
 
 	//public final static SS_Config ss_Config = new SS_Config();
 	public final static SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
-	//public final static SS_UpdateLog ss_UpdateLog = new SS_UpdateLog();
-	//public final static SS_Logging ss_Logging = new SS_Logging();
+	public final static SS_TestMotor ss_TestMotor = new SS_TestMotor();
+	public final static SS_Logging ss_Logging = new SS_Logging();
+	public final static SS_UpdateLog ss_UpdateLog = new SS_UpdateLog();
 	public static OI oi;
 
 	Command autonomousCommand;

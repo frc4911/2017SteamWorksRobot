@@ -7,11 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class C_UpdateLog extends Command {
+public class C_TestDriveBySet extends Command {
 
-    public C_UpdateLog() {
+    public C_TestDriveBySet() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_UpdateLog);
+        requires(Robot.ss_DriveTrain);
+        requires(Robot.ss_TestMotor);
     }
 
     // Called just before this Command runs the first time
@@ -20,7 +21,7 @@ public class C_UpdateLog extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_UpdateLog.log();
+    	Robot.ss_TestMotor.runMotor();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -30,10 +31,12 @@ public class C_UpdateLog extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.ss_TestMotor.stopMotor();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }
