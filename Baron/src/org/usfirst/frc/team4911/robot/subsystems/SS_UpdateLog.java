@@ -55,8 +55,13 @@ public class SS_UpdateLog extends Subsystem {
     int dtLStartIndex = 0;
     int dtRStartIndex = 0;
     
-    int fCollStartIndex = 0;
-    int fHopStartIndex = 0;
+//    int fCollStartIndex = 0;
+//    int fHopStartIndex = 0;
+    
+//    int fFeederStartIndex = 0;
+//    int fShooterStartIndex = 0;
+    
+//    int hangerStartIndex = 0;
     
     public SS_UpdateLog() {
     	// DriverStation
@@ -79,16 +84,19 @@ public class SS_UpdateLog extends Subsystem {
     	dtRStartIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainRight.getDescription(), true);
     	
     	// fuelCollector
-//		fCollStartIndex = add1MotorIndices();
+//		fCollStartIndex = addMotorIndices();
     	
     	// fuelHopper
-//    	fHopStartIndex = add1MotorIndices();
+//    	fHopStartIndex = addMotorIndices();
     	
 		// fuelShooter
-		
+//    	fFeederStartIndex = addMotorIndices();
+//		fShooterStartIndex = addMotorIndices();
+    	
 		// gear assembly
 		
 		// hanger
+//    	hangerStartIndex = addMotorIndices();
     }
 
     public void log() {
@@ -119,10 +127,10 @@ public class SS_UpdateLog extends Subsystem {
 //    		smartLog(false, true, Robot.ss_Logging.KEYINDEX9, "" + Robot.ss_DriveTrain.getCurrentCommand());
     		
     		// driveTrainLeft
-    		logDefaultMotors(Robot.ss_DriveTrain.driveTrainLeft, true, dtLStartIndex);
+    		logDefaultMotor(Robot.ss_DriveTrain.driveTrainLeft, true, dtLStartIndex);
     		
     		// driveTrainRight
-    		logDefaultMotors(Robot.ss_DriveTrain.driveTrainRight, true, dtRStartIndex);
+    		logDefaultMotor(Robot.ss_DriveTrain.driveTrainRight, true, dtRStartIndex);
 
     		// fuelCollector
 //    		logDefaultMotor(null, false, fCollStartIndex);
@@ -131,11 +139,14 @@ public class SS_UpdateLog extends Subsystem {
 //    		logDefaultMotor(null, false, fHopStartIndex);
     		
     		// fuelShooter
+//    		logDefaultMotor(null, false, fFeederStartIndex);
+//    		logDefaultMotor(null, true, fShooterStartIndex);
     		
     		// gear assembly
     		
     		// hanger
-
+//    		logDefaultMotor(null, false, hangerStartIndex);
+    		
     		// flush
     		Robot.ss_Logging.logFlush();
     	}
@@ -159,7 +170,7 @@ public class SS_UpdateLog extends Subsystem {
     	return startIndex;
     }
     
-    public void logDefaultMotors(DefaultMotor motor, boolean hasFollower, int index) {
+    public void logDefaultMotor(DefaultMotor motor, boolean hasFollower, int index) {
     	boolean smart = false;
 		boolean log = true;
 		smartLog(smart, log, index++, 
