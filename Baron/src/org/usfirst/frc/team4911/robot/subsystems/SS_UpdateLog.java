@@ -113,6 +113,7 @@ public class SS_UpdateLog extends Subsystem {
 
     public void log() {
     	if (Robot.ss_Logging != null){
+
     		SmartDashboard.putBoolean("SS_Logging present", true);
 
 // DriverStation
@@ -177,7 +178,7 @@ public class SS_UpdateLog extends Subsystem {
     		smartLog(dtRightSmart, dtRightLog, dtREncPosIndex, 
     				"" + Robot.ss_DriveTrain.driveTrainRight.talon.getEncPosition());
 
-// logFlush
+// flush
     		Robot.ss_Logging.logFlush();
     	}
     	else {

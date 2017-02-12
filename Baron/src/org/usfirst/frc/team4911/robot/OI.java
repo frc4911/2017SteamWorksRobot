@@ -5,6 +5,7 @@ import org.usfirst.frc.team4911.robot.commands.C_TestDriveByJoystick;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetMotorSpeed;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetTalonNum;
+import org.usfirst.frc.team4911.robot.commands.C_UpdateConst;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -20,10 +21,6 @@ public class OI {
 	public Joystick opGamepad = new Joystick(2);
 	
 	public Joystick autoTestStick = new Joystick(3);
-//	JoystickButton testBtnDTFL = new JoystickButton(autoTestStick, 5);
-//	JoystickButton testBtnDTRL = new JoystickButton(autoTestStick, 3);
-//	JoystickButton testBtnDTFR = new JoystickButton(autoTestStick, 6);
-//	JoystickButton testBtnDTRR = new JoystickButton(autoTestStick, 4);
 	
 	JoystickButton testBtn1 = new JoystickButton(autoTestStick, 1);
 	JoystickButton testBtn2 = new JoystickButton(autoTestStick, 2);
@@ -43,11 +40,6 @@ public class OI {
 		// change the motor speed
 		testBtn3.whenPressed(new C_TestSetMotorSpeed(false));
 		testBtn4.whenPressed(new C_TestSetMotorSpeed(true));
-		
-//		testBtnDTFL.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft.talon));
-//		testBtnDTRL.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft.fTalon));
-//		testBtnDTFR.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainRight.talon));
-//		testBtnDTRR.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainRight.fTalon));
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a

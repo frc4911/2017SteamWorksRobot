@@ -12,12 +12,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class DefaultMotor {
-	public CANTalon talon;
-	public CANTalon fTalon;
-	public CANTalonPID pid;
-	public boolean limited;
-	public double upLimit;
-	public double lowLimit;
+	CANTalon talon;
+	CANTalon fTalon;
+	CANTalonPID pid;
+	boolean limited;
+	boolean motorPair;
+	double upLimit;
+	double lowLimit;
 	
 	final int TICKS_PER_REV = 1440;
 	final int ENCODER_CODES_PER_REV = 360;
@@ -33,8 +34,8 @@ public class DefaultMotor {
 	
 	public DefaultMotor(int TPort) {
 		this.talon = new CANTalon(TPort);
-		
 		limited = false;
+		motorPair = false;
 	}
 	
 	public DefaultMotor(int TPort, double kp, double kd, double ki, double rampRate, int iZone, double peakOutputVoltage, 
@@ -50,6 +51,7 @@ public class DefaultMotor {
 		this.PIDType = PIDType;
 		
 		limited = false;
+		motorPair = false;
 	}
 	
 	public DefaultMotor(int TPort, int TPortF, double kp, double kd, double ki, double rampRate, int iZone, double peakOutputVoltage, 
@@ -66,6 +68,7 @@ public class DefaultMotor {
 		this.PIDType = PIDType;
 		
 		limited = false;
+		motorPair = true;
 		
 		this.fTalon.changeControlMode(TalonControlMode.Follower);
 		this.fTalon.set(TPort);
@@ -86,6 +89,7 @@ public class DefaultMotor {
 		this.PIDType = PIDType;
 		
 		limited = true;
+		motorPair = false;
 		
 		setSoftLimits(talon);
 		enableSoftLimits(talon, true);
@@ -107,6 +111,7 @@ public class DefaultMotor {
 		this.PIDType = PIDType;
 		
 		limited = true;
+		motorPair = true;
 		
 		this.fTalon.changeControlMode(TalonControlMode.Follower);
 		this.fTalon.set(TPort);
@@ -132,7 +137,7 @@ public class DefaultMotor {
 	public void spin(double pow, double constant) {
 		pow *= constant;
 		talon.set(pow);
-}
+	}
 
 	public void stop() {
 		spin(0, 0);
@@ -149,7 +154,13 @@ public class DefaultMotor {
 	}
 	
 	public void setBrakeMode(boolean set) {
-		talon.enableBrakeMode(set);
+		if(motorPair) {
+			talon.enableBrakeMode(set);
+			fTalon.enableBrakeMode(set);
+		}
+		else {
+			talon.enableBrakeMode(set);
+		}
 	}
 	
 	public double getEncPos() {
@@ -158,6 +169,30 @@ public class DefaultMotor {
 	
 	public void zeroEnc() {
 		talon.setEncPosition(0);
+	}
+	
+	public CANTalon getTalon() {
+		return talon;
+	}
+	
+	public CANTalon getFollowerTalon() {
+		return fTalon;
+	}
+	
+	public double getBusVoltage(boolean follower) {
+		if(follower) {
+			return fTalon.getBusVoltage();
+		} else {
+			return talon.getBusVoltage();
+		}
+	}
+	
+	public double getCurrent(boolean follower) {
+		if(follower) {
+			return fTalon.getOutputCurrent();
+		} else {
+			return talon.getOutputCurrent();
+		}
 	}
 }
 

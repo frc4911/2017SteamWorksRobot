@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	//public final static SS_Config ss_Config = new SS_Config();
+	public final static SS_Config ss_Config = new SS_Config();
 	public final static SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
 	public final static SS_TestMotor ss_TestMotor = new SS_TestMotor();
 	public final static SS_Logging ss_Logging = new SS_Logging();
