@@ -35,10 +35,10 @@ public class C_TestMotorEncoder extends Command {
 	double distTravelled;
 	double velocity;
 	
-	boolean driveTrain;
+	boolean follower;
 	
     public C_TestMotorEncoder(Subsystem subsystem, DefaultMotor talon, double motorConst, double encoderConst, boolean direction, 
-    				   		  double targetPos, double duration, double normBusVoltage, String name, boolean driveTrain) {
+    				   		  double targetPos, double duration, double normBusVoltage, String name, boolean follower) {
         // Use requires() here to declare subsystem dependencies
         requires(subsystem);
         this.direction = direction;
@@ -51,7 +51,7 @@ public class C_TestMotorEncoder extends Command {
         this.motorConst = motorConst;
         this.encoderConst = encoderConst;
         
-        this.driveTrain = driveTrain;
+        this.follower = follower;
         
         if(direction)
         	dir = "forward";
@@ -65,13 +65,6 @@ public class C_TestMotorEncoder extends Command {
     	
     	startTime = Timer.getFPGATimestamp();
     	endTime = startTime + duration;
-    	
-    	if(driveTrain) {
-//        	Robot.ss_DriveTrain.DriveMotorFrontLeft.enableBrakeMode(false);
-//        	Robot.ss_DriveTrain.DriveMotorRearLeft.enableBrakeMode(false);
-//        	Robot.ss_DriveTrain.DriveMotorFrontRight.enableBrakeMode(false);
-//        	Robot.ss_DriveTrain.DriveMotorRearRight.enableBrakeMode(false);
-        }
     }
     
     private boolean checkBusVoltage() {
@@ -98,9 +91,9 @@ public class C_TestMotorEncoder extends Command {
     	    	}
 		
 		realEndTime = Timer.getFPGATimestamp();
-		totalBV += talon.talon.getBusVoltage();
+		totalBV += talon.getBusVoltage(follower);
 		BVDataCount++;
-		SmartDashboard.putNumber("current draw "+ dir + " " + name, talon.talon.getBusVoltage());
+		SmartDashboard.putNumber("current draw "+ dir + " " + name, talon.getBusVoltage(follower));
 		SmartDashboard.putNumber("curr pos " + dir + " " + name, talon.getEncPos());
     }
 

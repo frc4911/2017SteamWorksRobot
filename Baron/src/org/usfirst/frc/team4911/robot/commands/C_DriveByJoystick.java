@@ -17,20 +17,21 @@ public class C_DriveByJoystick extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-//    	Robot.ss_DriveTrain.driveTrainLeft.enableSoftLimits(Robot.ss_DriveTrain.driveTrainLeft.talon, false);
-//    	Robot.ss_DriveTrain.driveTrainLeft.enableSoftLimits(Robot.ss_DriveTrain.driveTrainLeft.fTalon, false);
-//    	Robot.ss_DriveTrain.driveTrainLeft.enableSoftLimits(Robot.ss_DriveTrain.driveTrainRight.talon, false);
-//    	Robot.ss_DriveTrain.driveTrainLeft.enableSoftLimits(Robot.ss_DriveTrain.driveTrainRight.fTalon, false);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	SmartDashboard.putNumber("input", Robot.oi.stickL.getY());
-    	Robot.ss_DriveTrain.driveTrainLeft.spin(Robot.oi.stickL.getY(), -1);
-    	Robot.ss_DriveTrain.driveTrainRight.spin(Robot.oi.stickR.getY(), 1);
+    	Robot.ss_DriveTrain.driveTrainLeft.spin(Robot.oi.stickL.getY(), -1); //	-1
+    	Robot.ss_DriveTrain.driveTrainRight.spin(Robot.oi.stickR.getY(), 1); //  1
     	
-    	SmartDashboard.putNumber("left cur draw", Robot.ss_DriveTrain.driveTrainLeft.talon.getBusVoltage());
-    	SmartDashboard.putNumber("right cur draw", Robot.ss_DriveTrain.driveTrainRight.talon.getBusVoltage());
+    	SmartDashboard.putNumber("left cur", Robot.ss_DriveTrain.driveTrainLeft.getCurrent(false));
+    	SmartDashboard.putNumber("right cur", Robot.ss_DriveTrain.driveTrainRight.getCurrent(false));
+    	
+    	SmartDashboard.putNumber("left volt", Robot.ss_DriveTrain.driveTrainLeft.getBusVoltage(false));
+    	SmartDashboard.putNumber("right volt", Robot.ss_DriveTrain.driveTrainRight.getBusVoltage(false));
+    	
+    	SmartDashboard.putNumber("left enc pos", Robot.ss_DriveTrain.driveTrainLeft.getEncPos());
     }
 
     // Make this return true when this Command no longer needs to run execute()

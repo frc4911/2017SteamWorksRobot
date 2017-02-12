@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
+import org.usfirst.frc.team4911.robot.commands.C_UpdateConst;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -30,6 +31,8 @@ public class OI {
 //		testBtnDTRL.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft.fTalon));
 //		testBtnDTFR.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainRight.talon));
 //		testBtnDTRR.whileHeld(new C_ManualTestMotor(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainRight.fTalon));
+		
+		testBtnTest.whenReleased(new C_UpdateConst());
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
