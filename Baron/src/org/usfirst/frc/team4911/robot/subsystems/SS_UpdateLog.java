@@ -24,7 +24,7 @@ public class SS_UpdateLog extends Subsystem {
         setDefaultCommand(new C_UpdateLog());
     }
     
-    public String driveMode() {
+    private String driveMode() {
     	String mode = "";
     	
     	if(ds.isOperatorControl()) {
@@ -65,7 +65,8 @@ public class SS_UpdateLog extends Subsystem {
 //    int fFeederStartIndex = 0;
 //    int fShooterStartIndex = 0;
     
-    int gHandlerStartIndex = 0;
+    int gCollLimitSwitchIndex = 0;
+    int gCollStartIndex = 0;
     
 //    int hangerStartIndex = 0;
     
@@ -103,7 +104,8 @@ public class SS_UpdateLog extends Subsystem {
 //		fShooterStartIndex = addMotorIndices();
     	
 		// gear assembly
-		gHandlerStartIndex = addMotorIndices(Robot.ss_GearHandler.gearCollector.getDescription(), false);
+    	gCollLimitSwitchIndex = Robot.ss_Logging.addColumn("gHandlerLimitSwitch");
+		gCollStartIndex = addMotorIndices(Robot.ss_GearHandler.gearCollector.getDescription(), false);
     	
 		// hanger
 //    	hangerStartIndex = addMotorIndices();
@@ -153,7 +155,8 @@ public class SS_UpdateLog extends Subsystem {
 //    		logDefaultMotor(null, true, fShooterStartIndex);
     		
     		// gear assembly
-    		logDefaultMotor(Robot.ss_GearHandler.gearCollector, false, gHandlerStartIndex);
+    		smartLog(false, true, gCollLimitSwitchIndex, "" + Robot.ss_GearHandler.getLimitSwitch());
+    		logDefaultMotor(Robot.ss_GearHandler.gearCollector, false, gCollStartIndex);
     		
     		// hanger
 //    		logDefaultMotor(null, false, hangerStartIndex);
@@ -168,7 +171,7 @@ public class SS_UpdateLog extends Subsystem {
     	runningCommands = "";
     }
     
-    public int addMotorIndices(String desc, boolean hasFollower) {
+    private int addMotorIndices(String desc, boolean hasFollower) {
     	int startIndex = Robot.ss_Logging.addColumn(desc + " speed");
     	Robot.ss_Logging.addColumn(desc + " TalonStickyFaultsUnderVolt");
     	Robot.ss_Logging.addColumn(desc + " TalonVoltage");
@@ -183,7 +186,7 @@ public class SS_UpdateLog extends Subsystem {
     	return startIndex;
     }
     
-    public void logDefaultMotor(DefaultMotor motor, boolean hasFollower, int index) {
+    private void logDefaultMotor(DefaultMotor motor, boolean hasFollower, int index) {
     	boolean smart = false;
 		boolean log = true;
 		smartLog(smart, log, index++, 
@@ -208,7 +211,7 @@ public class SS_UpdateLog extends Subsystem {
 				"" + motor.getEncPos());
     }
     
-    public void smartLog(boolean smart, boolean log, int keyIndex, String value) {
+    private void smartLog(boolean smart, boolean log, int keyIndex, String value) {
     	if(smart) {
     		SmartDashboard.putString(Robot.ss_Logging.getHeader(keyIndex), value);
     	}
