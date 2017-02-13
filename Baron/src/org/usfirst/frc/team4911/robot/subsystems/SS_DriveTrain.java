@@ -21,8 +21,8 @@ public class SS_DriveTrain extends Subsystem {
 	int tPortDriveTrainFrontRight = 2;
 	int tPortDriveTrainRearRight = 3;
 	
-	public DefaultMotor driveTrainLeft = new DefaultMotor(tPortDriveTrainFrontLeft, tPortDriveTrainRearLeft, "DriveTrain Left");
-	public DefaultMotor driveTrainRight = new DefaultMotor(tPortDriveTrainFrontRight, tPortDriveTrainRearRight, "DriveTrain Right");
+	public DefaultMotor driveTrainLeft = new DefaultMotor(tPortDriveTrainFrontLeft, tPortDriveTrainRearLeft, Robot.ss_Config.driveMotorConstL, "DriveTrain Left");
+	public DefaultMotor driveTrainRight = new DefaultMotor(tPortDriveTrainFrontRight, tPortDriveTrainRearRight, Robot.ss_Config.driveMotorConstR, "DriveTrain Right");
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

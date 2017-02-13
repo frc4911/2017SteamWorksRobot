@@ -72,6 +72,8 @@ public class C_TestMotorPoten extends Command {
     // Called repeatedly when this Command is scheduled to run
     double realEndTime;
     protected void execute() {
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
+    	
     	if(Timer.getFPGATimestamp() < endTime && 
     	   Math.abs(encoder.get() - targetPos) > Math.abs(range * 0.1)) {
 			if(direction)

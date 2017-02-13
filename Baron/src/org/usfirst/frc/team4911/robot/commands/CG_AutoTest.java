@@ -29,8 +29,8 @@ public class CG_AutoTest extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addSequential(new C_TestMotorEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft, -1.0, 1.0, true, 10500, 2));
-    	addSequential(new C_TestMotorEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainRight, 1.0, 1.0, true, 10500, 2));
+    	addSequential(new C_TestMotorEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft, true, 10500, 2));
+    	addSequential(new C_TestMotorEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainRight, true, 10500, 2));
     	
     }
 }

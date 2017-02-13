@@ -1,7 +1,9 @@
 package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
+import org.usfirst.frc.team4911.robot.commands.C_CollectGear;
 import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
+import org.usfirst.frc.team4911.robot.commands.C_SpitGear;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveByJoystick;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetMotorSpeed;
@@ -21,6 +23,12 @@ public class OI {
 	public Joystick stickR = new Joystick(1);
 	public Joystick opGamepad = new Joystick(2);
 	
+	JoystickButton btnA = new JoystickButton(opGamepad, 1);
+	JoystickButton btnB = new JoystickButton(opGamepad, 2);
+	JoystickButton btnX = new JoystickButton(opGamepad, 3);
+	JoystickButton btnY = new JoystickButton(opGamepad, 4);
+	
+	/**********Testing**********/
 	public Joystick autoTestStick = new Joystick(3);
 	
 	JoystickButton testBtn1 = new JoystickButton(autoTestStick, 1);
@@ -29,10 +37,14 @@ public class OI {
 	JoystickButton testBtn4 = new JoystickButton(autoTestStick, 4);
 	JoystickButton testBtn5 = new JoystickButton(autoTestStick, 5);
 	JoystickButton testBtn6 = new JoystickButton(autoTestStick, 6);
-	JoystickButton testBtn7 = new JoystickButton(opGamepad, 1);
+	JoystickButton testBtn7 = new JoystickButton(autoTestStick, 7);
 	
 	public OI() {
-		testBtn7.whenReleased(new C_UpdateConst());
+		btnA.whileHeld(new C_CollectGear());
+		btnY.whileHeld(new C_SpitGear());
+		
+		/**********Testing**********/
+		testBtn7.whenReleased(new CG_AutoTest());
 		
 		testBtn1.whileHeld(new C_TestDriveByJoystick());
 		testBtn2.whileHeld(new C_TestDriveBySet());

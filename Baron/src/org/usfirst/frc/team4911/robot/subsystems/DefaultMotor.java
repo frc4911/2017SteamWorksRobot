@@ -15,6 +15,7 @@ public class DefaultMotor {
 	private CANTalon talon;
 	private CANTalon fTalon;
 	private CANTalonPID pid;
+	private double constant;
 	private boolean limited;
 	private boolean motorPair;
 	private double upLimit;
@@ -22,14 +23,14 @@ public class DefaultMotor {
 	
 	private String description;
 	
-	public DefaultMotor(int TPort, String description) {
+	public DefaultMotor(int TPort, double constant,String description) {
 		limited = false;
 		motorPair = false;
 		
-		construct(TPort, description);
+		construct(TPort, constant, description);
 	}
 	
-	public DefaultMotor(int TPort, int TPortF, String description) {
+	public DefaultMotor(int TPort, int TPortF, double constant, String description) {
 		this.fTalon = new CANTalon(TPortF);
 		
 		limited = false;
@@ -38,10 +39,10 @@ public class DefaultMotor {
 		this.fTalon.changeControlMode(TalonControlMode.Follower);
 		this.fTalon.set(TPort);
 		
-		construct(TPort, description);
+		construct(TPort, constant, description);
 	}
 	
-	public DefaultMotor(int TPort, double upLimit, double lowLimit, String description) {
+	public DefaultMotor(int TPort, double constant, double upLimit, double lowLimit, String description) {
 		this.upLimit = upLimit;
 		this.lowLimit = lowLimit;
 		this.description = description;
@@ -49,10 +50,10 @@ public class DefaultMotor {
 		limited = true;
 		motorPair = false;
 		
-		construct(TPort, description);
+		construct(TPort, constant, description);
 	}
 	
-	public DefaultMotor(int TPort, int TPortF, double upLimit, double lowLimit, String description) {
+	public DefaultMotor(int TPort, int TPortF, double constant, double upLimit, double lowLimit, String description) {
 		this.fTalon = new CANTalon(TPortF);
 		this.upLimit = upLimit;
 		this.lowLimit = lowLimit;
@@ -63,11 +64,12 @@ public class DefaultMotor {
 		this.fTalon.changeControlMode(TalonControlMode.Follower);
 		this.fTalon.set(TPort);
 		
-		construct(TPort, description);
+		construct(TPort, constant, description);
 	}
 	
-	private void construct(int TPort, String description) {
+	private void construct(int TPort, double constant, String description) {
 		this.talon = new CANTalon(TPort);
+		this.constant = constant;
 		this.description = description;
 		
 		if(limited) {
@@ -86,13 +88,13 @@ public class DefaultMotor {
 		pid.stopPIDMode();
 	}
 	
-	public void spin(double pow, double constant) {
+	public void spin(double pow) {
 		pow *= constant;
 		talon.set(pow);
 	}
 
 	public void stop() {
-		spin(0, 0);
+		spin(0);
 	}
 	
 	public void setSoftLimits(CANTalon talon) {

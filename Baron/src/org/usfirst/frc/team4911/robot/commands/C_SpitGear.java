@@ -3,18 +3,17 @@ package org.usfirst.frc.team4911.robot.commands;
 import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class C_UpdateConst extends Command {
+public class C_SpitGear extends Command {
 
-    public C_UpdateConst() {
+    public C_SpitGear() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_Config);
+        requires(Robot.ss_GearHandler);
     }
-    
+
     // Called just before this Command runs the first time
     protected void initialize() {
     }
@@ -23,25 +22,22 @@ public class C_UpdateConst extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
-    	//Robot.ss_Config.updateInfo();
-    	SmartDashboard.putNumber("DTL", Robot.ss_Config.driveMotorConstL);
-    	SmartDashboard.putNumber("DTR", Robot.ss_Config.driveMotorConstR);
-    	SmartDashboard.putNumber("DEL", Robot.ss_Config.driveEncoderConstL);
-    	SmartDashboard.putNumber("DER", Robot.ss_Config.driveEncoderConstR);
-    	SmartDashboard.putBoolean("Scanner", Robot.ss_Config.ScannerSetup);
+    	Robot.ss_GearHandler.gearCollector.spin(0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.ss_GearHandler.gearCollector.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.ss_GearHandler.gearCollector.stop();
     }
 }
