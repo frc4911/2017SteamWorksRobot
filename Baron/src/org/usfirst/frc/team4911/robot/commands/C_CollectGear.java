@@ -24,14 +24,16 @@ public class C_CollectGear extends Command {
     	
     	if(!Robot.ss_GearHandler.getLimitSwitch()) {
     		Robot.ss_GearHandler.gearCollector.spin(-0.5);
-    	} else {
-    		Robot.ss_GearHandler.gearCollector.stop();
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	if(Robot.ss_GearHandler.getLimitSwitch()) {
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
 
     // Called once after isFinished returns true
@@ -42,6 +44,6 @@ public class C_CollectGear extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.ss_GearHandler.gearCollector.stop();
+    	end();
     }
 }
