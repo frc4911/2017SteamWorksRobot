@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class C_CollectGear extends Command {
+public class C_SpitGear extends Command {
 
-    public C_CollectGear() {
+    public C_SpitGear() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.ss_GearHandler);
     }
@@ -20,11 +20,7 @@ public class C_CollectGear extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if((Robot.ss_GearHandler.getLimitSwitch())) {
-    		Robot.ss_GearHandler.gearCollector.spin(-0.5);
-    	} else {
-    		Robot.ss_GearHandler.gearCollector.stop();
-    	}
+    	Robot.ss_GearHandler.gearCollector.spin(0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()

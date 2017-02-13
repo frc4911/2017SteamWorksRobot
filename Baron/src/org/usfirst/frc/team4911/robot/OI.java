@@ -3,6 +3,7 @@ package org.usfirst.frc.team4911.robot;
 import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
 import org.usfirst.frc.team4911.robot.commands.C_CollectGear;
 import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
+import org.usfirst.frc.team4911.robot.commands.C_SpitGear;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveByJoystick;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetMotorSpeed;
@@ -40,6 +41,7 @@ public class OI {
 	
 	public OI() {
 		btnA.whileHeld(new C_CollectGear());
+		btnY.whileHeld(new C_SpitGear());
 		
 		/**********Testing**********/
 		testBtn7.whenReleased(new CG_AutoTest());
