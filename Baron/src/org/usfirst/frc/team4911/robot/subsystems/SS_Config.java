@@ -26,6 +26,7 @@ public class SS_Config extends Subsystem {
 	
 	public double driveMotorConstL;
     public double driveMotorConstR;
+    public double gearCollectorConst;
     
     public double driveEncoderConstL;
     public double driveEncoderConstR;
@@ -81,6 +82,7 @@ public class SS_Config extends Subsystem {
     public void updateInfo() {
     	driveMotorConstL = findInfoDouble(configFilepath, "driveMotorConstL");
     	driveMotorConstR = findInfoDouble(configFilepath, "driveMotorConstR");
+    	gearCollectorConst = findInfoDouble(configFilepath, "gearCollectorConst");
     	
     	driveEncoderConstL = findInfoDouble(configFilepath, "driveEncoderConstL");
     	driveEncoderConstR = findInfoDouble(configFilepath, "driveEncoderConstR");

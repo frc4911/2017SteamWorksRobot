@@ -31,14 +31,14 @@ public class SS_TestMotor extends Subsystem {
     public void runMotor(double speed) {
     	switch(currMotor) {
     	case 0:
-    		Robot.ss_DriveTrain.driveTrainLeft.spin(speed, -1);
+    		Robot.ss_DriveTrain.driveTrainLeft.spin(speed);
     		break;
     	case 1:
-    		Robot.ss_DriveTrain.driveTrainRight.spin(speed, 1);
+    		Robot.ss_DriveTrain.driveTrainRight.spin(speed);
     		break;
     	case 2:
-    		Robot.ss_DriveTrain.driveTrainLeft.spin(speed, -1);
-    		Robot.ss_DriveTrain.driveTrainRight.spin(speed, 1);
+    		Robot.ss_DriveTrain.driveTrainLeft.spin(speed);
+    		Robot.ss_DriveTrain.driveTrainRight.spin(speed);
     		break;
     	}
     }

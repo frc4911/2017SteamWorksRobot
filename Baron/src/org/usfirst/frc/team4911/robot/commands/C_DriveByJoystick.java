@@ -22,8 +22,8 @@ public class C_DriveByJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	SmartDashboard.putNumber("input", Robot.oi.stickL.getY());
-    	Robot.ss_DriveTrain.driveTrainLeft.spin(Robot.oi.stickL.getY(), -1); //	-1
-    	Robot.ss_DriveTrain.driveTrainRight.spin(Robot.oi.stickR.getY(), 1); //  1
+    	Robot.ss_DriveTrain.driveTrainLeft.spin(Robot.oi.stickL.getY()); //	-1
+    	Robot.ss_DriveTrain.driveTrainRight.spin(Robot.oi.stickR.getY()); //  1
     	
     	SmartDashboard.putNumber("left cur", Robot.ss_DriveTrain.driveTrainLeft.getOutputCurrent(false));
     	SmartDashboard.putNumber("right cur", Robot.ss_DriveTrain.driveTrainRight.getOutputCurrent(false));

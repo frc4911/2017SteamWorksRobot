@@ -32,8 +32,7 @@ public class C_TestMotorEncoder extends Command {
 	double distTravelled;
 	double velocity;
 	
-    public C_TestMotorEncoder(Subsystem subsystem, DefaultMotor talon, double motorConst, double encoderConst, boolean direction, 
-    				   		  double targetPos, double duration) {
+    public C_TestMotorEncoder(Subsystem subsystem, DefaultMotor talon, boolean direction, double targetPos, double duration) {
         // Use requires() here to declare subsystem dependencies
         requires(subsystem);
         this.direction = direction;
@@ -64,9 +63,9 @@ public class C_TestMotorEncoder extends Command {
     	if(Timer.getFPGATimestamp() < endTime && 
     	   Math.abs(talon.getEncPos() - targetPos) > Math.abs(targetPos * 0.1)) {
     				if(direction)
-    					talon.spin(0.5, motorConst);
+    					talon.spin(0.5);
     				else {
-    					talon.spin(-0.5, motorConst);
+    					talon.spin(-0.5);
     				}
     	    	} else {
     	    		talon.stop();
