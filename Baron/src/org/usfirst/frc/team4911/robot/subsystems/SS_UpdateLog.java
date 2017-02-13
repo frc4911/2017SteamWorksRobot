@@ -5,6 +5,7 @@ import org.usfirst.frc.team4911.robot.commands.C_UpdateLog;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -49,8 +50,11 @@ public class SS_UpdateLog extends Subsystem {
     
     int pdpVoltIndex = 0;
     int pdpCurrentIndex = 0;
+    
     int leftJoystickYIndex = 0;
     int rightJoystickYIndex = 0;
+    
+    int runningCommandsIndex = 0;
     
     int dtLStartIndex = 0;
     int dtRStartIndex = 0;
@@ -60,6 +64,8 @@ public class SS_UpdateLog extends Subsystem {
     
 //    int fFeederStartIndex = 0;
 //    int fShooterStartIndex = 0;
+    
+    int gHandlerStartIndex = 0;
     
 //    int hangerStartIndex = 0;
     
@@ -76,6 +82,9 @@ public class SS_UpdateLog extends Subsystem {
     	// joystickY values
     	leftJoystickYIndex = Robot.ss_Logging.addColumn("leftStickY");
     	rightJoystickYIndex = Robot.ss_Logging.addColumn("rightStickY");
+    	
+    	// current running commands
+    	runningCommandsIndex = Robot.ss_Logging.addColumn("currCommands");
     	
     	// driveTrainLeft
     	dtLStartIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainLeft.getDescription(), true);
@@ -94,7 +103,8 @@ public class SS_UpdateLog extends Subsystem {
 //		fShooterStartIndex = addMotorIndices();
     	
 		// gear assembly
-		
+		gHandlerStartIndex = addMotorIndices(Robot.ss_GearHandler.gearCollector.getDescription(), false);
+    	
 		// hanger
 //    	hangerStartIndex = addMotorIndices();
     }
@@ -124,7 +134,7 @@ public class SS_UpdateLog extends Subsystem {
     		smartLog(joySmart, joyLog, rightJoystickYIndex, "" + Robot.oi.stickR.getY());
     		
     		// current running command    		
-//    		smartLog(false, true, Robot.ss_Logging.KEYINDEX9, "" + Robot.ss_DriveTrain.getCurrentCommand());
+    		smartLog(false, true, runningCommandsIndex, runningCommands);
     		
     		// driveTrainLeft
     		logDefaultMotor(Robot.ss_DriveTrain.driveTrainLeft, true, dtLStartIndex);
@@ -143,6 +153,7 @@ public class SS_UpdateLog extends Subsystem {
 //    		logDefaultMotor(null, true, fShooterStartIndex);
     		
     		// gear assembly
+    		logDefaultMotor(Robot.ss_GearHandler.gearCollector, false, gHandlerStartIndex);
     		
     		// hanger
 //    		logDefaultMotor(null, false, hangerStartIndex);
@@ -153,6 +164,8 @@ public class SS_UpdateLog extends Subsystem {
     	else {
     		SmartDashboard.putBoolean("SS_Logging present", false);
     	}
+    	
+    	runningCommands = "";
     }
     
     public int addMotorIndices(String desc, boolean hasFollower) {
@@ -204,6 +217,9 @@ public class SS_UpdateLog extends Subsystem {
     	}
     }
     
-    
+    public String runningCommands = "";
+    public void logRunningCommands(String commandName) {
+    	runningCommands += commandName + "-";
+    }
 }
 

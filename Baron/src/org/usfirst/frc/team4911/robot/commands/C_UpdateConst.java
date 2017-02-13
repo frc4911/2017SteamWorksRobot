@@ -21,6 +21,8 @@ public class C_UpdateConst extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
+    	
     	//Robot.ss_Config.updateInfo();
     	SmartDashboard.putNumber("DTL", Robot.ss_Config.driveMotorConstL);
     	SmartDashboard.putNumber("DTR", Robot.ss_Config.driveMotorConstR);

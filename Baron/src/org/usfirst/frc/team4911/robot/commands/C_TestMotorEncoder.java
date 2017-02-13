@@ -60,6 +60,8 @@ public class C_TestMotorEncoder extends Command {
     // Called repeatedly when this Command is scheduled to run
     double realEndTime;
     protected void execute() {
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
+    	
     	if(Timer.getFPGATimestamp() < endTime && 
     	   Math.abs(talon.getEncPos() - targetPos) > Math.abs(targetPos * 0.1)) {
     				if(direction)
