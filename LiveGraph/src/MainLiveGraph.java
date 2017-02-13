@@ -18,7 +18,7 @@ public class MainLiveGraph {
 		
 		camRun = new CameraRun();
 		camRun.CameraFirstInit();
-		while (true)
+		//while (true)
 		{
 			camRun.CameraInit();
 			camRun.run();
