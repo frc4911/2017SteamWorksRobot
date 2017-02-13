@@ -29,10 +29,10 @@ public class OI {
 	JoystickButton testBtn4 = new JoystickButton(autoTestStick, 4);
 	JoystickButton testBtn5 = new JoystickButton(autoTestStick, 5);
 	JoystickButton testBtn6 = new JoystickButton(autoTestStick, 6);
-	JoystickButton testBtn7 = new JoystickButton(autoTestStick, 7);
+	JoystickButton testBtn7 = new JoystickButton(opGamepad, 1);
 	
 	public OI() {
-		testBtn7.whenReleased(new CG_AutoTest());
+		testBtn7.whenReleased(new C_UpdateConst());
 		
 		testBtn1.whileHeld(new C_TestDriveByJoystick());
 		testBtn2.whileHeld(new C_TestDriveBySet());

@@ -22,13 +22,17 @@ public class SS_Config extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	public Scanner read;
-	public final String configFilepath = "/C/config.txt";
+	public final String configFilepath = "/c/config.txt";
 	
 	public double driveMotorConstL;
     public double driveMotorConstR;
     
     public double driveEncoderConstL;
     public double driveEncoderConstR;
+    
+    public SS_Config() {
+    	updateInfo();
+    }
     
     public double getEncoderValue(CANTalon encoder, double constant) {
     	return (encoder.getEncPosition() * constant);
@@ -54,7 +58,7 @@ public class SS_Config extends Subsystem {
 			return null;
 		}
 	}
-	
+    
 	public double findInfoDouble(String filepath, String tag) {
 		String[] temp = new String[2];
 		Scanner read = setupScanner(filepath);
@@ -62,22 +66,24 @@ public class SS_Config extends Subsystem {
 		if(ScannerSetup) {
 			while(read.hasNextLine()) {
 				temp = read.nextLine().split(" ");
-				
 				if(Objects.equals(tag, temp[0])) {
-					return Double.parseDouble(temp[1]);
+					if(Objects.equals(temp[1], "-1")) {
+						return (double)-1;
+					} else {
+						return (double)1;
+					}
 				}
 			}
 		}
-		
 		return (double)1;
 	}
     
     public void updateInfo() {
-    	Robot.ss_Config.driveMotorConstL = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstFL");
-    	Robot.ss_Config.driveMotorConstR = findInfoDouble(Robot.ss_Config.configFilepath, "driveMotorConstFR");
+    	driveMotorConstL = findInfoDouble(configFilepath, "driveMotorConstL");
+    	driveMotorConstR = findInfoDouble(configFilepath, "driveMotorConstR");
     	
-    	Robot.ss_Config.driveEncoderConstL = findInfoDouble(Robot.ss_Config.configFilepath, "driveEncoderConstL");
-    	Robot.ss_Config.driveEncoderConstR = findInfoDouble(Robot.ss_Config.configFilepath, "driveEncoderConstR");
+    	driveEncoderConstL = findInfoDouble(configFilepath, "driveEncoderConstL");
+    	driveEncoderConstR = findInfoDouble(configFilepath, "driveEncoderConstR");
     }
 	
     public void initDefaultCommand() {

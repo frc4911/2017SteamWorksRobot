@@ -21,12 +21,17 @@ public class C_UpdateConst extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_Config.updateInfo();
+    	//Robot.ss_Config.updateInfo();
+    	SmartDashboard.putNumber("DTL", Robot.ss_Config.driveMotorConstL);
+    	SmartDashboard.putNumber("DTR", Robot.ss_Config.driveMotorConstR);
+    	SmartDashboard.putNumber("DEL", Robot.ss_Config.driveEncoderConstL);
+    	SmartDashboard.putNumber("DER", Robot.ss_Config.driveEncoderConstR);
+    	SmartDashboard.putBoolean("Scanner", Robot.ss_Config.ScannerSetup);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
