@@ -20,6 +20,8 @@ import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 import edu.wpi.first.wpilibj.networktables.*;
 
+// be sure to copy opencv_ffmpegxxx_64 to c:\windows\system32 or "new VideoCapture()" will fail for ip cameras (local webcam works fine w/o it).
+
 public class CameraRun {
 	
 	VideoCapture camera;
