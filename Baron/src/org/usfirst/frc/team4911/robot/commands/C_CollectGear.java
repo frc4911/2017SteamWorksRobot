@@ -20,6 +20,8 @@ public class C_CollectGear extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
+    	
     	if(!(Robot.ss_GearHandler.getLimitSwitch())) {
     		Robot.ss_GearHandler.gearCollector.spin(0.3);
     	} else {
