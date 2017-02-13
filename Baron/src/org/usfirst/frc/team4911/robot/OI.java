@@ -4,6 +4,7 @@ import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
 import org.usfirst.frc.team4911.robot.commands.C_CollectGear;
 import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
 import org.usfirst.frc.team4911.robot.commands.C_SpitGear;
+import org.usfirst.frc.team4911.robot.commands.C_StopCommand;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveByJoystick;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetMotorSpeed;
@@ -12,6 +13,7 @@ import org.usfirst.frc.team4911.robot.commands.C_UpdateConst;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
 
 
 /**
@@ -40,7 +42,9 @@ public class OI {
 	JoystickButton testBtn7 = new JoystickButton(autoTestStick, 7);
 	
 	public OI() {
-		btnA.whileHeld(new C_CollectGear());
+		Command gColl = new C_CollectGear();
+		btnA.whenPressed(gColl);
+		btnA.whenReleased(new C_StopCommand(gColl));
 		btnY.whileHeld(new C_SpitGear());
 		
 		/**********Testing**********/
