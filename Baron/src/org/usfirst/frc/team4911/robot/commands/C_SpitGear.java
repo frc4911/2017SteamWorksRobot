@@ -20,6 +20,8 @@ public class C_SpitGear extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
+    	
     	Robot.ss_GearHandler.gearCollector.spin(0.5);
     }
 
