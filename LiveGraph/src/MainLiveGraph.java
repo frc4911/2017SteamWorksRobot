@@ -4,8 +4,6 @@ public class MainLiveGraph {
 	static CollectData cd;
 	static MinimalStaticChart msc;
 	static CameraRun camRun;
-	static GreenMass greenMass;
-	
 	
 	public static void main(String[] args) {
 
@@ -18,12 +16,7 @@ public class MainLiveGraph {
 		
 		camRun = new CameraRun();
 		camRun.CameraFirstInit();
-		while (true)
-		{
-			camRun.CameraInit();
-			camRun.run();
-		}
-
+		camRun.CameraInit();
+		camRun.run();
 	}
-
 }

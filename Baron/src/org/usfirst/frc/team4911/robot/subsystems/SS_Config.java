@@ -32,11 +32,14 @@ public class SS_Config extends Subsystem {
     	}
     }
     
+    public boolean ScannerSetup = false;
     public Scanner setUpScanner(String filepath) {
-    	Scanner read = null;
+		Scanner read = new Scanner("");
 		try {
 			read = new Scanner(new File(filepath));
 		} catch (FileNotFoundException e) {
+			ScannerSetup = false;
+			return null;
 		}
 		return read;
 	}
