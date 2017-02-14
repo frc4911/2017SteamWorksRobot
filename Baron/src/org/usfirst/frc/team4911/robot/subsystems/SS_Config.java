@@ -35,10 +35,6 @@ public class SS_Config extends Subsystem {
     	updateInfo();
     }
     
-    public double getEncoderValue(CANTalon encoder, double constant) {
-    	return (encoder.getEncPosition() * constant);
-    }
-    
     public boolean ScannerSetup = false;
     public Scanner setupScanner(String filepath) {
 		Scanner read = new Scanner("");
@@ -47,14 +43,6 @@ public class SS_Config extends Subsystem {
 			ScannerSetup = true;
 			return read;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			File file = new File(filepath);
-			try {
-				file.createNewFile();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 			ScannerSetup = false;
 			return null;
 		}
