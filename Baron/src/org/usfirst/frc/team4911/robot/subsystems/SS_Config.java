@@ -61,11 +61,11 @@ public class SS_Config extends Subsystem {
 				if(Objects.equals(tmp[1], "-1")) {
 					return (double)-1;
 				} else {
-					return (double)9001;
+					return (double)1;
 				}
 			}
     	}
-    	return (double)2;
+    	return (double)1;
     }
     
     public void updateInfo(ArrayList<String> contents) {
