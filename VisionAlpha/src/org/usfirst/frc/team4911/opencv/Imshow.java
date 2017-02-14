@@ -1,9 +1,13 @@
 package org.usfirst.frc.team4911.opencv;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -15,6 +19,36 @@ import org.opencv.core.Mat;
  * Utility class to show an OpenCV matrix in a GUI window.
  */
 public class Imshow {
+	public static class ImshowJFrame extends JFrame {
+
+		private ImageIcon icon;
+		private JLabel label;
+
+		public ImshowJFrame(String title, Mat img) {
+			super(title);
+
+			this.getContentPane().setLayout(new FlowLayout());
+			this.icon = new ImageIcon(toBufferedImage(img));
+			this.label = new JLabel(icon);
+			this.getContentPane().add(label);
+			this.pack();
+			this.setVisible(true);
+			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+		public void update(Mat img) {
+			icon.setImage(toBufferedImage(img));
+			repaint();
+		}
+
+		public void update(String title, Mat img) {
+			this.setTitle(title);
+			update(img);
+		}
+	}
+
+	private static List<JFrame> windows = new ArrayList<>();
+
 	/**
 	 * Converts an opencv matrix into a buffered image for AWT/Swing.
 	 * 
@@ -41,9 +75,10 @@ public class Imshow {
 	 * 
 	 * @param img
 	 *            the matrix to show
+	 * @return
 	 */
-	public static void show(Mat img) {
-		show("Image", img);
+	public static ImshowJFrame show(Mat img) {
+		return show("Image", img);
 	}
 
 	/**
@@ -54,12 +89,20 @@ public class Imshow {
 	 * @param img
 	 *            the matrix to show
 	 */
-	public static void show(String title, Mat img) {
-		JFrame frame = new JFrame(title);
-		frame.getContentPane().setLayout(new FlowLayout());
-		frame.getContentPane().add(new JLabel(new ImageIcon(toBufferedImage(img))));
-		frame.pack();
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	public static ImshowJFrame show(String title, Mat img) {
+		ImshowJFrame frame = new ImshowJFrame(title, img);
+
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		for (JFrame f : windows) {
+			int newX = f.getX() + f.getWidth();
+			int newY = f.getY();
+			if (newX + frame.getWidth() <= screen.getWidth() && newY <= screen.getHeight()) {
+				frame.setLocation(newX, newY);
+			} else if (newX + frame.getWidth() > screen.getWidth()) {
+				frame.setLocation(0, newY + f.getHeight());
+			}
+		}
+		windows.add(frame);
+		return frame;
 	}
 }
