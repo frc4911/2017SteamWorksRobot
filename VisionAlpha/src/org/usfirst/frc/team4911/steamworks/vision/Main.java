@@ -64,18 +64,20 @@ public class Main {
 
 	public void runCameraCapture() {
 		Mat image = new Mat();
-		VideoCapture videoCapture = new VideoCapture(0);
+		VideoCapture videoCapture = new VideoCapture(1);
 		ImshowJFrame frame = null;
 
 		while (true) {
+			long captureTimer = System.currentTimeMillis();
 			if (!videoCapture.read(image)) {
 				continue;
 			}
-			
-			long timer = System.currentTimeMillis();
+			captureTimer = System.currentTimeMillis() - captureTimer;
+
+			long processTimer = System.currentTimeMillis();
 			Imgproc.resize(image, image, new Size(640, 480));
 			Point error = vision.calculateError(image, true);
-			 timer = System.currentTimeMillis() - timer;
+			processTimer = System.currentTimeMillis() - processTimer;
 			Point target = new Point(image.width() / 2, image.height() / 2);
 			// Core.arrowedLine(image, target, new Point(target.x + error.x,
 			// target.y + error.y), new Scalar(0, 255, 0));
@@ -86,12 +88,11 @@ public class Main {
 				frame = Imshow.show(image);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			} else {
-				frame.update("Targeting Error: elapsed=" + timer + "ms", image);
+				frame.update("Targeting Error: capture=" + captureTimer + "ms" + ", process=" + processTimer + "ms",
+						image);
 			}
 		}
 	}
-
-
 
 	/**
 	 * Simply load up some of the opencv packages and verify that things are

@@ -11,10 +11,22 @@ import org.opencv.imgproc.Imgproc;
 public class VisionBase {
 
 	protected void drawRect(Mat image, Rect rect) {
+		if (rect == null) {
+			return;
+		}
+
 		Core.rectangle(image, rect.br(), rect.tl(), new Scalar(255, 0, 0), 2);
 	}
 
 	protected Rect findBoundingRect(Rect a, Rect b) {
+		if (a == null && b == null) {
+			return new Rect(0, 0, 0, 0);
+		} else if (a == null) {
+			return b;
+		} else if (b == null) {
+			return a;
+		}
+
 		int x = Math.min(a.x, b.x);
 		int y = Math.min(a.y, b.y);
 		int x2 = Math.max(a.x + a.width, b.x + b.width);
@@ -23,6 +35,9 @@ public class VisionBase {
 	}
 
 	protected Rect findBoundingRect(MatOfPoint contour) {
+		if (contour == null) {
+			return null;
+		}
 		MatOfPoint2f approxCurve = new MatOfPoint2f();
 		Imgproc.approxPolyDP(new MatOfPoint2f(contour.toArray()), approxCurve, 3, true);
 		return Imgproc.boundingRect(new MatOfPoint(approxCurve.toArray()));
