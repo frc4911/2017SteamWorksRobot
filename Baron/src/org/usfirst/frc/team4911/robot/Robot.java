@@ -122,6 +122,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		SmartDashboard.putNumber("I am alive", counter++);
+		SmartDashboard.putNumber("enc pos", ss_DriveTrain.driveTrainLeft.getEncPos());
 		Scheduler.getInstance().run();
 	}
 

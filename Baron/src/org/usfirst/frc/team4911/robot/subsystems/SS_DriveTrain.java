@@ -15,8 +15,8 @@ public class SS_DriveTrain extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	int tPortDriveTrainFrontLeft = 0;
-	int tPortDriveTrainRearLeft = 1;
+	int tPortDriveTrainFrontLeft = 9;
+	int tPortDriveTrainRearLeft = 7;
 	
 	int tPortDriveTrainFrontRight = 2;
 	int tPortDriveTrainRearRight = 3;

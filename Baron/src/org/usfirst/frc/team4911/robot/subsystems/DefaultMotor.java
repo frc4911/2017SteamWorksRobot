@@ -86,6 +86,7 @@ public class DefaultMotor {
 	
 	public void stopPID() {
 		pid.stopPIDMode();
+		zeroEnc();
 	}
 	
 	public void spin(double pow) {
