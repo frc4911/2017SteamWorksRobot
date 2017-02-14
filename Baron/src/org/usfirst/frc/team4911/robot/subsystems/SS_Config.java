@@ -75,6 +75,14 @@ public class SS_Config extends Subsystem {
     	driveEncoderConstL = findInfoDouble(configFilepath, "driveEncoderConstL");
     	driveEncoderConstR = findInfoDouble(configFilepath, "driveEncoderConstR");
     }
+    
+    public String getTalonConstants(String divider) {
+    	return "driveMotorConstL" + driveMotorConstL + divider +
+    			"driveMotorConstR" + driveMotorConstR + divider +
+    			"gearCollectorConst" + gearCollectorConst + divider +
+    			"driveEncoderConstL" + driveEncoderConstL + divider +
+    			"driveEncoderConstR" + driveEncoderConstR;
+    }
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class SS_UpdateLog extends Subsystem {
+	// a divider for splitting up strings
+	public String div = "*";
+	
 	private DriverStation ds = DriverStation.getInstance();
 	private PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
@@ -24,7 +27,7 @@ public class SS_UpdateLog extends Subsystem {
         setDefaultCommand(new C_UpdateLog());
     }
     
-    public String driveMode() {
+    private String driveMode() {
     	String mode = "";
     	
     	if(ds.isOperatorControl()) {
@@ -43,6 +46,10 @@ public class SS_UpdateLog extends Subsystem {
     	return mode;
     }
     
+    int talonConstIndex = 0;
+    
+    int runningCommandsIndex = 0;
+    int stoppedCommandsIndex = 0;
     
     int driveModeIndex = 0;
     int fmsConnectionIndex = 0;
@@ -54,8 +61,6 @@ public class SS_UpdateLog extends Subsystem {
     int leftJoystickYIndex = 0;
     int rightJoystickYIndex = 0;
     
-    int runningCommandsIndex = 0;
-    
     int dtLStartIndex = 0;
     int dtRStartIndex = 0;
     
@@ -65,11 +70,19 @@ public class SS_UpdateLog extends Subsystem {
 //    int fFeederStartIndex = 0;
 //    int fShooterStartIndex = 0;
     
-    int gHandlerStartIndex = 0;
+    int gCollLimitSwitchIndex = 0;
+    int gCollStartIndex = 0;
     
 //    int hangerStartIndex = 0;
     
     public SS_UpdateLog() {
+    	// talon constants
+    	talonConstIndex = Robot.ss_Logging.addColumn("talonConstants");
+    	
+    	// commands
+    	runningCommandsIndex = Robot.ss_Logging.addColumn("currCommands");
+    	stoppedCommandsIndex = Robot.ss_Logging.addColumn("stoppedCommands");
+    	
     	// DriverStation
     	driveModeIndex = Robot.ss_Logging.addColumn("driveMode");
     	fmsConnectionIndex = Robot.ss_Logging.addColumn("fmsConnection");
@@ -83,14 +96,11 @@ public class SS_UpdateLog extends Subsystem {
     	leftJoystickYIndex = Robot.ss_Logging.addColumn("leftStickY");
     	rightJoystickYIndex = Robot.ss_Logging.addColumn("rightStickY");
     	
-    	// current running commands
-    	runningCommandsIndex = Robot.ss_Logging.addColumn("currCommands");
-    	
     	// driveTrainLeft
-    	dtLStartIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainLeft.getDescription(), true);
+    	dtLStartIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainLeft.getDescription(), true, true);
     	
     	// driveTrainRight
-    	dtRStartIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainRight.getDescription(), true);
+    	dtRStartIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainRight.getDescription(), true, true);
     	
     	// fuelCollector
 //		fCollStartIndex = addMotorIndices();
@@ -103,17 +113,31 @@ public class SS_UpdateLog extends Subsystem {
 //		fShooterStartIndex = addMotorIndices();
     	
 		// gear assembly
-		gHandlerStartIndex = addMotorIndices(Robot.ss_GearHandler.gearCollector.getDescription(), false);
+    	gCollLimitSwitchIndex = Robot.ss_Logging.addColumn(Robot.ss_GearHandler.gearCollector.getDescription() + " limitSwitch");
+		gCollStartIndex = addMotorIndices(Robot.ss_GearHandler.gearCollector.getDescription(), false , false);
     	
 		// hanger
 //    	hangerStartIndex = addMotorIndices();
     }
 
+    boolean logConstants = true;
     public void log() {
     	if (Robot.ss_Logging != null){
 
     		SmartDashboard.putBoolean("SS_Logging present", true);
 
+    		// talon constants
+    		if(logConstants) {
+	    		smartLog(false, true, talonConstIndex, Robot.ss_Config.getTalonConstants(div));
+	    		logConstants = false;
+    		}
+    		
+    		// current running command 
+    		boolean cmdSmart = false;
+    		boolean cmdLog = true;
+    		smartLog(cmdSmart, cmdLog, runningCommandsIndex, runningCommands);
+    		smartLog(cmdSmart, cmdLog, stoppedCommandsIndex, stoppedCommands);
+    		
     		// DriverStation
     		boolean dsSmart = false;
     		boolean dsLog = true;
@@ -133,14 +157,11 @@ public class SS_UpdateLog extends Subsystem {
     		smartLog(joySmart, joyLog, leftJoystickYIndex, "" + Robot.oi.stickL.getY());
     		smartLog(joySmart, joyLog, rightJoystickYIndex, "" + Robot.oi.stickR.getY());
     		
-    		// current running command    		
-    		smartLog(false, true, runningCommandsIndex, runningCommands);
-    		
     		// driveTrainLeft
-    		logDefaultMotor(Robot.ss_DriveTrain.driveTrainLeft, true, dtLStartIndex);
+    		logDefaultMotor(Robot.ss_DriveTrain.driveTrainLeft, true, true, dtLStartIndex);
     		
     		// driveTrainRight
-    		logDefaultMotor(Robot.ss_DriveTrain.driveTrainRight, true, dtRStartIndex);
+    		logDefaultMotor(Robot.ss_DriveTrain.driveTrainRight, true, true, dtRStartIndex);
 
     		// fuelCollector
 //    		logDefaultMotor(null, false, fCollStartIndex);
@@ -153,7 +174,8 @@ public class SS_UpdateLog extends Subsystem {
 //    		logDefaultMotor(null, true, fShooterStartIndex);
     		
     		// gear assembly
-    		logDefaultMotor(Robot.ss_GearHandler.gearCollector, false, gHandlerStartIndex);
+    		smartLog(false, true, gCollLimitSwitchIndex, "" + Robot.ss_GearHandler.getLimitSwitch());
+    		logDefaultMotor(Robot.ss_GearHandler.gearCollector, false, false, gCollStartIndex);
     		
     		// hanger
 //    		logDefaultMotor(null, false, hangerStartIndex);
@@ -166,9 +188,10 @@ public class SS_UpdateLog extends Subsystem {
     	}
     	
     	runningCommands = "";
+    	stoppedCommands = "";
     }
     
-    public int addMotorIndices(String desc, boolean hasFollower) {
+    private int addMotorIndices(String desc, boolean hasFollower, boolean hasEncoder) {
     	int startIndex = Robot.ss_Logging.addColumn(desc + " speed");
     	Robot.ss_Logging.addColumn(desc + " TalonStickyFaultsUnderVolt");
     	Robot.ss_Logging.addColumn(desc + " TalonVoltage");
@@ -179,11 +202,13 @@ public class SS_UpdateLog extends Subsystem {
 	    	Robot.ss_Logging.addColumn(desc + " FTalonCurrrent");
     	}
     	Robot.ss_Logging.addColumn(desc + " RPM");
-    	Robot.ss_Logging.addColumn(desc + " currEncPos");
+    	if(hasEncoder) {
+    		Robot.ss_Logging.addColumn(desc + " currEncPos");
+    	}
     	return startIndex;
     }
     
-    public void logDefaultMotor(DefaultMotor motor, boolean hasFollower, int index) {
+    private void logDefaultMotor(DefaultMotor motor, boolean hasFollower, boolean hasEncoder, int index) {
     	boolean smart = false;
 		boolean log = true;
 		smartLog(smart, log, index++, 
@@ -204,11 +229,13 @@ public class SS_UpdateLog extends Subsystem {
 		}
 		smartLog(smart, log, index++, 
 				"" + motor.getTalonSpeed());
-		smartLog(smart, log, index++, 
-				"" + motor.getEncPos());
+		if(hasEncoder) {
+			smartLog(smart, log, index++, 
+					"" + motor.getEncPos());
+		}
     }
     
-    public void smartLog(boolean smart, boolean log, int keyIndex, String value) {
+    private void smartLog(boolean smart, boolean log, int keyIndex, String value) {
     	if(smart) {
     		SmartDashboard.putString(Robot.ss_Logging.getHeader(keyIndex), value);
     	}
@@ -219,7 +246,13 @@ public class SS_UpdateLog extends Subsystem {
     
     public String runningCommands = "";
     public void logRunningCommands(String commandName) {
-    	runningCommands += commandName + "-";
+    	runningCommands += commandName + div;
+    }
+    
+    public String stoppedCommands = "";
+    // hammer is the command that is stopping the stoppedCommand
+    public void logStoppedCommands(String hammer, String stoppedCommand) {
+    	stoppedCommands += hammer + "STOPPED" + stoppedCommand + div;
     }
 }
 

@@ -7,43 +7,37 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class C_CollectGear extends Command {
-
-    public C_CollectGear() {
+public class C_StopCommand extends Command {
+	Command command;
+	
+    public C_StopCommand(Command command) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_GearHandler);
+        // eg. requires(chassis);
+    	this.command = command;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	command.cancel();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
-    	
-    	if(!Robot.ss_GearHandler.getLimitSwitch()) {
-    		Robot.ss_GearHandler.gearCollector.spin(-0.5);
-    	}
+    	Robot.ss_UpdateLog.logStoppedCommands(this.getName(), command.getName());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(Robot.ss_GearHandler.getLimitSwitch()) {
-    		return true;
-    	} else {
-    		return false;
-    	}
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_GearHandler.gearCollector.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
     }
 }

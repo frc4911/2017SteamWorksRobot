@@ -18,6 +18,8 @@ public class SS_GearHandler extends Subsystem {
 	
 	private DigitalInput limitSwitch = new DigitalInput(0);
 	public boolean getLimitSwitch() {
+		// true is when the limit switch is triggered
+		// false is when the limit switch is not triggered
 		return limitSwitch.get();
 	}
 	

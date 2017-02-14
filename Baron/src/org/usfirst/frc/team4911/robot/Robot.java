@@ -28,8 +28,11 @@ public class Robot extends IterativeRobot {
 	public final static SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
 	public final static SS_GearHandler ss_GearHandler = new SS_GearHandler();
 	public final static SS_TestMotor ss_TestMotor = new SS_TestMotor();
+	
+	// all subsystems must be created before logging
 	public final static SS_Logging ss_Logging = new SS_Logging();
 	public final static SS_UpdateLog ss_UpdateLog = new SS_UpdateLog();
+	
 	public static OI oi;
 
 	Command autonomousCommand;
