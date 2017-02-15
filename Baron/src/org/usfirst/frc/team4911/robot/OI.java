@@ -6,16 +6,19 @@ import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
 import org.usfirst.frc.team4911.robot.commands.C_MotorToEncPos;
 import org.usfirst.frc.team4911.robot.commands.C_SpitGear;
 import org.usfirst.frc.team4911.robot.commands.C_StopCommand;
+import org.usfirst.frc.team4911.robot.commands.C_StopTuningPID;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveByJoystick;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetMotorSpeed;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetTalonNum;
+import org.usfirst.frc.team4911.robot.commands.C_TunePID;
 
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -43,6 +46,7 @@ public class OI {
 	JoystickButton testBtn6 = new JoystickButton(autoTestStick, 6);
 	JoystickButton testBtn7 = new JoystickButton(autoTestStick, 7);
 	JoystickButton testBtn11 = new JoystickButton(autoTestStick, 11);
+	JoystickButton testBtn12 = new JoystickButton(autoTestStick, 12);
 	
 	public OI() {
 		Command gColl = new C_CollectGear();
@@ -51,8 +55,7 @@ public class OI {
 		btnY.whileHeld(new C_SpitGear());
 		
 		/**********Testing**********/
-		testBtn11.whenReleased(new C_MotorToEncPos(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft, 2000, 1440, 360, 
-				4.0, 0.0, 0.0, 0.0, 0.8, 0, 1.4, 0.8, CANTalon.TalonControlMode.Position));
+		testBtn11.whenReleased(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft));
 		
 		testBtn7.whenReleased(new CG_AutoTest());
 		

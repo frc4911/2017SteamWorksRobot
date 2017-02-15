@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class C_MotorToEncPos extends Command {
-	
 	DefaultMotor motor;
 	int ticks;
 	int tickPerRev;
@@ -29,7 +28,7 @@ public class C_MotorToEncPos extends Command {
 	CANTalon.TalonControlMode PIDType;
 	
     public C_MotorToEncPos(Subsystem subsystem, DefaultMotor motor, int ticks, int tickPerRev, int encoderTicksPerRev, double kp, double kd, double ki,
-    		double kf, double rampRate, int iZone, double peakOutputVoltage, double nominalOutputVoltage, CANTalon.TalonControlMode PIDType) {
+    		double kf, double rampRate, int iZone, double peakOutputVoltage, double nominalOutputVoltage, String PIDType) {
         // Use requires() here to declare subsystem dependencies
         requires(subsystem);
         this.motor = motor;
@@ -44,7 +43,16 @@ public class C_MotorToEncPos extends Command {
     	this.iZone = iZone;
     	this.peakOutputVoltage = peakOutputVoltage;
     	this.nominalOutputVoltage = nominalOutputVoltage;
-    	this.PIDType = PIDType;
+    	this.PIDType = stringToPIDType(PIDType);
+    }
+    
+    private CANTalon.TalonControlMode stringToPIDType(String PIDType) {
+    	switch(PIDType) {
+    		case "Position": return CANTalon.TalonControlMode.Position;
+    		case "Speed": return CANTalon.TalonControlMode.Speed;
+    		case "Current": return CANTalon.TalonControlMode.Current;
+    		default: return CANTalon.TalonControlMode.Disabled;
+    	}
     }
 
     // Called just before this Command runs the first time
