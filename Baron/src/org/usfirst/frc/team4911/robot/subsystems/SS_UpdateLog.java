@@ -174,7 +174,6 @@ public class SS_UpdateLog extends Subsystem {
 //    		logDefaultMotor(null, true, fShooterStartIndex);
     		
     		// gear assembly
-    		smartLog(false, true, gCollLimitSwitchIndex, "" + Robot.ss_GearHandler.getLimitSwitch());
     		logDefaultMotor(Robot.ss_GearHandler.gearCollector, false, false, gCollStartIndex);
     		
     		// hanger

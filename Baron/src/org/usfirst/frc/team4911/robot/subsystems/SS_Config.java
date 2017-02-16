@@ -17,12 +17,20 @@ public class SS_Config extends Subsystem {
     // here. Call these from Commands.
 	public final String configFilepath = "/c/config.txt";
 	
-	public double driveMotorConstL = 0;
-    public double driveMotorConstR = 0;
-    public double gearCollectorConst = 0;
+	public double driveMotorConstL = 1;
+    public double driveMotorConstR = 1;
+    public double gearCollectorConst = 1;
+    public double gearLiftConst = 1;
+    public double hopperConst = 1;
+    public double climberConst = 1;
+    public double shooterConst = 1;
+    public double shooterIntakeConst = 1;
+    public double collectorConst = 1;
     
-    public double driveEncoderConstL = 0;
-    public double driveEncoderConstR = 0;
+    public double driveEncoderConstL = 1;
+    public double driveEncoderConstR = 1;
+    public double climberEncoderConst = 1;
+    public double shooterEncoderConst = 1;
     
     public SS_Config() {
     	Scanner read = setUpScanner(configFilepath);

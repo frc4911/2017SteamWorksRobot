@@ -14,23 +14,25 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class C_TunePID extends Command {
 	DefaultMotor motor;
-	int ticks;
-	int tickPerRev;
-	int encoderTicksPerRev;
-	double kp;
-	double kd;
-	double ki;
-	double kf;
-	double rampRate;
-	int iZone;
-	double peakOutputVoltage;
-	double nominalOutputVoltage;
-	CANTalon.TalonControlMode PIDType;
+	int ticks = 0;
+	int ticksPerRev = 0;
+	int encoderTicksPerRev = 0;
+	double kp = 0;
+	double kd = 0;
+	double ki = 0;
+	double kf = 0;
+	double rampRate = 0;
+	int iZone = 0;
+	double peakOutputVoltage = 0;
+	double nominalOutputVoltage = 0;
+	CANTalon.TalonControlMode PIDType = CANTalon.TalonControlMode.Disabled;
 	
-    public C_TunePID(Subsystem subsystem, DefaultMotor motor) {
+    public C_TunePID(Subsystem subsystem, DefaultMotor motor, int ticksPerRev, int encoderTicksPerRev) {
         // Use requires() here to declare subsystem dependencies
         requires(subsystem);
         this.motor = motor;
+        this.ticksPerRev = ticksPerRev;
+        this.encoderTicksPerRev = encoderTicksPerRev;
     }
     
     private CANTalon.TalonControlMode stringToPIDType(String PIDType) {
@@ -46,8 +48,6 @@ public class C_TunePID extends Command {
     
     private void updatePIDInfo() {
         this.ticks = SmartDashboard.getInt("PID Pos", 0);
-    	this.tickPerRev = 2400;
-    	this.encoderTicksPerRev = 600;
     	this.kp = SmartDashboard.getNumber("kp", 0);
     	this.kd = SmartDashboard.getNumber("kd", 0);
     	this.ki = SmartDashboard.getNumber("ki", 0);
@@ -81,7 +81,7 @@ public class C_TunePID extends Command {
 		SmartDashboard.putBoolean("End PID",  false);
     	
     	motor.zeroEnc();
-    	motor.moveToEncPos(ticks, tickPerRev, encoderTicksPerRev, kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType);
+    	motor.moveToEncPos(ticks, ticksPerRev, encoderTicksPerRev, kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType);
     }
 
     private boolean end = false;

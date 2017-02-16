@@ -1,17 +1,17 @@
 package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.robot.Robot;
+import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class C_CollectGear extends Command {
-
-    public C_CollectGear() {
+public class C_ClimberUp extends Command {
+    public C_ClimberUp() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_GearHandler);
+        requires(Robot.ss_Climber);
     }
 
     // Called just before this Command runs the first time
@@ -20,26 +20,26 @@ public class C_CollectGear extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
-    	
-    	if(!Robot.ss_GearHandler.getLSCollect()) {
-    		Robot.ss_GearHandler.gearCollector.spin(-0.5);
+    	double input = Robot.oi.opGamepad.getRawAxis(1);
+    	if(input < 0) {
+    		input = 0;
     	}
+    	
+    	Robot.ss_Climber.climberMotor.spin(input);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return !Robot.ss_GearHandler.getLSCollect();
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_GearHandler.gearCollector.stop();
+    	Robot.ss_Climber.climberMotor.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
     }
 }

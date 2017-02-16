@@ -1,38 +1,36 @@
 package org.usfirst.frc.team4911.robot.commands;
 
-import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
+import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  *
  */
-public class C_StopTuningPID extends Command {
+public class C_AgitateHopper extends Command {
 
-	DefaultMotor motor;
-    public C_StopTuningPID(Subsystem subsystem, DefaultMotor motor) {
+    public C_AgitateHopper() {
         // Use requires() here to declare subsystem dependencies
-        requires(subsystem);
-        this.motor = motor;
+        requires(Robot.SS_Hopper);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	motor.stopPID();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.SS_Hopper.hopperMotor.spin(0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.SS_Hopper.hopperMotor.stop();
     }
 
     // Called when another command which requires one or more of the same

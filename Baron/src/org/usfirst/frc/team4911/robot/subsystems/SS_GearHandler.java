@@ -13,14 +13,31 @@ public class SS_GearHandler extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	private int tPort = 4;
-	public DefaultMotor gearCollector = new DefaultMotor(tPort, Robot.ss_Config.gearCollectorConst, "Gear Collector");
+	int tPortCollector = 4;
+	int tPortLift = 20;
 	
-	private DigitalInput limitSwitch = new DigitalInput(0);
-	public boolean getLimitSwitch() {
-		// true is when the limit switch is triggered
-		// false is when the limit switch is not triggered
-		return limitSwitch.get();
+	public DefaultMotor gearCollector = new DefaultMotor(tPortCollector, Robot.ss_Config.gearCollectorConst, "Gear Collector");
+	public DefaultMotor gearLift = new DefaultMotor(tPortLift, Robot.ss_Config.gearLiftConst, "Gear Lift");
+	
+	private DigitalInput lsCollect = new DigitalInput(0);
+	public boolean getLSCollect() {
+		// false is when the limit switch is triggered
+		// true is when the limit switch is not triggered
+		return lsCollect.get();
+	}
+	
+	private DigitalInput lsUp = new DigitalInput(1);
+	public boolean getLSUp() {
+		// false is when the limit switch is triggered
+		// true is when the limit switch is not triggered
+		return lsUp.get();
+	}
+	
+	private DigitalInput lsDown = new DigitalInput(2);
+	public boolean getLSDown() {
+		// false is when the limit switch is triggered
+		// true is when the limit switch is not triggered
+		return lsDown.get();
 	}
 	
     public void initDefaultCommand() {

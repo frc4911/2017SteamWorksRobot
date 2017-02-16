@@ -1,6 +1,10 @@
 
 package org.usfirst.frc.team4911.robot;
 
+import org.usfirst.frc.team4911.robot.subsystems.SS_Hopper;
+import org.usfirst.frc.team4911.robot.subsystems.SS_Collector;
+import org.usfirst.frc.team4911.robot.subsystems.SS_Shooter;
+import org.usfirst.frc.team4911.robot.subsystems.SS_Climber;
 import org.usfirst.frc.team4911.robot.subsystems.SS_Config;
 import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrain;
 import org.usfirst.frc.team4911.robot.subsystems.SS_GearHandler;
@@ -27,6 +31,10 @@ public class Robot extends IterativeRobot {
 	public final static SS_Config ss_Config = new SS_Config();
 	public final static SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
 	public final static SS_GearHandler ss_GearHandler = new SS_GearHandler();
+	public final static SS_Climber ss_Climber = new SS_Climber();
+	public final static SS_Shooter SS_Shooter = new SS_Shooter();
+	public final static SS_Collector SS_Collector = new SS_Collector();
+	public final static SS_Hopper SS_Hopper = new SS_Hopper();
 	public final static SS_TestMotor ss_TestMotor = new SS_TestMotor();
 	
 	// all subsystems must be created before logging

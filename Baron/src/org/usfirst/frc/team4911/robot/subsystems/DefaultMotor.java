@@ -23,7 +23,7 @@ public class DefaultMotor {
 	
 	private String description;
 	
-	public DefaultMotor(int TPort, double constant,String description) {
+	public DefaultMotor(int TPort, double constant, String description) {
 		limited = false;
 		motorPair = false;
 		

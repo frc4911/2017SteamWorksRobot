@@ -4,36 +4,33 @@ import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
 
 import com.ctre.CANTalon;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class C_MotorToEncPos extends Command {
+public class C_MotorPID extends Command {
 	DefaultMotor motor;
-	int ticks;
-	int tickPerRev;
-	int encoderTicksPerRev;
-	double kp;
-	double kd;
-	double ki;
-	double kf;
-	double rampRate;
-	int iZone;
-	double peakOutputVoltage;
-	double nominalOutputVoltage;
-	CANTalon.TalonControlMode PIDType;
+	int ticks = 0;
+	int ticksPerRev = 0;
+	int encoderTicksPerRev = 0;
+	double kp = 0;
+	double kd = 0;
+	double ki = 0;
+	double kf = 0;
+	double rampRate = 0;
+	int iZone = 0;
+	double peakOutputVoltage = 0;
+	double nominalOutputVoltage = 0;
+	CANTalon.TalonControlMode PIDType = CANTalon.TalonControlMode.Disabled;
 	
-    public C_MotorToEncPos(Subsystem subsystem, DefaultMotor motor, int ticks, int tickPerRev, int encoderTicksPerRev, double kp, double kd, double ki,
+    public C_MotorPID(Subsystem subsystem, DefaultMotor motor, int ticks, int ticksPerRev, int encoderTicksPerRev, double kp, double kd, double ki,
     		double kf, double rampRate, int iZone, double peakOutputVoltage, double nominalOutputVoltage, String PIDType) {
-        // Use requires() here to declare subsystem dependencies
-        requires(subsystem);
+    	requires(subsystem);
         this.motor = motor;
         this.ticks = ticks;
-    	this.tickPerRev = tickPerRev;
+    	this.ticksPerRev = ticksPerRev;
     	this.encoderTicksPerRev = encoderTicksPerRev;
     	this.kp = kp;
     	this.kd = kd;
@@ -51,44 +48,25 @@ public class C_MotorToEncPos extends Command {
     		case "Position": return CANTalon.TalonControlMode.Position;
     		case "Speed": return CANTalon.TalonControlMode.Speed;
     		case "Current": return CANTalon.TalonControlMode.Current;
-    		default: return CANTalon.TalonControlMode.Disabled;
+    		default: 
+    			motor.stopPID();
+    			return CANTalon.TalonControlMode.PercentVbus;
     	}
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	motor.zeroEnc();
-    	curTime = Timer.getFPGATimestamp();
-    	prevTime = curTime;
-    	motor.moveToEncPos(ticks, tickPerRev, encoderTicksPerRev, kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType);
+    	motor.moveToEncPos(ticks, ticksPerRev, encoderTicksPerRev, kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType);
     }
-    
-    private double prevTime = 0.0;
-    private double curTime = 0.0;
-    private double time = 0.0;
-    private void timeToEnd() {
-    	curTime = Timer.getFPGATimestamp();
-    	time += (curTime - prevTime);
-    	prevTime = curTime;
-    }
-    
-    private final double TOLERANCE = 0.01;
+
+    // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	timeToEnd();
-    	if((Math.abs(motor.getEncPos() - ticks)) > (ticks * TOLERANCE)) {
-    		time = 0.0;
-    	}
     }
-    
+
     // Make this return true when this Command no longer needs to run execute()
-    private final double DURATION = 2.0;
     protected boolean isFinished() {
-    	SmartDashboard.putNumber("time", time);
-    	if(time >= DURATION) {
-    		return true;
-    	} else {
-    		return false;
-    	}
+        return false;
     }
 
     // Called once after isFinished returns true
@@ -99,5 +77,6 @@ public class C_MotorToEncPos extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }
