@@ -73,6 +73,8 @@ public class SS_UpdateLog extends Subsystem {
     int gCollLimitSwitchIndex = 0;
     int gCollStartIndex = 0;
     
+    int navXStartIndex = 0;
+    
 //    int hangerStartIndex = 0;
     
     public SS_UpdateLog() {
@@ -118,6 +120,8 @@ public class SS_UpdateLog extends Subsystem {
     	
 		// hanger
 //    	hangerStartIndex = addMotorIndices();
+		
+		navXStartIndex = addNAVXIndices();
     }
 
     boolean logConstants = true;
@@ -180,6 +184,7 @@ public class SS_UpdateLog extends Subsystem {
     		// hanger
 //    		logDefaultMotor(null, false, hangerStartIndex);
     		
+    		logNAVX(navXStartIndex);
     		// flush
     		Robot.ss_Logging.logFlush();
     	}
@@ -253,6 +258,132 @@ public class SS_UpdateLog extends Subsystem {
     // hammer is the command that is stopping the stoppedCommand
     public void logStoppedCommands(String hammer, String stoppedCommand) {
     	stoppedCommands += hammer + "STOPPED" + stoppedCommand + div;
+    }
+    
+    private int addNAVXIndices(){
+    	String desc = "NavX";
+    	
+    	int startIndex = Robot.ss_Logging.addColumn(desc + " ");
+        Robot.ss_Logging.addColumn(desc + " IMU_Connected");
+        Robot.ss_Logging.addColumn(desc + " IMU_Yaw");
+        Robot.ss_Logging.addColumn(desc + " IMU_Pitch");
+        Robot.ss_Logging.addColumn(desc + " IMU_Roll");
+        Robot.ss_Logging.addColumn(desc + " IMU_CompassHeading");
+        Robot.ss_Logging.addColumn(desc + " IMU_Update_Count");
+        Robot.ss_Logging.addColumn(desc + " IMU_Byte_Count");
+
+        /* These functions are compatible w/the WPI Gyro Class */
+        Robot.ss_Logging.addColumn(desc + " IMU_TotalYaw");
+        Robot.ss_Logging.addColumn(desc + " IMU_YawRateDPS");
+
+        Robot.ss_Logging.addColumn(desc + " IMU_Accel_X");
+        Robot.ss_Logging.addColumn(desc + " IMU_Accel_Y");
+        Robot.ss_Logging.addColumn(desc + " IMU_IsMoving");
+        Robot.ss_Logging.addColumn(desc + " IMU_Temp_C");
+        Robot.ss_Logging.addColumn(desc + " IMU_IsCalibrating");
+
+        Robot.ss_Logging.addColumn(desc + " Velocity_X");
+        Robot.ss_Logging.addColumn(desc + " Velocity_Y");
+        Robot.ss_Logging.addColumn(desc + " Displacement_X");
+        Robot.ss_Logging.addColumn(desc + " Displacement_Y");
+
+        /* Display Raw Gyro/Accelerometer/Magnetometer Values                       */
+        /* NOTE:  These values are not normally necessary, but are made available   */
+        /* for advanced users.  Before using this data, please consider whether     */
+        /* the processed data (see above) will suit your needs.                     */
+
+        Robot.ss_Logging.addColumn(desc + " RawGyro_X");
+        Robot.ss_Logging.addColumn(desc + " RawGyro_Y");
+        Robot.ss_Logging.addColumn(desc + " RawGyro_Z");
+        Robot.ss_Logging.addColumn(desc + " RawAccel_X");
+        Robot.ss_Logging.addColumn(desc + " RawAccel_Y");
+        Robot.ss_Logging.addColumn(desc + " RawAccel_Z");
+        Robot.ss_Logging.addColumn(desc + " RawMag_X");
+        Robot.ss_Logging.addColumn(desc + " RawMag_Y");
+        Robot.ss_Logging.addColumn(desc + " RawMag_Z");
+        Robot.ss_Logging.addColumn(desc + " IMU_Temp_C");
+        /* Omnimount Yaw Axis Information                                           */
+        /* For more info, see http://navx-mxp.kauailabs.com/installation/omnimount  */
+//        AHRS::BoardYawAxis yaw_axis = ahrs->GetBoardYawAxis();
+//        SmartDashboard::PutString(  " YawAxisDirection",     yaw_axis.up ? "Up" : "Down" );
+//        Robot.ss_Logging.addColumn(desc + " YawAxis",              yaw_axis.board_axis );
+
+        /* Sensor Board Information                                                 */
+        Robot.ss_Logging.addColumn(desc + " FirmwareVersion");
+
+        /* Quaternion Data                                                          */
+        /* Quaternions are fascinating, and are the most compact representation of  */
+        /* orientation data.  All of the Yaw, Pitch and Roll Values can be derived  */
+        /* from the Quaternions.  If interested in motion processing, knowledge of  */
+        /* Quaternions is highly recommended.                                       */
+        Robot.ss_Logging.addColumn(desc + " QuaternionW");
+        Robot.ss_Logging.addColumn(desc + " QuaternionX");
+        Robot.ss_Logging.addColumn(desc + " QuaternionY");
+        Robot.ss_Logging.addColumn(desc + " QuaternionZ");
+
+    	return startIndex;
+    }
+
+    private void logNAVX(int index){
+    	boolean smart = true;
+    	boolean log = false;
+
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.isConnected());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getYaw());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getPitch());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRoll());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getCompassHeading());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getUpdateCount());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getByteCount());
+
+        /* These functions are compatible w/the WPI Gyro Class */
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getAngle());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRate());
+
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getWorldLinearAccelX());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getWorldLinearAccelY());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.isMoving());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getTempC());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.isCalibrating());
+
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getVelocityX() );
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getVelocityY() );
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getDisplacementX() );
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getDisplacementY() );
+
+        /* Display Raw Gyro/Accelerometer/Magnetometer Values                       */
+        /* NOTE:  These values are not normally necessary, but are made available   */
+        /* for advanced users.  Before using this data, please consider whether     */
+        /* the processed data (see above) will suit your needs.                     */
+
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawGyroX());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawGyroY());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawGyroZ());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawAccelX());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawAccelY());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawAccelZ());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawMagX());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawMagY());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawMagZ());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getTempC());
+        /* Omnimount Yaw Axis Information                                           */
+        /* For more info, see http://navx-mxp.kauailabs.com/installation/omnimount  */
+//        AHRS::BoardYawAxis yaw_axis = ahrs->GetBoardYawAxis();
+//        SmartDashboard::PutString(  "YawAxisDirection",     yaw_axis.up ? "Up" : "Down" );
+//        SmartDashboard::PutNumber(  "YawAxis",              yaw_axis.board_axis );
+
+        /* Sensor Board Information                                                 */
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getFirmwareVersion());
+
+        /* Quaternion Data                                                          */
+        /* Quaternions are fascinating, and are the most compact representation of  */
+        /* orientation data.  All of the Yaw, Pitch and Roll Values can be derived  */
+        /* from the Quaternions.  If interested in motion processing, knowledge of  */
+        /* Quaternions is highly recommended.                                       */
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getQuaternionW());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getQuaternionX());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getQuaternionY());
+		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getQuaternionZ());
     }
 }
 
