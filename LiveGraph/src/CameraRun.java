@@ -18,7 +18,7 @@ import org.opencv.core.Core;
 //import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
-import edu.wpi.first.wpilibj.networktables.*;
+//import edu.wpi.first.wpilibj.networktables.*;
 
 // be sure to copy opencv_ffmpegxxx_64 to c:\windows\system32 or "new VideoCapture()" will fail for ip cameras (local webcam works fine w/o it).
 
@@ -36,7 +36,7 @@ public class CameraRun {
 	ImageIcon image;//, imageTest;
 	BufferedImage buffImg;
 	JLabel label;
-	NetworkTable table;
+//	NetworkTable table;
 			
 	public void CameraFirstInit()
 	{
@@ -51,8 +51,8 @@ public class CameraRun {
 		
 		System.out.println(streamAddress);
 		
-		//camera = new VideoCapture(streamAddress);//0 - USB Cam....?
-		camera = new VideoCapture(0);
+//		camera = new VideoCapture(streamAddress);//0 - USB Cam....?
+		camera = new VideoCapture(2);
 		if (camera.isOpened())
 			System.out.println("found camera");
 		else
@@ -151,22 +151,84 @@ public class CameraRun {
 	Color c;
 	Color newColor = new Color(200,0,200);
 	
+	int startX = 0;
+	int endX = 0;
+	
+	int startY = 0;
+	int endY = 0;
+	
+	boolean start = true;
+	
+	boolean top = true;
+	boolean bottom = false;
+	
+	int tmpStartX = 0;
+	int tmpStartY = 0;
+	
+	int tmpEndX = 0;
+	
+	boolean tmpStart = false;
+	boolean tmpTop = false;
+	
 	private BufferedImage modifyImage(BufferedImage img)
 	{
-//		int width = img.getWidth();
-//		int height = img.getHeight();
-//
-//		for(int y = 0; y<height; y++)
-//		{
-//			for(int x=0; x<width; x++)
-//			{
-//				c = new Color(img.getRGB(x,y));
-//				if ((c.getRed()<60) && (c.getGreen()<60) && (c.getBlue()<60))
-//				{
-//					img.setRGB(x, y, newColor.getRGB());
-//				}
-//			}
-//		}
+		int width = img.getWidth();
+		int height = img.getHeight();
+
+		start = true;
+		top = true;
+		
+		for(int y = 0; y<height; y++)
+		{
+			for(int x=0; x<width; x++)
+			{
+				c = new Color(img.getRGB(x,y));
+				if((c.getRed()>80) && (c.getGreen()>245) && (c.getBlue()>135))
+				{
+					if(start && top) {
+						startX = x;
+						startY = y;
+						
+						start = false;
+					}
+					else if(tmpStart && tmpTop) {
+						tmpStartX = x;
+						tmpStartY = y;
+						tmpStart = false;
+					}
+					
+					img.setRGB(x, y, newColor.getRGB());
+				}
+				else if(!start && top) {
+					endX = x - 1;
+					
+					top = false;
+					bottom = true;
+					
+					tmpStart = true;
+					tmpTop = true;
+				}
+				else if(bottom && (x == startX)) {
+					endY = y - 1;
+					bottom = false;
+					tmpTop = false;
+				}
+				else if(!tmpStart && tmpTop) {
+					tmpEndX = x - 1;
+					
+					int diff = endX - startX + 2;
+					int tmpDiff = tmpEndX - tmpStartX;
+					
+					if(diff < tmpDiff) {
+						startX = tmpStartX;
+						startY = tmpStartY;
+//						endX = tmpEndX;
+					}
+				}
+			}
+		}
+		
+		System.out.println("topLeft(" + startX + ", " + startY + ") bottomRight(" + endX + ", " + endY + ")");
 		return img;
 	}
 }
