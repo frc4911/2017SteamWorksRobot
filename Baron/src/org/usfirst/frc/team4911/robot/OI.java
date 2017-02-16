@@ -1,19 +1,25 @@
 package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
+import org.usfirst.frc.team4911.robot.commands.C_Collect;
 import org.usfirst.frc.team4911.robot.commands.C_CollectGear;
 import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
+import org.usfirst.frc.team4911.robot.commands.C_MoveToEncPos;
+import org.usfirst.frc.team4911.robot.commands.C_MoveGear;
 import org.usfirst.frc.team4911.robot.commands.C_SpitGear;
 import org.usfirst.frc.team4911.robot.commands.C_StopCommand;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveByJoystick;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetMotorSpeed;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetTalonNum;
-import org.usfirst.frc.team4911.robot.commands.C_UpdateConst;
+import org.usfirst.frc.team4911.robot.commands.C_TunePID;
+
+import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -25,10 +31,17 @@ public class OI {
 	public Joystick stickR = new Joystick(1);
 	public Joystick opGamepad = new Joystick(2);
 	
+	JoystickButton dtLeftTrigger = new JoystickButton(stickL, 1);
+	JoystickButton dtRightTrigger = new JoystickButton(stickR, 1);
+	
 	JoystickButton btnA = new JoystickButton(opGamepad, 1);
 	JoystickButton btnB = new JoystickButton(opGamepad, 2);
 	JoystickButton btnX = new JoystickButton(opGamepad, 3);
 	JoystickButton btnY = new JoystickButton(opGamepad, 4);
+	JoystickButton btnStart = new JoystickButton(opGamepad, 8);
+	JoystickButton btnSelect = new JoystickButton(opGamepad, 7);
+	JoystickButton leftBumper = new JoystickButton(opGamepad, 5);
+	JoystickButton rightBumper = new JoystickButton(opGamepad, 6);
 	
 	/**********Testing**********/
 	public Joystick autoTestStick = new Joystick(3);
@@ -40,14 +53,40 @@ public class OI {
 	JoystickButton testBtn5 = new JoystickButton(autoTestStick, 5);
 	JoystickButton testBtn6 = new JoystickButton(autoTestStick, 6);
 	JoystickButton testBtn7 = new JoystickButton(autoTestStick, 7);
+	JoystickButton testBtn11 = new JoystickButton(autoTestStick, 11);
+	JoystickButton testBtn12 = new JoystickButton(autoTestStick, 12);
 	
 	public OI() {
+		/*******DriveJoysticks******/
+		dtRightTrigger.whileHeld(new C_Collect(true));
+		dtLeftTrigger.whileHeld(new C_Collect(false));
+		
+		/*********OpGamePad*********/
 		Command gColl = new C_CollectGear();
-		btnA.whenPressed(gColl);
-		btnA.whenReleased(new C_StopCommand(gColl));
-		btnY.whileHeld(new C_SpitGear());
+		btnX.whenPressed(gColl);
+		btnX.whenReleased(new C_StopCommand(gColl));
+		
+		btnB.whileHeld(new C_SpitGear());
+		
+		Command gMoveUp = new C_MoveGear(true);
+		btnA.whenPressed(gMoveUp);
+		btnA.whenReleased(new C_StopCommand(gMoveUp));
+		
+		Command gMoveDown = new C_MoveGear(false);
+		btnY.whenPressed(gMoveDown);
+		btnY.whenReleased(new C_StopCommand(gMoveDown));
+		
+		//Command shooterPID = new C_MotorPID();
+		//btnSelect.whenPressed(shooterPID);
+		//btnStart.whenPressed(new C_StopCommand(shooterPID));
+		
+		//leftBumper.whileHeld(new CG_HopperFeeder());
+		
+		//rightBumper.whileHeld(new C_GearOnPeg());
 		
 		/**********Testing**********/
+		testBtn11.whenReleased(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft, 1440, 360));
+		
 		testBtn7.whenReleased(new CG_AutoTest());
 		
 		testBtn1.whileHeld(new C_TestDriveByJoystick());

@@ -7,11 +7,13 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class C_CollectGear extends Command {
-
-    public C_CollectGear() {
+public class C_Collect extends Command {
+	boolean dir;
+	
+    public C_Collect(boolean dir) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_GearHandler);
+        requires(Robot.SS_Collector);
+        this.dir = dir;
     }
 
     // Called just before this Command runs the first time
@@ -20,26 +22,25 @@ public class C_CollectGear extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
-    	
-    	if(!Robot.ss_GearHandler.getLSCollect()) {
-    		Robot.ss_GearHandler.gearCollector.spin(-0.5);
+    	if(dir) {
+    		Robot.SS_Collector.collectorMotor.spin(0.5);
+    	} else {
+    		Robot.SS_Collector.collectorMotor.spin(-0.5);
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return !Robot.ss_GearHandler.getLSCollect();
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_GearHandler.gearCollector.stop();
+    	Robot.SS_Collector.collectorMotor.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
     }
 }

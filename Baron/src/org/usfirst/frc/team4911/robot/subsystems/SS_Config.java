@@ -2,17 +2,11 @@ package org.usfirst.frc.team4911.robot.subsystems;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
-import org.usfirst.frc.team4911.robot.Robot;
-
-import com.ctre.CANTalon;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -21,71 +15,75 @@ public class SS_Config extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	public Scanner read;
 	public final String configFilepath = "/c/config.txt";
 	
-	public double driveMotorConstL;
-    public double driveMotorConstR;
-    public double gearCollectorConst;
+	public double driveMotorConstL = 1;
+    public double driveMotorConstR = 1;
+    public double gearCollectorConst = 1;
+    public double gearLiftConst = 1;
+    public double hopperConst = 1;
+    public double climberConst = 1;
+    public double shooterConst = 1;
+    public double shooterIntakeConst = 1;
+    public double collectorConst = 1;
     
-    public double driveEncoderConstL;
-    public double driveEncoderConstR;
+    public double driveEncoderConstL = 1;
+    public double driveEncoderConstR = 1;
+    public double climberEncoderConst = 1;
+    public double shooterEncoderConst = 1;
     
     public SS_Config() {
-    	updateInfo();
-    }
-    
-    public double getEncoderValue(CANTalon encoder, double constant) {
-    	return (encoder.getEncPosition() * constant);
+    	Scanner read = setUpScanner(configFilepath);
+
+    	if(read != null) {
+	    	updateInfo(readConfigFile(read));
+    	}
     }
     
     public boolean ScannerSetup = false;
-    public Scanner setupScanner(String filepath) {
+    public Scanner setUpScanner(String filepath) {
 		Scanner read = new Scanner("");
 		try {
 			read = new Scanner(new File(filepath));
-			ScannerSetup = true;
-			return read;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			File file = new File(filepath);
-			try {
-				file.createNewFile();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 			ScannerSetup = false;
 			return null;
 		}
+		return read;
 	}
     
-	public double findInfoDouble(String filepath, String tag) {
-		String[] temp = new String[2];
-		Scanner read = setupScanner(filepath);
-		
-		if(ScannerSetup) {
-			while(read.hasNextLine()) {
-				temp = read.nextLine().split(" ");
-				if(Objects.equals(tag, temp[0])) {
-					if(Objects.equals(temp[1], "-1")) {
-						return (double)-1;
-					} else {
-						return (double)1;
-					}
+    public ArrayList<String> readConfigFile(Scanner read) {
+    	ArrayList<String> contents = new ArrayList<String>(24);
+    	
+    	while(read.hasNextLine()) {
+    		contents.add(read.nextLine());
+    	}
+    	
+    	return contents;
+    }
+    
+    public double findInfoDouble(ArrayList<String> contents, String tag) {
+    	for(int i = 0; i < contents.size(); i++) {
+    		String[] tmp = contents.get(i).split(" ");
+    		if(Objects.equals(tag, tmp[0])) {
+				if(Objects.equals(tmp[1], "-1")) {
+					return (double)-1;
+				} else {
+					return (double)1;
 				}
 			}
-		}
-		return (double)1;
-	}
+    	}
+    	return (double)1;
+    }
     
-    public void updateInfo() {
-    	driveMotorConstL = findInfoDouble(configFilepath, "driveMotorConstL");
-    	driveMotorConstR = findInfoDouble(configFilepath, "driveMotorConstR");
-    	gearCollectorConst = findInfoDouble(configFilepath, "gearCollectorConst");
+    public void updateInfo(ArrayList<String> contents) {
+    	driveMotorConstL = findInfoDouble(contents, "driveMotorConstL");
+    	driveMotorConstR = findInfoDouble(contents, "driveMotorConstR");
+
+    	gearCollectorConst = findInfoDouble(contents, "gearCollectorConst");
     	
-    	driveEncoderConstL = findInfoDouble(configFilepath, "driveEncoderConstL");
-    	driveEncoderConstR = findInfoDouble(configFilepath, "driveEncoderConstR");
+    	driveEncoderConstL = findInfoDouble(contents, "driveEncoderConstL");
+    	driveEncoderConstR = findInfoDouble(contents, "driveEncoderConstR");
     }
     
     public String getTalonConstants(String divider) {
