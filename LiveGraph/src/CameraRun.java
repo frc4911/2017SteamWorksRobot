@@ -52,7 +52,7 @@ public class CameraRun {
 		System.out.println(streamAddress);
 		
 //		camera = new VideoCapture(streamAddress);//0 - USB Cam....?
-		camera = new VideoCapture(2);
+		camera = new VideoCapture(0);
 		if (camera.isOpened())
 			System.out.println("found camera");
 		else
@@ -102,7 +102,7 @@ public class CameraRun {
 					}
 					catch (Exception e)
 					{
-						System.out.println(e.getMessage());
+						System.out.println("e " + e.getMessage());
 					}					
 				}
 				else
@@ -151,84 +151,75 @@ public class CameraRun {
 	Color c;
 	Color newColor = new Color(200,0,200);
 	
-	int startX = 0;
-	int endX = 0;
+	int[] leftX = new int[720];
+	int[] rightX = new int[720];
 	
-	int startY = 0;
-	int endY = 0;
-	
-	boolean start = true;
-	
-	boolean top = true;
-	boolean bottom = false;
-	
-	int tmpStartX = 0;
-	int tmpStartY = 0;
-	
-	int tmpEndX = 0;
-	
-	boolean tmpStart = false;
-	boolean tmpTop = false;
+	int threshold = 10;
 	
 	private BufferedImage modifyImage(BufferedImage img)
 	{
 		int width = img.getWidth();
 		int height = img.getHeight();
-
-		start = true;
-		top = true;
 		
-		for(int y = 0; y<height; y++)
-		{
-			for(int x=0; x<width; x++)
+		int leftXAvg = 0;
+		int rightXAvg = 0;
+		
+		int topRow = -1;
+		int bottomRow = -1;
+		
+		int validLine = 0;
+		int validWidth = 0;
+		int validStartX = -1;
+		
+		for(int y = 0; y < height; y++)
+		{	
+			validWidth = 0;
+			validStartX = -1;
+			
+			for(int x=0; x < width; x++)
 			{
 				c = new Color(img.getRGB(x,y));
-				if((c.getRed()>80) && (c.getGreen()>245) && (c.getBlue()>135))
-				{
-					if(start && top) {
-						startX = x;
-						startY = y;
-						
-						start = false;
+				if((c.getRed()>80) && (c.getGreen()>245) && (c.getBlue()>125))
+				{	
+					if(validStartX == -1) {
+						validStartX = x;
 					}
-					else if(tmpStart && tmpTop) {
-						tmpStartX = x;
-						tmpStartY = y;
-						tmpStart = false;
-					}
+					validWidth++; 
 					
 					img.setRGB(x, y, newColor.getRGB());
 				}
-				else if(!start && top) {
-					endX = x - 1;
-					
-					top = false;
-					bottom = true;
-					
-					tmpStart = true;
-					tmpTop = true;
+				else if(validWidth < threshold) {
+//					validWidth = 0;
+					validStartX = -1;
 				}
-				else if(bottom && (x == startX)) {
-					endY = y - 1;
-					bottom = false;
-					tmpTop = false;
-				}
-				else if(!tmpStart && tmpTop) {
-					tmpEndX = x - 1;
-					
-					int diff = endX - startX + 2;
-					int tmpDiff = tmpEndX - tmpStartX;
-					
-					if(diff < tmpDiff) {
-						startX = tmpStartX;
-						startY = tmpStartY;
-//						endX = tmpEndX;
-					}
-				}
+			}
+			
+			if(validWidth >= threshold) {
+				leftX[validLine] = validStartX;
+				rightX[validLine] = validStartX + validWidth;
+				validLine++;
+				
+				if(topRow == -1) {
+					topRow = y;
+				}	
+			}
+			if((topRow > -1) && (validWidth < threshold) && (bottomRow == -1)) {
+				bottomRow = y - 1;
 			}
 		}
 		
-		System.out.println("topLeft(" + startX + ", " + startY + ") bottomRight(" + endX + ", " + endY + ")");
+		for(int y = 0; y < validLine--; y++) {
+			leftXAvg += leftX[y];
+			rightXAvg += rightX[y];
+		}
+		
+		leftXAvg = leftXAvg / validLine;
+		rightXAvg = rightXAvg / validLine;
+		
+//		img = drawBox(img);
+		
+		System.out.println("topLeft(" + leftXAvg + ", " + topRow + ") bottomRight(" + rightXAvg + ", " + bottomRow + ")");
+//		System.out.println("topLeft(" + leftX[10] + ", " + topRow + ") bottomRight(" + rightX[10] + ", " + bottomRow + ")");
 		return img;
 	}
 }
