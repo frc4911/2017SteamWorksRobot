@@ -19,6 +19,7 @@ import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team4911.opencv.Imshow;
 import org.usfirst.frc.team4911.opencv.Imshow.ImshowJFrame;
 
+
 public class Main {
 	private static final Logger log = Logger.getLogger("Main");
 
@@ -34,7 +35,7 @@ public class Main {
 		openCVInstallCheck();
 
 		// new Main().runStaticImages();
-		new Main().runCameraCapture();
+		new Main().runStaticImages();
 	}
 
 	private BoilerVision vision;
@@ -42,12 +43,14 @@ public class Main {
 
 	public Main() {
 		this.vision = new BoilerVision(false);
-		this.rawImages = Arrays.asList(R_LEFT_L, R_LEFT_M, R_LEFT_S, R_STRAIGHT, R_RIGHT_S, R_RIGHT_M, R_RIGHT_L)
-				.stream().map(path -> Highgui.imread(Main.class.getResource(path).getPath()))
-				.collect(Collectors.toList());
 	}
 
 	public void runStaticImages() {
+		this.rawImages = // Arrays.asList(R_LEFT_L, R_LEFT_M, R_LEFT_S, R_STRAIGHT, R_RIGHT_S, R_RIGHT_M, R_RIGHT_L)
+				Arrays.asList("/pi-sample.jpg")
+				.stream().map(path -> Highgui.imread(Main.class.getResource(path).getPath()))
+				.collect(Collectors.toList());
+		
 		Mat image = new Mat();
 		for (Mat rawImage : rawImages) {
 			Imgproc.resize(rawImage, image, new Size(640, 480));
@@ -56,7 +59,7 @@ public class Main {
 			// Core.arrowedLine(image, target, new Point(target.x + error.x,
 			// target.y + error.y), new Scalar(0, 255, 0));
 			Core.arrowedLine(image, new Point(target.x - error.x, target.y - error.y), target, new Scalar(0, 255, 0));
-			Imgproc.resize(image, image, new Size(320, 240));
+			//Imgproc.resize(image, image, new Size(320, 240));
 
 			Imshow.show(image);
 		}
@@ -64,7 +67,10 @@ public class Main {
 
 	public void runCameraCapture() {
 		Mat image = new Mat();
-		VideoCapture videoCapture = new VideoCapture(1);
+		VideoCapture videoCapture = new VideoCapture(2);
+		new CameraPropertyEditor(videoCapture);
+		
+		videoCapture.set(VideoConstants.CV_CAP_PROP_EXPOSURE, 0);
 		ImshowJFrame frame = null;
 
 		while (true) {

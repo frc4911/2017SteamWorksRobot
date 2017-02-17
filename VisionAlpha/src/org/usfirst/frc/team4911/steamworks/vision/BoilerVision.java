@@ -123,5 +123,32 @@ public class BoilerVision extends VisionBase {
 
 		return contours;
 	}
+	
+	public List<MatOfPoint> detectColorMarkers(Mat cameraImage) {
+		List<MatOfPoint> contours = new ArrayList<>();
+
+		Imgproc.cvtColor(cameraImage, image, Imgproc.COLOR_RGB2HSV);
+
+		Imgproc.threshold(image, image, 155, 255, Imgproc.THRESH_BINARY);
+		Imgproc.erode(image, image, erodeElement);
+		// Imgproc.erode(image, image, erodeElement);
+		Imgproc.dilate(image, image, dilateElement);
+		// Imgproc.dilate(image, image, dilateElement);
+
+		Mat cMat = new Mat();
+		image.copyTo(cMat);
+		Imgproc.findContours(cMat, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+
+		if (debug) {
+			for (int i = 0; i < contours.size(); i++) {
+				Imgproc.drawContours(cameraImage, contours, i, new Scalar(255, 0, 255), 2);
+				Point p = new Point(contours.get(i).get(0, 0));
+				String info = "idx: " + i + ", area=" + Imgproc.contourArea(contours.get(i));
+				Core.putText(cameraImage, info, p, Core.FONT_HERSHEY_PLAIN, 1, new Scalar(0, 0, 255));
+			}
+		}
+
+		return contours;
+	}
 
 }
