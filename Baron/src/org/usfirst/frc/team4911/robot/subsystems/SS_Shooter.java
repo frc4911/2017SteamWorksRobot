@@ -12,9 +12,9 @@ public class SS_Shooter extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	int tPortIntake = 20;
-	int tPortShooter = 20;
-	int tPortShooterF = 20;
+	int tPortIntake = 8;
+	int tPortShooter = 9;
+	int tPortShooterF = 10;
 	
 	public DefaultMotor intakeMotor = new DefaultMotor(tPortIntake, Robot.ss_Config.shooterIntakeConst, "Shooter Intake");
 	public DefaultMotor shooterMotor = new DefaultMotor(tPortIntake, Robot.ss_Config.shooterConst, "Shooter Flywheel");

@@ -33,9 +33,9 @@ public class Robot extends IterativeRobot {
 	public final static SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
 	public final static SS_GearHandler ss_GearHandler = new SS_GearHandler();
 	public final static SS_Climber ss_Climber = new SS_Climber();
-	public final static SS_Shooter SS_Shooter = new SS_Shooter();
-	public final static SS_Collector SS_Collector = new SS_Collector();
-	public final static SS_Hopper SS_Hopper = new SS_Hopper();
+	public final static SS_Shooter ss_Shooter = new SS_Shooter();
+	public final static SS_Collector ss_Collector = new SS_Collector();
+	public final static SS_Hopper ss_Hopper = new SS_Hopper();
 	public final static SS_TestMotor ss_TestMotor = new SS_TestMotor();
 	public final static SS_NAVX ss_NAVX = new SS_NAVX();
 	

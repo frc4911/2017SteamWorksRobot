@@ -11,7 +11,7 @@ public class C_AgitateHopper extends Command {
 
     public C_AgitateHopper() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.SS_Hopper);
+        requires(Robot.ss_Hopper);
     }
 
     // Called just before this Command runs the first time
@@ -20,7 +20,7 @@ public class C_AgitateHopper extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.SS_Hopper.hopperMotor.spin(0.5);
+    	Robot.ss_Hopper.hopperMotor.spin(0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -30,7 +30,7 @@ public class C_AgitateHopper extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.SS_Hopper.hopperMotor.stop();
+    	Robot.ss_Hopper.hopperMotor.stop();
     }
 
     // Called when another command which requires one or more of the same

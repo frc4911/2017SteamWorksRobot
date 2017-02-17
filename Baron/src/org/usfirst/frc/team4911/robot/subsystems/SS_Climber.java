@@ -13,12 +13,12 @@ public class SS_Climber extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	int tPort = 20;
+	int tPort = 11;
 	public DefaultMotor climberMotor = new DefaultMotor(tPort, Robot.ss_Config.climberConst, "Climber");
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new C_ClimberUp());
+        //setDefaultCommand(new C_ClimberUp());
     }
 }
 

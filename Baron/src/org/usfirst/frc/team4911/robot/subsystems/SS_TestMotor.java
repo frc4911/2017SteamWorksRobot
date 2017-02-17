@@ -21,7 +21,12 @@ public class SS_TestMotor extends Subsystem {
     String[] keys = { 
     		"driveTrainLeft",
     		"driveTrainRight",
-    		"fullDriveTrain"
+    		"fullDriveTrain",
+    		"climber",
+    		"hopper",
+    		"fuelCollector",
+    		"gearCollector",
+    		"gearLift",
     };
     String key = "currTestMotor";
     public void runMotor() {
@@ -39,6 +44,21 @@ public class SS_TestMotor extends Subsystem {
     	case 2:
     		Robot.ss_DriveTrain.driveTrainLeft.spin(speed);
     		Robot.ss_DriveTrain.driveTrainRight.spin(speed);
+    		break;
+    	case 3:
+    		Robot.ss_Climber.climberMotor.spin(speed);
+    		break;
+    	case 4:
+    		Robot.ss_Hopper.hopperMotor.spin(speed);
+    		break;
+    	case 5:
+    		Robot.ss_Collector.collectorMotor.spin(speed);
+    		break;
+    	case 6:
+    		Robot.ss_GearHandler.gearCollector.spin(speed);
+    		break;
+    	case 7:
+    		Robot.ss_GearHandler.gearLift.spin(speed);
     		break;
     	}
     }

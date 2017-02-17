@@ -64,18 +64,19 @@ public class SS_UpdateLog extends Subsystem {
     int dtLStartIndex = 0;
     int dtRStartIndex = 0;
     
-//    int fCollStartIndex = 0;
-//    int fHopStartIndex = 0;
+    int fCollStartIndex = 0;
+    int fHopStartIndex = 0;
     
 //    int fFeederStartIndex = 0;
 //    int fShooterStartIndex = 0;
     
     int gCollLimitSwitchIndex = 0;
     int gCollStartIndex = 0;
+    int gLiftStartIndex = 0;
     
     int navXStartIndex = 0;
     
-//    int hangerStartIndex = 0;
+    int climberStartIndex = 0;
     
     public SS_UpdateLog() {
     	// talon constants
@@ -105,10 +106,10 @@ public class SS_UpdateLog extends Subsystem {
     	dtRStartIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainRight.getDescription(), true, true);
     	
     	// fuelCollector
-//		fCollStartIndex = addMotorIndices();
+		fCollStartIndex = addMotorIndices(Robot.ss_Collector.collectorMotor.getDescription(), false, false);
     	
     	// fuelHopper
-//    	fHopStartIndex = addMotorIndices();
+    	fHopStartIndex = addMotorIndices(Robot.ss_Hopper.hopperMotor.getDescription(), false, false);
     	
 		// fuelShooter
 //    	fFeederStartIndex = addMotorIndices();
@@ -117,9 +118,9 @@ public class SS_UpdateLog extends Subsystem {
 		// gear assembly
     	gCollLimitSwitchIndex = Robot.ss_Logging.addColumn(Robot.ss_GearHandler.gearCollector.getDescription() + " limitSwitch");
 		gCollStartIndex = addMotorIndices(Robot.ss_GearHandler.gearCollector.getDescription(), false , false);
-    	
-		// hanger
-//    	hangerStartIndex = addMotorIndices();
+		gLiftStartIndex = addMotorIndices(Robot.ss_GearHandler.gearLift.getDescription(), false , false);
+		// climber
+    	climberStartIndex = addMotorIndices(Robot.ss_Climber.climberMotor.getDescription(), false, false);
 		
 		navXStartIndex = addNAVXIndices();
     }
@@ -168,10 +169,10 @@ public class SS_UpdateLog extends Subsystem {
     		logDefaultMotor(Robot.ss_DriveTrain.driveTrainRight, true, true, dtRStartIndex);
 
     		// fuelCollector
-//    		logDefaultMotor(null, false, fCollStartIndex);
+    		logDefaultMotor(Robot.ss_Collector.collectorMotor, false, false, fCollStartIndex);
     		
     		// fuelHopper
-//    		logDefaultMotor(null, false, fHopStartIndex);
+    		logDefaultMotor(Robot.ss_Hopper.hopperMotor, false, false, fHopStartIndex);
     		
     		// fuelShooter
 //    		logDefaultMotor(null, false, fFeederStartIndex);
@@ -179,11 +180,12 @@ public class SS_UpdateLog extends Subsystem {
     		
     		// gear assembly
     		logDefaultMotor(Robot.ss_GearHandler.gearCollector, false, false, gCollStartIndex);
+    		logDefaultMotor(Robot.ss_GearHandler.gearLift, false, false, gLiftStartIndex);
     		
-    		// hanger
-//    		logDefaultMotor(null, false, hangerStartIndex);
+    		// climber
+    		logDefaultMotor(Robot.ss_Climber.climberMotor, false, false, climberStartIndex);
     		
-    		logNAVX(navXStartIndex);
+    		//logNAVX(navXStartIndex);
     		// flush
     		Robot.ss_Logging.logFlush();
     	}
@@ -221,7 +223,7 @@ public class SS_UpdateLog extends Subsystem {
 				motor.checkStickyFaults(motor, false));
 		smartLog(smart, log, index++, 
 				"" + motor.getOutputVoltage(false));
-		smartLog(smart, log, index++, 
+		smartLog(true, log, index++, // hardcode to dashboard for debug 
 				"" + motor.getOutputCurrent(false));
 		if(hasFollower) {
 			smartLog(smart, log, index++,

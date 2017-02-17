@@ -12,7 +12,7 @@ public class C_Collect extends Command {
 	
     public C_Collect(boolean dir) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.SS_Collector);
+        requires(Robot.ss_Collector);
         this.dir = dir;
     }
 
@@ -23,9 +23,9 @@ public class C_Collect extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(dir) {
-    		Robot.SS_Collector.collectorMotor.spin(0.5);
+    		Robot.ss_Collector.collectorMotor.spin(0.5);
     	} else {
-    		Robot.SS_Collector.collectorMotor.spin(-0.5);
+    		Robot.ss_Collector.collectorMotor.spin(-0.5);
     	}
     }
 
@@ -36,7 +36,7 @@ public class C_Collect extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.SS_Collector.collectorMotor.stop();
+    	Robot.ss_Collector.collectorMotor.stop();
     }
 
     // Called when another command which requires one or more of the same

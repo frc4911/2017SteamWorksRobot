@@ -12,7 +12,7 @@ public class SS_Hopper extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	int tPort = 20;
+	int tPort = 7;
 	public DefaultMotor hopperMotor = new DefaultMotor(tPort, Robot.ss_Config.hopperConst, "Hopper Agitator");
 	
     public void initDefaultCommand() {

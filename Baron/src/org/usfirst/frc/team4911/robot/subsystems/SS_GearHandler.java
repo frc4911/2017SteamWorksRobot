@@ -14,7 +14,7 @@ public class SS_GearHandler extends Subsystem {
     // here. Call these from Commands.
 	
 	int tPortCollector = 4;
-	int tPortLift = 20;
+	int tPortLift = 5;
 	
 	public DefaultMotor gearCollector = new DefaultMotor(tPortCollector, Robot.ss_Config.gearCollectorConst, "Gear Collector");
 	public DefaultMotor gearLift = new DefaultMotor(tPortLift, Robot.ss_Config.gearLiftConst, "Gear Lift");
