@@ -7,13 +7,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class SS_Hopper extends Subsystem {
+public class SS_FuelHopper extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	int tPort = 7;
-	public DefaultMotor hopperMotor = new DefaultMotor(tPort, Robot.ss_Config.hopperConst, "Hopper Agitator");
+	int tPortHopper = 7;
+	public DefaultMotor hopperMotor = new DefaultMotor(tPortHopper, Robot.ss_Config.hopperConst, "Hopper");
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

@@ -7,13 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class C_MoveGear extends Command {
-	boolean dir;
-	
-    public C_MoveGear(boolean dir) {
+public class C_GearSpit extends Command {
+
+    public C_GearSpit() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_GearHandler);
-        this.dir = dir;
+        requires(Robot.ss_GearIntake);
     }
 
     // Called just before this Command runs the first time
@@ -22,29 +20,24 @@ public class C_MoveGear extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(dir) {
-    		Robot.ss_GearHandler.gearLift.spin(0.5);
-    	} else {
-    		Robot.ss_GearHandler.gearLift.spin(-0.5);
-    	}
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
+    	
+    	Robot.ss_GearIntake.gearIntakeMotor.spin(0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if(dir) {
-        	return Robot.ss_GearHandler.getLSUp();
-        } else {
-        	return Robot.ss_GearHandler.getLSDown();
-        }
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_GearHandler.gearCollector.stop();
+    	Robot.ss_GearIntake.gearIntakeMotor.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }

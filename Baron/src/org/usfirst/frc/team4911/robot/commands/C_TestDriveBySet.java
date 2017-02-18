@@ -11,8 +11,13 @@ public class C_TestDriveBySet extends Command {
 
     public C_TestDriveBySet() {
         // Use requires() here to declare subsystem dependencies
+        requires(Robot.ss_Climber);
         requires(Robot.ss_DriveTrain);
-        requires(Robot.ss_TestMotor);
+        requires(Robot.ss_FuelCollector);
+        requires(Robot.ss_FuelHopper);
+        requires(Robot.ss_FuelShooter);
+        requires(Robot.ss_GearIntake);
+        requires(Robot.ss_GearLift);
     }
 
     // Called just before this Command runs the first time

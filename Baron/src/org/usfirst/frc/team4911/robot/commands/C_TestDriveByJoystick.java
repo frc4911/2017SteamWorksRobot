@@ -11,8 +11,13 @@ public class C_TestDriveByJoystick extends Command {
 
     public C_TestDriveByJoystick() {
         // Use requires() here to declare subsystem dependencies
+        requires(Robot.ss_Climber);
         requires(Robot.ss_DriveTrain);
-        requires(Robot.ss_TestMotor);
+        requires(Robot.ss_FuelCollector);
+        requires(Robot.ss_FuelHopper);
+        requires(Robot.ss_FuelShooter);
+        requires(Robot.ss_GearIntake);
+        requires(Robot.ss_GearLift);
     }
 
     // Called just before this Command runs the first time
@@ -23,7 +28,8 @@ public class C_TestDriveByJoystick extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
-    	Robot.ss_TestMotor.runMotor(Robot.oi.autoTestStick.getY());
+    	//invert Y so forward is positive
+    	Robot.ss_TestMotor.runMotor(-Robot.oi.autoTestStick.getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()

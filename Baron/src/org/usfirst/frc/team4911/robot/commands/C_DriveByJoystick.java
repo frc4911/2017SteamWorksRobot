@@ -23,17 +23,18 @@ public class C_DriveByJoystick extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
-    	SmartDashboard.putNumber("input", Robot.oi.stickL.getY());
-    	Robot.ss_DriveTrain.driveTrainLeft.spin(Robot.oi.stickL.getY()); //	-1
-    	Robot.ss_DriveTrain.driveTrainRight.spin(Robot.oi.stickR.getY()); //  1
+    	//SmartDashboard.putNumber("input", Robot.oi.stickL.getY());
+    	//invert joystick Y so forward drives forward
+    	Robot.ss_DriveTrain.leftMotors.spin(-Robot.oi.stickL.getY()); //	-1
+    	Robot.ss_DriveTrain.rightMotors.spin(-Robot.oi.stickR.getY()); //  1
     	
-    	SmartDashboard.putNumber("left cur", Robot.ss_DriveTrain.driveTrainLeft.getOutputCurrent(false));
-    	SmartDashboard.putNumber("right cur", Robot.ss_DriveTrain.driveTrainRight.getOutputCurrent(false));
-    	
-    	SmartDashboard.putNumber("left volt", Robot.ss_DriveTrain.driveTrainLeft.getOutputVoltage(false));
-    	SmartDashboard.putNumber("right volt", Robot.ss_DriveTrain.driveTrainRight.getOutputVoltage(false));
-    	
-    	SmartDashboard.putNumber("left enc pos", Robot.ss_DriveTrain.driveTrainLeft.getEncPos());
+//    	SmartDashboard.putNumber("left cur", Robot.ss_DriveTrain.leftMotors.getOutputCurrent(false));
+//    	SmartDashboard.putNumber("right cur", Robot.ss_DriveTrain.rightMotors.getOutputCurrent(false));
+//    	
+//    	SmartDashboard.putNumber("left volt", Robot.ss_DriveTrain.leftMotors.getOutputVoltage(false));
+//    	SmartDashboard.putNumber("right volt", Robot.ss_DriveTrain.rightMotors.getOutputVoltage(false));
+//    	
+//    	SmartDashboard.putNumber("left enc pos", Robot.ss_DriveTrain.leftMotors.getEncPos());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -43,6 +44,8 @@ public class C_DriveByJoystick extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.ss_DriveTrain.leftMotors.stop();
+    	Robot.ss_DriveTrain.rightMotors.stop();
     }
 
     // Called when another command which requires one or more of the same

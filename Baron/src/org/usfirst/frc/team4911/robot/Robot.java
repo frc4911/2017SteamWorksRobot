@@ -1,17 +1,18 @@
 
 package org.usfirst.frc.team4911.robot;
 
-import org.usfirst.frc.team4911.robot.subsystems.SS_Hopper;
-import org.usfirst.frc.team4911.robot.subsystems.SS_Collector;
-import org.usfirst.frc.team4911.robot.subsystems.SS_Shooter;
+import org.usfirst.frc.team4911.robot.subsystems.SS_FuelHopper;
+import org.usfirst.frc.team4911.robot.subsystems.SS_FuelShooter;
+import org.usfirst.frc.team4911.robot.subsystems.SS_GearIntake;
 import org.usfirst.frc.team4911.robot.subsystems.SS_Climber;
-import org.usfirst.frc.team4911.robot.subsystems.SS_Config;
+import org.usfirst.frc.team4911.robot.subsystems.ConfigFile;
 import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrain;
-import org.usfirst.frc.team4911.robot.subsystems.SS_GearHandler;
-import org.usfirst.frc.team4911.robot.subsystems.SS_Logging;
+import org.usfirst.frc.team4911.robot.subsystems.SS_FuelCollector;
+import org.usfirst.frc.team4911.robot.subsystems.SS_GearLift;
+import org.usfirst.frc.team4911.robot.subsystems.LoggingEngine;
 import org.usfirst.frc.team4911.robot.subsystems.SS_NAVX;
 import org.usfirst.frc.team4911.robot.subsystems.SS_TestMotor;
-import org.usfirst.frc.team4911.robot.subsystems.SS_UpdateLog;
+import org.usfirst.frc.team4911.robot.subsystems.Logger;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -29,19 +30,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	public final static SS_Config ss_Config = new SS_Config();
-	public final static SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
-	public final static SS_GearHandler ss_GearHandler = new SS_GearHandler();
+	public final static ConfigFile ss_Config = new ConfigFile();
+	
 	public final static SS_Climber ss_Climber = new SS_Climber();
-	public final static SS_Shooter ss_Shooter = new SS_Shooter();
-	public final static SS_Collector ss_Collector = new SS_Collector();
-	public final static SS_Hopper ss_Hopper = new SS_Hopper();
+	public final static SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
+	public final static SS_FuelCollector ss_FuelCollector = new SS_FuelCollector();
+	public final static SS_FuelHopper ss_FuelHopper = new SS_FuelHopper();
+	public final static SS_FuelShooter ss_FuelShooter = new SS_FuelShooter();
+	public final static SS_GearIntake ss_GearIntake = new SS_GearIntake();
+	public final static SS_GearLift ss_GearLift = new SS_GearLift();
+	
 	public final static SS_TestMotor ss_TestMotor = new SS_TestMotor();
+	
 	public final static SS_NAVX ss_NAVX = new SS_NAVX();
 	
 	// all subsystems must be created before logging
-	public final static SS_Logging ss_Logging = new SS_Logging();
-	public final static SS_UpdateLog ss_UpdateLog = new SS_UpdateLog();
+	public final static LoggingEngine ss_Logging = new LoggingEngine();
+	public final static Logger ss_UpdateLog = new Logger();
 	
 	public static OI oi;
 

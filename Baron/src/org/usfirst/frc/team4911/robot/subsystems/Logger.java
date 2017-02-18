@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class SS_UpdateLog extends Subsystem {
+public class Logger extends Subsystem {
 	// a divider for splitting up strings
 	public String div = "*";
 	
@@ -67,8 +67,8 @@ public class SS_UpdateLog extends Subsystem {
     int fCollStartIndex = 0;
     int fHopStartIndex = 0;
     
-//    int fFeederStartIndex = 0;
-//    int fShooterStartIndex = 0;
+    int fFeederStartIndex = 0;
+    int fShooterStartIndex = 0;
     
     int gCollLimitSwitchIndex = 0;
     int gCollStartIndex = 0;
@@ -78,7 +78,7 @@ public class SS_UpdateLog extends Subsystem {
     
     int climberStartIndex = 0;
     
-    public SS_UpdateLog() {
+    public Logger() {
     	// talon constants
     	talonConstIndex = Robot.ss_Logging.addColumn("talonConstants");
     	
@@ -100,25 +100,25 @@ public class SS_UpdateLog extends Subsystem {
     	rightJoystickYIndex = Robot.ss_Logging.addColumn("rightStickY");
     	
     	// driveTrainLeft
-    	dtLStartIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainLeft.getDescription(), true, true);
+    	dtLStartIndex = addMotorIndices(Robot.ss_DriveTrain.leftMotors.getDescription(), true, true);
     	
     	// driveTrainRight
-    	dtRStartIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainRight.getDescription(), true, true);
+    	dtRStartIndex = addMotorIndices(Robot.ss_DriveTrain.rightMotors.getDescription(), true, true);
     	
     	// fuelCollector
-		fCollStartIndex = addMotorIndices(Robot.ss_Collector.collectorMotor.getDescription(), false, false);
+		fCollStartIndex = addMotorIndices(Robot.ss_FuelCollector.collectorMotors.getDescription(), false, false);
     	
     	// fuelHopper
-    	fHopStartIndex = addMotorIndices(Robot.ss_Hopper.hopperMotor.getDescription(), false, false);
+    	fHopStartIndex = addMotorIndices(Robot.ss_FuelHopper.hopperMotor.getDescription(), false, false);
     	
 		// fuelShooter
-//    	fFeederStartIndex = addMotorIndices();
-//		fShooterStartIndex = addMotorIndices();
+    	fFeederStartIndex = addMotorIndices(Robot.ss_FuelShooter.feederMotor.getDescription(), false, false);
+		fShooterStartIndex = addMotorIndices(Robot.ss_FuelShooter.shooterMotors.getDescription(), true, true);
     	
 		// gear assembly
-    	gCollLimitSwitchIndex = Robot.ss_Logging.addColumn(Robot.ss_GearHandler.gearCollector.getDescription() + " limitSwitch");
-		gCollStartIndex = addMotorIndices(Robot.ss_GearHandler.gearCollector.getDescription(), false , false);
-		gLiftStartIndex = addMotorIndices(Robot.ss_GearHandler.gearLift.getDescription(), false , false);
+    	gCollLimitSwitchIndex = Robot.ss_Logging.addColumn(Robot.ss_GearIntake.gearIntakeMotor.getDescription() + " limitSwitch");
+		gCollStartIndex = addMotorIndices(Robot.ss_GearIntake.gearIntakeMotor.getDescription(), false , false);
+		gLiftStartIndex = addMotorIndices(Robot.ss_GearLift.gearLiftMotor.getDescription(), false , false);
 		// climber
     	climberStartIndex = addMotorIndices(Robot.ss_Climber.climberMotor.getDescription(), false, false);
 		
@@ -163,24 +163,24 @@ public class SS_UpdateLog extends Subsystem {
     		smartLog(joySmart, joyLog, rightJoystickYIndex, "" + Robot.oi.stickR.getY());
     		
     		// driveTrainLeft
-    		logDefaultMotor(Robot.ss_DriveTrain.driveTrainLeft, true, true, dtLStartIndex);
+    		logDefaultMotor(Robot.ss_DriveTrain.leftMotors, true, true, dtLStartIndex);
     		
     		// driveTrainRight
-    		logDefaultMotor(Robot.ss_DriveTrain.driveTrainRight, true, true, dtRStartIndex);
+    		logDefaultMotor(Robot.ss_DriveTrain.rightMotors, true, true, dtRStartIndex);
 
     		// fuelCollector
-    		logDefaultMotor(Robot.ss_Collector.collectorMotor, false, false, fCollStartIndex);
+    		logDefaultMotor(Robot.ss_FuelCollector.collectorMotors, false, false, fCollStartIndex);
     		
     		// fuelHopper
-    		logDefaultMotor(Robot.ss_Hopper.hopperMotor, false, false, fHopStartIndex);
+    		logDefaultMotor(Robot.ss_FuelHopper.hopperMotor, false, false, fHopStartIndex);
     		
     		// fuelShooter
-//    		logDefaultMotor(null, false, fFeederStartIndex);
-//    		logDefaultMotor(null, true, fShooterStartIndex);
+    		logDefaultMotor(Robot.ss_FuelShooter.feederMotor, false, false, fFeederStartIndex);
+    		logDefaultMotor(Robot.ss_FuelShooter.shooterMotors, true, true, fShooterStartIndex);
     		
     		// gear assembly
-    		logDefaultMotor(Robot.ss_GearHandler.gearCollector, false, false, gCollStartIndex);
-    		logDefaultMotor(Robot.ss_GearHandler.gearLift, false, false, gLiftStartIndex);
+    		logDefaultMotor(Robot.ss_GearIntake.gearIntakeMotor, false, false, gCollStartIndex);
+    		logDefaultMotor(Robot.ss_GearLift.gearLiftMotor, false, false, gLiftStartIndex);
     		
     		// climber
     		logDefaultMotor(Robot.ss_Climber.climberMotor, false, false, climberStartIndex);

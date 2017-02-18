@@ -10,61 +10,35 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class SS_TestMotor extends Subsystem {
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        // setDefaultCommand(new C_TestDriveByJoystick());
     }
+
+    DefaultMotor[] motors = new DefaultMotor[9];
     
-    String[] keys = { 
-    		"driveTrainLeft",
-    		"driveTrainRight",
-    		"fullDriveTrain",
-    		"climber",
-    		"hopper",
-    		"fuelCollector",
-    		"gearCollector",
-    		"gearLift",
-    };
+    public SS_TestMotor(){
+    	
+        motors[0] = Robot.ss_Climber.climberMotor;
+        motors[1] = Robot.ss_DriveTrain.leftMotors;
+        motors[2] = Robot.ss_DriveTrain.rightMotors;
+        motors[3] = Robot.ss_FuelCollector.collectorMotors;
+        motors[4] = Robot.ss_FuelHopper.hopperMotor;
+        motors[5] = Robot.ss_FuelShooter.feederMotor;
+        motors[6] = Robot.ss_FuelShooter.shooterMotors;
+        motors[7] = Robot.ss_GearIntake.gearIntakeMotor;
+        motors[8] = Robot.ss_GearLift.gearLiftMotor;
+    }
+
     String key = "currTestMotor";
     public void runMotor() {
     	runMotor(motorSpeed);
     }
     
     public void runMotor(double speed) {
-    	switch(currMotor) {
-    	case 0:
-    		Robot.ss_DriveTrain.driveTrainLeft.spin(speed);
-    		break;
-    	case 1:
-    		Robot.ss_DriveTrain.driveTrainRight.spin(speed);
-    		break;
-    	case 2:
-    		Robot.ss_DriveTrain.driveTrainLeft.spin(speed);
-    		Robot.ss_DriveTrain.driveTrainRight.spin(speed);
-    		break;
-    	case 3:
-    		Robot.ss_Climber.climberMotor.spin(speed);
-    		break;
-    	case 4:
-    		Robot.ss_Hopper.hopperMotor.spin(speed);
-    		break;
-    	case 5:
-    		Robot.ss_Collector.collectorMotor.spin(speed);
-    		break;
-    	case 6:
-    		Robot.ss_GearHandler.gearCollector.spin(speed);
-    		break;
-    	case 7:
-    		Robot.ss_GearHandler.gearLift.spin(speed);
-    		break;
-    	}
+    	motors[currMotor].spin(speed);
     }
     
     int currMotor = 0;
-    int maxMotor = keys.length - 1;
+    int maxMotor = motors.length - 1;
     public void advanceMotor(boolean forward) {
     	if(forward) {
     		currMotor++;
@@ -78,7 +52,7 @@ public class SS_TestMotor extends Subsystem {
     			currMotor = maxMotor;
     		}
     	}
-    	SmartDashboard.putString(key, keys[currMotor]);
+    	SmartDashboard.putString(key, motors[currMotor].getDescription());
     }
     
     double motorSpeed = 0;
