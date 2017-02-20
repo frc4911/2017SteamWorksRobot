@@ -3,10 +3,14 @@ package org.usfirst.frc.team4911.opencv;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -19,21 +23,26 @@ import org.opencv.core.Mat;
  * Utility class to show an OpenCV matrix in a GUI window.
  */
 public class Imshow {
-	public static class ImshowJFrame extends JFrame {
+	public static class ImshowJFrame extends JFrame implements MouseListener {
 
 		private ImageIcon icon;
 		private JLabel label;
+		private Mat rawImage;
+		private String rawTitle;
 
 		public ImshowJFrame(String title, Mat img) {
 			super(title);
-
+			this.rawTitle = title;
 			this.getContentPane().setLayout(new FlowLayout());
+			this.rawImage = img.clone();
 			this.icon = new ImageIcon(toBufferedImage(img));
 			this.label = new JLabel(icon);
 			this.getContentPane().add(label);
 			this.pack();
 			this.setVisible(true);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+			this.addMouseListener(this);
 		}
 
 		public void update(Mat img) {
@@ -44,6 +53,29 @@ public class Imshow {
 		public void update(String title, Mat img) {
 			this.setTitle(title);
 			update(img);
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			Point point = label.getMousePosition(true);
+			double[] pixel = rawImage.get(point.y, point.x);
+			setTitle(String.format("%s: x=%s, y=%s (%s)", rawTitle, point.x, point.y, Arrays.toString(pixel)));
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
 		}
 	}
 

@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4911.steamworks.vision;
 
-import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
@@ -15,7 +14,7 @@ public class VisionBase {
 			return;
 		}
 
-		Core.rectangle(image, rect.br(), rect.tl(), new Scalar(255, 0, 0), 2);
+		Imgproc.rectangle(image, rect.br(), rect.tl(), new Scalar(255, 0, 0), 2);
 	}
 
 	protected Rect findBoundingRect(Rect a, Rect b) {

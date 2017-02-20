@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4911.robot.subsystems.vision;
+package org.usfirst.frc.team4911.steamworks.vision;
 
 /**
  * This immutable class holds the error between a tracker's target and the
@@ -7,6 +7,11 @@ package org.usfirst.frc.team4911.robot.subsystems.vision;
  * @author nathanieltroutman
  */
 public class TargetError {
+	@Override
+	public String toString() {
+		return "TargetError[x=" + x + ", y=" + y + ", z=" + z + "]";
+	}
+
 	private final double x;
 	private final double y;
 	private final double z;
@@ -27,10 +32,5 @@ public class TargetError {
 
 	public double getZ() {
 		return z;
-	}
-
-	@Override
-	public String toString() {
-		return "TargetError[x=" + x + ", y=" + y + ", z=" + z + "]";
 	}
 }

@@ -61,7 +61,7 @@ public class GearVision {
 				Imgproc.drawContours(cameraImage, contours, i, new Scalar(255, 0, 255), 2);
 				Point p = new Point(contours.get(i).get(0, 0));
 				String info = "idx: " + i + ", area=" + Imgproc.contourArea(contours.get(i));
-				Core.putText(cameraImage, info, p, Core.FONT_HERSHEY_PLAIN, 1, new Scalar(0, 0, 255));
+				Imgproc.putText(cameraImage, info, p, Core.FONT_HERSHEY_PLAIN, 1, new Scalar(0, 0, 255));
 			}
 		}
 

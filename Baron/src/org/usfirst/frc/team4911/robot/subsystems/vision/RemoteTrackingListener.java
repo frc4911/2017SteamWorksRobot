@@ -8,13 +8,13 @@ import java.net.SocketException;
 import java.nio.ByteBuffer;
 
 /**
- * A RemoteTracker is a generic concept for a system that listens to a remote
- * host for tracking updates for a "target" and updates the error estimates
- * between the current state and the target state. Note that the tracker's
- * target is determined by the tracker. There is no way to set the target. The
- * tracker implements a polling model where by calls to getCurrentError() are
- * non-blocking with updated error returned when data has been received from the
- * remote host.
+ * A RemoteTrackingListener is a generic concept for a system that listens to a
+ * remote host for tracking updates for a "target" and updates the error
+ * estimates between the current state and the target state. Note that the
+ * tracker's target is determined by the tracker. There is no way to set the
+ * target. The tracker implements a polling model where by calls to
+ * getCurrentError() are non-blocking with updated error returned when data has
+ * been received from the remote host.
  * 
  * For example: A Vision Tracker would be remote host, such as a RaspberryPi,
  * that is using its camera to track the fuel loader and give an error in the X
@@ -26,16 +26,17 @@ import java.nio.ByteBuffer;
  * 
  * @author nathanieltroutman
  */
-public class RemoteTracker {
+public class RemoteTrackingListener {
 	public volatile TargetError currentError;
 	private TrackingPacketListener listener;
 	private SocketAddress trackingHost;
+	public static int DEFAULT_PORT = 1194;
 
 	/**
 	 * @param trackingHost
 	 *            address of the host sending tracking commands
 	 */
-	public RemoteTracker(SocketAddress trackingHost) {
+	public RemoteTrackingListener(SocketAddress trackingHost) {
 		this.trackingHost = trackingHost;
 		// default to zero error on startup
 		this.currentError = new TargetError(0, 0, 0);
@@ -63,10 +64,10 @@ public class RemoteTracker {
 		public TrackingPacketListener() {
 			super("TrackingListener-" + trackingHost);
 			// don't let this listener keep the JVM alive
-			this.setDaemon(true);
+			this.setDaemon(false);
 
 			try {
-				this.socket = new DatagramSocket(trackingHost);
+				this.socket = new DatagramSocket(DEFAULT_PORT);
 			} catch (SocketException e) {
 				throw new RemoteTrackerException("Unable to create socket to listen to tracking host: " + trackingHost,
 						e);
@@ -112,6 +113,7 @@ public class RemoteTracker {
 			// read in the X, Y, Z error from the buffer replace the current
 			// error object
 			TargetError error = new TargetError(buffer.getDouble(), buffer.getDouble(), buffer.getDouble());
+			System.out.println(error);
 			currentError = error;
 		}
 	}

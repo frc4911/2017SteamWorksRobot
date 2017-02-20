@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
-import org.opencv.highgui.VideoCapture;
+import org.opencv.videoio.VideoCapture;
 
 public class CameraPropertyEditor extends JFrame {
 	Logger log = Logger.getLogger(CameraPropertyEditor.class.getName());
@@ -29,7 +29,7 @@ public class CameraPropertyEditor extends JFrame {
 		createSlider("Gain", VideoConstants.CV_CAP_PROP_GAIN, 0, .5, 1, .05);
 		createSlider("Brightness", VideoConstants.CV_CAP_PROP_BRIGHTNESS, 0, .5, 1, .05);
 		createSlider("Contrast", VideoConstants.CV_CAP_PROP_CONTRAST, 0, .5, 1, .05);
-		
+
 		pack();
 		setVisible(true);
 	}

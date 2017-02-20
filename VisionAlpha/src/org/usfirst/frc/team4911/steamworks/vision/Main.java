@@ -1,7 +1,11 @@
 package org.usfirst.frc.team4911.steamworks.vision;
 
+import java.awt.GraphicsEnvironment;
+import java.io.FileInputStream;
+import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -13,12 +17,11 @@ import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
-import org.opencv.highgui.Highgui;
-import org.opencv.highgui.VideoCapture;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.videoio.VideoCapture;
 import org.usfirst.frc.team4911.opencv.Imshow;
 import org.usfirst.frc.team4911.opencv.Imshow.ImshowJFrame;
-
 
 public class Main {
 	private static final Logger log = Logger.getLogger("Main");
@@ -31,11 +34,24 @@ public class Main {
 	private static String R_RIGHT_M = "/gear-fake-retro-samples/sample-rotate/right_med.jpg";
 	private static String R_RIGHT_L = "/gear-fake-retro-samples/sample-rotate/right_large.jpg";
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		openCVInstallCheck();
 
 		// new Main().runStaticImages();
-		new Main().runStaticImages();
+
+		Properties p = new Properties(System.getProperties());
+		if (args.length > 0) {
+			log.info("Reading properties from: " + args[0]);
+			// p.load(Main.class.getResourceAsStream(args[0]));
+			// System.out.println(Arrays.toString(new File(".").listFiles()));
+			p.load(new FileInputStream(args[0]));
+			p.list(System.out);
+		}
+
+		InetAddress broadcastAddress = InetAddress.getByName(p.getProperty("broadcastAddress", "10.111.1.255"));
+		int broadcastPort = Integer
+				.parseInt(p.getProperty("broadcastPort", Integer.toString(RemoteTrackingServer.DEFAULT_PORT)));
+		new Main().runCameraCapture(broadcastAddress, broadcastPort);
 	}
 
 	private BoilerVision vision;
@@ -46,32 +62,38 @@ public class Main {
 	}
 
 	public void runStaticImages() {
-		this.rawImages = // Arrays.asList(R_LEFT_L, R_LEFT_M, R_LEFT_S, R_STRAIGHT, R_RIGHT_S, R_RIGHT_M, R_RIGHT_L)
-				Arrays.asList("/pi-sample.jpg")
-				.stream().map(path -> Highgui.imread(Main.class.getResource(path).getPath()))
-				.collect(Collectors.toList());
-		
+		this.rawImages = // Arrays.asList(R_LEFT_L, R_LEFT_M, R_LEFT_S,
+							// R_STRAIGHT, R_RIGHT_S, R_RIGHT_M, R_RIGHT_L)
+				Arrays.asList("/pi-sample.jpg").stream()
+						.map(path -> Imgcodecs.imread(Main.class.getResource(path).getPath()))
+						.collect(Collectors.toList());
+
 		Mat image = new Mat();
 		for (Mat rawImage : rawImages) {
-			Imgproc.resize(rawImage, image, new Size(640, 480));
+			// Imgproc.resize(rawImage, image, new Size(640, 480));
+			Imgproc.resize(rawImage, image, new Size((int) (640 * .75), (int) (480 * .75)));
 			Point error = vision.calculateError(image, true);
 			Point target = new Point(image.width() / 2, image.height() / 2);
-			// Core.arrowedLine(image, target, new Point(target.x + error.x,
-			// target.y + error.y), new Scalar(0, 255, 0));
-			Core.arrowedLine(image, new Point(target.x - error.x, target.y - error.y), target, new Scalar(0, 255, 0));
-			//Imgproc.resize(image, image, new Size(320, 240));
+			Imgproc.arrowedLine(image, target, new Point(target.x + error.x, target.y + error.y), new Scalar(0, 255, 0),
+					5, 8, 0, .1);
+			// Core.arrowedLine(image, new Point(target.x - error.x, target.y -
+			// error.y), target, new Scalar(0, 255, 0));
 
-			Imshow.show(image);
+			Imshow.show("Error", image);
 		}
 	}
 
-	public void runCameraCapture() {
+	public void runCameraCapture(InetAddress broadcastAddress, int broadcastPort) {
 		Mat image = new Mat();
-		VideoCapture videoCapture = new VideoCapture(2);
-		new CameraPropertyEditor(videoCapture);
-		
+		VideoCapture videoCapture = new VideoCapture(1);
+		if (!GraphicsEnvironment.isHeadless()) {
+			new CameraPropertyEditor(videoCapture);
+		}
+
 		videoCapture.set(VideoConstants.CV_CAP_PROP_EXPOSURE, 0);
 		ImshowJFrame frame = null;
+
+		RemoteTrackingServer tracker = new RemoteTrackingServer(broadcastAddress, broadcastPort);
 
 		while (true) {
 			long captureTimer = System.currentTimeMillis();
@@ -85,12 +107,17 @@ public class Main {
 			Point error = vision.calculateError(image, true);
 			processTimer = System.currentTimeMillis() - processTimer;
 			Point target = new Point(image.width() / 2, image.height() / 2);
-			// Core.arrowedLine(image, target, new Point(target.x + error.x,
-			// target.y + error.y), new Scalar(0, 255, 0));
-			Core.arrowedLine(image, new Point(target.x - error.x, target.y - error.y), target, new Scalar(0, 255, 0));
+			tracker.sendError(error);
+			// Core.arrowedLine(image, new Point(target.x - error.x, target.y -
+			// error.y), target, new Scalar(0, 255, 0));
+
+			// Arrow from center to target, shows the direction to move the
+			// bot/center
+			Imgproc.arrowedLine(image, target, new Point(target.x + error.x, target.y + error.y), new Scalar(0, 255, 0),
+					3, 8, 0, .1);
 
 			// TODO make imshow accept an empty image...
-			if (frame == null) {
+			if (frame == null && !GraphicsEnvironment.isHeadless()) {
 				frame = Imshow.show(image);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			} else {

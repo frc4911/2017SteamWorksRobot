@@ -14,7 +14,7 @@ import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
-import org.opencv.highgui.Highgui;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 public class TimingMain {
@@ -37,7 +37,7 @@ public class TimingMain {
 	public TimingMain() {
 		this.vision = new GearVision(false);
 		this.rawImages = Arrays.asList(R_LEFT_L, R_LEFT_M, R_LEFT_S, R_STRAIGHT, R_RIGHT_S, R_RIGHT_M, R_RIGHT_L)
-				.stream().map(path -> Highgui.imread(TimingMain.class.getResource(path).getPath()))
+				.stream().map(path -> Imgcodecs.imread(TimingMain.class.getResource(path).getPath()))
 				.collect(Collectors.toList());
 
 		this.rawPresizedImages = this.rawImages.stream().map(mat -> {

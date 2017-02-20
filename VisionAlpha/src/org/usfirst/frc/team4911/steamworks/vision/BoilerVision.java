@@ -12,6 +12,7 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team4911.opencv.Imshow;
 
 /**
  * This class is not thread-safe!
@@ -35,7 +36,7 @@ public class BoilerVision extends VisionBase {
 		this.erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(12, 12));
 		this.debug = enableDebug;
 	}
-	
+
 	/**
 	 * Calculate the error between the given image and the target. A postive
 	 * value means increase the current value to close in on the target.
@@ -43,7 +44,7 @@ public class BoilerVision extends VisionBase {
 	 * @return the error in the x and y direction
 	 */
 	public Point calculateError(Mat image, boolean debug) {
-		List<MatOfPoint> contours = detectMarkers(image);
+		List<MatOfPoint> contours = detectColorMarkers(image);
 
 		// find the two largest blobs, assume they are the two
 		// target stripes we want to center on.
@@ -51,16 +52,16 @@ public class BoilerVision extends VisionBase {
 		MatOfPoint max1 = null, max2 = null;
 		for (int i = 0; i < contours.size(); i++) {
 			MatOfPoint c = contours.get(i);
-			
+
 			// we are looking for horizontal stripes on the boiler, reject
 			// targets that are not wider than tall
 			Rect bounds = findBoundingRect(c);
 			if (bounds.width < bounds.height) {
 				continue;
 			}
-			
+
 			double area = Imgproc.contourArea(c);
-			
+
 			if (area > max1area) {
 				// the new countour is larger than the old largest, this means
 				// the old largest becomes the new second largest
@@ -74,7 +75,7 @@ public class BoilerVision extends VisionBase {
 				max2 = c;
 			}
 		}
-		if (max1 == null)  {
+		if (max1 == null) {
 			return new Point(0, 0);
 		}
 
@@ -94,8 +95,6 @@ public class BoilerVision extends VisionBase {
 		int cy = (image.height() / 2) - (combinedBounds.y + (combinedBounds.height / 2));
 		return new Point(cx, cy);
 	}
-	
-	
 
 	public List<MatOfPoint> detectMarkers(Mat cameraImage) {
 		List<MatOfPoint> contours = new ArrayList<>();
@@ -117,23 +116,35 @@ public class BoilerVision extends VisionBase {
 				Imgproc.drawContours(cameraImage, contours, i, new Scalar(255, 0, 255), 2);
 				Point p = new Point(contours.get(i).get(0, 0));
 				String info = "idx: " + i + ", area=" + Imgproc.contourArea(contours.get(i));
-				Core.putText(cameraImage, info, p, Core.FONT_HERSHEY_PLAIN, 1, new Scalar(0, 0, 255));
+				Imgproc.putText(cameraImage, info, p, Core.FONT_HERSHEY_PLAIN, 1, new Scalar(0, 0, 255));
 			}
 		}
 
 		return contours;
 	}
-	
+
 	public List<MatOfPoint> detectColorMarkers(Mat cameraImage) {
 		List<MatOfPoint> contours = new ArrayList<>();
 
+		// extract the hue channel
 		Imgproc.cvtColor(cameraImage, image, Imgproc.COLOR_RGB2HSV);
+		Core.extractChannel(image, image, 0);
+		if (debug) {
+			Imshow.show("Hue", image);
+		}
 
-		Imgproc.threshold(image, image, 155, 255, Imgproc.THRESH_BINARY);
+		Core.inRange(image, new Scalar(25), new Scalar(75), image);
+		if (debug) {
+			Imshow.show("Threshold", image);
+		}
+
 		Imgproc.erode(image, image, erodeElement);
 		// Imgproc.erode(image, image, erodeElement);
 		Imgproc.dilate(image, image, dilateElement);
 		// Imgproc.dilate(image, image, dilateElement);
+		if (debug) {
+			Imshow.show("Error/Dilate	", image);
+		}
 
 		Mat cMat = new Mat();
 		image.copyTo(cMat);
@@ -144,7 +155,7 @@ public class BoilerVision extends VisionBase {
 				Imgproc.drawContours(cameraImage, contours, i, new Scalar(255, 0, 255), 2);
 				Point p = new Point(contours.get(i).get(0, 0));
 				String info = "idx: " + i + ", area=" + Imgproc.contourArea(contours.get(i));
-				Core.putText(cameraImage, info, p, Core.FONT_HERSHEY_PLAIN, 1, new Scalar(0, 0, 255));
+				Imgproc.putText(cameraImage, info, p, Core.FONT_HERSHEY_PLAIN, 1, new Scalar(0, 0, 255));
 			}
 		}
 
