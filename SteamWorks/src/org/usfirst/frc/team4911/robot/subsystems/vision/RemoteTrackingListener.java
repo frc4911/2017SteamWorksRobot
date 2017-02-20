@@ -3,7 +3,6 @@ package org.usfirst.frc.team4911.robot.subsystems.vision;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.SocketAddress;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
 
@@ -27,19 +26,16 @@ import java.nio.ByteBuffer;
  * @author nathanieltroutman
  */
 public class RemoteTrackingListener {
-	public volatile TargetError currentError;
-	private TrackingPacketListener listener;
-	private SocketAddress trackingHost;
 	public static int DEFAULT_PORT = 1194;
 
-	/**
-	 * @param trackingHost
-	 *            address of the host sending tracking commands
-	 */
-	public RemoteTrackingListener(SocketAddress trackingHost) {
-		this.trackingHost = trackingHost;
+	public volatile TargetError currentError;
+	private TrackingPacketListener listener;
+	private int trackingPort;
+
+	public RemoteTrackingListener(int port) {
 		// default to zero error on startup
 		this.currentError = new TargetError(0, 0, 0);
+		this.trackingPort = port;
 
 		this.listener = new TrackingPacketListener();
 		this.listener.start();
@@ -62,14 +58,14 @@ public class RemoteTrackingListener {
 		private DatagramSocket socket;
 
 		public TrackingPacketListener() {
-			super("TrackingListener-" + trackingHost);
+			super("TrackingListener-" + trackingPort);
 			// don't let this listener keep the JVM alive
 			this.setDaemon(false);
 
 			try {
-				this.socket = new DatagramSocket(DEFAULT_PORT);
+				this.socket = new DatagramSocket(trackingPort);
 			} catch (SocketException e) {
-				throw new RemoteTrackerException("Unable to create socket to listen to tracking host: " + trackingHost,
+				throw new RemoteTrackerException("Unable to create socket to listen to tracking host on port: " + trackingPort,
 						e);
 			}
 		}
