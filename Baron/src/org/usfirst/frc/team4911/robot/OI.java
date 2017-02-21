@@ -1,6 +1,9 @@
 package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
+import org.usfirst.frc.team4911.robot.commands.CG_FeedFuel;
+import org.usfirst.frc.team4911.robot.commands.C_ShooterFeeder;
+import org.usfirst.frc.team4911.robot.commands.C_SpinFlywheel;
 import org.usfirst.frc.team4911.robot.commands.C_FuelCollect;
 import org.usfirst.frc.team4911.robot.commands.C_GearIntake;
 import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
@@ -12,6 +15,8 @@ import org.usfirst.frc.team4911.robot.commands.C_TestDriveByJoystick;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetMotorSpeed;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetTalonNum;
+import org.usfirst.frc.team4911.robot.commands.C_TriggerWhenPressed;
+import org.usfirst.frc.team4911.robot.commands.C_TriggerWhileHeld;
 import org.usfirst.frc.team4911.robot.commands.C_TunePID;
 
 import com.ctre.CANTalon;
@@ -76,11 +81,20 @@ public class OI {
 		btnY.whenPressed(gMoveDown);
 		btnY.whenReleased(new C_StopCommand(gMoveDown));
 		
-		//Command shooterPID = new C_MotorPID();
-		//btnSelect.whenPressed(shooterPID);
-		//btnStart.whenPressed(new C_StopCommand(shooterPID));
+		Command feedFuel = new CG_FeedFuel();
+		Command feeder = new C_TriggerWhileHeld(feedFuel, opGamepad, false);
+		feeder.start();
 		
-		//leftBumper.whileHeld(new CG_HopperFeeder());
+		Command flywheel = new C_SpinFlywheel();
+		leftBumper.whenPressed(flywheel);
+		Command stopFlywheel = new C_TriggerWhenPressed(new C_StopCommand(flywheel), opGamepad, true);
+		stopFlywheel.start();
+		
+		//Command flywheel = new C_TriggerWhenPressed(shooterPID, opGamepad, true);
+		//flywheel.start();
+		//leftBumper.whenPressed(new C_StopCommand(shooterPID));
+		
+		//Command shooterPID = new C_MotorPID();
 		
 		//rightBumper.whileHeld(new C_GearOnPeg());
 		

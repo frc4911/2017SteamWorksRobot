@@ -7,13 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class C_FuelCollect extends Command {
-	boolean dir;
-	
-    public C_FuelCollect(boolean dir) {
+public class C_ShooterFeeder extends Command {
+
+    public C_ShooterFeeder() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_FuelCollector);
-        this.dir = dir;
+        requires(Robot.ss_FuelShooter);
     }
 
     // Called just before this Command runs the first time
@@ -22,11 +20,7 @@ public class C_FuelCollect extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(dir) {
-    		Robot.ss_FuelCollector.collectorMotors.spin(0.5);
-    	} else {
-    		Robot.ss_FuelCollector.collectorMotors.spin(-0.5);
-    	}
+    	Robot.ss_FuelShooter.feederMotor.spin(0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -36,7 +30,7 @@ public class C_FuelCollect extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_FuelCollector.collectorMotors.stop();
+    	Robot.ss_FuelShooter.feederMotor.stop();
     }
 
     // Called when another command which requires one or more of the same

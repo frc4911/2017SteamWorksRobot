@@ -23,7 +23,7 @@ public class SS_Climber extends Subsystem {
 	}
 	
     public void initDefaultCommand() {
-        //setDefaultCommand(new C_ClimberUp());
+        setDefaultCommand(new C_ClimberUp());
     }
 }
 
