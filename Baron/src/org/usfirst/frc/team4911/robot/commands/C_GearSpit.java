@@ -22,7 +22,7 @@ public class C_GearSpit extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
-    	Robot.ss_GearIntake.gearIntakeMotor.spin(0.5);
+    	Robot.ss_GearIntake.gearIntakeMotor.spin(-0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()

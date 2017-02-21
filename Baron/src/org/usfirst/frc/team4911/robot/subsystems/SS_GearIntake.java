@@ -2,6 +2,8 @@ package org.usfirst.frc.team4911.robot.subsystems;
 
 import org.usfirst.frc.team4911.robot.Robot;
 
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -14,6 +16,8 @@ public class SS_GearIntake extends Subsystem {
 	public SS_GearIntake() {
 		gearIntakeMotor.setPowLimit(0.7);
 		gearIntakeMotor.enablePowLimit(true);
+//		gearIntakeMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(false);
+		gearIntakeMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(false);
 	}
 	
 	private DigitalInput lsIntake = new DigitalInput(0);

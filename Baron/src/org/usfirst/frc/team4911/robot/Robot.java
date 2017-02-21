@@ -42,7 +42,7 @@ public class Robot extends IterativeRobot {
 	
 	public final static SS_TestMotor ss_TestMotor = new SS_TestMotor();
 	
-	public final static SS_NAVX ss_NAVX = new SS_NAVX();
+	public final static SS_NAVX ss_NAVX = null;//new SS_NAVX();
 	
 	// all subsystems must be created before logging
 	public final static LoggingEngine ss_Logging = new LoggingEngine();

@@ -86,6 +86,18 @@ public class DefaultMotor {
 				   			  kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType, ticks);
 	}
 	
+	public void setSensor(CANTalon.FeedbackDevice sensor){
+		talon.setFeedbackDevice(sensor);
+	}
+	
+	public double getSensorPosition(){
+		SmartDashboard.putNumber("Analog raw", talon.getAnalogInRaw());
+		SmartDashboard.putNumber("Analog pos", talon.getAnalogInPosition());
+		SmartDashboard.putNumber("Analog pos2", talon.getPosition());
+		SmartDashboard.putNumber("Analog raw2", talon.getEncPosition());
+		return talon.getAnalogInRaw();
+	}
+	
 	public void stopPID() {
 		pid.stopPIDMode();
 		zeroEnc();
@@ -181,6 +193,10 @@ public class DefaultMotor {
 		}
 	}
 	
+//	public double getPotentiometer() {
+//		return talon.getAnalogInRaw();
+//	}
+//	
 	public int getStickyFaultUnderVoltage(boolean follower) {
 		if(follower) {
 			return fTalon.getStickyFaultUnderVoltage();

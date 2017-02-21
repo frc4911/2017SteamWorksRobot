@@ -5,7 +5,7 @@ import org.usfirst.frc.team4911.robot.commands.CG_FeedFuel;
 import org.usfirst.frc.team4911.robot.commands.C_ShooterFeeder;
 import org.usfirst.frc.team4911.robot.commands.C_SpinFlywheel;
 import org.usfirst.frc.team4911.robot.commands.C_FuelCollect;
-import org.usfirst.frc.team4911.robot.commands.C_GearIntake;
+import org.usfirst.frc.team4911.robot.commands.C_GearInOut;
 import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
 import org.usfirst.frc.team4911.robot.commands.C_MoveToEncPos;
 import org.usfirst.frc.team4911.robot.commands.C_GearLiftLower;
@@ -67,19 +67,22 @@ public class OI {
 		dtLeftTrigger.whileHeld(new C_FuelCollect(false));
 		
 		/*********OpGamePad*********/
-		Command gColl = new C_GearIntake();
-		btnX.whenPressed(gColl);
-		btnX.whenReleased(new C_StopCommand(gColl));
+		btnX.whileHeld(new C_GearInOut(true));
+//		Command gColl = new C_GearIntake();
+//		btnX.whenPressed(gColl);
+//		btnX.whenReleased(new C_StopCommand(gColl));
 		
-		btnB.whileHeld(new C_GearSpit());
+		btnB.whileHeld(new C_GearInOut(false));
 		
-		Command gMoveUp = new C_GearLiftLower(true);
-		btnA.whenPressed(gMoveUp);
-		btnA.whenReleased(new C_StopCommand(gMoveUp));
+		btnY.whileHeld(new C_GearLiftLower(true));
+//		Command gMoveUp = new C_GearLiftLower(true);
+//		btnY.whenPressed(gMoveUp);
+//		btnY.whenReleased(new C_StopCommand(gMoveUp));
 		
-		Command gMoveDown = new C_GearLiftLower(false);
-		btnY.whenPressed(gMoveDown);
-		btnY.whenReleased(new C_StopCommand(gMoveDown));
+		btnA.whileHeld(new C_GearLiftLower(false));
+		//Command gMoveDown = new C_GearLiftLower(false);
+		//btnA.whenPressed(gMoveDown);
+		//btnA.whenReleased(new C_StopCommand(gMoveDown));
 		
 		Command feedFuel = new CG_FeedFuel();
 		Command feeder = new C_TriggerWhileHeld(feedFuel, opGamepad, false);

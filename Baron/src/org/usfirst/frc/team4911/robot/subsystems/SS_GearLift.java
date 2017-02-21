@@ -2,6 +2,8 @@ package org.usfirst.frc.team4911.robot.subsystems;
 
 import org.usfirst.frc.team4911.robot.Robot;
 
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,13 +25,14 @@ public class SS_GearLift extends Subsystem {
 	public SS_GearLift() {
 		gearLiftMotor.setPowLimit(0.7);
 		gearLiftMotor.enablePowLimit(true);
+		gearLiftMotor.setSensor(CANTalon.FeedbackDevice.AnalogPot);
 	}
 
 	public void initDefaultCommand() {
     }
 	
 	public double getGearLiftPot(){
-		return gearPot.getVoltage();
+		return gearLiftMotor.getSensorPosition();
 	}
 	
 	public boolean spin(double speed){

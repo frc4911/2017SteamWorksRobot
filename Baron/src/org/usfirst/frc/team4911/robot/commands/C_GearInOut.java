@@ -7,11 +7,15 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class C_GearIntake extends Command {
+public class C_GearInOut extends Command {
 
-    public C_GearIntake() {
+	double speed = .4;
+    public C_GearInOut(boolean intake) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.ss_GearIntake);
+        if (!intake){
+        	speed = -speed;
+        }
     }
 
     // Called just before this Command runs the first time
@@ -22,14 +26,12 @@ public class C_GearIntake extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
-    	if(!Robot.ss_GearIntake.getLSIntake()) {
-    		Robot.ss_GearIntake.gearIntakeMotor.spin(-0.5);
-    	}
+   		Robot.ss_GearIntake.gearIntakeMotor.spin(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return !Robot.ss_GearIntake.getLSIntake();
+    	return false; // whileheld
     }
 
     // Called once after isFinished returns true
