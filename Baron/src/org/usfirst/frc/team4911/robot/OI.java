@@ -87,7 +87,7 @@ public class OI {
 		/**********Testing**********/
 		testBtn11.whenReleased(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, 1440, 360));
 		
-		testBtn7.whenReleased(new CG_AutoTest());
+		//testBtn7.whenReleased(new CG_AutoTest());
 		
 		testBtn1.whileHeld(new C_TestDriveByJoystick());
 		testBtn2.whileHeld(new C_TestDriveBySet());

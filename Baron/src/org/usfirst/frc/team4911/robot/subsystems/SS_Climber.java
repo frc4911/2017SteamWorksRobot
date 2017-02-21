@@ -19,6 +19,7 @@ public class SS_Climber extends Subsystem {
 	public SS_Climber() {
 		climberMotor.setPowLimit(0.7);
 		climberMotor.enablePowLimit(true);
+		climberMotor.setBrakeMode(true);
 	}
 	
     public void initDefaultCommand() {
