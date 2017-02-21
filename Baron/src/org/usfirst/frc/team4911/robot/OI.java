@@ -3,6 +3,7 @@ package org.usfirst.frc.team4911.robot;
 import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
 import org.usfirst.frc.team4911.robot.commands.CG_FeedFuel;
 import org.usfirst.frc.team4911.robot.commands.C_ShooterFeeder;
+import org.usfirst.frc.team4911.robot.commands.C_SpinFlywheel;
 import org.usfirst.frc.team4911.robot.commands.C_FuelCollect;
 import org.usfirst.frc.team4911.robot.commands.C_GearIntake;
 import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
@@ -83,6 +84,11 @@ public class OI {
 		Command feedFuel = new CG_FeedFuel();
 		Command feeder = new C_TriggerWhileHeld(feedFuel, opGamepad, false);
 		feeder.start();
+		
+		Command flywheel = new C_SpinFlywheel();
+		leftBumper.whenPressed(flywheel);
+		Command stopFlywheel = new C_TriggerWhenPressed(new C_StopCommand(flywheel), opGamepad, true);
+		stopFlywheel.start();
 		
 		//Command flywheel = new C_TriggerWhenPressed(shooterPID, opGamepad, true);
 		//flywheel.start();
