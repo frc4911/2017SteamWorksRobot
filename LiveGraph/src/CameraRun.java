@@ -27,7 +27,8 @@ public class CameraRun {
 	VideoCapture camera;
 	Mat mat;
 	JFrame frame;
-	String videoStreamAddress = "http://FRC:FRC@10.49.11.11/mjpg/video.mjpg";//"http://root:password@10.36.63.100/mjpg/video.mjpg";
+	//String videoStreamAddress = "http://FRC:FRC@10.49.11.11/mjpg/video.mjpg";//"http://root:password@10.36.63.100/mjpg/video.mjpg";
+	String videoStreamAddress = "http://roborio-4911-frc.local:1181/?action=stream";
 	//String videoStreamAddressUSB = something "http://roborio-3663FRC.local";
 //	String videoStreamAddress2 = "http://root:password@10.36.63.100/mjpg/video.mjpg";
 //	String videoStreamAddress3 = "http://root:password@169.254.199.100/mjpg/video.mjpg";
@@ -51,8 +52,8 @@ public class CameraRun {
 		
 		System.out.println(streamAddress);
 		
-//		camera = new VideoCapture(streamAddress);//0 - USB Cam....?
-		camera = new VideoCapture(0);
+		camera = new VideoCapture(streamAddress);//0 - USB Cam....?
+		//camera = new VideoCapture(0);
 		if (camera.isOpened())
 			System.out.println("found camera");
 		else

@@ -19,6 +19,11 @@ public class SS_GearLift extends Subsystem {
 	AnalogInput gearPot = new AnalogInput(0);
 
 	public DefaultMotor gearLiftMotor = new DefaultMotor(tPortLift, Robot.ss_Config.gearIntakeConst, "GearLift");
+	
+	public SS_GearLift() {
+		gearLiftMotor.setPowLimit(0.7);
+		gearLiftMotor.enablePowLimit(true);
+	}
 
 	public void initDefaultCommand() {
     }
