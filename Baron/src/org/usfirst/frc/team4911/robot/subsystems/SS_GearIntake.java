@@ -10,7 +10,12 @@ public class SS_GearIntake extends Subsystem {
 	int tPortGearIntake = 4;
 	
 	public DefaultMotor gearIntakeMotor = new DefaultMotor(tPortGearIntake, Robot.ss_Config.gearIntakeConst, "GearIntake");
-
+	
+	public SS_GearIntake() {
+		gearIntakeMotor.setPowLimit(0.7);
+		gearIntakeMotor.enablePowLimit(true);
+	}
+	
 	private DigitalInput lsIntake = new DigitalInput(0);
 	public boolean getLSIntake() {
 		// false is when the limit switch is triggered

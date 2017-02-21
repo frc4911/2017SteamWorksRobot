@@ -16,6 +16,11 @@ public class SS_Climber extends Subsystem {
 	int tPortClimber = 11;
 	public DefaultMotor climberMotor = new DefaultMotor(tPortClimber, Robot.ss_Config.climberConst, "Climber");
 	
+	public SS_Climber() {
+		climberMotor.setPowLimit(0.7);
+		climberMotor.enablePowLimit(true);
+	}
+	
     public void initDefaultCommand() {
         //setDefaultCommand(new C_ClimberUp());
     }

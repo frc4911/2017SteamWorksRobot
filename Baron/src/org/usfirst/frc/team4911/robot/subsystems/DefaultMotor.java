@@ -20,6 +20,8 @@ public class DefaultMotor {
 	private boolean motorPair;
 	private double upLimit;
 	private double lowLimit;
+	private double powLimit;
+	private boolean powLimited = false;
 	
 	private String description;
 	
@@ -89,9 +91,14 @@ public class DefaultMotor {
 		zeroEnc();
 	}
 	
-	public void spin(double pow) {
+	public double spin(double pow) {
+		if((Math.abs(pow) > powLimit) && powLimited) {
+			pow = powLimit * Math.signum(pow);
+		}
+		
 		pow *= constant;
 		talon.set(pow);
+		return pow;
 	}
 
 	public void stop() {
@@ -106,6 +113,14 @@ public class DefaultMotor {
 	public void enableSoftLimits(CANTalon talon, boolean onOff) {
 		talon.enableForwardSoftLimit(onOff);
 		talon.enableReverseSoftLimit(onOff);
+	}
+	
+	public void setPowLimit(double powLimit) {
+		this.powLimit = powLimit;
+	}
+	
+	public void enablePowLimit(boolean onOff) {
+		powLimited = onOff;
 	}
 	
 	public void setBrakeMode(boolean set) {
@@ -139,6 +154,14 @@ public class DefaultMotor {
 			return fTalon.getOutputVoltage();
 		} else {
 			return talon.getOutputVoltage();
+		}
+	}
+	
+	public double getInputVoltage(boolean follower) {
+		if(follower) {
+			return fTalon.getBusVoltage();
+		} else {
+			return talon.getBusVoltage();
 		}
 	}
 	

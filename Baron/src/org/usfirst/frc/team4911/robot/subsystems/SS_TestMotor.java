@@ -14,6 +14,14 @@ public class SS_TestMotor extends Subsystem {
     }
 
     DefaultMotor[] motors = new DefaultMotor[9];
+    double maxCurrent = 0;
+    String maxCurrStr = "maxCurrent";
+    double maxSpeed = 0;
+    String maxSpeedStr = "maxSpeed";
+    double maxVoltage = 0;
+    String maxVoltageStr = "maxVoltage";
+    double minVoltage = 100;
+    String minVoltageStr = "min batery Voltage";
     
     public SS_TestMotor(){
     	
@@ -34,7 +42,30 @@ public class SS_TestMotor extends Subsystem {
     }
     
     public void runMotor(double speed) {
-    	motors[currMotor].spin(speed);
+    	speed = motors[currMotor].spin(speed);
+    	
+    	double value = motors[currMotor].getOutputCurrent(false);
+    	if (value > maxCurrent){
+    		maxCurrent = value;
+        	SmartDashboard.putString(maxCurrStr, ""+maxCurrent);
+    	}
+    	
+    	value = motors[currMotor].getOutputVoltage(false);
+    	if (value > maxVoltage){
+    		maxVoltage = value;
+        	SmartDashboard.putString(maxVoltageStr, ""+maxVoltage);
+    	}
+    	
+    	if (speed > maxSpeed){
+    		maxSpeed = speed;
+        	SmartDashboard.putString(maxSpeedStr, ""+maxSpeed);
+    	}
+    	
+    	value = motors[currMotor].getInputVoltage(false);
+    	if (value < minVoltage){
+    		minVoltage = value;
+        	SmartDashboard.putString(minVoltageStr, ""+minVoltage);
+    	}
     }
     
     int currMotor = 0;
@@ -52,6 +83,15 @@ public class SS_TestMotor extends Subsystem {
     			currMotor = maxMotor;
     		}
     	}
+    	maxCurrent = 0;
+    	SmartDashboard.putString(maxCurrStr, ""+maxCurrent);
+    	maxVoltage = 0;
+    	SmartDashboard.putString(maxVoltageStr, ""+maxVoltage);
+    	maxSpeed = 0;
+    	SmartDashboard.putString(maxSpeedStr, ""+maxSpeed);
+    	minVoltage = 100;
+    	SmartDashboard.putString(minVoltageStr, ""+minVoltage);
+    	
     	SmartDashboard.putString(key, motors[currMotor].getDescription());
     }
     

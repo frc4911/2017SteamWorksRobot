@@ -13,7 +13,12 @@ public class SS_FuelCollector extends Subsystem {
 	int tPortCollectorF = 12;
 
 	public DefaultMotor collectorMotors = new DefaultMotor(tPortCollector, tPortCollectorF, Robot.ss_Config.fuelCollectorConst, "FuelCollector");
-
+	
+	public SS_FuelCollector() {
+		collectorMotors.setPowLimit(0.7);
+		collectorMotors.enablePowLimit(true);
+	}
+	
     public void initDefaultCommand() {
     }
 }
