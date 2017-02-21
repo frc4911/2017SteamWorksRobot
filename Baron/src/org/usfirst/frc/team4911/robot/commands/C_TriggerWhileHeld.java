@@ -1,19 +1,29 @@
 package org.usfirst.frc.team4911.robot.commands;
 
-import org.usfirst.frc.team4911.robot.Robot;
-
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class C_FuelCollect extends Command {
-	boolean dir;
+public class C_TriggerWhileHeld extends Command {
+	Command cmd;
+	Joystick gamepad;
+	int axis;
 	
-    public C_FuelCollect(boolean dir) {
+	private final double TOLERANCE = 0.8;
+	
+    public C_TriggerWhileHeld(Command cmd, Joystick gamepad, boolean leftTrigger) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_FuelCollector);
-        this.dir = dir;
+        // eg. requires(chassis);
+    	this.cmd = cmd;
+    	this.gamepad = gamepad;
+    	
+    	if(leftTrigger) {
+    		axis = 2;
+    	} else {
+    		axis = 3;
+    	}
     }
 
     // Called just before this Command runs the first time
@@ -22,10 +32,10 @@ public class C_FuelCollect extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(dir) {
-    		Robot.ss_FuelCollector.collectorMotors.spin(0.5);
-    	} else {
-    		Robot.ss_FuelCollector.collectorMotors.spin(-0.5);
+    	if(gamepad.getRawAxis(axis) > TOLERANCE) {
+    		cmd.start();
+    	} else if(cmd.isRunning()) {
+    		cmd.cancel();
     	}
     }
 
@@ -36,12 +46,10 @@ public class C_FuelCollect extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_FuelCollector.collectorMotors.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
     }
 }

@@ -17,7 +17,7 @@ public class SS_Climber extends Subsystem {
 	public DefaultMotor climberMotor = new DefaultMotor(tPortClimber, Robot.ss_Config.climberConst, "Climber");
 	
     public void initDefaultCommand() {
-        //setDefaultCommand(new C_ClimberUp());
+        setDefaultCommand(new C_ClimberUp());
     }
 }
 
