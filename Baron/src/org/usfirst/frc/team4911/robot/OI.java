@@ -84,14 +84,14 @@ public class OI {
 		//btnA.whenPressed(gMoveDown);
 		//btnA.whenReleased(new C_StopCommand(gMoveDown));
 		
-		Command feedFuel = new CG_FeedFuel();
-		Command feeder = new C_TriggerWhileHeld(feedFuel, opGamepad, false);
-		feeder.start();
+//		Command feedFuel = new CG_FeedFuel();
+//		Command feeder = new C_TriggerWhileHeld(feedFuel, opGamepad, false);
+//		feeder.start();
 		
-		Command flywheel = new C_SpinFlywheel();
-		leftBumper.whenPressed(flywheel);
-		Command stopFlywheel = new C_TriggerWhenPressed(new C_StopCommand(flywheel), opGamepad, true);
-		stopFlywheel.start();
+//		Command flywheel = new C_SpinFlywheel();
+//		leftBumper.whenPressed(flywheel);
+//		Command stopFlywheel = new C_TriggerWhenPressed(new C_StopCommand(flywheel), opGamepad, true);
+//		stopFlywheel.start();
 		
 		//Command flywheel = new C_TriggerWhenPressed(shooterPID, opGamepad, true);
 		//flywheel.start();
@@ -102,7 +102,7 @@ public class OI {
 		//rightBumper.whileHeld(new C_GearOnPeg());
 		
 		/**********Testing**********/
-		testBtn11.whenReleased(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, 1440, 360));
+		testBtn11.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, 1440, 360));
 		
 		//testBtn7.whenReleased(new CG_AutoTest());
 		

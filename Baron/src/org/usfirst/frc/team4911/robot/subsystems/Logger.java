@@ -114,7 +114,7 @@ public class Logger extends Subsystem {
     	fHopStartIndex = addMotorIndices(Robot.ss_FuelHopper.hopperMotor.getDescription(), false, false);
     	
 		// fuelShooter
-    	fFeederStartIndex = addMotorIndices(Robot.ss_FuelShooter.feederMotor.getDescription(), false, false);
+    	fFeederStartIndex = addMotorIndices(Robot.ss_FuelShooter.feederMotor.getDescription(), false, true);
 		fShooterStartIndex = addMotorIndices(Robot.ss_FuelShooter.shooterMotors.getDescription(), true, true);
     	
 		// gear assembly
@@ -179,7 +179,7 @@ public class Logger extends Subsystem {
     		logDefaultMotor(Robot.ss_FuelHopper.hopperMotor, false, false, fHopStartIndex);
     		
     		// fuelShooter
-    		logDefaultMotor(Robot.ss_FuelShooter.feederMotor, false, false, fFeederStartIndex);
+    		logDefaultMotor(Robot.ss_FuelShooter.feederMotor, false, true, fFeederStartIndex);
     		logDefaultMotor(Robot.ss_FuelShooter.shooterMotors, true, true, fShooterStartIndex);
     		
     		// gear assembly
@@ -221,27 +221,19 @@ public class Logger extends Subsystem {
     private void logDefaultMotor(DefaultMotor motor, boolean hasFollower, boolean hasEncoder, int index) {
     	boolean smart = false;
 		boolean log = true;
-		smartLog(smart, log, index++, 
-				"" + motor.getTalonValue(false));
-		smartLog(smart, log, index++,
-				motor.checkStickyFaults(motor, false));
-		smartLog(smart, log, index++, 
-				"" + motor.getOutputVoltage(false));
-		smartLog(true, log, index++, // hardcode to dashboard for debug 
-				"" + motor.getOutputCurrent(false));
+		smartLog(smart, log, index++, "" + motor.getTalonValue(false));
+		smartLog(smart, log, index++,motor.checkStickyFaults(motor, false));
+		smartLog(smart, log, index++,"" + motor.getOutputVoltage(false));
+		smartLog(true, log, index++, "" + motor.getOutputCurrent(false));// hardcode to dashboard for debug 
+				
 		if(hasFollower) {
-			smartLog(smart, log, index++,
-					motor.checkStickyFaults(motor, true));
-			smartLog(smart, log, index++, 
-					"" + motor.getOutputVoltage(true));
-			smartLog(smart, log, index++, 
-					"" + motor.getOutputCurrent(true));
+			smartLog(smart, log, index++,motor.checkStickyFaults(motor, true));
+			smartLog(smart, log, index++,"" + motor.getOutputVoltage(true));
+			smartLog(smart, log, index++,"" + motor.getOutputCurrent(true));
 		}
-		smartLog(smart, log, index++, 
-				"" + motor.getTalonSpeed());
+		smartLog(smart, log, index++, "" + motor.getTalonSpeed());
 		if(hasEncoder) {
-			smartLog(smart, log, index++, 
-					"" + motor.getEncPos());
+			smartLog(true, log, index++,"" + motor.getEncPos());
 		}
     }
     

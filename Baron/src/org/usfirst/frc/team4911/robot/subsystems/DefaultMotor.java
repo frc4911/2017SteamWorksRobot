@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DefaultMotor {
 	private CANTalon talon;
 	private CANTalon fTalon;
-	private CANTalonPID pid;
+	private CANTalonPID pid = null;
 	private double constant;
 	private boolean limited;
 	private boolean motorPair;
@@ -99,7 +99,11 @@ public class DefaultMotor {
 	}
 	
 	public void stopPID() {
-		pid.stopPIDMode();
+		if (pid != null){
+			pid.stopPIDMode();
+			pid = null;
+		}
+		
 		zeroEnc();
 	}
 	

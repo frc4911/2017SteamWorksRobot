@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class SS_DriveTrain extends Subsystem {
 
-	int tPortDriveTrainFrontRight = 0;
-	int tPortDriveTrainRearRight = 1;
+	int tPortDriveTrainFrontRight = 1; //0;
+	int tPortDriveTrainRearRight = 0; //1;
 	
-	int tPortDriveTrainFrontLeft = 2;
-	int tPortDriveTrainRearLeft = 3;
+	int tPortDriveTrainFrontLeft = 3; //2;
+	int tPortDriveTrainRearLeft = 2; //3;
 	
 	public DefaultMotor leftMotors = new DefaultMotor(tPortDriveTrainFrontLeft, tPortDriveTrainRearLeft, Robot.ss_Config.driveMotorsLeftConst, "DriveTrainLeft");
 	public DefaultMotor rightMotors = new DefaultMotor(tPortDriveTrainFrontRight, tPortDriveTrainRearRight, Robot.ss_Config.driveMotorsRightConst, "DriveTrainRight");
