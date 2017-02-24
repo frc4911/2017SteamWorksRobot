@@ -15,12 +15,12 @@ public class SS_GearLift extends Subsystem {
 	
 	int tPortLift = 5;
 	
-	final double topPotValue = 1.90;
-	final double lowPotValue = .727;
+	final double topPotValue = 495.0;
+	final double lowPotValue = 105.0;
 	
 	AnalogInput gearPot = new AnalogInput(0);
 
-	public DefaultMotor gearLiftMotor = new DefaultMotor(tPortLift, Robot.ss_Config.gearIntakeConst, "GearLift");
+	public DefaultMotor gearLiftMotor = new DefaultMotor(tPortLift, Robot.ss_Config.gearIntakeConst, topPotValue, lowPotValue,"GearLift");
 	
 	public SS_GearLift() {
 		gearLiftMotor.setPowLimit(0.7);

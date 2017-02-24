@@ -47,30 +47,30 @@ public class C_TunePID extends Command {
     }
     
     private void updatePIDInfo() {
-        this.ticks = (int) SmartDashboard.getNumber("2PID Pos", 0);
-    	this.kp = SmartDashboard.getNumber("2kp", 0);
-    	this.kd = SmartDashboard.getNumber("2kd", 0);
-    	this.ki = SmartDashboard.getNumber("2ki", 0);
-    	this.kf = SmartDashboard.getNumber("2kf", 0);
-    	this.rampRate = SmartDashboard.getNumber("2rampRate", 0);
-    	this.iZone = (int) SmartDashboard.getNumber("2iZone", 0);
-    	this.peakOutputVoltage = SmartDashboard.getNumber("2peakOutVolt", 0);
-    	this.nominalOutputVoltage = SmartDashboard.getNumber("2nominalOutVolt", 0);
-    	this.PIDType = stringToPIDType(SmartDashboard.getString("2PID Type", "Disabled"));
+        this.ticks = (int) SmartDashboard.getNumber("Tuning PID Pos", 0);
+    	this.kp = SmartDashboard.getNumber("Tuning kp", 0);
+    	this.kd = SmartDashboard.getNumber("Tuning kd", 0);
+    	this.ki = SmartDashboard.getNumber("Tuning ki", 0);
+    	this.kf = SmartDashboard.getNumber("Tuning kf", 0);
+    	this.rampRate = SmartDashboard.getNumber("Tuning rampRate", 0);
+    	this.iZone = (int) SmartDashboard.getNumber("Tuning iZone", 0);
+    	this.peakOutputVoltage = SmartDashboard.getNumber("Tuning peakOutVolt", 0);
+    	this.nominalOutputVoltage = SmartDashboard.getNumber("Tuning nominalOutVolt", 0);
+    	this.PIDType = stringToPIDType(SmartDashboard.getString("Tuning PID Type", "Disabled"));
     }
     
-    private void updateSmartDashboard() {
-    	SmartDashboard.putNumber("2PID Pos", 0); 
-		SmartDashboard.putNumber("2kp", 0);
-		SmartDashboard.putNumber("2kd", 0);
-		SmartDashboard.putNumber("2ki", 0); 
-		SmartDashboard.putNumber("2kf", 0); 
-		SmartDashboard.putNumber("2rampRate", 0);
-		SmartDashboard.putNumber("2iZone", 0);
-		SmartDashboard.putNumber("2peakOutVolt", 0); 
-		SmartDashboard.putNumber("2nominalOutVolt", 0);
-		SmartDashboard.putString("2PID Type", "");
-		SmartDashboard.putBoolean("2End PID",  false);
+    private void updateSDForPIDTuning() {
+    	SmartDashboard.putNumber("Tuning PID Pos", 0); 
+		SmartDashboard.putNumber("Tuning kp", 0);
+		SmartDashboard.putNumber("Tuning kd", 0);
+		SmartDashboard.putNumber("Tuning ki", 0); 
+		SmartDashboard.putNumber("Tuning kf", 0); 
+		SmartDashboard.putNumber("Tuning rampRate", 0);
+		SmartDashboard.putNumber("Tuning iZone", 0);
+		SmartDashboard.putNumber("Tuning peakOutVolt", 0); 
+		SmartDashboard.putNumber("Tuning nominalOutVolt", 0);
+		SmartDashboard.putString("Tuning PID Type", "");
+		SmartDashboard.putBoolean("Tuning End PID",  false);
     }
     
     // Called just before this Command runs the first time
@@ -78,12 +78,10 @@ public class C_TunePID extends Command {
     	//updateSmartDashboard();
     	updatePIDInfo();
     	
-		SmartDashboard.putBoolean("2End PID",  false);
+		SmartDashboard.putBoolean("Tuning End PID",  false);
     	
     	motor.zeroEnc();
     	motor.moveToEncPos(ticks, ticksPerRev, encoderTicksPerRev, kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType);
-    	counter = -1;
-    	SmartDashboard.putNumber("2alive", counter++);
     }
 
     double counter = 0;
@@ -91,20 +89,19 @@ public class C_TunePID extends Command {
     protected void execute() {
     	switch(PIDType) {
 	    	case Position: 
-	    		SmartDashboard.putNumber("2Curr PID Pos(pos)", motor.getEncPos()); 
+	    		SmartDashboard.putNumber("Tuning Curr PID Pos(pos)", motor.getEncPos()); 
 	    		break;
 	    	case Speed: 
-		    	SmartDashboard.putNumber("2Curr PID Pos(spd)", motor.getEncVelocity()); 
+		    	SmartDashboard.putNumber("Tuning Curr PID Pos(spd)", motor.getEncVelocity()); 
 		    	break;
 	    	case Current: 
-	    		SmartDashboard.putNumber("2Curr PID Pos(cur)", motor.getOutputCurrent(false)); 
+	    		SmartDashboard.putNumber("Tuning Curr PID Pos(cur)", motor.getOutputCurrent(false)); 
 	    		break;
     		default:
     			break;
     	}
     	
-    	SmartDashboard.putNumber("2alive", counter++);
-    	end = SmartDashboard.getBoolean("2End PID",  true);
+    	end = SmartDashboard.getBoolean("Tuning End PID",  true);
     }
     
     // Make this return true when this Command no longer needs to run execute()
@@ -114,8 +111,6 @@ public class C_TunePID extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	SmartDashboard.putNumber("2alive", 11111.0);
-
     	motor.stopPID();
     }
 

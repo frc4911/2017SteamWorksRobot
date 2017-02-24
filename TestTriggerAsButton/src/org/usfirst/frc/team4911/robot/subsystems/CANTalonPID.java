@@ -28,16 +28,16 @@ public class CANTalonPID{
     	this.talon = talon;
     	//talon.changeMotionControlFramePeriod(20);
     	
-    	this.talon.setFeedbackDevice(encoderType);
-    	this.talon.configEncoderCodesPerRev(encoderCodesPerRev);
-    	this.talon.reverseSensor(reverseSensor);
-    	this.talon.configPeakOutputVoltage(peakOutputVoltage, -peakOutputVoltage);
-    	this.talon.configNominalOutputVoltage(nominalOutputVoltage,  -nominalOutputVoltage);
-    	this.talon.setPID(kp, ki, kd, kf, iZone, rampRate, profile);
-    	this.talon.changeControlMode(PIDType);
-    	this.talon.setVoltageRampRate(rampRate);
-    	this.talon.setCloseLoopRampRate(rampRate);
-    	this.talon.setEncPosition(0);
+    	talon.setFeedbackDevice(encoderType);
+		talon.configEncoderCodesPerRev(encoderCodesPerRev);
+		talon.reverseSensor(reverseSensor);
+    	talon.configPeakOutputVoltage(peakOutputVoltage, -peakOutputVoltage);
+    	talon.configNominalOutputVoltage(nominalOutputVoltage,  -nominalOutputVoltage);
+    	talon.setPID(kp, ki, kd, kf, iZone, rampRate, profile);
+    	talon.changeControlMode(PIDType);
+    	talon.setVoltageRampRate(rampRate);
+    	talon.setCloseLoopRampRate(rampRate);
+    	talon.setEncPosition(0);
     	double set = 0;
     	if (encoderType == CANTalon.FeedbackDevice.QuadEncoder){
     		if (PIDType == CANTalon.TalonControlMode.Position){
@@ -48,14 +48,14 @@ public class CANTalonPID{
     			currTicks = ticks;
     		}
     	}
-    	this.talon.set(set);
+    	talon.set(set);
     	SmartDashboard.putString("PID target",""+set);
 	}
 	
 	public void setTicks(int newTicks){
 			talon.set(newTicks);
 			currTicks = newTicks;
-			SmartDashboard.putString("PID target", "" + newTicks);
+			SmartDashboard.putString("PID target",""+newTicks);
 	}
 	
 	public int getTicks(){

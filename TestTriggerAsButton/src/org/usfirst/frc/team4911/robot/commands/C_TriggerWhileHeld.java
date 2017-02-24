@@ -1,21 +1,28 @@
 package org.usfirst.frc.team4911.robot.commands;
 
-import org.usfirst.frc.team4911.robot.Robot;
-
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class C_GearLiftLower extends Command {
+public class C_TriggerWhileHeld extends Command {
+	Command cmd;
+	Joystick gamepad;
+	int axis;
 	
-	double speed = .4;
+	private final double TOLERANCE = 0.8;
 	
-    public C_GearLiftLower(boolean dir) {
+    public C_TriggerWhileHeld(Command cmd, Joystick gamepad, boolean leftTrigger) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_GearLift);
-        if(!dir) {
-    		speed = -speed; 
+        // eg. requires(chassis);
+    	this.cmd = cmd;
+    	this.gamepad = gamepad;
+    	
+    	if(leftTrigger) {
+    		axis = 2;
+    	} else {
+    		axis = 3;
     	}
     }
 
@@ -25,22 +32,24 @@ public class C_GearLiftLower extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_GearLift.spin(speed);
+    	if(gamepad.getRawAxis(axis) > TOLERANCE) {
+    		cmd.start();
+    	} else if(cmd.isRunning()) {
+    		cmd.cancel();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return false; // whileheld
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_GearLift.gearLiftMotor.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
     }
 }

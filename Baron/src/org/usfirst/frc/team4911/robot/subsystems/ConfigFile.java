@@ -2,6 +2,7 @@ package org.usfirst.frc.team4911.robot.subsystems;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
@@ -74,6 +75,28 @@ public class ConfigFile extends Subsystem {
 			}
     	}
     	return (double)1;
+    }
+    
+    public void updateConfigFile(String filepath) {
+    	try {
+			PrintStream write = new PrintStream(new File(filepath));
+			write.println("driveMotorsLeftConst 1");
+			write.println("driveMotorsRightConst 1");
+			write.println("gearIntakeConst 1");
+			write.println("driveEncoderLeftConst 1");
+			write.println("driveEncoderRightConst 1");
+			write.println("gearLiftConst 1");
+			write.println("hopperConst 1");
+			write.println("climberConst 1");
+			write.println("shooterFlywheelConst 1");
+			write.println("shooterFeederConst 1");
+			write.println("fuelCollectorConst 1");
+			write.println("climberEncoderConst 1");
+			write.println("shooterEncoderConst 1");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     public void updateInfo(ArrayList<String> contents) {

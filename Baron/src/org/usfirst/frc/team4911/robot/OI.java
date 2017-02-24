@@ -61,6 +61,11 @@ public class OI {
 	JoystickButton testBtn11 = new JoystickButton(autoTestStick, 11);
 	JoystickButton testBtn12 = new JoystickButton(autoTestStick, 12);
 	
+	public Command feeder;
+	public Command stopFlywheel;
+	
+	public Command testCmd;
+	
 	public OI() {
 		/*******DriveJoysticks******/
 		dtRightTrigger.whileHeld(new C_FuelCollect(true));
@@ -84,13 +89,13 @@ public class OI {
 		//btnA.whenPressed(gMoveDown);
 		//btnA.whenReleased(new C_StopCommand(gMoveDown));
 		
-//		Command feedFuel = new CG_FeedFuel();
-//		Command feeder = new C_TriggerWhileHeld(feedFuel, opGamepad, false);
+		Command feedFuel = new CG_FeedFuel();
+		feeder = new C_TriggerWhileHeld(feedFuel, opGamepad, false);
 //		feeder.start();
 		
-//		Command flywheel = new C_SpinFlywheel();
-//		leftBumper.whenPressed(flywheel);
-//		Command stopFlywheel = new C_TriggerWhenPressed(new C_StopCommand(flywheel), opGamepad, true);
+		Command flywheel = new C_SpinFlywheel();
+		leftBumper.whenPressed(flywheel);
+		stopFlywheel = new C_TriggerWhenPressed(new C_StopCommand(flywheel), opGamepad, true);
 //		stopFlywheel.start();
 		
 		//Command flywheel = new C_TriggerWhenPressed(shooterPID, opGamepad, true);
@@ -102,7 +107,8 @@ public class OI {
 		//rightBumper.whileHeld(new C_GearOnPeg());
 		
 		/**********Testing**********/
-		testBtn11.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, 1440, 360));
+		testCmd = new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1440, 360);
+		testBtn11.whenPressed(testCmd);
 		
 		//testBtn7.whenReleased(new CG_AutoTest());
 		
