@@ -7,6 +7,8 @@ import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -23,6 +25,7 @@ import org.opencv.videoio.VideoCapture;
 // be sure to copy opencv_ffmpegxxx_64 to c:\windows\system32 or "new VideoCapture()" will fail for ip cameras (local webcam works fine w/o it).
 
 public class CameraRun {
+	int camNum = 0;
 	
 	VideoCapture camera;
 	Mat mat;
@@ -52,7 +55,7 @@ public class CameraRun {
 		System.out.println(streamAddress);
 		
 //		camera = new VideoCapture(streamAddress);//0 - USB Cam....?
-		camera = new VideoCapture(0);
+		camera = new VideoCapture(camNum);
 		if (camera.isOpened())
 			System.out.println("found camera");
 		else
@@ -148,78 +151,132 @@ public class CameraRun {
 	}
 	
 	//Constants for image converting
-	Color c;
-	Color newColor = new Color(200,0,200);
+	Color newColor = new Color(200, 0, 200);
 	
-	int[] leftX = new int[720];
-	int[] rightX = new int[720];
+	int red = 80;
+	int green = 245;
+	int blue = 125;
 	
 	int threshold = 10;
 	
-	private BufferedImage modifyImage(BufferedImage img)
-	{
+//	ArrayList<Box> boxes = new ArrayList(10);
+	
+	public static BufferedImage testBox(BufferedImage img) {
+		for(int y = 20; y < 30; y++) {
+			for(int x = 20; x < 30; x++) {
+				img.setRGB(x, y, new Color(200, 0, 200).getRGB());
+			}
+		}
+		
+		return img;
+	}
+		
+	private BufferedImage modifyImage(BufferedImage img) {	
 		int width = img.getWidth();
 		int height = img.getHeight();
-		
-		int leftXAvg = 0;
-		int rightXAvg = 0;
-		
-		int topRow = -1;
-		int bottomRow = -1;
-		
-		int validLine = 0;
-		int validWidth = 0;
-		int validStartX = -1;
-		
-		for(int y = 0; y < height; y++)
-		{	
-			validWidth = 0;
-			validStartX = -1;
-			
-			for(int x=0; x < width; x++)
-			{
-				c = new Color(img.getRGB(x,y));
-				if((c.getRed()>80) && (c.getGreen()>245) && (c.getBlue()>125))
-				{	
-					if(validStartX == -1) {
-						validStartX = x;
-					}
-					validWidth++; 
 					
-					img.setRGB(x, y, newColor.getRGB());
+		int[] rgbArray = new int[width * height];
+		rgbArray = img.getRGB(0, 0, width, height, rgbArray, 0, width);	
+		
+
+		for(int numBoxes = 0; numBoxes < 2; numBoxes++) {
+			
+			Box currBox = new Box(width, height);
+			int validStartX = -1;
+					
+			for(int y = 0; y < height; y++) {
+				
+				currBox.setCurrentBoxWidth(0);
+				validStartX = -1;
+				
+				for(int x = 0; x < width; x++) {
+					
+					int rgb = rgbArray[y*width+x];
+					int redC = (rgb & 0x00ff0000) >> 16;
+					int greenC = (rgb & 0x0000ff00) >> 8;
+					int blueC = (rgb & 0x000000ff);
+					
+					if((redC > red) && (greenC > green) && (blueC > blue))
+					{	
+						if(validStartX == -1) {
+							validStartX = x;
+						}
+	
+						currBox.addToCurrWidth(1); // increments the box with
+					} else if(currBox.getCurrentBoxWidth() < threshold) {
+						currBox.setCurrentBoxWidth(0);
+						validStartX = -1;
+						
+					} else { //if(validWidth > threshold) {
+						currBox.setLeftX(validStartX, currBox.getValidLines());
+						currBox.setRightX(validStartX + currBox.getCurrentBoxWidth(), currBox.getValidLines());
+						
+						currBox.addToValidLines(1);
+						
+						if(currBox.getTopY() == -1) {
+							currBox.setTopY(y);;
+						}
+						
+						break;
+					}
 				}
-				else if(validWidth < threshold) {
-//					validWidth = 0;
-					validStartX = -1;
+					
+					if((currBox.getTopY() > -1) && 
+							((currBox.getCurrentBoxWidth() < threshold) || (y >= width - 1)) && 
+							(currBox.getBottomY() == -1)) {
+						
+						currBox.setBottomY(y);
+						break;
 				}
 			}
 			
-			if(validWidth >= threshold) {
-				leftX[validLine] = validStartX;
-				rightX[validLine] = validStartX + validWidth;
-				validLine++;
-				
-				if(topRow == -1) {
-					topRow = y;
-				}	
-			}
-			if((topRow > -1) && (validWidth < threshold) && (bottomRow == -1)) {
-				bottomRow = y - 1;
-			}
+			img = currBox.drawBox(img);
+			
+			drawBox(rgbArray, currBox, width);	
+			
 		}
+		// have the for loop for the number of boxes end here
 		
-		for(int y = 0; y < validLine--; y++) {
-			leftXAvg += leftX[y];
-			rightXAvg += rightX[y];
-		}
-		
-		leftXAvg = leftXAvg / validLine;
-		rightXAvg = rightXAvg / validLine;
-		
-//		img = drawBox(img);
-		
-		System.out.println("topLeft(" + leftXAvg + ", " + topRow + ") bottomRight(" + rightXAvg + ", " + bottomRow + ")");
-//		System.out.println("topLeft(" + leftX[10] + ", " + topRow + ") bottomRight(" + rightX[10] + ", " + bottomRow + ")");
 		return img;
+	}
+		
+	public void drawBox(int[] rgbArray, Box box, int imgWidth) {
+		int i = 0;
+		for(int y = box.getTopY(); y < box.getBottomY(); y++) {
+			int row = y * imgWidth;
+			for(int x = box.getLeftX(i); x < box.getRightX(i); x++) {
+				rgbArray[row + x] = 0;
+			}
+			i++;
+		}
+	}
+	
+	public double findDistance(int pxHeight) {
+		// height measured in pixels
+		double kHeight = 340;
+//		double kHeight = 169;
+//		double kHeight = 112;
+//		double kHeight = 81;
+	
+		// distance measure in inches
+		double kDistance = 6;
+//		double kDistance = 12;
+//		double kDistance = 18;
+//		double kDistance = 25;
+		
+		double scale = pxHeight / kHeight;
+
+		double newDistance = kDistance / scale;
+		// distances closer than 5.5 inches return infinity inches
+		
+		// note: image get wider at longer distances
+		
+		// Accuray: 
+		// +- 0.1 inches at 6 inches
+		// +- 0.1 inches at 12 inches
+		// +- 0.2 inches at 18 inches
+		// +- 0.4 inches at 25 inches
+		
+		return newDistance;
 	}
 }
