@@ -3,7 +3,6 @@ package org.usfirst.frc.team4911.robot.subsystems;
 import org.usfirst.frc.team4911.robot.Robot;
 
 import com.ctre.CANTalon;
-import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
