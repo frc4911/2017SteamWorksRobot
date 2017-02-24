@@ -1,17 +1,22 @@
 package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
-import org.usfirst.frc.team4911.robot.commands.C_Collect;
-import org.usfirst.frc.team4911.robot.commands.C_CollectGear;
+import org.usfirst.frc.team4911.robot.commands.CG_FeedFuel;
+import org.usfirst.frc.team4911.robot.commands.C_ShooterFeeder;
+import org.usfirst.frc.team4911.robot.commands.C_SpinFlywheel;
+import org.usfirst.frc.team4911.robot.commands.C_FuelCollect;
+import org.usfirst.frc.team4911.robot.commands.C_GearInOut;
 import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
 import org.usfirst.frc.team4911.robot.commands.C_MoveToEncPos;
-import org.usfirst.frc.team4911.robot.commands.C_MoveGear;
-import org.usfirst.frc.team4911.robot.commands.C_SpitGear;
+import org.usfirst.frc.team4911.robot.commands.C_GearLiftLower;
+import org.usfirst.frc.team4911.robot.commands.C_GearSpit;
 import org.usfirst.frc.team4911.robot.commands.C_StopCommand;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveByJoystick;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetMotorSpeed;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetTalonNum;
+import org.usfirst.frc.team4911.robot.commands.C_TriggerWhenPressed;
+import org.usfirst.frc.team4911.robot.commands.C_TriggerWhileHeld;
 import org.usfirst.frc.team4911.robot.commands.C_TunePID;
 
 import com.ctre.CANTalon;
@@ -58,36 +63,48 @@ public class OI {
 	
 	public OI() {
 		/*******DriveJoysticks******/
-		dtRightTrigger.whileHeld(new C_Collect(true));
-		dtLeftTrigger.whileHeld(new C_Collect(false));
+		dtRightTrigger.whileHeld(new C_FuelCollect(true));
+		dtLeftTrigger.whileHeld(new C_FuelCollect(false));
 		
 		/*********OpGamePad*********/
-		Command gColl = new C_CollectGear();
-		btnX.whenPressed(gColl);
-		btnX.whenReleased(new C_StopCommand(gColl));
+		btnX.whileHeld(new C_GearInOut(true));
+//		Command gColl = new C_GearIntake();
+//		btnX.whenPressed(gColl);
+//		btnX.whenReleased(new C_StopCommand(gColl));
 		
-		btnB.whileHeld(new C_SpitGear());
+		btnB.whileHeld(new C_GearInOut(false));
 		
-		Command gMoveUp = new C_MoveGear(true);
-		btnA.whenPressed(gMoveUp);
-		btnA.whenReleased(new C_StopCommand(gMoveUp));
+		btnY.whileHeld(new C_GearLiftLower(true));
+//		Command gMoveUp = new C_GearLiftLower(true);
+//		btnY.whenPressed(gMoveUp);
+//		btnY.whenReleased(new C_StopCommand(gMoveUp));
 		
-		Command gMoveDown = new C_MoveGear(false);
-		btnY.whenPressed(gMoveDown);
-		btnY.whenReleased(new C_StopCommand(gMoveDown));
+		btnA.whileHeld(new C_GearLiftLower(false));
+		//Command gMoveDown = new C_GearLiftLower(false);
+		//btnA.whenPressed(gMoveDown);
+		//btnA.whenReleased(new C_StopCommand(gMoveDown));
+		
+//		Command feedFuel = new CG_FeedFuel();
+//		Command feeder = new C_TriggerWhileHeld(feedFuel, opGamepad, false);
+//		feeder.start();
+		
+//		Command flywheel = new C_SpinFlywheel();
+//		leftBumper.whenPressed(flywheel);
+//		Command stopFlywheel = new C_TriggerWhenPressed(new C_StopCommand(flywheel), opGamepad, true);
+//		stopFlywheel.start();
+		
+		//Command flywheel = new C_TriggerWhenPressed(shooterPID, opGamepad, true);
+		//flywheel.start();
+		//leftBumper.whenPressed(new C_StopCommand(shooterPID));
 		
 		//Command shooterPID = new C_MotorPID();
-		//btnSelect.whenPressed(shooterPID);
-		//btnStart.whenPressed(new C_StopCommand(shooterPID));
-		
-		//leftBumper.whileHeld(new CG_HopperFeeder());
 		
 		//rightBumper.whileHeld(new C_GearOnPeg());
 		
 		/**********Testing**********/
-		testBtn11.whenReleased(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.driveTrainLeft, 1440, 360));
+		testBtn11.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, 1440, 360));
 		
-		testBtn7.whenReleased(new CG_AutoTest());
+		//testBtn7.whenReleased(new CG_AutoTest());
 		
 		testBtn1.whileHeld(new C_TestDriveByJoystick());
 		testBtn2.whileHeld(new C_TestDriveBySet());

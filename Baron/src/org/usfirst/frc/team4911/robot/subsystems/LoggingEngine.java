@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
-public class SS_Logging {
+public class LoggingEngine {
 
 //	final String path1 = "c:\\workspace\\";
 //	final String path2 = "c:\\workspace\\";
@@ -53,7 +53,7 @@ public class SS_Logging {
 	int runningTimeIndex = 0;
 	int deltaTimeIndex = 0;
 	int matchTimeIndex = 0;
-    public SS_Logging(){
+    public LoggingEngine(){
     	lastTime = startTime = currentTime();
     	headersWritten = false;
     	lineCountIndex = addColumn("lineCount");

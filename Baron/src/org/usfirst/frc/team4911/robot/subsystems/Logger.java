@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class SS_UpdateLog extends Subsystem {
+public class Logger extends Subsystem {
 	// a divider for splitting up strings
 	public String div = "*";
 	
@@ -64,20 +64,23 @@ public class SS_UpdateLog extends Subsystem {
     int dtLStartIndex = 0;
     int dtRStartIndex = 0;
     
-//    int fCollStartIndex = 0;
-//    int fHopStartIndex = 0;
+    int fCollStartIndex = 0;
+    int fHopStartIndex = 0;
     
-//    int fFeederStartIndex = 0;
-//    int fShooterStartIndex = 0;
+    int fFeederStartIndex = 0;
+    int fShooterStartIndex = 0;
     
     int gCollLimitSwitchIndex = 0;
     int gCollStartIndex = 0;
+    int gLiftStartIndex = 0;
+    
+    int gPotIndex = 0;
     
     int navXStartIndex = 0;
     
-//    int hangerStartIndex = 0;
+    int climberStartIndex = 0;
     
-    public SS_UpdateLog() {
+    public Logger() {
     	// talon constants
     	talonConstIndex = Robot.ss_Logging.addColumn("talonConstants");
     	
@@ -99,27 +102,29 @@ public class SS_UpdateLog extends Subsystem {
     	rightJoystickYIndex = Robot.ss_Logging.addColumn("rightStickY");
     	
     	// driveTrainLeft
-    	dtLStartIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainLeft.getDescription(), true, true);
+    	dtLStartIndex = addMotorIndices(Robot.ss_DriveTrain.leftMotors.getDescription(), true, true);
     	
     	// driveTrainRight
-    	dtRStartIndex = addMotorIndices(Robot.ss_DriveTrain.driveTrainRight.getDescription(), true, true);
+    	dtRStartIndex = addMotorIndices(Robot.ss_DriveTrain.rightMotors.getDescription(), true, true);
     	
     	// fuelCollector
-//		fCollStartIndex = addMotorIndices();
+		fCollStartIndex = addMotorIndices(Robot.ss_FuelCollector.collectorMotors.getDescription(), false, false);
     	
     	// fuelHopper
-//    	fHopStartIndex = addMotorIndices();
+    	fHopStartIndex = addMotorIndices(Robot.ss_FuelHopper.hopperMotor.getDescription(), false, false);
     	
 		// fuelShooter
-//    	fFeederStartIndex = addMotorIndices();
-//		fShooterStartIndex = addMotorIndices();
+    	fFeederStartIndex = addMotorIndices(Robot.ss_FuelShooter.feederMotor.getDescription(), false, true);
+		fShooterStartIndex = addMotorIndices(Robot.ss_FuelShooter.shooterMotors.getDescription(), true, true);
     	
 		// gear assembly
-    	gCollLimitSwitchIndex = Robot.ss_Logging.addColumn(Robot.ss_GearHandler.gearCollector.getDescription() + " limitSwitch");
-		gCollStartIndex = addMotorIndices(Robot.ss_GearHandler.gearCollector.getDescription(), false , false);
-    	
-		// hanger
-//    	hangerStartIndex = addMotorIndices();
+    	gCollLimitSwitchIndex = Robot.ss_Logging.addColumn(Robot.ss_GearIntake.gearIntakeMotor.getDescription() + " limitSwitch");
+		gCollStartIndex = addMotorIndices(Robot.ss_GearIntake.gearIntakeMotor.getDescription(), false , false);
+		gLiftStartIndex = addMotorIndices(Robot.ss_GearLift.gearLiftMotor.getDescription(), false , false);
+		gPotIndex = Robot.ss_Logging.addColumn(" gearPotentiometer");
+		
+		// climber
+    	climberStartIndex = addMotorIndices(Robot.ss_Climber.climberMotor.getDescription(), false, false);
 		
 		navXStartIndex = addNAVXIndices();
     }
@@ -162,28 +167,29 @@ public class SS_UpdateLog extends Subsystem {
     		smartLog(joySmart, joyLog, rightJoystickYIndex, "" + Robot.oi.stickR.getY());
     		
     		// driveTrainLeft
-    		logDefaultMotor(Robot.ss_DriveTrain.driveTrainLeft, true, true, dtLStartIndex);
+    		logDefaultMotor(Robot.ss_DriveTrain.leftMotors, true, true, dtLStartIndex);
     		
     		// driveTrainRight
-    		logDefaultMotor(Robot.ss_DriveTrain.driveTrainRight, true, true, dtRStartIndex);
+    		logDefaultMotor(Robot.ss_DriveTrain.rightMotors, true, true, dtRStartIndex);
 
     		// fuelCollector
-//    		logDefaultMotor(null, false, fCollStartIndex);
+    		logDefaultMotor(Robot.ss_FuelCollector.collectorMotors, false, false, fCollStartIndex);
     		
     		// fuelHopper
-//    		logDefaultMotor(null, false, fHopStartIndex);
+    		logDefaultMotor(Robot.ss_FuelHopper.hopperMotor, false, false, fHopStartIndex);
     		
     		// fuelShooter
-//    		logDefaultMotor(null, false, fFeederStartIndex);
-//    		logDefaultMotor(null, true, fShooterStartIndex);
+    		logDefaultMotor(Robot.ss_FuelShooter.feederMotor, false, true, fFeederStartIndex);
+    		logDefaultMotor(Robot.ss_FuelShooter.shooterMotors, true, true, fShooterStartIndex);
     		
     		// gear assembly
-    		logDefaultMotor(Robot.ss_GearHandler.gearCollector, false, false, gCollStartIndex);
+    		logDefaultMotor(Robot.ss_GearIntake.gearIntakeMotor, false, false, gCollStartIndex);
+    		logDefaultMotor(Robot.ss_GearLift.gearLiftMotor, false, false, gLiftStartIndex);
+    		smartLog(true, true, gPotIndex, ""+Robot.ss_GearLift.getGearLiftPot());
+    		// climber
+    		logDefaultMotor(Robot.ss_Climber.climberMotor, false, false, climberStartIndex);
     		
-    		// hanger
-//    		logDefaultMotor(null, false, hangerStartIndex);
-    		
-    		logNAVX(navXStartIndex);
+    		//logNAVX(navXStartIndex);
     		// flush
     		Robot.ss_Logging.logFlush();
     	}
@@ -215,27 +221,19 @@ public class SS_UpdateLog extends Subsystem {
     private void logDefaultMotor(DefaultMotor motor, boolean hasFollower, boolean hasEncoder, int index) {
     	boolean smart = false;
 		boolean log = true;
-		smartLog(smart, log, index++, 
-				"" + motor.getTalonValue(false));
-		smartLog(smart, log, index++,
-				motor.checkStickyFaults(motor, false));
-		smartLog(smart, log, index++, 
-				"" + motor.getOutputVoltage(false));
-		smartLog(smart, log, index++, 
-				"" + motor.getOutputCurrent(false));
+		smartLog(smart, log, index++, "" + motor.getTalonValue(false));
+		smartLog(smart, log, index++,motor.checkStickyFaults(motor, false));
+		smartLog(smart, log, index++,"" + motor.getOutputVoltage(false));
+		smartLog(true, log, index++, "" + motor.getOutputCurrent(false));// hardcode to dashboard for debug 
+				
 		if(hasFollower) {
-			smartLog(smart, log, index++,
-					motor.checkStickyFaults(motor, true));
-			smartLog(smart, log, index++, 
-					"" + motor.getOutputVoltage(true));
-			smartLog(smart, log, index++, 
-					"" + motor.getOutputCurrent(true));
+			smartLog(smart, log, index++,motor.checkStickyFaults(motor, true));
+			smartLog(smart, log, index++,"" + motor.getOutputVoltage(true));
+			smartLog(smart, log, index++,"" + motor.getOutputCurrent(true));
 		}
-		smartLog(smart, log, index++, 
-				"" + motor.getTalonSpeed());
+		smartLog(smart, log, index++, "" + motor.getTalonSpeed());
 		if(hasEncoder) {
-			smartLog(smart, log, index++, 
-					"" + motor.getEncPos());
+			smartLog(true, log, index++,"" + motor.getEncPos());
 		}
     }
     

@@ -14,12 +14,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DefaultMotor {
 	private CANTalon talon;
 	private CANTalon fTalon;
-	private CANTalonPID pid;
+	private CANTalonPID pid = null;
 	private double constant;
 	private boolean limited;
 	private boolean motorPair;
 	private double upLimit;
 	private double lowLimit;
+	private double powLimit;
+	private boolean powLimited = false;
 	
 	private String description;
 	
@@ -84,14 +86,35 @@ public class DefaultMotor {
 				   			  kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType, ticks);
 	}
 	
+	public void setSensor(CANTalon.FeedbackDevice sensor){
+		talon.setFeedbackDevice(sensor);
+	}
+	
+	public double getSensorPosition(){
+		SmartDashboard.putNumber("Analog raw", talon.getAnalogInRaw());
+		SmartDashboard.putNumber("Analog pos", talon.getAnalogInPosition());
+		SmartDashboard.putNumber("Analog pos2", talon.getPosition());
+		SmartDashboard.putNumber("Analog raw2", talon.getEncPosition());
+		return talon.getAnalogInRaw();
+	}
+	
 	public void stopPID() {
-		pid.stopPIDMode();
+		if (pid != null){
+			pid.stopPIDMode();
+			pid = null;
+		}
+		
 		zeroEnc();
 	}
 	
-	public void spin(double pow) {
+	public double spin(double pow) {
+		if((Math.abs(pow) > powLimit) && powLimited) {
+			pow = powLimit * Math.signum(pow);
+		}
+		
 		pow *= constant;
 		talon.set(pow);
+		return pow;
 	}
 
 	public void stop() {
@@ -106,6 +129,14 @@ public class DefaultMotor {
 	public void enableSoftLimits(CANTalon talon, boolean onOff) {
 		talon.enableForwardSoftLimit(onOff);
 		talon.enableReverseSoftLimit(onOff);
+	}
+	
+	public void setPowLimit(double powLimit) {
+		this.powLimit = powLimit;
+	}
+	
+	public void enablePowLimit(boolean onOff) {
+		powLimited = onOff;
 	}
 	
 	public void setBrakeMode(boolean set) {
@@ -142,6 +173,14 @@ public class DefaultMotor {
 		}
 	}
 	
+	public double getInputVoltage(boolean follower) {
+		if(follower) {
+			return fTalon.getBusVoltage();
+		} else {
+			return talon.getBusVoltage();
+		}
+	}
+	
 	public double getOutputCurrent(boolean follower) {
 		if(follower) {
 			return fTalon.getOutputCurrent();
@@ -158,6 +197,10 @@ public class DefaultMotor {
 		}
 	}
 	
+//	public double getPotentiometer() {
+//		return talon.getAnalogInRaw();
+//	}
+//	
 	public int getStickyFaultUnderVoltage(boolean follower) {
 		if(follower) {
 			return fTalon.getStickyFaultUnderVoltage();

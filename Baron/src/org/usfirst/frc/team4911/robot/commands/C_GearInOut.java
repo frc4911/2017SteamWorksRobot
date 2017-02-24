@@ -7,17 +7,15 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class C_TestDriveByJoystick extends Command {
+public class C_GearInOut extends Command {
 
-    public C_TestDriveByJoystick() {
+	double speed = .4;
+    public C_GearInOut(boolean intake) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_Climber);
-        requires(Robot.ss_DriveTrain);
-        requires(Robot.ss_FuelCollector);
-        requires(Robot.ss_FuelHopper);
-        requires(Robot.ss_FuelShooter);
         requires(Robot.ss_GearIntake);
-        requires(Robot.ss_GearLift);
+        if (!intake){
+        	speed = -speed;
+        }
     }
 
     // Called just before this Command runs the first time
@@ -28,18 +26,17 @@ public class C_TestDriveByJoystick extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
-    	//invert Y so forward is positive
-    	Robot.ss_TestMotor.runMotor(-Robot.oi.autoTestStick.getY());
+   		Robot.ss_GearIntake.gearIntakeMotor.spin(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	return false; // whileheld
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_TestMotor.stopMotor();
+    	Robot.ss_GearIntake.gearIntakeMotor.stop();
     }
 
     // Called when another command which requires one or more of the same

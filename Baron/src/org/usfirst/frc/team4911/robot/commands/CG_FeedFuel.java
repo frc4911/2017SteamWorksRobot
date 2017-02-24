@@ -1,17 +1,13 @@
 package org.usfirst.frc.team4911.robot.commands;
 
-import java.util.Objects;
-
-import org.usfirst.frc.team4911.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class CG_AutoTest extends CommandGroup {
-    public CG_AutoTest() {
+public class CG_FeedFuel extends CommandGroup {
+
+    public CG_FeedFuel() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -29,8 +25,7 @@ public class CG_AutoTest extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addSequential(new C_TestMotorEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, true, 10500, 2));
-    	addSequential(new C_TestMotorEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, true, 10500, 2));
-    	
+    	addParallel(new C_ShooterFeeder());
+    	addParallel(new C_HopperSpin());
     }
 }

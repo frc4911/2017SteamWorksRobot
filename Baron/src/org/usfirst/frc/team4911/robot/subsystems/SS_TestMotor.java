@@ -10,41 +10,66 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class SS_TestMotor extends Subsystem {
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        // setDefaultCommand(new C_TestDriveByJoystick());
     }
+
+    DefaultMotor[] motors = new DefaultMotor[9];
+    double maxCurrent = 0;
+    String maxCurrStr = "maxCurrent";
+    double maxSpeed = 0;
+    String maxSpeedStr = "maxSpeed";
+    double maxVoltage = 0;
+    String maxVoltageStr = "maxVoltage";
+    double minVoltage = 100;
+    String minVoltageStr = "min batery Voltage";
     
-    String[] keys = { 
-    		"driveTrainLeft",
-    		"driveTrainRight",
-    		"fullDriveTrain"
-    };
+    public SS_TestMotor(){
+    	
+        motors[0] = Robot.ss_Climber.climberMotor;
+        motors[1] = Robot.ss_DriveTrain.leftMotors;
+        motors[2] = Robot.ss_DriveTrain.rightMotors;
+        motors[3] = Robot.ss_FuelCollector.collectorMotors;
+        motors[4] = Robot.ss_FuelHopper.hopperMotor;
+        motors[5] = Robot.ss_FuelShooter.feederMotor;
+        motors[6] = Robot.ss_FuelShooter.shooterMotors;
+        motors[7] = Robot.ss_GearIntake.gearIntakeMotor;
+        motors[8] = Robot.ss_GearLift.gearLiftMotor;
+    }
+
     String key = "currTestMotor";
     public void runMotor() {
     	runMotor(motorSpeed);
     }
     
     public void runMotor(double speed) {
-    	switch(currMotor) {
-    	case 0:
-    		Robot.ss_DriveTrain.driveTrainLeft.spin(speed);
-    		break;
-    	case 1:
-    		Robot.ss_DriveTrain.driveTrainRight.spin(speed);
-    		break;
-    	case 2:
-    		Robot.ss_DriveTrain.driveTrainLeft.spin(speed);
-    		Robot.ss_DriveTrain.driveTrainRight.spin(speed);
-    		break;
+    	speed = motors[currMotor].spin(speed);
+    	
+    	double value = motors[currMotor].getOutputCurrent(false);
+    	if (value > maxCurrent){
+    		maxCurrent = value;
+        	SmartDashboard.putString(maxCurrStr, ""+maxCurrent);
+    	}
+    	
+    	value = motors[currMotor].getOutputVoltage(false);
+    	if (value > maxVoltage){
+    		maxVoltage = value;
+        	SmartDashboard.putString(maxVoltageStr, ""+maxVoltage);
+    	}
+    	
+    	if (speed > maxSpeed){
+    		maxSpeed = speed;
+        	SmartDashboard.putString(maxSpeedStr, ""+maxSpeed);
+    	}
+    	
+    	value = motors[currMotor].getInputVoltage(false);
+    	if (value < minVoltage){
+    		minVoltage = value;
+        	SmartDashboard.putString(minVoltageStr, ""+minVoltage);
     	}
     }
     
     int currMotor = 0;
-    int maxMotor = keys.length - 1;
+    int maxMotor = motors.length - 1;
     public void advanceMotor(boolean forward) {
     	if(forward) {
     		currMotor++;
@@ -58,7 +83,16 @@ public class SS_TestMotor extends Subsystem {
     			currMotor = maxMotor;
     		}
     	}
-    	SmartDashboard.putString(key, keys[currMotor]);
+    	maxCurrent = 0;
+    	SmartDashboard.putString(maxCurrStr, ""+maxCurrent);
+    	maxVoltage = 0;
+    	SmartDashboard.putString(maxVoltageStr, ""+maxVoltage);
+    	maxSpeed = 0;
+    	SmartDashboard.putString(maxSpeedStr, ""+maxSpeed);
+    	minVoltage = 100;
+    	SmartDashboard.putString(minVoltageStr, ""+minVoltage);
+    	
+    	SmartDashboard.putString(key, motors[currMotor].getDescription());
     }
     
     double motorSpeed = 0;

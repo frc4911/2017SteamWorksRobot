@@ -1,25 +1,19 @@
 
 package org.usfirst.frc.team4911.robot;
 
-import org.usfirst.frc.team4911.robot.subsystems.SS_FuelHopper;
-import org.usfirst.frc.team4911.robot.subsystems.SS_FuelShooter;
-import org.usfirst.frc.team4911.robot.subsystems.SS_GearIntake;
-import org.usfirst.frc.team4911.robot.subsystems.SS_Climber;
-import org.usfirst.frc.team4911.robot.subsystems.ConfigFile;
-import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrain;
-import org.usfirst.frc.team4911.robot.subsystems.SS_FuelCollector;
-import org.usfirst.frc.team4911.robot.subsystems.SS_GearLift;
-import org.usfirst.frc.team4911.robot.subsystems.LoggingEngine;
-import org.usfirst.frc.team4911.robot.subsystems.SS_NAVX;
-import org.usfirst.frc.team4911.robot.subsystems.SS_TestMotor;
-import org.usfirst.frc.team4911.robot.subsystems.Logger;
-
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
+//import edu.wpi.cscore.UsbCamera;
+//import edu.wpi.cscore.VideoMode;
+//import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc.team4911.robot.subsystems.SS_Lidar;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,25 +24,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	public final static ConfigFile ss_Config = new ConfigFile();
-	
-	public final static SS_Climber ss_Climber = new SS_Climber();
-	public final static SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
-	public final static SS_FuelCollector ss_FuelCollector = new SS_FuelCollector();
-	public final static SS_FuelHopper ss_FuelHopper = new SS_FuelHopper();
-	public final static SS_FuelShooter ss_FuelShooter = new SS_FuelShooter();
-	public final static SS_GearIntake ss_GearIntake = new SS_GearIntake();
-	public final static SS_GearLift ss_GearLift = new SS_GearLift();
-	
-	public final static SS_TestMotor ss_TestMotor = new SS_TestMotor();
-	
-	public final static SS_NAVX ss_NAVX = null;//new SS_NAVX();
-	
-	// all subsystems must be created before logging
-	public final static LoggingEngine ss_Logging = new LoggingEngine();
-	public final static Logger ss_UpdateLog = new Logger();
-	
 	public static OI oi;
+	public static SS_Lidar ss_Lidar = null;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -60,9 +37,25 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		//chooser.addDefault("Default Auto", <insert command here>);
+		ss_Lidar = new SS_Lidar();
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
+		
+//		CameraServer cameraServer = CameraServer.getInstance();
+//		cameraServer.setQuality(50);
+//		UsbCamera camera = cameraServer.startAutomaticCapture();
+//		VideoMode[] vms = camera.enumerateVideoModes();
+//		VideoMode vm = camera.getVideoMode();
+//		
+//		camera.setVideoMode(vm);
+		
+		CameraServer server1;
+		
+		server1 = CameraServer.getInstance();
+        UsbCamera usbCamera = server1.startAutomaticCapture();
+//        usbCamera.setResolution(640, 480);
+//        usbCamera.setResolution(1280, 720);
+        
 	}
 
 	/**
@@ -73,10 +66,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit() {
 
-	}
-	
-	public void robotPeriodic() {
-		
 	}
 
 	@Override
@@ -132,11 +121,12 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during operator control
 	 */
-	int counter = 0;
+	int c=0;
 	
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("I am alive", counter++);
+		ss_Lidar.update();
+		SmartDashboard.putNumber("I am alive", c++);
 		Scheduler.getInstance().run();
 	}
 

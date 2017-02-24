@@ -79,9 +79,9 @@ public class MinimalStaticChart implements Runnable {
 						if (counter > 2)
 							trace.addPoint(counter++,pt);
 						else if (counter == 0)
-							trace.addPoint(counter++,2500);
+							trace.addPoint(counter++,2800);
 						else
-							trace.addPoint(counter++,3000);
+							trace.addPoint(counter++,3300);
 					}
 					break;
 				case 1:
