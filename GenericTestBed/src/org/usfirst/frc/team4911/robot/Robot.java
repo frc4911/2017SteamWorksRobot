@@ -25,9 +25,9 @@ public class Robot extends IterativeRobot {
 
 	public static final SS_Logging2 ss_Logging2 = new SS_Logging2();
 	
-	public static final SS_MotorPID2 ss_MotorPID2 = new SS_MotorPID2(2,4);	
-	public static final SS_FeederMotor ss_FeederMotor = new SS_FeederMotor(3);
-	public static final SS_Hopper ss_Hopper = new SS_Hopper(1);
+	public static final SS_MotorPID2 ss_MotorPID2 = new SS_MotorPID2(1,0);	
+	public static final SS_FeederMotor ss_FeederMotor = new SS_FeederMotor(21);
+	public static final SS_Hopper ss_Hopper = new SS_Hopper(20);
 	public static OI oi;
 
 	Command autonomousCommand;

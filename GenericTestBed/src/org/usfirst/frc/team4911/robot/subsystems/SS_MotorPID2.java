@@ -138,9 +138,9 @@ public class SS_MotorPID2 extends Subsystem {
 			// Quad, 2400, 600, false, 0.23, 0.0, 0.0, 0.051, 0.01, 0, 0.0, 0.0, Speed, 3100, 1
 			create = true;
 			encoderType = CANTalon.FeedbackDevice.QuadEncoder; 
-			ticksPerRev = 8196;//2400;
-			encoderCodesPerRev = 2048;//600; 
-			reverseSensor= false; //marshall's is flipped, ian's is not flipped
+			ticksPerRev = 1440;//2400;
+			encoderCodesPerRev = 360;//600; 
+			reverseSensor= true; //marshall's is flipped, ian's is not flipped
 			kp = 0;
 			kd = 0;
 			ki = 0;
