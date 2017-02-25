@@ -1,45 +1,65 @@
 package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.robot.Robot;
+import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
+
+import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
 public class C_GearLiftLower extends Command {
-	
+
 	double speed = .4;
-	
-    public C_GearLiftLower(boolean dir) {
-        // Use requires() here to declare subsystem dependencies
+	DefaultMotor motor = null;
+	boolean pidRunning = false;
+
+	public C_GearLiftLower() {
         requires(Robot.ss_GearLift);
-        if(!dir) {
-    		speed = -speed; 
+        motor = Robot.ss_GearLift.gearLiftMotor;
+    }
+
+    protected void initialize() {
+    	pidRunning = false;
+    }
+
+    protected void execute() {
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
+    	if (Robot.oi.opGamepad.getRawButton(4)){
+    		if (pidRunning){
+        		pidRunning = false;
+        		motor.stopPID();
+    		}
+    		motor.spin(speed);
+    	}
+    	else if(Robot.oi.opGamepad.getRawButton(1)){
+    		if (pidRunning){
+        		pidRunning = false;
+        		motor.stopPID();
+    		}
+    		motor.spin(-speed);    		
+    	}
+    	else if(!pidRunning){
+    		int gearPos = (int)motor.getSensorPosition();
+    		if (gearPos > 400)
+    			gearPos = (int) Robot.ss_GearLift.topPotValue;
+        	motor.moveToEncPos(gearPos, 1, 1, 4.0, 0, 0, 0, 0, 0, 12.0, 0, CANTalon.TalonControlMode.Position, false, false);
+    		pidRunning = true;
     	}
     }
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    }
-
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	Robot.ss_GearLift.spin(speed);
-    }
-
-    // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return false; // whileheld
+    	return false;
     }
 
-    // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_GearLift.gearLiftMotor.stop();
+		if (pidRunning){
+    		pidRunning = false;
+    		motor.stopPID();
+		}
+		else
+			motor.stop();
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     protected void interrupted() {
     	end();
     }

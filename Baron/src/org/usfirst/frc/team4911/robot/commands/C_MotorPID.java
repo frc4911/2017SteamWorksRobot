@@ -57,7 +57,7 @@ public class C_MotorPID extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	motor.zeroEnc();
-    	motor.moveToEncPos(ticks, ticksPerRev, encoderTicksPerRev, kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType);
+//    	motor.moveToEncPos(ticks, ticksPerRev, encoderTicksPerRev, kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType);
     }
 
     // Called repeatedly when this Command is scheduled to run

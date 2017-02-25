@@ -10,6 +10,7 @@ import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
 import org.usfirst.frc.team4911.robot.commands.C_MoveToEncPos;
 import org.usfirst.frc.team4911.robot.commands.C_GearLiftLower;
 import org.usfirst.frc.team4911.robot.commands.C_GearSpit;
+import org.usfirst.frc.team4911.robot.commands.C_HopperSpin;
 import org.usfirst.frc.team4911.robot.commands.C_StopCommand;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveByJoystick;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;
@@ -38,6 +39,10 @@ public class OI {
 	
 	JoystickButton dtLeftTrigger = new JoystickButton(stickL, 1);
 	JoystickButton dtRightTrigger = new JoystickButton(stickR, 1);
+	JoystickButton dtRight2 = new JoystickButton(stickR, 2);
+	JoystickButton dtRight3 = new JoystickButton(stickR, 3);
+	
+	
 	
 	JoystickButton btnA = new JoystickButton(opGamepad, 1);
 	JoystickButton btnB = new JoystickButton(opGamepad, 2);
@@ -68,23 +73,23 @@ public class OI {
 	
 	public OI() {
 		/*******DriveJoysticks******/
-		dtRightTrigger.whileHeld(new C_FuelCollect(true));
-		dtLeftTrigger.whileHeld(new C_FuelCollect(false));
+		dtRight2.whileHeld(new C_FuelCollect(true));
+		dtRight3.whileHeld(new C_FuelCollect(false));
 		
 		/*********OpGamePad*********/
-		btnX.whileHeld(new C_GearInOut(true));
+		btnX.whileHeld(new C_GearInOut(false));
 //		Command gColl = new C_GearIntake();
 //		btnX.whenPressed(gColl);
 //		btnX.whenReleased(new C_StopCommand(gColl));
 		
-		btnB.whileHeld(new C_GearInOut(false));
-		
-		btnY.whileHeld(new C_GearLiftLower(true));
+		btnB.whileHeld(new C_GearInOut(true));
+		btnSelect.whileHeld(new C_HopperSpin(false));
+		//btnY.whileHeld(new C_GearLiftLower(true));
 //		Command gMoveUp = new C_GearLiftLower(true);
 //		btnY.whenPressed(gMoveUp);
 //		btnY.whenReleased(new C_StopCommand(gMoveUp));
 		
-		btnA.whileHeld(new C_GearLiftLower(false));
+		//btnA.whileHeld(new C_GearLiftLower(false));
 		//Command gMoveDown = new C_GearLiftLower(false);
 		//btnA.whenPressed(gMoveDown);
 		//btnA.whenReleased(new C_StopCommand(gMoveDown));
@@ -107,8 +112,15 @@ public class OI {
 		//rightBumper.whileHeld(new C_GearOnPeg());
 		
 		/**********Testing**********/
-		testCmd = new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1440, 360);
-		testBtn11.whenPressed(testCmd);
+//		testCmd = new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true);
+//		kp = ?
+//		ticks = 10000
+//		testCmd = new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, true);
+//		kf = 1
+//		ticks = 300
+		testCmd = new C_TunePID(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, 1, 1, CANTalon.TalonControlMode.Position, false, false);
+		//kp 1.5 to 3.0
+		testBtn11.whileHeld(testCmd);
 		
 		//testBtn7.whenReleased(new CG_AutoTest());
 		

@@ -20,14 +20,17 @@ public class CANTalonPID{
 			double peakOutputVoltage, 
 			double nominalOutputVoltage, 
 			CANTalon.TalonControlMode PIDType,
-			int ticks)
+			int ticks,
+			boolean encoderFlip,
+			boolean flipMotorDir)
 	{
 		
     	int profile = 0;
 
     	this.talon = talon;
     	//talon.changeMotionControlFramePeriod(20);
-    	
+    	this.talon.reverseOutput(flipMotorDir);
+    	this.talon.reverseSensor(encoderFlip);
     	this.talon.setFeedbackDevice(encoderType);
     	this.talon.configEncoderCodesPerRev(encoderCodesPerRev);
     	this.talon.reverseSensor(reverseSensor);
@@ -48,6 +51,16 @@ public class CANTalonPID{
     			currTicks = ticks;
     		}
     	}
+    	else if (encoderType == CANTalon.FeedbackDevice.AnalogPot){
+    		if (PIDType == CANTalon.TalonControlMode.Position){
+    			set = ticks;
+    		}
+    		else if (PIDType == CANTalon.TalonControlMode.Speed){
+    			set = ticks; //encoder rpm
+    			currTicks = ticks;
+    		}
+    	}
+    	 
     	this.talon.set(set);
     	SmartDashboard.putString("PID target",""+set);
 	}

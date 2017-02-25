@@ -23,6 +23,7 @@ public class DefaultMotor {
 	private double lowLimit;
 	private double powLimit;
 	private boolean powLimited = false;
+	private CANTalon.FeedbackDevice sensor = CANTalon.FeedbackDevice.QuadEncoder;
 	
 	private String description;
 	
@@ -82,20 +83,21 @@ public class DefaultMotor {
 	}
 	
 	public void moveToEncPos(int ticks, int tickPerRev, int encoderTicksPerRev, double kp, double kd, double ki, double kf, double rampRate, int iZone, 
-							 double peakOutputVoltage, double nominalOutputVoltage, CANTalon.TalonControlMode PIDType) {
-		pid = new CANTalonPID(talon, CANTalon.FeedbackDevice.QuadEncoder, tickPerRev, encoderTicksPerRev, false,
-				   			  kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType, ticks);
+							 double peakOutputVoltage, double nominalOutputVoltage, CANTalon.TalonControlMode PIDType, boolean encoderFlip, boolean flipMotorDir) {
+		pid = new CANTalonPID(talon, sensor, tickPerRev, encoderTicksPerRev, false,
+				   			  kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType, ticks, encoderFlip, flipMotorDir);
 	}
 	
 	public void setSensor(CANTalon.FeedbackDevice sensor){
+		this.sensor = sensor;
 		talon.setFeedbackDevice(sensor);
 	}
 	
 	public double getSensorPosition(){
-		SmartDashboard.putNumber("Analog raw", talon.getAnalogInRaw());
-		SmartDashboard.putNumber("Analog pos", talon.getAnalogInPosition());
-		SmartDashboard.putNumber("Analog pos2", talon.getPosition());
-		SmartDashboard.putNumber("Analog raw2", talon.getEncPosition());
+//		SmartDashboard.putNumber("Analog raw", talon.getAnalogInRaw());
+//		SmartDashboard.putNumber("Analog pos", talon.getAnalogInPosition());
+//		SmartDashboard.putNumber("Analog pos2", talon.getPosition());
+//		SmartDashboard.putNumber("Analog raw2", talon.getEncPosition());
 		return talon.getAnalogInRaw();
 	}
 	

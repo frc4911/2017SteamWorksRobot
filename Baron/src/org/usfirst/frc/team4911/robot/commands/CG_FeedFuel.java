@@ -26,6 +26,6 @@ public class CG_FeedFuel extends CommandGroup {
         // arm.
     	
     	addParallel(new C_ShooterFeeder());
-    	addParallel(new C_HopperSpin());
+    	addParallel(new C_HopperSpin(true));
     }
 }

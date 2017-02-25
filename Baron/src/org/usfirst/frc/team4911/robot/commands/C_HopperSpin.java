@@ -4,37 +4,32 @@ import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
 public class C_HopperSpin extends Command {
 
-    public C_HopperSpin() {
-        // Use requires() here to declare subsystem dependencies
+	double speed = .7;
+	
+    public C_HopperSpin(boolean direction) {
         requires(Robot.ss_FuelHopper);
+        if (!direction){
+        	speed = -speed;
+        }
     }
 
-    // Called just before this Command runs the first time
     protected void initialize() {
     }
 
-    // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_FuelHopper.hopperMotor.spin(0.5);
+    	Robot.ss_FuelHopper.hopperMotor.spin(speed);
     }
 
-    // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;
     }
 
-    // Called once after isFinished returns true
     protected void end() {
     	Robot.ss_FuelHopper.hopperMotor.stop();
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     protected void interrupted() {
     	end();
     }

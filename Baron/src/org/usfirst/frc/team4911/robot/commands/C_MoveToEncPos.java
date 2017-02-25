@@ -50,7 +50,7 @@ public class C_MoveToEncPos extends Command {
     	motor.zeroEnc();
     	curTime = Timer.getFPGATimestamp();
     	prevTime = curTime;
-    	motor.moveToEncPos(ticks, tickPerRev, encoderTicksPerRev, kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType);
+//    	motor.moveToEncPos(ticks, tickPerRev, encoderTicksPerRev, kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType);
     }
     
     private double prevTime = 0.0;

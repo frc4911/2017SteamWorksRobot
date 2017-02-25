@@ -1,6 +1,8 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
 import org.usfirst.frc.team4911.robot.Robot;
+import org.usfirst.frc.team4911.robot.commands.C_DriveByJoystick;
+import org.usfirst.frc.team4911.robot.commands.C_GearLiftLower;
 
 import com.ctre.CANTalon;
 
@@ -15,8 +17,8 @@ public class SS_GearLift extends Subsystem {
 	
 	int tPortLift = 5;
 	
-	final double topPotValue = 495.0;
 	final double lowPotValue = 105.0;
+	public final double topPotValue = 495.0;
 	
 	AnalogInput gearPot = new AnalogInput(0);
 
@@ -26,27 +28,15 @@ public class SS_GearLift extends Subsystem {
 		gearLiftMotor.setPowLimit(0.7);
 		gearLiftMotor.enablePowLimit(true);
 		gearLiftMotor.setSensor(CANTalon.FeedbackDevice.AnalogPot);
+		gearLiftMotor.setBrakeMode(true);
 	}
 
 	public void initDefaultCommand() {
+		setDefaultCommand(new C_GearLiftLower());
     }
 	
 	public double getGearLiftPot(){
 		return gearLiftMotor.getSensorPosition();
 	}
-	
-	public boolean spin(double speed){
-		double pot = getGearLiftPot();
-		
-		if (((speed > 0) && (pot >= topPotValue)) ||
-				((speed < 0) && (pot <= lowPotValue))){
-			return true;
-		}
-
-		gearLiftMotor.spin(speed);
-		
-		return false;
-	}
-
 }
 
