@@ -40,8 +40,8 @@ public class C_TestMotorEncoder extends Command {
         this.targetPos = targetPos;
         this.duration = duration;
         
-        this.motorConst = motorConst;
-        this.encoderConst = encoderConst;
+//        this.motorConst = motorConst;
+//        this.encoderConst = encoderConst;
         
         if(direction)
         	dir = "forward";
@@ -69,9 +69,9 @@ public class C_TestMotorEncoder extends Command {
     				else {
     					talon.spin(-0.5);
     				}
-    	    	} else {
-    	    		talon.stop();
-    	    	}
+		    	} else {
+		    		talon.stop();
+		    	}
 		
 		realEndTime = Timer.getFPGATimestamp();
 		totalBV += talon.getOutputVoltage(false);
@@ -88,12 +88,14 @@ public class C_TestMotorEncoder extends Command {
     	}
     	
 		distTravelled = talon.getEncPos();
-		talon.stop();
+//		talon.stop();
 		return true;
 	}
     
     // Called once after isFinished returns true
     protected void end() {
+    	talon.stop();
+    	
     	//ticks/millisecond
     	velocity = ((distTravelled) / ((realEndTime - startTime) * 1000));
     	SmartDashboard.putNumber("ave velocity " + dir + " " + talon.getDescription(), velocity);
@@ -112,5 +114,6 @@ public class C_TestMotorEncoder extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }

@@ -95,6 +95,10 @@ public class SS_TestMotor extends Subsystem {
     	SmartDashboard.putString(key, motors[currMotor].getDescription());
     }
     
+    public void resetCurrMotor() {
+    	currMotor = 0;
+    }
+    
     double motorSpeed = 0;
     public void bumpSpeed(boolean increase) {
     	if(increase) {
@@ -110,6 +114,18 @@ public class SS_TestMotor extends Subsystem {
     		}
     	}
     	SmartDashboard.putNumber("motorTestSpeed", motorSpeed);
+    }
+    
+    public int getNumMotors() {
+    	return motors.length - 1;
+    }
+    
+    public void zeroEnc() {
+    	motors[currMotor].zeroEnc();
+    }
+    
+    public double getEncPos() {
+    	return motors[currMotor].getEncPos();
     }
     
     public void stopMotor() {

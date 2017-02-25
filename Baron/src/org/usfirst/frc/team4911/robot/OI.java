@@ -55,16 +55,32 @@ public class OI {
 	
 	/**********Testing**********/
 	public Joystick autoTestStick = new Joystick(3);
+	public Joystick autoTestGamepad = new Joystick(4);
 	
-	JoystickButton testBtn1 = new JoystickButton(autoTestStick, 1);
-	JoystickButton testBtn2 = new JoystickButton(autoTestStick, 2);
-	JoystickButton testBtn3 = new JoystickButton(autoTestStick, 3);
-	JoystickButton testBtn4 = new JoystickButton(autoTestStick, 4);
-	JoystickButton testBtn5 = new JoystickButton(autoTestStick, 5);
-	JoystickButton testBtn6 = new JoystickButton(autoTestStick, 6);
-	JoystickButton testBtn7 = new JoystickButton(autoTestStick, 7);
-	JoystickButton testBtn11 = new JoystickButton(autoTestStick, 11);
-	JoystickButton testBtn12 = new JoystickButton(autoTestStick, 12);
+	// Joystick
+	JoystickButton testStickBtn1 = new JoystickButton(autoTestStick, 1);
+	JoystickButton testStickBtn2 = new JoystickButton(autoTestStick, 2);
+	JoystickButton testStickBtn3 = new JoystickButton(autoTestStick, 3);
+	JoystickButton testStickBtn4 = new JoystickButton(autoTestStick, 4);
+	JoystickButton testStickBtn5 = new JoystickButton(autoTestStick, 5);
+	JoystickButton testStickBtn6 = new JoystickButton(autoTestStick, 6);
+	JoystickButton testStickBtn7 = new JoystickButton(autoTestStick, 7);
+	JoystickButton testStickBtn11 = new JoystickButton(autoTestStick, 11);
+	JoystickButton testStickBtn12 = new JoystickButton(autoTestStick, 12);
+	
+	// GamePad
+	JoystickButton testPadBtn1 = new JoystickButton(autoTestStick, 1);
+	JoystickButton testPadBtn2 = new JoystickButton(autoTestStick, 2);
+	JoystickButton testPadBtn3 = new JoystickButton(autoTestStick, 3);
+	JoystickButton testPadBtn4 = new JoystickButton(autoTestStick, 4);
+	JoystickButton testPadBtn5 = new JoystickButton(autoTestStick, 5);
+	JoystickButton testPadBtn6 = new JoystickButton(autoTestStick, 6);
+	JoystickButton testPadBtn7 = new JoystickButton(autoTestStick, 7);
+	JoystickButton testPadBtn8 = new JoystickButton(autoTestStick, 8);
+	JoystickButton testPadBtn9 = new JoystickButton(autoTestStick, 9);
+	JoystickButton testPadBtn10 = new JoystickButton(autoTestStick, 10);
+	JoystickButton testPadBtn11 = new JoystickButton(autoTestStick, 11);
+	JoystickButton testPadBtn12 = new JoystickButton(autoTestStick, 12);
 	
 	public Command feeder;
 	public Command stopFlywheel;
@@ -111,7 +127,7 @@ public class OI {
 		
 		//rightBumper.whileHeld(new C_GearOnPeg());
 		
-		/**********Testing**********/
+		/********TestingStick*******/
 //		testCmd = new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true);
 //		kp = ?
 //		ticks = 10000
@@ -120,20 +136,37 @@ public class OI {
 //		ticks = 300
 		testCmd = new C_TunePID(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, 1, 1, CANTalon.TalonControlMode.Position, false, false);
 		//kp 1.5 to 3.0
-		testBtn11.whileHeld(testCmd);
+		testStickBtn11.whileHeld(testCmd);
 		
 		//testBtn7.whenReleased(new CG_AutoTest());
 		
-		testBtn1.whileHeld(new C_TestDriveByJoystick());
-		testBtn2.whileHeld(new C_TestDriveBySet());
+		testStickBtn1.whileHeld(new C_TestDriveByJoystick());
+		testStickBtn2.whileHeld(new C_TestDriveBySet());
 		
 		// change the talon num
-		testBtn5.whenPressed(new C_TestSetTalonNum(false));
-		testBtn6.whenPressed(new C_TestSetTalonNum(true));
+		testStickBtn5.whenPressed(new C_TestSetTalonNum(false));
+		testStickBtn6.whenPressed(new C_TestSetTalonNum(true));
 		
 		// change the motor speed
-		testBtn3.whenPressed(new C_TestSetMotorSpeed(false));
-		testBtn4.whenPressed(new C_TestSetMotorSpeed(true));
+		testStickBtn3.whenPressed(new C_TestSetMotorSpeed(false));
+		testStickBtn4.whenPressed(new C_TestSetMotorSpeed(true));
+		
+		/*********TestingPad********/
+		testPadBtn1.whileHeld(new C_TestDriveBySet());
+		testPadBtn2.whileHeld(new C_TestDriveByJoystick());
+		
+		// change the talon num
+		testPadBtn5.whenPressed(new C_TestSetTalonNum(false));
+		testPadBtn6.whenPressed(new C_TestSetTalonNum(true));
+		
+		// change the motor speed
+		testPadBtn7.whenPressed(new C_TestSetMotorSpeed(false));
+		testPadBtn8.whenPressed(new C_TestSetMotorSpeed(true));
+		
+		testPadBtn9.whileHeld(testCmd);
+		
+		testPadBtn10.whenPressed(new CG_AutoTest());
+		
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a

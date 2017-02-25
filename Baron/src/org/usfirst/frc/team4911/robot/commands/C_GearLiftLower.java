@@ -42,7 +42,7 @@ public class C_GearLiftLower extends Command {
     		int gearPos = (int)motor.getSensorPosition();
     		if (gearPos > 400)
     			gearPos = (int) Robot.ss_GearLift.topPotValue;
-        	motor.moveToEncPos(gearPos, 1, 1, 4.0, 0, 0, 0, 0, 0, 12.0, 0, CANTalon.TalonControlMode.Position, false, false);
+//        	motor.moveToEncPos(gearPos, 1, 1, 4.0, 0, 0, 0, 0, 0, 12.0, 0, CANTalon.TalonControlMode.Position, false, false);
     		pidRunning = true;
     	}
     }
