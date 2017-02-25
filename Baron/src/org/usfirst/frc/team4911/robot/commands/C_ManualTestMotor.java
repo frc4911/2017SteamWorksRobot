@@ -32,7 +32,7 @@ public class C_ManualTestMotor extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
-    	motor.set(Robot.oi.autoTestStick.getY());
+    	motor.set(Robot.oi.autoTestGamepad.getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()

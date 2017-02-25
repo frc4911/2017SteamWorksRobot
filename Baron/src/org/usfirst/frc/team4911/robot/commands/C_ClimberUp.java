@@ -25,7 +25,7 @@ public class C_ClimberUp extends Command {
     		input = 0;
     	}
     	
-    	Robot.ss_Climber.climberMotor.spin(input);
+    	Robot.ss_Climber.climberMotors.spin(input);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -35,7 +35,7 @@ public class C_ClimberUp extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_Climber.climberMotor.stop();
+    	Robot.ss_Climber.climberMotors.stop();
     }
 
     // Called when another command which requires one or more of the same
