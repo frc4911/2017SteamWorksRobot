@@ -54,10 +54,8 @@ public class OI {
 	JoystickButton rightBumper = new JoystickButton(opGamepad, 6);
 	
 	/**********Testing**********/
-//	public Joystick autoTestStick = new Joystick(3);
-	public Joystick autoTestGamepad = new Joystick(3);
-	
-	// Joystick
+//	public Joystick autoTestStick = new Joystick(3);	
+
 //	JoystickButton testStickBtn1 = new JoystickButton(autoTestStick, 1);
 //	JoystickButton testStickBtn2 = new JoystickButton(autoTestStick, 2);
 //	JoystickButton testStickBtn3 = new JoystickButton(autoTestStick, 3);
@@ -67,18 +65,8 @@ public class OI {
 //	JoystickButton testStickBtn7 = new JoystickButton(autoTestStick, 7);
 //	JoystickButton testStickBtn11 = new JoystickButton(autoTestStick, 11);
 //	JoystickButton testStickBtn12 = new JoystickButton(autoTestStick, 12);
-
-//	public Joystick autoTestStick = new Joystick(3);
-//	
-//	JoystickButton testBtn1 = new JoystickButton(autoTestStick, 1);
-//	JoystickButton testBtn2 = new JoystickButton(autoTestStick, 2);
-//	JoystickButton testBtn3 = new JoystickButton(autoTestStick, 3);
-//	JoystickButton testBtn4 = new JoystickButton(autoTestStick, 4);
-//	JoystickButton testBtn5 = new JoystickButton(autoTestStick, 5);
-//	JoystickButton testBtn6 = new JoystickButton(autoTestStick, 6);
-//	JoystickButton testBtn7 = new JoystickButton(autoTestStick, 7);
-//	JoystickButton testBtn11 = new JoystickButton(autoTestStick, 11);
-//	JoystickButton testBtn12 = new JoystickButton(autoTestStick, 12);
+	
+	public Joystick autoTestGamepad = new Joystick(3);
 	
 	JoystickButton testBtnA = new JoystickButton(autoTestGamepad, 1);
 	JoystickButton testBtnB = new JoystickButton(autoTestGamepad, 2);
@@ -182,6 +170,8 @@ public class OI {
 		// change the motor speed
 		testBtnA.whenPressed(new C_TestSetMotorSpeed(false));
 		testBtnY.whenPressed(new C_TestSetMotorSpeed(true));
+		
+		testBtnStart.whenPressed(new CG_AutoTest());
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
