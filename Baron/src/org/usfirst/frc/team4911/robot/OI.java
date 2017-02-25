@@ -54,36 +54,53 @@ public class OI {
 	JoystickButton rightBumper = new JoystickButton(opGamepad, 6);
 	
 	/**********Testing**********/
-	public Joystick autoTestStick = new Joystick(3);
+//	public Joystick autoTestStick = new Joystick(3);
+//	
+//	JoystickButton testBtn1 = new JoystickButton(autoTestStick, 1);
+//	JoystickButton testBtn2 = new JoystickButton(autoTestStick, 2);
+//	JoystickButton testBtn3 = new JoystickButton(autoTestStick, 3);
+//	JoystickButton testBtn4 = new JoystickButton(autoTestStick, 4);
+//	JoystickButton testBtn5 = new JoystickButton(autoTestStick, 5);
+//	JoystickButton testBtn6 = new JoystickButton(autoTestStick, 6);
+//	JoystickButton testBtn7 = new JoystickButton(autoTestStick, 7);
+//	JoystickButton testBtn11 = new JoystickButton(autoTestStick, 11);
+//	JoystickButton testBtn12 = new JoystickButton(autoTestStick, 12);
 	
-	JoystickButton testBtn1 = new JoystickButton(autoTestStick, 1);
-	JoystickButton testBtn2 = new JoystickButton(autoTestStick, 2);
-	JoystickButton testBtn3 = new JoystickButton(autoTestStick, 3);
-	JoystickButton testBtn4 = new JoystickButton(autoTestStick, 4);
-	JoystickButton testBtn5 = new JoystickButton(autoTestStick, 5);
-	JoystickButton testBtn6 = new JoystickButton(autoTestStick, 6);
-	JoystickButton testBtn7 = new JoystickButton(autoTestStick, 7);
-	JoystickButton testBtn11 = new JoystickButton(autoTestStick, 11);
-	JoystickButton testBtn12 = new JoystickButton(autoTestStick, 12);
+	public Joystick autoTestGamepad = new Joystick(3);
 	
+	JoystickButton testBtnA = new JoystickButton(autoTestGamepad, 1);
+	JoystickButton testBtnB = new JoystickButton(autoTestGamepad, 2);
+	JoystickButton testBtnX = new JoystickButton(autoTestGamepad, 3);
+	JoystickButton testBtnY = new JoystickButton(autoTestGamepad, 4);
+	JoystickButton testBtnStart = new JoystickButton(autoTestGamepad, 8);
+	JoystickButton testBtnSelect = new JoystickButton(autoTestGamepad, 7);
+	JoystickButton testLeftBumper = new JoystickButton(autoTestGamepad, 5);
+	JoystickButton testRightBumper = new JoystickButton(autoTestGamepad, 6);
+	
+	/**********Commands*********/
 	public Command feeder;
+	public Command flywheel;
 	public Command stopFlywheel;
 	
+	public Command testDriveJoystick;
+	public Command testDriveSet;
 	public Command testCmd;
 	
 	public OI() {
 		/*******DriveJoysticks******/
-		dtRight2.whileHeld(new C_FuelCollect(true));
+		//btn2 = Reverse Drive
+		
+		dtRightTrigger.whileHeld(new C_FuelCollect(true));
 		dtRight3.whileHeld(new C_FuelCollect(false));
 		
-		/*********OpGamePad*********/
+		/*********OpGamepad*********/
 		btnX.whileHeld(new C_GearInOut(false));
 //		Command gColl = new C_GearIntake();
 //		btnX.whenPressed(gColl);
 //		btnX.whenReleased(new C_StopCommand(gColl));
 		
 		btnB.whileHeld(new C_GearInOut(true));
-		btnSelect.whileHeld(new C_HopperSpin(false));
+		//btnSelect.whileHeld(new C_HopperSpin(false));
 		//btnY.whileHeld(new C_GearLiftLower(true));
 //		Command gMoveUp = new C_GearLiftLower(true);
 //		btnY.whenPressed(gMoveUp);
@@ -95,10 +112,13 @@ public class OI {
 		//btnA.whenReleased(new C_StopCommand(gMoveDown));
 		
 		Command feedFuel = new CG_FeedFuel();
-		feeder = new C_TriggerWhileHeld(feedFuel, opGamepad, false);
+		Command hopperReverse = new C_HopperSpin(false);
+		
+		rightBumper.whileHeld(feedFuel);
+		feeder = new C_TriggerWhileHeld(hopperReverse, opGamepad, false);
 //		feeder.start();
 		
-		Command flywheel = new C_SpinFlywheel();
+		flywheel = new C_SpinFlywheel();
 		leftBumper.whenPressed(flywheel);
 		stopFlywheel = new C_TriggerWhenPressed(new C_StopCommand(flywheel), opGamepad, true);
 //		stopFlywheel.start();
@@ -120,20 +140,20 @@ public class OI {
 //		ticks = 300
 		testCmd = new C_TunePID(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, 1, 1, CANTalon.TalonControlMode.Position, false, false);
 		//kp 1.5 to 3.0
-		testBtn11.whileHeld(testCmd);
+		//testBtn11.whileHeld(testCmd);
 		
 		//testBtn7.whenReleased(new CG_AutoTest());
 		
-		testBtn1.whileHeld(new C_TestDriveByJoystick());
-		testBtn2.whileHeld(new C_TestDriveBySet());
+		testDriveJoystick = new C_TriggerWhileHeld(new C_TestDriveByJoystick(), autoTestGamepad, false);
+		testDriveSet = new C_TriggerWhileHeld(new C_TestDriveBySet(), autoTestGamepad, true);
 		
 		// change the talon num
-		testBtn5.whenPressed(new C_TestSetTalonNum(false));
-		testBtn6.whenPressed(new C_TestSetTalonNum(true));
+		testLeftBumper.whenPressed(new C_TestSetTalonNum(false));
+		testRightBumper.whenPressed(new C_TestSetTalonNum(true));
 		
 		// change the motor speed
-		testBtn3.whenPressed(new C_TestSetMotorSpeed(false));
-		testBtn4.whenPressed(new C_TestSetMotorSpeed(true));
+		testBtnA.whenPressed(new C_TestSetMotorSpeed(false));
+		testBtnY.whenPressed(new C_TestSetMotorSpeed(true));
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a

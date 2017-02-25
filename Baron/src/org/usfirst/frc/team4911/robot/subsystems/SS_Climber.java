@@ -14,12 +14,14 @@ public class SS_Climber extends Subsystem {
     // here. Call these from Commands.
 	
 	int tPortClimber = 11;
-	public DefaultMotor climberMotor = new DefaultMotor(tPortClimber, Robot.ss_Config.climberConst, "Climber");
+	int tPortClimberF = 20;
+	
+	public DefaultMotor climberMotors = new DefaultMotor(tPortClimber, tPortClimberF, Robot.ss_Config.climberConst, "Climber");
 	
 	public SS_Climber() {
-		climberMotor.setPowLimit(0.7);
-		climberMotor.enablePowLimit(true);
-		climberMotor.setBrakeMode(true);
+		climberMotors.setPowLimit(0.7);
+		climberMotors.enablePowLimit(true);
+		climberMotors.setBrakeMode(true);
 	}
 	
     public void initDefaultCommand() {

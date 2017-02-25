@@ -25,7 +25,7 @@ public class SS_TestMotor extends Subsystem {
     
     public SS_TestMotor(){
     	
-        motors[0] = Robot.ss_Climber.climberMotor;
+        motors[0] = Robot.ss_Climber.climberMotors;
         motors[1] = Robot.ss_DriveTrain.leftMotors;
         motors[2] = Robot.ss_DriveTrain.rightMotors;
         motors[3] = Robot.ss_FuelCollector.collectorMotors;

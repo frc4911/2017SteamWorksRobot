@@ -17,7 +17,7 @@ public class C_DriveByJoystick extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
-    	if (Robot.oi.stickR.getTrigger()){
+    	if (Robot.oi.stickR.getRawButton(2)){
     		// flip front to back
         	Robot.ss_DriveTrain.leftMotors.spin(Robot.oi.stickR.getY());
         	Robot.ss_DriveTrain.rightMotors.spin(Robot.oi.stickL.getY());

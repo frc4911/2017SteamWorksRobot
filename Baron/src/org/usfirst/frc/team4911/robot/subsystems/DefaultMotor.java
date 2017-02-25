@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DefaultMotor {
 	private CANTalon talon;
 	private CANTalon fTalon;
+	private CANTalon fTalon2;
 	private CANTalonPID pid = null;
 	private double constant;
-	private boolean limited;
 	private boolean motorPair;
 	private double upLimit;
 	private double lowLimit;
@@ -28,22 +28,20 @@ public class DefaultMotor {
 	private String description;
 	
 	public DefaultMotor(int TPort, double constant, String description) {
-		limited = false;
 		motorPair = false;
 		
-		construct(TPort, constant, description);
+		construct(TPort, constant, false, description);
 	}
 	
 	public DefaultMotor(int TPort, int TPortF, double constant, String description) {
 		this.fTalon = new CANTalon(TPortF);
 		
-		limited = false;
 		motorPair = true;
 		
 		this.fTalon.changeControlMode(TalonControlMode.Follower);
 		this.fTalon.set(TPort);
 		
-		construct(TPort, constant, description);
+		construct(TPort, constant, false, description);
 	}
 	
 	public DefaultMotor(int TPort, double constant, double upLimit, double lowLimit, String description) {
@@ -51,10 +49,9 @@ public class DefaultMotor {
 		this.lowLimit = lowLimit;
 		this.description = description;
 		
-		limited = true;
 		motorPair = false;
 		
-		construct(TPort, constant, description);
+		construct(TPort, constant, true, description);
 	}
 	
 	public DefaultMotor(int TPort, int TPortF, double constant, double upLimit, double lowLimit, String description) {
@@ -62,16 +59,29 @@ public class DefaultMotor {
 		this.upLimit = upLimit;
 		this.lowLimit = lowLimit;
 		
-		limited = true;
 		motorPair = true;
 		
 		this.fTalon.changeControlMode(TalonControlMode.Follower);
 		this.fTalon.set(TPort);
 		
-		construct(TPort, constant, description);
+		construct(TPort, constant, true, description);
 	}
 	
-	private void construct(int TPort, double constant, String description) {
+	public DefaultMotor(int TPort, int TPortF, int TPortF2, double constant, String description) {
+		this.fTalon = new CANTalon(TPortF);
+		this.fTalon2 = new CANTalon(TPortF2);
+		
+		motorPair = true;
+		
+		this.fTalon.changeControlMode(TalonControlMode.Follower);
+		this.fTalon.set(TPort);
+		this.fTalon2.changeControlMode(TalonControlMode.Follower);
+		this.fTalon2.set(TPort);
+		
+		construct(TPort, constant, false, description);
+	}
+	
+	private void construct(int TPort, double constant, boolean limited, String description) {
 		this.talon = new CANTalon(TPort);
 		this.constant = constant;
 		this.description = description;
@@ -146,6 +156,7 @@ public class DefaultMotor {
 		if(motorPair) {
 			talon.enableBrakeMode(set);
 			fTalon.enableBrakeMode(set);
+			fTalon2.enableBrakeMode(set);
 		}
 		else {
 			talon.enableBrakeMode(set);
@@ -166,6 +177,10 @@ public class DefaultMotor {
 	
 	public CANTalon getFollowerTalon() {
 		return fTalon;
+	}
+	
+	public CANTalonPID getPID() {
+		return pid;
 	}
 	
 	public double getOutputVoltage(boolean follower) {
