@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.commands.*;
-
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -55,8 +54,8 @@ public class OI {
 	JoystickButton testBtnB = new JoystickButton(autoTestGamepad, 2);
 	JoystickButton testBtnX = new JoystickButton(autoTestGamepad, 3);
 	JoystickButton testBtnY = new JoystickButton(autoTestGamepad, 4);
-	JoystickButton testBtnStart = new JoystickButton(autoTestGamepad, 8);
-	JoystickButton testBtnSelect = new JoystickButton(autoTestGamepad, 7);
+	public JoystickButton testBtnStart = new JoystickButton(autoTestGamepad, 8);
+	public JoystickButton testBtnSelect = new JoystickButton(autoTestGamepad, 7);
 	JoystickButton testLeftBumper = new JoystickButton(autoTestGamepad, 5);
 	JoystickButton testRightBumper = new JoystickButton(autoTestGamepad, 6);
 	
@@ -68,6 +67,7 @@ public class OI {
 	public Command testDriveJoystick;
 	public Command testDriveSet;
 	public Command testCmd;
+	public Command autoTest;
 	
 	public OI() {
 		/*******DriveJoysticks******/
@@ -121,7 +121,9 @@ public class OI {
 //		testCmd = new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, true);
 //		kf = 1
 //		ticks = 300
+		
 //		testCmd = new C_TunePID(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, 1, 1, CANTalon.TalonControlMode.Position, false, false);
+		autoTest = new CG_AutoTest();
 		//kp 1.5 to 3.0
 		
 		testBtnStart.whileHeld(new CG_TuneDriveTrainPID());
@@ -157,7 +159,7 @@ public class OI {
 		testBtnA.whenPressed(new C_TestSetMotorSpeed(false));
 		testBtnY.whenPressed(new C_TestSetMotorSpeed(true));
 		
-		testBtnStart.whenPressed(new CG_AutoTest());
+		testBtnSelect.whenPressed(new C_RunAutoTest());
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a

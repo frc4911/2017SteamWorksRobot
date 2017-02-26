@@ -11,7 +11,7 @@ public class SS_Camera extends Subsystem {
 	Servo servo = new Servo(0);
 	
     public void initDefaultCommand() {
-    	setDefaultCommand(new C_CameraUpDown(true));
+    	setDefaultCommand(new C_CameraUpDown());
     }
     
     public void setAngle(double angle){
