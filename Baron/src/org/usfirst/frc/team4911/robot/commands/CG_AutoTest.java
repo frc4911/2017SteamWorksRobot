@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class CG_AutoTest extends CommandGroup {
-	private final double timeOut = 3;
+	private final double timeOut = 2;
 	
     public CG_AutoTest() {
         // Add Commands here:

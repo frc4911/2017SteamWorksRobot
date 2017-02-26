@@ -5,6 +5,7 @@ import java.util.Objects;
 import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -12,29 +13,38 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class SS_AutoTestStats extends Subsystem {
 	Subsystem subsystem = null;
-	DefaultMotor talon = null;
 	String desc = "";
-	boolean hasFollower = false;
 	
 	boolean direction;
 	
-	boolean hasEncoder;
 	double targetPos;
 	double encError;
 	
 	double timeOut;
 	
+	NetworkTable table;
+	final String ip = "10.49.11.84";
+	final String tableName = "AutoTest";
+	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
+	// TODO: this is not a Subsystem
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+
+//		NetworkTable.setClientMode();
+		NetworkTable.setIPAddress(ip);
+		table = NetworkTable.getTable(tableName);
     	
-    	// TODO: this is not a Subsystem
     }
     
-    public void smartCompletion(boolean hitTarget, double timeOut) {
+    public void netTable() {
+    }
+    
+    public void smartCompletion(boolean hitTarget, double timeOut, double distTraveled) {
+		smart("DistTraveled " + desc, "" + distTraveled);
     	smart("HitTarget " + desc, "" + hitTarget);
     	smart("TimeOut " + desc, "" + timeOut);
     }
@@ -45,38 +55,29 @@ public class SS_AutoTestStats extends Subsystem {
     
     public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction, double targetPos, double encError) {
     	this.subsystem = subsystem;
-    	this.talon = talon;
-    	
-    	this.hasFollower = talon.hasFollower();
     	
     	this.direction = direction;
     	
-    	this.hasEncoder = true;
     	this.targetPos = targetPos;
     	this.encError = encError;
     	
-    	displaySmart();
+    	displaySmart(talon, talon.hasFollower(), true);
     }
     
     public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction) {
     	this.subsystem = subsystem;
-    	this.talon = talon;
-    	
-    	this.hasFollower = talon.hasFollower();
     	
     	this.direction = direction;
     	
-    	this.hasEncoder = false;
-    	
-    	displaySmart();
+    	displaySmart(talon, talon.hasFollower(), false);
     }
     
-    private void displaySmart() {
+    private void displaySmart(DefaultMotor talon, boolean hasFollower, boolean hasEncoder) {
     	desc = talon.getDescription() + " " + direction;
-		smartDefaultMotor();
+		smartDefaultMotor(talon, hasFollower, hasEncoder);
     }
     
-    private void smartDefaultMotor() {
+    private void smartDefaultMotor(DefaultMotor talon, boolean hasFollower, boolean hasEncoder) {
     	smart("Current Subsystem", "" + subsystem.getName());
     	
     	smart("Direction " + desc, "" + direction);
@@ -102,7 +103,7 @@ public class SS_AutoTestStats extends Subsystem {
     }
     
     private void smart(String key, String data) {
-		SmartDashboard.putString(key, data);
+		table.putString(key, data);
     }
 }
 

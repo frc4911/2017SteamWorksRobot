@@ -116,7 +116,7 @@ public class CameraRun {
 			while (true)
 			{
 				table.putNumber("Calebs Number", calebNum++);
-				
+
 				if (camera.isOpened())
 				{
 					try
