@@ -2,7 +2,6 @@ package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
 import org.usfirst.frc.team4911.robot.commands.CG_FeedFuel;
-import org.usfirst.frc.team4911.robot.commands.C_CameraUpDown;
 import org.usfirst.frc.team4911.robot.commands.C_ShooterFeeder;
 import org.usfirst.frc.team4911.robot.commands.C_SpinFlywheel;
 import org.usfirst.frc.team4911.robot.commands.C_FuelCollect;
@@ -27,8 +26,6 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -178,7 +175,10 @@ public class OI {
 		testBtnA.whenPressed(new C_TestSetMotorSpeed(false));
 		testBtnY.whenPressed(new C_TestSetMotorSpeed(true));
 		
+		// autoTest
+		// to use auto test, hold the start button and press the select button
 		testBtnSelect.whenPressed(new C_RunAutoTest());
+		testBtnSelect.whenReleased(new C_StopCommand(autoTest));
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a

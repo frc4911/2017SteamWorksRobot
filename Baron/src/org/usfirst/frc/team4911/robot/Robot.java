@@ -10,6 +10,7 @@ import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrain;
 import org.usfirst.frc.team4911.robot.subsystems.SS_FuelCollector;
 import org.usfirst.frc.team4911.robot.subsystems.SS_GearLift;
 import org.usfirst.frc.team4911.robot.subsystems.LoggingEngine;
+import org.usfirst.frc.team4911.robot.subsystems.SS_AutoTestStats;
 import org.usfirst.frc.team4911.robot.subsystems.SS_Camera;
 import org.usfirst.frc.team4911.robot.subsystems.SS_NAVX;
 import org.usfirst.frc.team4911.robot.subsystems.SS_TestMotor;
@@ -45,6 +46,7 @@ public class Robot extends IterativeRobot {
 	public static SS_Camera ss_Camera = null;
 	
 	public static SS_TestMotor ss_TestMotor = null;
+	public static SS_AutoTestStats ss_AutoTestStats = null;
 	
 	public static SS_NAVX ss_NAVX = null;
 	
@@ -75,6 +77,7 @@ public class Robot extends IterativeRobot {
 		ss_Camera = new SS_Camera();
 		
 		ss_TestMotor = new SS_TestMotor();
+		ss_AutoTestStats = new SS_AutoTestStats();
 		
 		//ss_NAVX = new SS_NAVX();
 		ss_Logging = new LoggingEngine();
