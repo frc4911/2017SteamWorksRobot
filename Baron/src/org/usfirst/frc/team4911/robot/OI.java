@@ -1,13 +1,32 @@
 package org.usfirst.frc.team4911.robot;
 
+import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
+import org.usfirst.frc.team4911.robot.commands.CG_FeedFuel;
+import org.usfirst.frc.team4911.robot.commands.C_ShooterFeeder;
+import org.usfirst.frc.team4911.robot.commands.C_SpinFlywheel;
+import org.usfirst.frc.team4911.robot.commands.C_FuelCollect;
+import org.usfirst.frc.team4911.robot.commands.C_GearInOut;
+import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
+import org.usfirst.frc.team4911.robot.commands.C_MoveToEncPos;
+import org.usfirst.frc.team4911.robot.commands.C_RunAutoTest;
+import org.usfirst.frc.team4911.robot.commands.C_GearLiftLower;
+import org.usfirst.frc.team4911.robot.commands.C_GearSpit;
+import org.usfirst.frc.team4911.robot.commands.C_HopperSpin;
+import org.usfirst.frc.team4911.robot.commands.C_StopCommand;
+import org.usfirst.frc.team4911.robot.commands.C_TestDriveByJoystick;
+import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;
+import org.usfirst.frc.team4911.robot.commands.C_TestSetMotorSpeed;
+import org.usfirst.frc.team4911.robot.commands.C_TestSetTalonNum;
+import org.usfirst.frc.team4911.robot.commands.C_TriggerWhenPressed;
+import org.usfirst.frc.team4911.robot.commands.C_TriggerWhileHeld;
+import org.usfirst.frc.team4911.robot.commands.C_TunePID;
+
 import org.usfirst.frc.team4911.robot.commands.*;
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -126,7 +145,7 @@ public class OI {
 		autoTest = new CG_AutoTest();
 		//kp 1.5 to 3.0
 		
-		testBtnStart.whileHeld(new CG_TuneDriveTrainPID());
+//		testBtnStart.whileHeld(new CG_TuneDriveTrainPID());
 		
 //		testStickBtn11.whileHeld(testCmd);
 //		
@@ -159,7 +178,10 @@ public class OI {
 		testBtnA.whenPressed(new C_TestSetMotorSpeed(false));
 		testBtnY.whenPressed(new C_TestSetMotorSpeed(true));
 		
+		// autoTest
+		// to use auto test, hold the start button and press the select button
 		testBtnSelect.whenPressed(new C_RunAutoTest());
+		testBtnSelect.whenReleased(new C_StopCommand(autoTest));
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
