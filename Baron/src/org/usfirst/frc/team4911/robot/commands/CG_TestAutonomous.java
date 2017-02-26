@@ -16,8 +16,8 @@ public class CG_TestAutonomous extends CommandGroup {
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	addParallel(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));
-    	addParallel(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
+    	addParallel(new C_TunePID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));
+    	addParallel(new C_TunePID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
 		
 
         // To run multiple commands at the same time,

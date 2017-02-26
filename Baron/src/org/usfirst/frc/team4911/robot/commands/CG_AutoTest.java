@@ -32,11 +32,11 @@ public class CG_AutoTest extends CommandGroup {
         // arm.
     	
     	// drive train
-    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, true, 5000, timeOut));
-    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, false, -5000, timeOut));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, true, 5000, timeOut));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, false, -5000, timeOut));
     	
-    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, true, -5000, timeOut));
-    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, false, 5000,timeOut));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, true, -5000, timeOut));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, false, 5000,timeOut));
     	
     	// fuel collector
     	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, true, timeOut));
