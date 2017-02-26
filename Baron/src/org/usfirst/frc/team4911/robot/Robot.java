@@ -63,18 +63,18 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		ConfigFile ss_Config = new ConfigFile();
+		ss_Config = new ConfigFile();
 		
-		SS_Climber ss_Climber = new SS_Climber();
-		SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
-		SS_FuelCollector ss_FuelCollector = new SS_FuelCollector();
-		SS_FuelHopper ss_FuelHopper = new SS_FuelHopper();
-		SS_FuelShooter ss_FuelShooter = new SS_FuelShooter();
-		SS_GearIntake ss_GearIntake = new SS_GearIntake();
-		SS_GearLift ss_GearLift = new SS_GearLift();
-		SS_Camera ss_Camera = new SS_Camera();
+		ss_Climber = new SS_Climber();
+		ss_DriveTrain = new SS_DriveTrain();
+		ss_FuelCollector = new SS_FuelCollector();
+		ss_FuelHopper = new SS_FuelHopper();
+		ss_FuelShooter = new SS_FuelShooter();
+		ss_GearIntake = new SS_GearIntake();
+		ss_GearLift = new SS_GearLift();
+		ss_Camera = new SS_Camera();
 		
-		SS_TestMotor ss_TestMotor = new SS_TestMotor();
+		ss_TestMotor = new SS_TestMotor();
 		
 		//ss_NAVX = new SS_NAVX();
 		ss_Logging = new LoggingEngine();

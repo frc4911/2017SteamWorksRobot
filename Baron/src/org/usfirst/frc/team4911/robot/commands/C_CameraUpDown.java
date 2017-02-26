@@ -14,10 +14,11 @@ public class C_CameraUpDown extends Command {
     }
 
     protected void execute() {
-        final double bump = 2;
+        final double bump = 1;
         
     	int povPosition = Robot.oi.stickR.getPOV(0);
     	
+    	//not pressed
     	if (povPosition < 0)
     		return;
     	// 0 is at top 

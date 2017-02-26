@@ -5,9 +5,6 @@ import org.usfirst.frc.team4911.robot.Robot;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
 public class SS_TestMotor extends Subsystem {
 
     public void initDefaultCommand() {

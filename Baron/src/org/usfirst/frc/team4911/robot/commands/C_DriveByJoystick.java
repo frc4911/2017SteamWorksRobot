@@ -26,8 +26,7 @@ public class C_DriveByJoystick extends Command {
     		// normal
         	Robot.ss_DriveTrain.leftMotors.spin(-Robot.oi.stickL.getY());
         	Robot.ss_DriveTrain.rightMotors.spin(-Robot.oi.stickR.getY());
-    	}
-    	
+    	}    	
     }
 
     protected boolean isFinished() {
