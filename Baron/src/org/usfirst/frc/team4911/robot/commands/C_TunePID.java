@@ -44,7 +44,7 @@ public class C_TunePID extends Command {
 	
     public C_TunePID(Subsystem subsystem, DefaultMotor motor, int ticksPerRev, int encoderTicksPerRev, CANTalon.TalonControlMode PIDType, boolean encoderFlip, boolean flipMotorDir) {
         // Use requires() here to declare subsystem dependencies
-        requires(subsystem);
+        //requires(subsystem);
         this.motor = motor;
         this.ticksPerRev = ticksPerRev;
         this.encoderTicksPerRev = encoderTicksPerRev;

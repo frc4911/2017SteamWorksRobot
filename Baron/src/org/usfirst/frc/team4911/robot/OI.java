@@ -21,6 +21,7 @@ import org.usfirst.frc.team4911.robot.commands.C_TriggerWhenPressed;
 import org.usfirst.frc.team4911.robot.commands.C_TriggerWhileHeld;
 import org.usfirst.frc.team4911.robot.commands.C_TunePID;
 
+import org.usfirst.frc.team4911.robot.commands.*;
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -139,11 +140,13 @@ public class OI {
 //		testCmd = new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, true);
 //		kf = 1
 //		ticks = 300
-		testCmd = new C_TunePID(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, 1, 1, CANTalon.TalonControlMode.Position, false, false);
-		autoTest = new CG_AutoTest();
 		
+//		testCmd = new C_TunePID(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, 1, 1, CANTalon.TalonControlMode.Position, false, false);
+		autoTest = new CG_AutoTest();
 		//kp 1.5 to 3.0
-
+		
+//		testBtnStart.whileHeld(new CG_TuneDriveTrainPID());
+		
 //		testStickBtn11.whileHeld(testCmd);
 //		
 //		//testBtn7.whenReleased(new CG_AutoTest());
