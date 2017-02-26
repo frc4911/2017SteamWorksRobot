@@ -22,7 +22,7 @@ public class SS_Lidar extends SensorBase {
 		i2c.write(0x04, 0x20);
 		i2c.write(0x11, 0xff);
 		i2c.write(0x00, 0x04);
-		SmartDashboard.putNumber("LidarValuesThrownOut:", 0);
+		//SmartDashboard.putNumber("LidarValuesThrownOut:", 0);
 		//I don't remember what these are
 	}
 	public int getDistance(){
