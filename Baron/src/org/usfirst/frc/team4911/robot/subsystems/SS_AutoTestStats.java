@@ -11,9 +11,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class SS_AutoTestStats extends Subsystem {
-
-    String[] dtLeft;
-    String[] dtRight;
+	Subsystem subsystem = null;
+	DefaultMotor talon = null;
+	String desc = "";
+	boolean hasFollower = false;
+	
+	boolean direction;
+	
+	boolean hasEncoder;
+	double targetPos;
+	double encError;
+	
+	double timeOut;
 	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -21,35 +30,73 @@ public class SS_AutoTestStats extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    	
+    	// TODO: this is not a Subsystem
     }
     
-    public void displaySmart() {
-    	if(Robot.oi.autoTest.isRunning()) {
-    		
-    		
-    	}
+    public void smartCompletion(boolean hitTarget) {
+    	smart("HitTarget" + desc, "" + hitTarget);
     }
     
-    private void driveTrainLeft(String key, String[] data) {
-    	if(Objects.equals(key, "dtLeft"))
-    		dtLeft = data;
+    public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction, double targetPos, double encError, double timeOut) {
+    	this.subsystem = subsystem;
+    	this.talon = talon;
+    	
+    	this.hasFollower = talon.hasFollower();
+    	
+    	this.direction = direction;
+    	
+    	this.hasEncoder = true;
+    	this.targetPos = targetPos;
+    	this.encError = encError;
+    	
+    	this.timeOut = timeOut;
+    	
+    	displaySmart();
     }
     
-    private void logDefaultMotor(DefaultMotor motor, boolean hasFollower, boolean hasEncoder, int index) {
-    	boolean smart = false;
-//		smart(smart, log, index++, "" + motor.getTalonValue(false));
-//		smart(smart, log, index++,motor.checkStickyFaults(motor, false));
-//		smart(smart, log, index++,"" + motor.getOutputVoltage(false));
-//		smart(true, log, index++, "" + motor.getOutputCurrent(false));// hardcode to dashboard for debug 
+    public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction, double timeOut) {
+    	this.subsystem = subsystem;
+    	this.talon = talon;
+    	
+    	this.hasFollower = talon.hasFollower();
+    	
+    	this.direction = direction;
+    	
+    	this.hasEncoder = false;
+    	
+    	this.timeOut = timeOut;
+    	
+    	displaySmart();
+    }
+    
+    private void displaySmart() {
+    	desc = talon.getDescription() + " " + direction;
+		smartDefaultMotor();
+    }
+    
+    private void smartDefaultMotor() {
+    	smart("Current Subsystem", "" + subsystem.getName());
+    	
+    	smart("Direction " + desc, "" + direction);
+    	
+		smart("TalonValue " + desc, "" + talon.getTalonValue(false));
+		smart("StickyFaults " + desc, "" + talon.checkStickyFaults(talon, false));
+		smart("OutVolt " + desc, "" + talon.getOutputVoltage(false));
+		smart("OutCurr " + desc, "" + talon.getOutputCurrent(false));
 				
 		if(hasFollower) {
-//			smart(smart, log, index++,motor.checkStickyFaults(motor, true));
-//			smart(smart, log, index++,"" + motor.getOutputVoltage(true));
-//			smart(smart, log, index++,"" + motor.getOutputCurrent(true));
+			smart("StickyFaults " + "f" + desc, "" + talon.checkStickyFaults(talon, true));
+			smart("OutVolt " + "f" + desc, "" + talon.getOutputVoltage(true));
+			smart("OutCurr " + "f" + desc, "" + talon.getOutputCurrent(true));
 		}
-//		smart(smart, log, index++, "" + motor.getTalonSpeed());
+		
+		smart("TalonSpeed " + desc, "" + talon.getTalonSpeed());
+		
 		if(hasEncoder) {
-//			smart(true, log, index++,"" + motor.getEncPos());
+			smart("EncPos " + desc, "" + talon.getEncPos());
+			smart("TargetPos " + desc, "" + targetPos);
+			smart("EncError " + desc, "" + encError);
 		}
     }
     

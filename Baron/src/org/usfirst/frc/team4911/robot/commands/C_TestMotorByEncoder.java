@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class C_TestMotorByEncoder extends Command {
+	Subsystem subsystem;
+	
 	DefaultMotor talon;
 	double motorConst;
 	double encoderConst;
@@ -32,9 +34,12 @@ public class C_TestMotorByEncoder extends Command {
 	double distTravelled;
 	double velocity;
 	
+	boolean hitTarget = false;
+	
     public C_TestMotorByEncoder(Subsystem subsystem, DefaultMotor talon, boolean direction, double targetPos, double duration) {
         // Use requires() here to declare subsystem dependencies
         requires(subsystem);
+        this.subsystem = subsystem;
         this.direction = direction;
         this.talon = talon;
         this.targetPos = targetPos;
@@ -59,11 +64,13 @@ public class C_TestMotorByEncoder extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     double realEndTime;
+    double encError;
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
+    	encError = Math.abs(talon.getEncPos() - targetPos);
     	if(Timer.getFPGATimestamp() < endTime && 
-    	   Math.abs(talon.getEncPos() - targetPos) > Math.abs(targetPos * 0.1)) {
+    	   encError > Math.abs(targetPos * 0.1)) {
     				if(direction)
     					talon.spin(0.5);
     				else {
@@ -78,23 +85,31 @@ public class C_TestMotorByEncoder extends Command {
 		BVDataCount++;
 		SmartDashboard.putNumber("current draw "+ dir + " " + talon.getDescription(), talon.getOutputVoltage(false));
 		SmartDashboard.putNumber("curr pos " + dir + " " + talon.getDescription(), talon.getEncPos());
+		
+		Robot.ss_AutoTestStats.putData(subsystem, talon, direction, targetPos, encError, (endTime - Timer.getFPGATimestamp()));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	if((Timer.getFPGATimestamp() < endTime) && 
- 			Math.abs(talon.getEncPos() - targetPos) > Math.abs(targetPos * 0.03)) {
+ 			encError > Math.abs(targetPos * 0.03)) {
     		return false;
     	}
     	
 		distTravelled = talon.getEncPos();
-//		talon.stop();
+		if(encError <= Math.abs(targetPos * 0.03)) {
+			hitTarget = true;
+		} else {
+			hitTarget = false;
+		}
 		return true;
 	}
     
     // Called once after isFinished returns true
     protected void end() {
     	talon.stop();
+    	
+    	Robot.ss_AutoTestStats.smartCompletion(hitTarget);
     	
     	//ticks/millisecond
     	velocity = ((distTravelled) / ((realEndTime - startTime) * 1000));

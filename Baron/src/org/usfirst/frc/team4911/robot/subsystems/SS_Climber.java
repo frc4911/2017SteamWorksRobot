@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class SS_Climber extends Subsystem {
 	
 	int tPortClimber = 11;
-	int tPortClimberF = 20;
+	int tPortClimberF = 13;
 	
 	public DefaultMotor climberMotors = new DefaultMotor(tPortClimber, tPortClimberF, Robot.ss_Config.climberConst, "Climber");
 	

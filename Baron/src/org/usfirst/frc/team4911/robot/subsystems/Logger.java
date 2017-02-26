@@ -222,18 +222,18 @@ public class Logger extends Subsystem {
     	boolean smart = false;
 		boolean log = true;
 		smartLog(smart, log, index++, "" + motor.getTalonValue(false));
-		smartLog(smart, log, index++,motor.checkStickyFaults(motor, false));
-		smartLog(smart, log, index++,"" + motor.getOutputVoltage(false));
-		smartLog(true, log, index++, "" + motor.getOutputCurrent(false));// hardcode to dashboard for debug 
+		smartLog(smart, log, index++, "" +motor.checkStickyFaults(motor, false));
+		smartLog(smart, log, index++, "" + motor.getOutputVoltage(false));
+		smartLog(true, log, index++, "" + motor.getOutputCurrent(false)); // hardcode to dashboard for debug 
 				
 		if(hasFollower) {
-			smartLog(smart, log, index++,motor.checkStickyFaults(motor, true));
-			smartLog(smart, log, index++,"" + motor.getOutputVoltage(true));
-			smartLog(smart, log, index++,"" + motor.getOutputCurrent(true));
+			smartLog(smart, log, index++, "" +motor.checkStickyFaults(motor, true));
+			smartLog(smart, log, index++, "" + motor.getOutputVoltage(true));
+			smartLog(smart, log, index++, "" + motor.getOutputCurrent(true));
 		}
 		smartLog(smart, log, index++, "" + motor.getTalonSpeed());
 		if(hasEncoder) {
-			smartLog(true, log, index++,"" + motor.getEncPos());
+			smartLog(true, log, index++, "" + motor.getEncPos());
 		}
     }
     

@@ -53,6 +53,6 @@ public class CG_AutoTest extends CommandGroup {
 //    	addSequential(new C_TestMotorEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, true, 10500, 4));
     	
     	// climber
-//    	addSequential(new C_TestMotorByTime(Robot.ss_Climber, Robot.ss_Climber.climberMotors, true, 2));
+    	addSequential(new C_TestMotorByTime(Robot.ss_Climber, Robot.ss_Climber.climberMotors, true, 2));
     }
 }

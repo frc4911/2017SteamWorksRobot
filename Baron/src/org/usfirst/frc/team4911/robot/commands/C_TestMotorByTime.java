@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class C_TestMotorByTime extends Command {
+	Subsystem subsystem;
+	
 	DefaultMotor talon;
 	double motorConst;
 	double encoderConst;
@@ -29,7 +31,8 @@ public class C_TestMotorByTime extends Command {
     public C_TestMotorByTime(Subsystem subsystem, DefaultMotor talon, boolean direction, double duration) {
         // Use requires() here to declare subsystem dependencies
     	requires(subsystem);
-        this.direction = direction;
+        this.subsystem = subsystem;
+    	this.direction = direction;
         this.talon = talon;
         this.duration = duration;
         
@@ -62,6 +65,8 @@ public class C_TestMotorByTime extends Command {
 		totalBV += talon.getOutputVoltage(false);
 		BVDataCount++;
 		SmartDashboard.putNumber("current draw "+ dir + " " + talon.getDescription(), talon.getOutputVoltage(false));
+		
+		Robot.ss_AutoTestStats.putData(subsystem, talon, direction, (endTime - Timer.getFPGATimestamp()));
     }
 
     // Make this return true when this Command no longer needs to run execute()

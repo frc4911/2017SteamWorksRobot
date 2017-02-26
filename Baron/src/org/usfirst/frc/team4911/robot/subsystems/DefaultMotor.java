@@ -282,5 +282,9 @@ public class DefaultMotor {
 	public String getDescription() {
 		return description;
 	}
+	
+	public boolean hasFollower() {
+		return motorPair;
+	}
 }
 
