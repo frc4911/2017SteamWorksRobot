@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class C_TestMotorEncoder extends Command {
+public class C_TestMotorByEncoder extends Command {
 	DefaultMotor talon;
 	double motorConst;
 	double encoderConst;
@@ -32,7 +32,7 @@ public class C_TestMotorEncoder extends Command {
 	double distTravelled;
 	double velocity;
 	
-    public C_TestMotorEncoder(Subsystem subsystem, DefaultMotor talon, boolean direction, double targetPos, double duration) {
+    public C_TestMotorByEncoder(Subsystem subsystem, DefaultMotor talon, boolean direction, double targetPos, double duration) {
         // Use requires() here to declare subsystem dependencies
         requires(subsystem);
         this.direction = direction;

@@ -30,22 +30,22 @@ public class CG_AutoTest extends CommandGroup {
         // arm.
     	
     	// drive train
-    	addSequential(new C_TestMotorEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, true, 10500, 2));
-    	addSequential(new C_TestMotorEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, true, 10500, 2));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, true, 10500, 2));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, true, 10500, 2));
     	
     	// fuel collector
-    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, true, 2));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, true, 2));
     	
     	// fuel hoppper
-    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, true, 2));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, true, 2));
 
     	// shooter feeder
-    	addSequential(new C_TestMotorEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.feederMotor, true, 10500, 4));
+//    	addSequential(new C_TestMotorEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.feederMotor, true, 10500, 4));
     	
     	// shooter flywheel
-    	addSequential(new C_TestMotorEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, true, 10500, 4));
+//    	addSequential(new C_TestMotorEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, true, 10500, 4));
     	
     	// climber
-    	addSequential(new C_TestMotorByTime(Robot.ss_Climber, Robot.ss_Climber.climberMotors, true, 2));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_Climber, Robot.ss_Climber.climberMotors, true, 2));
     }
 }
