@@ -2,6 +2,7 @@ package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
 import org.usfirst.frc.team4911.robot.commands.CG_FeedFuel;
+import org.usfirst.frc.team4911.robot.commands.CG_TestAutonomous;
 import org.usfirst.frc.team4911.robot.commands.C_CameraUpDown;
 import org.usfirst.frc.team4911.robot.commands.C_ShooterFeeder;
 import org.usfirst.frc.team4911.robot.commands.C_SpinFlywheel;
@@ -136,13 +137,13 @@ public class OI {
 		//rightBumper.whileHeld(new C_GearOnPeg());
 		
 		/********TestingStick*******/
-//		testCmd = new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true);
+		testCmd = new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true);
 //		kp = ?
 //		ticks = 10000
 //		testCmd = new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, true);
 //		kf = 1
 //		ticks = 300
-		testCmd = new C_TunePID(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, 1, 1, CANTalon.TalonControlMode.Position, false, false);
+//		testCmd = new C_TunePID(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, 1, 1, CANTalon.TalonControlMode.Position, false, false);
 		autoTest = new CG_AutoTest();
 		
 		//kp 1.5 to 3.0
@@ -177,7 +178,9 @@ public class OI {
 
 		testBtnA.whenPressed(new C_TestSetMotorSpeed(false));
 		testBtnY.whenPressed(new C_TestSetMotorSpeed(true));
-		
+//		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));
+//		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
+		testBtnX.whileHeld(new CG_TestAutonomous());
 		testBtnSelect.whenPressed(new C_RunAutoTest());
 	}
 	//// CREATING BUTTONS
