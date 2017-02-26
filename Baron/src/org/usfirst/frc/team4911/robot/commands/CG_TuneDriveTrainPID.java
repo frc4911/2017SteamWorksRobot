@@ -30,6 +30,6 @@ public class CG_TuneDriveTrainPID extends CommandGroup {
         // arm.
     	
     	addParallel(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, true));
-    	addParallel(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, true));
+    	addParallel(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, 1024, 256, CANTalon.TalonControlMode.Speed, true, false));
     }
 }
