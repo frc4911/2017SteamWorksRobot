@@ -3,12 +3,20 @@ package org.usfirst.frc.team4911.robot.commands;
 import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class C_DriveByJoystick extends Command {
-
-    public C_DriveByJoystick() {
-        requires(Robot.ss_DriveTrain);
+	private boolean leftDriveTrain;
+	
+    public C_DriveByJoystick(Boolean leftDriveTrain) {
+        if(leftDriveTrain) {
+        	requires(Robot.ss_DriveTrainLeft);
+        } else {
+        	requires(Robot.ss_DriveTrainRight);
+        }
+        
+        this.leftDriveTrain = leftDriveTrain;
     }
 
     protected void initialize() {
@@ -19,13 +27,19 @@ public class C_DriveByJoystick extends Command {
     	
     	if (Robot.oi.stickR.getRawButton(2)){
     		// flip front to back
-        	Robot.ss_DriveTrain.leftMotors.spin(Robot.oi.stickR.getY());
-        	Robot.ss_DriveTrain.rightMotors.spin(Robot.oi.stickL.getY());
+    		if(leftDriveTrain) {
+    			Robot.ss_DriveTrainLeft.leftMotors.spin(Robot.oi.stickR.getY());
+    		} else {
+    			Robot.ss_DriveTrainRight.rightMotors.spin(Robot.oi.stickL.getY());
+    		}
     	}
     	else {
     		// normal
-        	Robot.ss_DriveTrain.leftMotors.spin(-Robot.oi.stickL.getY());
-        	Robot.ss_DriveTrain.rightMotors.spin(-Robot.oi.stickR.getY());
+    		if(leftDriveTrain) {
+    			Robot.ss_DriveTrainLeft.leftMotors.spin(-Robot.oi.stickL.getY());
+    		} else {
+    			Robot.ss_DriveTrainRight.rightMotors.spin(-Robot.oi.stickR.getY());
+    		}
     	}    	
     }
 
@@ -34,8 +48,11 @@ public class C_DriveByJoystick extends Command {
     }
 
     protected void end() {
-    	Robot.ss_DriveTrain.leftMotors.stop();
-    	Robot.ss_DriveTrain.rightMotors.stop();
+    	if(leftDriveTrain) {
+    		Robot.ss_DriveTrainLeft.leftMotors.stop();
+		} else {
+			Robot.ss_DriveTrainRight.rightMotors.stop();
+		}
     }
 
     protected void interrupted() {

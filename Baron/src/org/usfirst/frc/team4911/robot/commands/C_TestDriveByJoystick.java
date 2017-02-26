@@ -8,7 +8,7 @@ public class C_TestDriveByJoystick extends Command {
 
     public C_TestDriveByJoystick() {
         requires(Robot.ss_Climber);
-        requires(Robot.ss_DriveTrain);
+        requires(Robot.ss_DriveTrainLeft);
         requires(Robot.ss_FuelCollector);
         requires(Robot.ss_FuelHopper);
         requires(Robot.ss_FuelShooter);

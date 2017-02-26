@@ -1,20 +1,7 @@
 
 package org.usfirst.frc.team4911.robot;
 
-import org.usfirst.frc.team4911.robot.subsystems.SS_FuelHopper;
-import org.usfirst.frc.team4911.robot.subsystems.SS_FuelShooter;
-import org.usfirst.frc.team4911.robot.subsystems.SS_GearIntake;
-import org.usfirst.frc.team4911.robot.subsystems.SS_Climber;
-import org.usfirst.frc.team4911.robot.subsystems.ConfigFile;
-import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrain;
-import org.usfirst.frc.team4911.robot.subsystems.SS_FuelCollector;
-import org.usfirst.frc.team4911.robot.subsystems.SS_GearLift;
-import org.usfirst.frc.team4911.robot.subsystems.LoggingEngine;
-import org.usfirst.frc.team4911.robot.subsystems.SS_AutoTestStats;
-import org.usfirst.frc.team4911.robot.subsystems.SS_Camera;
-import org.usfirst.frc.team4911.robot.subsystems.SS_NAVX;
-import org.usfirst.frc.team4911.robot.subsystems.SS_TestMotor;
-import org.usfirst.frc.team4911.robot.subsystems.Logger;
+import org.usfirst.frc.team4911.robot.subsystems.*;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -37,7 +24,8 @@ public class Robot extends IterativeRobot {
 	public static ConfigFile ss_Config = new ConfigFile();
 	
 	public static SS_Climber ss_Climber = null;
-	public static SS_DriveTrain ss_DriveTrain = null;
+	public static SS_DriveTrainLeft ss_DriveTrainLeft = null;
+	public static SS_DriveTrainRight ss_DriveTrainRight = null;
 	public static SS_FuelCollector ss_FuelCollector = null;
 	public static SS_FuelHopper ss_FuelHopper = null;
 	public static SS_FuelShooter ss_FuelShooter = null;
@@ -68,7 +56,8 @@ public class Robot extends IterativeRobot {
 		ss_Config = new ConfigFile();
 		
 		ss_Climber = new SS_Climber();
-		ss_DriveTrain = new SS_DriveTrain();
+		ss_DriveTrainLeft = new SS_DriveTrainLeft();
+		ss_DriveTrainRight = new SS_DriveTrainRight();
 		ss_FuelCollector = new SS_FuelCollector();
 		ss_FuelHopper = new SS_FuelHopper();
 		ss_FuelShooter = new SS_FuelShooter();
