@@ -14,18 +14,19 @@ public class CollectData implements Runnable {
 	}
 	
 	public void run(){
-		String ip = "10.49.11.25";
+		String ip = "10.49.11.84";
 		String tableName = "SmartDashboard";
 		
 		NetworkTable.setClientMode();
 		NetworkTable.setIPAddress(ip);
 		NetworkTable table = NetworkTable.getTable(tableName);
+		
 		double last = 0;
 		int counter=0;
 		
 		while (keepGoing){
 			try { Thread.sleep(100); } catch (InterruptedException e) {}
-			speedRPM = table.getNumber("encoder speed (RPM)2",-999);
+//			speedRPM = table.getNumber("encoder speed (RPM)2",-999);
 			
 //			if (speedRPM == last){
 //				counter++;

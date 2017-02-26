@@ -24,7 +24,7 @@ public class C_TestDriveByJoystick extends Command {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
     	//invert Y so forward is positive
-    	Robot.ss_TestMotor.runMotor(-Robot.oi.autoTestStick.getY());
+    	Robot.ss_TestMotor.runMotor(-Robot.oi.autoTestGamepad.getRawAxis(1));
     }
 
     protected boolean isFinished() {

@@ -6,7 +6,7 @@ public class SS_ConfigTest extends SubsystemTestBase {
 
 	@Test
 	public void test() {
-		SS_Config config = new SS_Config();
+//		SS_Config config = new SS_Config();
 		// Config test code here
 	}
 

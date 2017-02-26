@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class C_HopperSpin extends Command {
 
-	double speed = .7;
+	double speed = 1;
 	
     public C_HopperSpin(boolean direction) {
         requires(Robot.ss_FuelHopper);
@@ -19,6 +19,7 @@ public class C_HopperSpin extends Command {
     }
 
     protected void execute() {
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	Robot.ss_FuelHopper.hopperMotor.spin(speed);
     }
 

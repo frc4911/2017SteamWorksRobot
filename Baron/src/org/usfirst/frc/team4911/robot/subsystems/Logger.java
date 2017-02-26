@@ -124,7 +124,7 @@ public class Logger extends Subsystem {
 		gPotIndex = Robot.ss_Logging.addColumn(" gearPotentiometer");
 		
 		// climber
-    	climberStartIndex = addMotorIndices(Robot.ss_Climber.climberMotor.getDescription(), false, false);
+    	climberStartIndex = addMotorIndices(Robot.ss_Climber.climberMotors.getDescription(), false, false);
 		
 		navXStartIndex = addNAVXIndices();
     }
@@ -187,7 +187,7 @@ public class Logger extends Subsystem {
     		logDefaultMotor(Robot.ss_GearLift.gearLiftMotor, false, false, gLiftStartIndex);
     		smartLog(true, true, gPotIndex, ""+Robot.ss_GearLift.getGearLiftPot());
     		// climber
-    		logDefaultMotor(Robot.ss_Climber.climberMotor, false, false, climberStartIndex);
+    		logDefaultMotor(Robot.ss_Climber.climberMotors, false, false, climberStartIndex);
     		
     		//logNAVX(navXStartIndex);
     		// flush

@@ -22,10 +22,12 @@ import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 //import edu.wpi.first.wpilibj.networktables.*;
 
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+
 // be sure to copy opencv_ffmpegxxx_64 to c:\windows\system32 or "new VideoCapture()" will fail for ip cameras (local webcam works fine w/o it).
 
 public class CameraRun {
-	int camNum = 0;
+	final int camNum = 0;
 	
 	VideoCapture camera;
 	Mat mat;
@@ -43,21 +45,21 @@ public class CameraRun {
 //	NetworkTable table;
 			
 	public void CameraFirstInit()
-	{
+	{		
 		frame = new JFrame("Dog's Eyes <o> . <o>");
 		label = new JLabel();
 		buffImg = null;
 	}
 	
 	public void CameraInit()
-	{
+	{		
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		
 		System.out.println(streamAddress);
 		
 //		camera = new VideoCapture(streamAddress);//0 - USB Cam....?
-		camera = new VideoCapture(camNum);
-		//camera = new VideoCapture(0);
+//		camera = new VideoCapture(camNum);
+		camera = new VideoCapture(0);
 		if (camera.isOpened())
 			System.out.println("found camera");
 		else
@@ -74,6 +76,17 @@ public class CameraRun {
 //			System.out.println("did not find SmartDashboard");
 	}
 
+	NetworkTable table;
+	
+	public void netTable() {
+		String ip = "10.49.11.84";
+		String tableName = "SmartDashboard";
+
+		NetworkTable.setClientMode();
+		NetworkTable.setIPAddress(ip);
+		table = NetworkTable.getTable(tableName);
+	}
+	
 	public void run()
 	{
 		if (camera.isOpened())
@@ -82,6 +95,8 @@ public class CameraRun {
 			camera.read(mat);
 			updateJFrame(mat);
 
+			netTable();
+			
 //			try
 //			{
 //				new File("C:\\2016CameraImages").mkdir();
@@ -95,9 +110,13 @@ public class CameraRun {
 			frame.setVisible(true);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
+			int calebNum = 0;
+			
 			boolean badMat = false;
 			while (true)
 			{
+				table.putNumber("Calebs Number", calebNum++);
+				
 				if (camera.isOpened())
 				{
 					try
@@ -133,7 +152,7 @@ public class CameraRun {
 	{
 //		frame.remove(label);//not sure this is needed?
 		buffImg = getUsableImage(Mat);
-		
+
 		image = new ImageIcon(buffImg);
 		label.setIcon(image);
 		frame.add(label);
@@ -152,16 +171,16 @@ public class CameraRun {
 	    return modifyImage(image);
 	}
 	
-	//Constants for image converting
-	Color newColor = new Color(200, 0, 200);
+	//Constants for image converting	
+	final int red = 80;
+	final int green = 245;
+	final int blue = 125;
 	
-	int red = 80;
-	int green = 245;
-	int blue = 125;
+	final int threshold = 10;
 	
-	int threshold = 10;
+	final int numBoxes = 12;
 	
-//	ArrayList<Box> boxes = new ArrayList(10);
+	//	ArrayList<Box> boxes = new ArrayList(10);
 	
 	public static BufferedImage testBox(BufferedImage img) {
 		for(int y = 20; y < 30; y++) {
@@ -179,9 +198,8 @@ public class CameraRun {
 					
 		int[] rgbArray = new int[width * height];
 		rgbArray = img.getRGB(0, 0, width, height, rgbArray, 0, width);	
-		
 
-		for(int numBoxes = 0; numBoxes < 2; numBoxes++) {
+		for(int numBoxes = 0; numBoxes < numBoxes; numBoxes++) {
 			
 			Box currBox = new Box(width, height);
 			int validStartX = -1;
@@ -233,20 +251,25 @@ public class CameraRun {
 			}
 			
 			img = currBox.drawBox(img);
-			
 			drawBox(rgbArray, currBox, width);	
 			
 		}
-		// have the for loop for the number of boxes end here
 		
 		return img;
 	}
 		
 	public void drawBox(int[] rgbArray, Box box, int imgWidth) {
 		int i = 0;
-		for(int y = box.getTopY(); y < box.getBottomY(); y++) {
+		
+		int top = box.getTopY();
+		int bottom = box.getBottomY();
+		
+		int[] leftX = box.getLeftX();
+		int[] rightX = box.getRightX();
+		
+		for(int y = top; y < bottom; y++) {
 			int row = y * imgWidth;
-			for(int x = box.getLeftX(i); x < box.getRightX(i); x++) {
+			for(int x = leftX[i]; x < rightX[i]; x++) {
 				rgbArray[row + x] = 0;
 			}
 			i++;
