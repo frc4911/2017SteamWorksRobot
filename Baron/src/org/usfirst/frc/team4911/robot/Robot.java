@@ -89,6 +89,9 @@ public class Robot extends IterativeRobot {
 		cameraManager();
 		//updateSDForPIDTuning();
 		ss_Config.updateConfigFile("/c/config.txt");
+		
+		oi.testDriveJoystick.start();
+		oi.testDriveSet.start();
 	}
 	
 	private void cameraManager() {
