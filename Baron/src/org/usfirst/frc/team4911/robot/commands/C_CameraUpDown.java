@@ -4,39 +4,40 @@ import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
 public class C_CameraUpDown extends Command {
 
-	double angle = 95;
-	
-    public C_CameraUpDown(boolean moveUp) {
+    public C_CameraUpDown() {
         requires(Robot.ss_Camera);
-        if (moveUp)
-        	angle = 130;
     }
 
-    // Called just before this Command runs the first time
     protected void initialize() {
     }
 
-    // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_Camera.setAngle(angle);
+        final double bump = 2;
+        
+    	int povPosition = Robot.oi.stickR.getPOV(0);
+    	
+    	if (povPosition < 0)
+    		return;
+    	// 0 is at top 
+    	if((povPosition > 270)||(povPosition < 90)){
+    		//move up
+        	Robot.ss_Camera.setPosition(Robot.ss_Camera.getPosition()+bump);
+    	}
+    	else{
+    		// move dn
+        	Robot.ss_Camera.setPosition(Robot.ss_Camera.getPosition()-bump);
+    	}
     }
 
-    // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;
     }
 
-    // Called once after isFinished returns true
     protected void end() {
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     protected void interrupted() {
     	end();
     }

@@ -33,24 +33,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	public final static ConfigFile ss_Config = new ConfigFile();
+	public static ConfigFile ss_Config = new ConfigFile();
 	
-	public final static SS_Climber ss_Climber = new SS_Climber();
-	public final static SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
-	public final static SS_FuelCollector ss_FuelCollector = new SS_FuelCollector();
-	public final static SS_FuelHopper ss_FuelHopper = new SS_FuelHopper();
-	public final static SS_FuelShooter ss_FuelShooter = new SS_FuelShooter();
-	public final static SS_GearIntake ss_GearIntake = new SS_GearIntake();
-	public final static SS_GearLift ss_GearLift = new SS_GearLift();
-	public final static SS_Camera ss_Camera = new SS_Camera();
+	public static SS_Climber ss_Climber = null;
+	public static SS_DriveTrain ss_DriveTrain = null;
+	public static SS_FuelCollector ss_FuelCollector = null;
+	public static SS_FuelHopper ss_FuelHopper = null;
+	public static SS_FuelShooter ss_FuelShooter = null;
+	public static SS_GearIntake ss_GearIntake = null;
+	public static SS_GearLift ss_GearLift = null;
+	public static SS_Camera ss_Camera = null;
 	
-	public final static SS_TestMotor ss_TestMotor = new SS_TestMotor();
+	public static SS_TestMotor ss_TestMotor = null;
 	
-	public final static SS_NAVX ss_NAVX = null;//new SS_NAVX();
+	public static SS_NAVX ss_NAVX = null;
 	
 	// all subsystems must be created before logging
-	public final static LoggingEngine ss_Logging = new LoggingEngine();
-	public final static Logger ss_UpdateLog = new Logger();
+	public static LoggingEngine ss_Logging = null;
+	public static Logger ss_UpdateLog = null;
 	
 	public static OI oi;
 
@@ -63,6 +63,22 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		ConfigFile ss_Config = new ConfigFile();
+		
+		SS_Climber ss_Climber = new SS_Climber();
+		SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
+		SS_FuelCollector ss_FuelCollector = new SS_FuelCollector();
+		SS_FuelHopper ss_FuelHopper = new SS_FuelHopper();
+		SS_FuelShooter ss_FuelShooter = new SS_FuelShooter();
+		SS_GearIntake ss_GearIntake = new SS_GearIntake();
+		SS_GearLift ss_GearLift = new SS_GearLift();
+		SS_Camera ss_Camera = new SS_Camera();
+		
+		SS_TestMotor ss_TestMotor = new SS_TestMotor();
+		
+		//ss_NAVX = new SS_NAVX();
+		ss_Logging = new LoggingEngine();
+		ss_UpdateLog = new Logger();
 		oi = new OI();
 		//chooser.addDefault("Default Auto", <insert command here>);
 		// chooser.addObject("My Auto", new MyAutoCommand());
