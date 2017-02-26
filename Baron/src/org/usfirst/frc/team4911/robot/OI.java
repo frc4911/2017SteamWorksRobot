@@ -2,6 +2,7 @@ package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
 import org.usfirst.frc.team4911.robot.commands.CG_FeedFuel;
+import org.usfirst.frc.team4911.robot.commands.C_CameraUpDown;
 import org.usfirst.frc.team4911.robot.commands.C_ShooterFeeder;
 import org.usfirst.frc.team4911.robot.commands.C_SpinFlywheel;
 import org.usfirst.frc.team4911.robot.commands.C_FuelCollect;
@@ -63,6 +64,7 @@ public class OI {
 	JoystickButton testBtn5 = new JoystickButton(autoTestStick, 5);
 	JoystickButton testBtn6 = new JoystickButton(autoTestStick, 6);
 	JoystickButton testBtn7 = new JoystickButton(autoTestStick, 7);
+	JoystickButton testBtn8 = new JoystickButton(autoTestStick, 8);
 	JoystickButton testBtn11 = new JoystickButton(autoTestStick, 11);
 	JoystickButton testBtn12 = new JoystickButton(autoTestStick, 12);
 	
@@ -134,6 +136,9 @@ public class OI {
 		// change the motor speed
 		testBtn3.whenPressed(new C_TestSetMotorSpeed(false));
 		testBtn4.whenPressed(new C_TestSetMotorSpeed(true));
+
+//		testBtn7.whenPressed(new C_CameraUpDown(false));
+//		testBtn8.whenPressed(new C_CameraUpDown(true));
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
