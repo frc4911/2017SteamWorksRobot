@@ -17,8 +17,8 @@ public class SS_GearLift extends Subsystem {
 	
 	int tPortLift = 5;
 	
-	final double lowPotValue = 105.0;
-	public final double topPotValue = 495.0;
+	final double lowPotValue = 652.0;
+	public final double topPotValue = 1023.0;
 	
 	AnalogInput gearPot = new AnalogInput(0);
 

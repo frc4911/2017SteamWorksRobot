@@ -2,6 +2,7 @@ package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
 import org.usfirst.frc.team4911.robot.commands.CG_FeedFuel;
+import org.usfirst.frc.team4911.robot.commands.C_CameraUpDown;
 import org.usfirst.frc.team4911.robot.commands.C_ShooterFeeder;
 import org.usfirst.frc.team4911.robot.commands.C_SpinFlywheel;
 import org.usfirst.frc.team4911.robot.commands.C_FuelCollect;
@@ -54,20 +55,21 @@ public class OI {
 	JoystickButton rightBumper = new JoystickButton(opGamepad, 6);
 	
 	/**********Testing**********/
-//	public Joystick autoTestStick = new Joystick(3);
-//	
-//	JoystickButton testBtn1 = new JoystickButton(autoTestStick, 1);
-//	JoystickButton testBtn2 = new JoystickButton(autoTestStick, 2);
-//	JoystickButton testBtn3 = new JoystickButton(autoTestStick, 3);
-//	JoystickButton testBtn4 = new JoystickButton(autoTestStick, 4);
-//	JoystickButton testBtn5 = new JoystickButton(autoTestStick, 5);
-//	JoystickButton testBtn6 = new JoystickButton(autoTestStick, 6);
-//	JoystickButton testBtn7 = new JoystickButton(autoTestStick, 7);
-//	JoystickButton testBtn11 = new JoystickButton(autoTestStick, 11);
-//	JoystickButton testBtn12 = new JoystickButton(autoTestStick, 12);
+//	public Joystick autoTestStick = new Joystick(3);	
+
+//	JoystickButton testStickBtn1 = new JoystickButton(autoTestStick, 1);
+//	JoystickButton testStickBtn2 = new JoystickButton(autoTestStick, 2);
+//	JoystickButton testStickBtn3 = new JoystickButton(autoTestStick, 3);
+//	JoystickButton testStickBtn4 = new JoystickButton(autoTestStick, 4);
+//	JoystickButton testStickBtn5 = new JoystickButton(autoTestStick, 5);
+//	JoystickButton testStickBtn6 = new JoystickButton(autoTestStick, 6);
+//	JoystickButton testStickBtn7 = new JoystickButton(autoTestStick, 7);
+//	JoystickButton testStickBtn11 = new JoystickButton(autoTestStick, 11);
+//	JoystickButton testStickBtn12 = new JoystickButton(autoTestStick, 12);
 	
 	public Joystick autoTestGamepad = new Joystick(3);
 	
+
 	JoystickButton testBtnA = new JoystickButton(autoTestGamepad, 1);
 	JoystickButton testBtnB = new JoystickButton(autoTestGamepad, 2);
 	JoystickButton testBtnX = new JoystickButton(autoTestGamepad, 3);
@@ -131,7 +133,7 @@ public class OI {
 		
 		//rightBumper.whileHeld(new C_GearOnPeg());
 		
-		/**********Testing**********/
+		/********TestingStick*******/
 //		testCmd = new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true);
 //		kp = ?
 //		ticks = 10000
@@ -140,6 +142,22 @@ public class OI {
 //		ticks = 300
 		testCmd = new C_TunePID(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, 1, 1, CANTalon.TalonControlMode.Position, false, false);
 		//kp 1.5 to 3.0
+
+//		testStickBtn11.whileHeld(testCmd);
+//		
+//		//testBtn7.whenReleased(new CG_AutoTest());
+//		
+//		testStickBtn1.whileHeld(new C_TestDriveByJoystick());
+//		testStickBtn2.whileHeld(new C_TestDriveBySet());
+//		
+//		// change the talon num
+//		testStickBtn5.whenPressed(new C_TestSetTalonNum(false));
+//		testStickBtn6.whenPressed(new C_TestSetTalonNum(true));
+//		
+//		// change the motor speed
+//		testStickBtn3.whenPressed(new C_TestSetMotorSpeed(false));
+//		testStickBtn4.whenPressed(new C_TestSetMotorSpeed(true));
+		
 		//testBtn11.whileHeld(testCmd);
 		
 		//testBtn7.whenReleased(new CG_AutoTest());
@@ -152,8 +170,11 @@ public class OI {
 		testRightBumper.whenPressed(new C_TestSetTalonNum(true));
 		
 		// change the motor speed
+
 		testBtnA.whenPressed(new C_TestSetMotorSpeed(false));
 		testBtnY.whenPressed(new C_TestSetMotorSpeed(true));
+		
+		testBtnStart.whenPressed(new CG_AutoTest());
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
