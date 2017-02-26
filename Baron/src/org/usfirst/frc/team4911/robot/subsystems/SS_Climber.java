@@ -5,13 +5,7 @@ import org.usfirst.frc.team4911.robot.commands.C_ClimberUp;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- *
- */
 public class SS_Climber extends Subsystem {
-
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 	
 	int tPortClimber = 11;
 	int tPortClimberF = 20;
