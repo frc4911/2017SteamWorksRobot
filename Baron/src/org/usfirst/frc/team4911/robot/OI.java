@@ -2,6 +2,7 @@ package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
 import org.usfirst.frc.team4911.robot.commands.CG_FeedFuel;
+import org.usfirst.frc.team4911.robot.commands.C_CameraUpDown;
 import org.usfirst.frc.team4911.robot.commands.C_ShooterFeeder;
 import org.usfirst.frc.team4911.robot.commands.C_SpinFlywheel;
 import org.usfirst.frc.team4911.robot.commands.C_FuelCollect;
@@ -69,6 +70,7 @@ public class OI {
 	
 	public Joystick autoTestGamepad = new Joystick(3);
 	
+
 	JoystickButton testBtnA = new JoystickButton(autoTestGamepad, 1);
 	JoystickButton testBtnB = new JoystickButton(autoTestGamepad, 2);
 	JoystickButton testBtnX = new JoystickButton(autoTestGamepad, 3);
@@ -172,6 +174,7 @@ public class OI {
 		testRightBumper.whenPressed(new C_TestSetTalonNum(true));
 		
 		// change the motor speed
+
 		testBtnA.whenPressed(new C_TestSetMotorSpeed(false));
 		testBtnY.whenPressed(new C_TestSetMotorSpeed(true));
 		
