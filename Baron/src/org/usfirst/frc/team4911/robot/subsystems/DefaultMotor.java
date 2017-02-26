@@ -19,6 +19,7 @@ public class DefaultMotor {
 	private CANTalonPID pid = null;
 	private double constant;
 	private boolean motorPair;
+	private boolean motorTriplet;
 	private double upLimit;
 	private double lowLimit;
 	private double powLimit;
@@ -71,7 +72,7 @@ public class DefaultMotor {
 		this.fTalon = new CANTalon(TPortF);
 		this.fTalon2 = new CANTalon(TPortF2);
 		
-		motorPair = true;
+		motorTriplet = true;
 		
 		this.fTalon.changeControlMode(TalonControlMode.Follower);
 		this.fTalon.set(TPort);
@@ -153,10 +154,13 @@ public class DefaultMotor {
 	}
 	
 	public void setBrakeMode(boolean set) {
-		if(motorPair) {
+		if(motorTriplet) {
 			talon.enableBrakeMode(set);
 			fTalon.enableBrakeMode(set);
 			fTalon2.enableBrakeMode(set);
+		} else if(motorPair) {
+			talon.enableBrakeMode(set);
+			fTalon.enableBrakeMode(set);
 		}
 		else {
 			talon.enableBrakeMode(set);

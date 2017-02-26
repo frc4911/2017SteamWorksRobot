@@ -9,6 +9,7 @@ import org.usfirst.frc.team4911.robot.commands.C_FuelCollect;
 import org.usfirst.frc.team4911.robot.commands.C_GearInOut;
 import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
 import org.usfirst.frc.team4911.robot.commands.C_MoveToEncPos;
+import org.usfirst.frc.team4911.robot.commands.C_RunAutoTest;
 import org.usfirst.frc.team4911.robot.commands.C_GearLiftLower;
 import org.usfirst.frc.team4911.robot.commands.C_GearSpit;
 import org.usfirst.frc.team4911.robot.commands.C_HopperSpin;
@@ -74,8 +75,8 @@ public class OI {
 	JoystickButton testBtnB = new JoystickButton(autoTestGamepad, 2);
 	JoystickButton testBtnX = new JoystickButton(autoTestGamepad, 3);
 	JoystickButton testBtnY = new JoystickButton(autoTestGamepad, 4);
-	JoystickButton testBtnStart = new JoystickButton(autoTestGamepad, 8);
-	JoystickButton testBtnSelect = new JoystickButton(autoTestGamepad, 7);
+	public JoystickButton testBtnStart = new JoystickButton(autoTestGamepad, 8);
+	public JoystickButton testBtnSelect = new JoystickButton(autoTestGamepad, 7);
 	JoystickButton testLeftBumper = new JoystickButton(autoTestGamepad, 5);
 	JoystickButton testRightBumper = new JoystickButton(autoTestGamepad, 6);
 	
@@ -87,6 +88,7 @@ public class OI {
 	public Command testDriveJoystick;
 	public Command testDriveSet;
 	public Command testCmd;
+	public Command autoTest;
 	
 	public OI() {
 		/*******DriveJoysticks******/
@@ -141,6 +143,8 @@ public class OI {
 //		kf = 1
 //		ticks = 300
 		testCmd = new C_TunePID(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, 1, 1, CANTalon.TalonControlMode.Position, false, false);
+		autoTest = new CG_AutoTest();
+		
 		//kp 1.5 to 3.0
 
 //		testStickBtn11.whileHeld(testCmd);
@@ -174,7 +178,7 @@ public class OI {
 		testBtnA.whenPressed(new C_TestSetMotorSpeed(false));
 		testBtnY.whenPressed(new C_TestSetMotorSpeed(true));
 		
-		testBtnStart.whenPressed(new CG_AutoTest());
+		testBtnSelect.whenPressed(new C_RunAutoTest());
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
