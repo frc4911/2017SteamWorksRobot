@@ -86,7 +86,7 @@ public class C_TestMotorByEncoder extends Command {
 		SmartDashboard.putNumber("current draw "+ dir + " " + talon.getDescription(), talon.getOutputVoltage(false));
 		SmartDashboard.putNumber("curr pos " + dir + " " + talon.getDescription(), talon.getEncPos());
 		
-		Robot.ss_AutoTestStats.putData(subsystem, talon, direction, targetPos, encError, (endTime - Timer.getFPGATimestamp()));
+		Robot.ss_AutoTestStats.putData(subsystem, talon, direction, targetPos, encError);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -109,7 +109,7 @@ public class C_TestMotorByEncoder extends Command {
     protected void end() {
     	talon.stop();
     	
-    	Robot.ss_AutoTestStats.smartCompletion(hitTarget);
+    	Robot.ss_AutoTestStats.smartCompletion(hitTarget, (endTime - Timer.getFPGATimestamp()));
     	
     	//ticks/millisecond
     	velocity = ((distTravelled) / ((realEndTime - startTime) * 1000));

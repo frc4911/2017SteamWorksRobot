@@ -34,11 +34,16 @@ public class SS_AutoTestStats extends Subsystem {
     	// TODO: this is not a Subsystem
     }
     
-    public void smartCompletion(boolean hitTarget) {
-    	smart("HitTarget" + desc, "" + hitTarget);
+    public void smartCompletion(boolean hitTarget, double timeOut) {
+    	smart("HitTarget " + desc, "" + hitTarget);
+    	smart("TimeOut " + desc, "" + timeOut);
     }
     
-    public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction, double targetPos, double encError, double timeOut) {
+    public void smartCompletion(double timeOut) {
+    	smart("TimeOut " + desc, "" + timeOut);
+    }
+    
+    public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction, double targetPos, double encError) {
     	this.subsystem = subsystem;
     	this.talon = talon;
     	
@@ -50,12 +55,10 @@ public class SS_AutoTestStats extends Subsystem {
     	this.targetPos = targetPos;
     	this.encError = encError;
     	
-    	this.timeOut = timeOut;
-    	
     	displaySmart();
     }
     
-    public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction, double timeOut) {
+    public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction) {
     	this.subsystem = subsystem;
     	this.talon = talon;
     	
@@ -64,8 +67,6 @@ public class SS_AutoTestStats extends Subsystem {
     	this.direction = direction;
     	
     	this.hasEncoder = false;
-    	
-    	this.timeOut = timeOut;
     	
     	displaySmart();
     }
