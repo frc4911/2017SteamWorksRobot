@@ -23,13 +23,12 @@ import org.usfirst.frc.team4911.robot.commands.C_TriggerWhenPressed;
 import org.usfirst.frc.team4911.robot.commands.C_TriggerWhileHeld;
 import org.usfirst.frc.team4911.robot.commands.C_TunePID;
 
+import org.usfirst.frc.team4911.robot.commands.*;
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -145,9 +144,10 @@ public class OI {
 //		ticks = 300
 //		testCmd = new C_TunePID(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, 1, 1, CANTalon.TalonControlMode.Position, false, false);
 		autoTest = new CG_AutoTest();
-		
 		//kp 1.5 to 3.0
-
+		
+//		testBtnStart.whileHeld(new CG_TuneDriveTrainPID());
+		
 //		testStickBtn11.whileHeld(testCmd);
 //		
 //		//testBtn7.whenReleased(new CG_AutoTest());
@@ -181,7 +181,12 @@ public class OI {
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
 		testBtnX.whileHeld(new CG_TestAutonomous());
+		
+		// autoTest
+		// to use auto test, hold the start button and press the select button
+
 		testBtnSelect.whenPressed(new C_RunAutoTest());
+		testBtnSelect.whenReleased(new C_StopCommand(autoTest));
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a

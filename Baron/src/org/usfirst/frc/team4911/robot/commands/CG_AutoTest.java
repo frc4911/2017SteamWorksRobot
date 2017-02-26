@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class CG_AutoTest extends CommandGroup {
+	private final double timeOut = 2;
+	
     public CG_AutoTest() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
@@ -30,14 +32,19 @@ public class CG_AutoTest extends CommandGroup {
         // arm.
     	
     	// drive train
-    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, true, 10500, 2));
-    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, true, 10500, 2));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, true, 5000, timeOut));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, false, -5000, timeOut));
+    	
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, true, -5000, timeOut));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, false, 5000,timeOut));
     	
     	// fuel collector
-//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, true, 2));
+    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, true, timeOut));
+    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, false, timeOut));
     	
     	// fuel hoppper
-//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, true, 2));
+    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, true, timeOut));
+    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, false, timeOut));
 
     	// shooter feeder
 //    	addSequential(new C_TestMotorEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.feederMotor, true, 10500, 4));

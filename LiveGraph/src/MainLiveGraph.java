@@ -4,6 +4,7 @@ public class MainLiveGraph {
 	static CollectData cd;
 	static MinimalStaticChart msc;
 	static CameraRun camRun;
+	static GUI gui;
 	
 	public static void main(String[] args) {
 
@@ -14,9 +15,12 @@ public class MainLiveGraph {
 //		msc.init();
 //		(new Thread(msc)).start();
 		
-		camRun = new CameraRun();
-		camRun.CameraFirstInit();
-		camRun.CameraInit();
-		camRun.run();
+//		camRun = new CameraRun();
+//		camRun.CameraFirstInit();
+//		camRun.CameraInit();
+//		camRun.run();
+		
+		gui = new GUI();
+		gui.openWindow();
 	}
 }
