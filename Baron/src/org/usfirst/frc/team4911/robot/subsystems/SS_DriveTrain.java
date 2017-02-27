@@ -24,7 +24,7 @@ public class SS_DriveTrain extends Subsystem {
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new C_DriveByJoystick());
+        setDefaultCommand(new C_DriveByJoystick());
     }
 }
 

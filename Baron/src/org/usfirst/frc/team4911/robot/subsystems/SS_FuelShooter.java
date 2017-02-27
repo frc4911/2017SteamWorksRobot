@@ -18,14 +18,14 @@ public class SS_FuelShooter extends Subsystem {
 	int tPortShooterF2 = 20;
 	
 	public DefaultMotor feederMotor = new DefaultMotor(tPortFeeder, Robot.ss_Config.shooterFeederConst, "ShooterFeeder");
-	public DefaultMotor shooterMotors = new DefaultMotor(tPortShooter, tPortShooterF, tPortShooterF2, Robot.ss_Config.shooterFlywheelConst, "ShooterFlywheel");
+	public DefaultMotor shooterMotors = new DefaultMotor(tPortShooter, tPortShooterF, Robot.ss_Config.shooterFlywheelConst, "ShooterFlywheel");
 
 	public SS_FuelShooter() {
 		shooterMotors.setPowLimit(0.7);
 		feederMotor.setPowLimit(0.7);
 		
-		shooterMotors.enablePowLimit(false);
-		feederMotor.enablePowLimit(false);
+		shooterMotors.enablePowLimit(true);
+		feederMotor.enablePowLimit(true);
 	}
 	
     public void initDefaultCommand() {

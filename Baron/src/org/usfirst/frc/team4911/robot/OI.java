@@ -15,7 +15,6 @@ import org.usfirst.frc.team4911.robot.commands.C_GearLiftLower;
 import org.usfirst.frc.team4911.robot.commands.C_GearSpit;
 import org.usfirst.frc.team4911.robot.commands.C_HopperSpin;
 import org.usfirst.frc.team4911.robot.commands.C_StopCommand;
-import org.usfirst.frc.team4911.robot.commands.C_TestDriveByJoystick;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetMotorSpeed;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetTalonNum;
@@ -85,8 +84,8 @@ public class OI {
 	public Command flywheel;
 	public Command stopFlywheel;
 	
-	public Command testDriveJoystick;
-	public Command testDriveSet;
+//	public Command testDriveJoystick;
+//	public Command testDriveSet;
 	public Command testCmd;
 	public Command autoTest;
 	
@@ -167,8 +166,8 @@ public class OI {
 		
 		//testBtn7.whenReleased(new CG_AutoTest());
 		
-		testDriveJoystick = new C_TriggerWhileHeld(new C_TestDriveByJoystick(), autoTestGamepad, false);
-		testDriveSet = new C_TriggerWhileHeld(new C_TestDriveBySet(), autoTestGamepad, true);
+		//testDriveJoystick = new C_TriggerWhileHeld(new C_TestDriveByJoystick(), autoTestGamepad, false);
+		//testDriveSet =      new C_TriggerWhileHeld(new C_TestDriveBySet(),      autoTestGamepad, true);
 		
 		// change the talon num
 		testLeftBumper.whenPressed(new C_TestSetTalonNum(false));
@@ -177,10 +176,11 @@ public class OI {
 		// change the motor speed
 
 		testBtnA.whenPressed(new C_TestSetMotorSpeed(false));
+		testBtnB.whileHeld(new C_TestDriveOneMotorGroup());
 		testBtnY.whenPressed(new C_TestSetMotorSpeed(true));
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
-		testBtnX.whileHeld(new CG_TestAutonomous());
+//		testBtnX.whileHeld(new CG_TestAutonomous());
 		
 		// autoTest
 		// to use auto test, hold the start button and press the select button

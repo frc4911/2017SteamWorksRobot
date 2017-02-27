@@ -2,6 +2,7 @@ package org.usfirst.frc.team4911.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -31,11 +32,16 @@ public class C_TriggerWhileHeld extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
+    int counter=0;
     protected void execute() {
+    	SmartDashboard.putNumber("C_TriggerWhileHeld execute", counter++);
+    	SmartDashboard.putNumber("C_TriggerWhileHeld axis", gamepad.getRawAxis(axis));
     	if(gamepad.getRawAxis(axis) > TOLERANCE) {
     		cmd.start();
+        	SmartDashboard.putNumber("C_TriggerWhileHeld start", counter++);
     	} else if(cmd.isRunning()) {
     		cmd.cancel();
+        	SmartDashboard.putNumber("C_TriggerWhileHeld cancel", counter++);
     	}
     }
 
