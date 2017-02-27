@@ -1,13 +1,9 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
 import java.text.DecimalFormat;
-import java.util.Objects;
-
-import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -24,10 +20,10 @@ public class SS_AutoTestStats extends Subsystem {
 	double timeOut;
 	
 	NetworkTable table;
-	final String ip = "10.49.11.84";
-	final String tableName = "AutoTest";
+	final String IP = "10.49.11.84";
+	final String TABLENAME = "AutoTest";
 	
-	final DecimalFormat df = new DecimalFormat("#.####");
+	final DecimalFormat DF = new DecimalFormat("#.####");
 	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -38,8 +34,8 @@ public class SS_AutoTestStats extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
 
 //		NetworkTable.setClientMode();
-		NetworkTable.setIPAddress(ip);
-		table = NetworkTable.getTable(tableName);
+		NetworkTable.setIPAddress(IP);
+		table = NetworkTable.getTable(TABLENAME);
     	
     }
     
@@ -47,9 +43,11 @@ public class SS_AutoTestStats extends Subsystem {
     }
     
     public void smartCompletion(boolean hitTarget, double timeOut, double distTraveled) {
-		smart("DistTraveled " + desc, "" + df.format(distTraveled));
+		smart("DistTraveled " + desc, "" + DF.format(distTraveled));
     	smart("HitTarget " + desc, "" + hitTarget);
-    	smart("TimeOut " + desc, "" + df.format(timeOut));
+    	smart("TimeOut " + desc, "" + DF.format(timeOut));
+    	
+    	smart("done", "complete");
     }
     
     public void smartCompletion(double timeOut) {
@@ -77,8 +75,9 @@ public class SS_AutoTestStats extends Subsystem {
     
     private void displaySmart(DefaultMotor talon, boolean hasFollower, boolean hasEncoder) {
     	desc = talon.getDescription() + " " + direction;
-    	table.putString("Description", desc);
+    	table.putString("Descrition", desc);
 		smartDefaultMotor(talon, hasFollower, hasEncoder);
+		
     }
     
     private void smartDefaultMotor(DefaultMotor talon, boolean hasFollower, boolean hasEncoder) {
@@ -86,23 +85,23 @@ public class SS_AutoTestStats extends Subsystem {
     	
     	table.putBoolean("Direction", direction);
     	
-		smart("TalonValue " + desc, "" + df.format(talon.getTalonValue(false)));
+		smart("TalonValue " + desc, "" + DF.format(talon.getTalonValue(false)));
 		smart("StickyFaults " + desc, "" + talon.checkStickyFaults(talon, false));
-		smart("OutVolt " + desc, "" + df.format(talon.getOutputVoltage(false)));
-		smart("OutCurr " + desc, "" + df.format(talon.getOutputCurrent(false)));
+		smart("OutVolt " + desc, "" + DF.format(talon.getOutputVoltage(false)));
+		smart("OutCurr " + desc, "" + DF.format(talon.getOutputCurrent(false)));
 
 		if(hasFollower) {
 			smart("StickyFaults " + "f" + desc, "" + talon.checkStickyFaults(talon, true));
-			smart("OutVolt " + "f" + desc, "" + df.format(talon.getOutputVoltage(true)));
-			smart("OutCurr " + "f" + desc, "" + df.format(talon.getOutputCurrent(true)));
+			smart("OutVolt " + "f" + desc, "" + DF.format(talon.getOutputVoltage(true)));
+			smart("OutCurr " + "f" + desc, "" + DF.format(talon.getOutputCurrent(true)));
 		} // TODO: add null
 		
-		smart("TalonSpeed " + desc, "" + df.format(talon.getTalonSpeed()));
+		smart("TalonSpeed " + desc, "" + DF.format(talon.getTalonSpeed()));
 		
 		if(hasEncoder) {
-			smart("EncPos " + desc, "" + df.format(talon.getEncPos()));
-			smart("TargetPos " + desc, "" + df.format(targetPos));
-			smart("EncError " + desc, "" + df.format(encError));
+			smart("EncPos " + desc, "" + DF.format(talon.getEncPos()));
+			smart("TargetPos " + desc, "" + DF.format(targetPos));
+			smart("EncError " + desc, "" + DF.format(encError));
 		} // TODO: add null
     }
     

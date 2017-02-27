@@ -165,7 +165,6 @@ public class Robot extends IterativeRobot {
 		
 		oi.testDriveJoystick.start();
 		oi.testDriveSet.start();
-		
 	}
 
 	/**
