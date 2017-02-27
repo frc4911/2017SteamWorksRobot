@@ -18,7 +18,7 @@ public class SS_TestMotor extends Subsystem {
     double maxVoltage = 0;
     String maxVoltageStr = "maxVoltage";
     double minVoltage = 100;
-    String minVoltageStr = "min batery Voltage";
+    String minVoltageStr = "min battery Voltage";
     
     public SS_TestMotor(){
     	

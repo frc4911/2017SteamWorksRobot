@@ -78,9 +78,6 @@ public class Robot extends IterativeRobot {
 		cameraManager();
 		//updateSDForPIDTuning();
 		ss_Config.updateConfigFile("/c/config.txt");
-		
-		oi.testDriveJoystick.start();
-		oi.testDriveSet.start();
 	}
 	
 	private void cameraManager() {
@@ -99,20 +96,6 @@ public class Robot extends IterativeRobot {
 //        usbCamera.setResolution(640, 480);
 //        usbCamera.setResolution(1280, 720);
 	}
-	
-	private void updateSDForPIDTuning() {
-    	SmartDashboard.putNumber("Tuning PID Pos", 0); 
-		SmartDashboard.putNumber("Tuning kp", 0);
-		SmartDashboard.putNumber("Tuning kd", 0);
-		SmartDashboard.putNumber("Tuning ki", 0); 
-		SmartDashboard.putNumber("Tuning kf", 0); 
-		SmartDashboard.putNumber("Tuning rampRate", 0);
-		SmartDashboard.putNumber("Tuning iZone", 0);
-		SmartDashboard.putNumber("Tuning peakOutVolt", 0); 
-		SmartDashboard.putNumber("Tuning nominalOutVolt", 0);
-		SmartDashboard.putString("Tuning PID Type", "");
-		SmartDashboard.putBoolean("Tuning End PID",  false);
-    }
 
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
@@ -179,6 +162,9 @@ public class Robot extends IterativeRobot {
 		
 		oi.feeder.start();
 		oi.stopFlywheel.start();
+		
+		oi.testDriveJoystick.start();
+		oi.testDriveSet.start();
 		
 	}
 
