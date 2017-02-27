@@ -39,12 +39,12 @@ public class CG_AutoTest extends CommandGroup {
     	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, false, 5000,timeOut));
     	
     	// fuel collector
-    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, true, timeOut));
-    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, false, timeOut));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, true, timeOut));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, false, timeOut));
     	
     	// fuel hoppper
-    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, true, timeOut));
-    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, false, timeOut));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, true, timeOut));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, false, timeOut));
 
     	// shooter feeder
 //    	addSequential(new C_TestMotorEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.feederMotor, true, 10500, 4));

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 import org.usfirst.frc.team4911.robot.Robot;
@@ -26,6 +27,8 @@ public class SS_AutoTestStats extends Subsystem {
 	final String ip = "10.49.11.84";
 	final String tableName = "AutoTest";
 	
+	final DecimalFormat df = new DecimalFormat("#.####");
+	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -44,9 +47,9 @@ public class SS_AutoTestStats extends Subsystem {
     }
     
     public void smartCompletion(boolean hitTarget, double timeOut, double distTraveled) {
-		smart("DistTraveled " + desc, "" + distTraveled);
+		smart("DistTraveled " + desc, "" + df.format(distTraveled));
     	smart("HitTarget " + desc, "" + hitTarget);
-    	smart("TimeOut " + desc, "" + timeOut);
+    	smart("TimeOut " + desc, "" + df.format(timeOut));
     }
     
     public void smartCompletion(double timeOut) {
@@ -78,28 +81,28 @@ public class SS_AutoTestStats extends Subsystem {
     }
     
     private void smartDefaultMotor(DefaultMotor talon, boolean hasFollower, boolean hasEncoder) {
-    	smart("Current Subsystem", "" + subsystem.getName());
+    	smart("currSub", "" + subsystem.getName());
     	
-    	smart("Direction " + desc, "" + direction);
+    	table.putBoolean("Direction", direction);
     	
-		smart("TalonValue " + desc, "" + talon.getTalonValue(false));
+		smart("TalonValue " + desc, "" + df.format(talon.getTalonValue(false)));
 		smart("StickyFaults " + desc, "" + talon.checkStickyFaults(talon, false));
-		smart("OutVolt " + desc, "" + talon.getOutputVoltage(false));
-		smart("OutCurr " + desc, "" + talon.getOutputCurrent(false));
-				
+		smart("OutVolt " + desc, "" + df.format(talon.getOutputVoltage(false)));
+		smart("OutCurr " + desc, "" + df.format(talon.getOutputCurrent(false)));
+
 		if(hasFollower) {
 			smart("StickyFaults " + "f" + desc, "" + talon.checkStickyFaults(talon, true));
-			smart("OutVolt " + "f" + desc, "" + talon.getOutputVoltage(true));
-			smart("OutCurr " + "f" + desc, "" + talon.getOutputCurrent(true));
-		}
+			smart("OutVolt " + "f" + desc, "" + df.format(talon.getOutputVoltage(true)));
+			smart("OutCurr " + "f" + desc, "" + df.format(talon.getOutputCurrent(true)));
+		} // TODO: add null
 		
-		smart("TalonSpeed " + desc, "" + talon.getTalonSpeed());
+		smart("TalonSpeed " + desc, "" + df.format(talon.getTalonSpeed()));
 		
 		if(hasEncoder) {
-			smart("EncPos " + desc, "" + talon.getEncPos());
-			smart("TargetPos " + desc, "" + targetPos);
-			smart("EncError " + desc, "" + encError);
-		}
+			smart("EncPos " + desc, "" + df.format(talon.getEncPos()));
+			smart("TargetPos " + desc, "" + df.format(targetPos));
+			smart("EncError " + desc, "" + df.format(encError));
+		} // TODO: add null
     }
     
     private void smart(String key, String data) {

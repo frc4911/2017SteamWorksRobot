@@ -78,6 +78,8 @@ public class C_TestMotorByEncoder extends Command {
     				else {
     					talon.spin(-0.5);
     				}
+    				
+    				Robot.ss_AutoTestStats.putData(subsystem, talon, direction, targetPos, encError);
 		    	} else {
 		    		talon.stop();
 		    	}
@@ -88,7 +90,6 @@ public class C_TestMotorByEncoder extends Command {
 		SmartDashboard.putNumber("current draw "+ dir + " " + talon.getDescription(), talon.getOutputVoltage(false));
 		SmartDashboard.putNumber("curr pos " + dir + " " + talon.getDescription(), talon.getEncPos());
 		
-		Robot.ss_AutoTestStats.putData(subsystem, talon, direction, targetPos, encError);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -99,8 +100,8 @@ public class C_TestMotorByEncoder extends Command {
     	}
     	
 		distTraveled = talon.getEncPos();
-//		if(encError <= Math.abs(targetPos * 0.03)) {
-		if(Timer.getFPGATimestamp() < endTime) {
+		// 3% of error allowed
+		if((Math.abs(distTraveled) + (targetPos * 0.03)) >= targetPos) {
 			hitTarget = true;
 		} else {
 			hitTarget = false;
@@ -116,18 +117,11 @@ public class C_TestMotorByEncoder extends Command {
     	
     	String desc = talon.getDescription();
     	//ticks/millisecond
-    	velocity = ((distTraveled) / ((realEndTime - startTime) * 1000));
-    	SmartDashboard.putNumber("ave velocity " + dir + " " + desc, velocity);
-    	SmartDashboard.putNumber("dist " + dir + " " + desc, distTraveled);
+//    	velocity = ((distTraveled) / ((realEndTime - startTime) * 1000));
+//    	SmartDashboard.putNumber("ave velocity " + dir + " " + desc, velocity);
+//    	SmartDashboard.putNumber("dist " + dir + " " + desc, distTraveled);
     	
-    	//3% error allowed
-    	if((Math.abs(distTraveled) + (targetPos * 0.03)) >= targetPos) {
-    		SmartDashboard.putString(("dist reached " + dir + " " + desc), "yes");
-    	} else {
-    		SmartDashboard.putString(("dist reached " + dir + " " + desc), "no");
-    	}
-    	
-    	SmartDashboard.putNumber("ave curr draw " + dir + " " + desc, (totalBV / BVDataCount));
+//    	SmartDashboard.putNumber("ave curr draw " + dir + " " + desc, (totalBV / BVDataCount));
     }
 
     // Called when another command which requires one or more of the same
