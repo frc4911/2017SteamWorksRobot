@@ -20,7 +20,7 @@ public class C_ClimberUp extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double input = Robot.oi.opGamepad.getRawAxis(1);
+    	double input = -1 * Robot.oi.opGamepad.getRawAxis(1); //Thumbstick normally is inverted, reversing input by -1 *
     	if(input < 0) {
     		input = 0;
     	}

@@ -5,6 +5,7 @@ public class MainLiveGraph {
 	static MinimalStaticChart msc;
 	static CameraRun camRun;
 	static GUI gui;
+	static AutoTestData test;
 	
 	public static void main(String[] args) {
 
@@ -20,7 +21,10 @@ public class MainLiveGraph {
 //		camRun.CameraInit();
 //		camRun.run();
 		
-		gui = new GUI();
-		gui.openWindow();
+//		gui = new GUI();
+//		gui.openWindow();
+		
+		test = new AutoTestData();
+		test.run();
 	}
 }

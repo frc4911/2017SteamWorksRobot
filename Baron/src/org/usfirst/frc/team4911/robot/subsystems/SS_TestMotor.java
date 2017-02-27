@@ -20,18 +20,18 @@ public class SS_TestMotor extends Subsystem {
     double maxVoltage = 0;
     String maxVoltageStr = "maxVoltage";
     double minVoltage = 100;
-    String minVoltageStr = "min batery Voltage";
+    String minVoltageStr = "min battery Voltage";
     
     public SS_TestMotor(){
     	
         motors[0] = Robot.ss_Climber.climberMotors;
         subsystems[0] = Robot.ss_Climber;
         
-        motors[1] = Robot.ss_DriveTrain.leftMotors;
-        subsystems[1] = Robot.ss_DriveTrain;
+        motors[1] = Robot.ss_DriveTrainLeft.leftMotors;
+        subsystems[1] = Robot.ss_DriveTrainLeft;
         
-        motors[2] = Robot.ss_DriveTrain.rightMotors;
-        subsystems[2] = Robot.ss_DriveTrain;
+        motors[2] = Robot.ss_DriveTrainRight.rightMotors;
+        subsystems[2] = Robot.ss_DriveTrainRight;
         
         motors[3] = Robot.ss_FuelCollector.collectorMotors;
         subsystems[3] = Robot.ss_FuelCollector;

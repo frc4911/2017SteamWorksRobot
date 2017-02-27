@@ -58,6 +58,8 @@ public class C_TestMotorByTime extends Command {
 			else {
 				talon.spin(-0.5);
 			}
+			
+			Robot.ss_AutoTestStats.putData(subsystem, talon, direction);
     	} else {
     		talon.stop();
     	}
@@ -65,8 +67,6 @@ public class C_TestMotorByTime extends Command {
 		totalBV += talon.getOutputVoltage(false);
 		BVDataCount++;
 		SmartDashboard.putNumber("current draw "+ dir + " " + talon.getDescription(), talon.getOutputVoltage(false));
-		
-		Robot.ss_AutoTestStats.putData(subsystem, talon, direction, (endTime - Timer.getFPGATimestamp()));
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -81,6 +81,8 @@ public class C_TestMotorByTime extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	talon.stop();
+    	
+    	Robot.ss_AutoTestStats.smartCompletion(endTime - Timer.getFPGATimestamp());
     }
 
     // Called when another command which requires one or more of the same

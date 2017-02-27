@@ -1,107 +1,112 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
-import java.util.Objects;
-
-import org.usfirst.frc.team4911.robot.Robot;
+import java.text.DecimalFormat;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  *
  */
 public class SS_AutoTestStats extends Subsystem {
 	Subsystem subsystem = null;
-	DefaultMotor talon = null;
 	String desc = "";
-	boolean hasFollower = false;
 	
 	boolean direction;
 	
-	boolean hasEncoder;
 	double targetPos;
 	double encError;
 	
 	double timeOut;
 	
+	NetworkTable table;
+	final String IP = "10.49.11.84";
+	final String TABLENAME = "AutoTest";
+	
+	final DecimalFormat DF = new DecimalFormat("#.####");
+	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
+	// TODO: this is not a Subsystem
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+
+//		NetworkTable.setClientMode();
+		NetworkTable.setIPAddress(IP);
+		table = NetworkTable.getTable(TABLENAME);
     	
-    	// TODO: this is not a Subsystem
     }
     
-    public void smartCompletion(boolean hitTarget) {
-    	smart("HitTarget" + desc, "" + hitTarget);
+    public void netTable() {
     }
     
-    public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction, double targetPos, double encError, double timeOut) {
+    public void smartCompletion(boolean hitTarget, double timeOut, double distTraveled) {
+		smart("DistTraveled " + desc, "" + DF.format(distTraveled));
+    	smart("HitTarget " + desc, "" + hitTarget);
+    	smart("TimeOut " + desc, "" + DF.format(timeOut));
+    	
+    	smart("done", "complete");
+    }
+    
+    public void smartCompletion(double timeOut) {
+    	smart("TimeOut " + desc, "" + timeOut);
+    }
+    
+    public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction, double encError, double targetPos) {
     	this.subsystem = subsystem;
-    	this.talon = talon;
-    	
-    	this.hasFollower = talon.hasFollower();
     	
     	this.direction = direction;
     	
-    	this.hasEncoder = true;
-    	this.targetPos = targetPos;
     	this.encError = encError;
+    	this.targetPos = targetPos;
     	
-    	this.timeOut = timeOut;
-    	
-    	displaySmart();
+    	displaySmart(talon, talon.hasFollower(), true);
     }
     
-    public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction, double timeOut) {
+    public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction) {
     	this.subsystem = subsystem;
-    	this.talon = talon;
-    	
-    	this.hasFollower = talon.hasFollower();
     	
     	this.direction = direction;
     	
-    	this.hasEncoder = false;
-    	
-    	this.timeOut = timeOut;
-    	
-    	displaySmart();
+    	displaySmart(talon, talon.hasFollower(), false);
     }
     
-    private void displaySmart() {
+    private void displaySmart(DefaultMotor talon, boolean hasFollower, boolean hasEncoder) {
     	desc = talon.getDescription() + " " + direction;
-		smartDefaultMotor();
+    	table.putString("Descrition", desc);
+		smartDefaultMotor(talon, hasFollower, hasEncoder);
+		
     }
     
-    private void smartDefaultMotor() {
-    	smart("Current Subsystem", "" + subsystem.getName());
+    private void smartDefaultMotor(DefaultMotor talon, boolean hasFollower, boolean hasEncoder) {
+    	smart("currSub", "" + subsystem.getName());
     	
-    	smart("Direction " + desc, "" + direction);
+    	table.putBoolean("Direction", direction);
     	
-		smart("TalonValue " + desc, "" + talon.getTalonValue(false));
+		smart("TalonValue " + desc, "" + DF.format(talon.getTalonValue(false)));
 		smart("StickyFaults " + desc, "" + talon.checkStickyFaults(talon, false));
-		smart("OutVolt " + desc, "" + talon.getOutputVoltage(false));
-		smart("OutCurr " + desc, "" + talon.getOutputCurrent(false));
-				
+		smart("OutVolt " + desc, "" + DF.format(talon.getOutputVoltage(false)));
+		smart("OutCurr " + desc, "" + DF.format(talon.getOutputCurrent(false)));
+
 		if(hasFollower) {
 			smart("StickyFaults " + "f" + desc, "" + talon.checkStickyFaults(talon, true));
-			smart("OutVolt " + "f" + desc, "" + talon.getOutputVoltage(true));
-			smart("OutCurr " + "f" + desc, "" + talon.getOutputCurrent(true));
-		}
+			smart("OutVolt " + "f" + desc, "" + DF.format(talon.getOutputVoltage(true)));
+			smart("OutCurr " + "f" + desc, "" + DF.format(talon.getOutputCurrent(true)));
+		} // TODO: add null
 		
-		smart("TalonSpeed " + desc, "" + talon.getTalonSpeed());
+		smart("TalonSpeed " + desc, "" + DF.format(talon.getTalonSpeed()));
 		
 		if(hasEncoder) {
-			smart("EncPos " + desc, "" + talon.getEncPos());
-			smart("TargetPos " + desc, "" + targetPos);
-			smart("EncError " + desc, "" + encError);
-		}
+			smart("EncPos " + desc, "" + DF.format(talon.getEncPos()));
+			smart("TargetPos " + desc, "" + DF.format(targetPos));
+			smart("EncError " + desc, "" + DF.format(encError));
+		} // TODO: add null
     }
     
     private void smart(String key, String data) {
-		SmartDashboard.putString(key, data);
+		table.putString(key, data);
     }
 }
 

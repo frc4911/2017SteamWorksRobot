@@ -4,9 +4,9 @@ import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class C_TestDriveBySet extends Command {
+public class C_TestDriveByJoystick extends Command {
 
-    public C_TestDriveBySet() {
+    public C_TestDriveByJoystick() {
         requires(Robot.ss_Climber);
         requires(Robot.ss_DriveTrainLeft);
         requires(Robot.ss_FuelCollector);
@@ -23,7 +23,8 @@ public class C_TestDriveBySet extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
-    	Robot.ss_TestMotor.runMotor();
+    	//invert Y so forward is positive
+    	Robot.ss_TestMotor.runMotor(-Robot.oi.autoTestGamepad.getRawAxis(1));
     }
 
     protected boolean isFinished() {

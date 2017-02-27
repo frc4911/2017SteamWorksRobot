@@ -102,10 +102,10 @@ public class Logger extends Subsystem {
     	rightJoystickYIndex = Robot.ss_Logging.addColumn("rightStickY");
     	
     	// driveTrainLeft
-    	dtLStartIndex = addMotorIndices(Robot.ss_DriveTrain.leftMotors.getDescription(), true, true);
+    	dtLStartIndex = addMotorIndices(Robot.ss_DriveTrainLeft.leftMotors.getDescription(), true, true);
     	
     	// driveTrainRight
-    	dtRStartIndex = addMotorIndices(Robot.ss_DriveTrain.rightMotors.getDescription(), true, true);
+    	dtRStartIndex = addMotorIndices(Robot.ss_DriveTrainRight.rightMotors.getDescription(), true, true);
     	
     	// fuelCollector
 		fCollStartIndex = addMotorIndices(Robot.ss_FuelCollector.collectorMotors.getDescription(), false, false);
@@ -167,10 +167,10 @@ public class Logger extends Subsystem {
     		smartLog(joySmart, joyLog, rightJoystickYIndex, "" + Robot.oi.stickR.getY());
     		
     		// driveTrainLeft
-    		logDefaultMotor(Robot.ss_DriveTrain.leftMotors, true, true, dtLStartIndex);
+    		logDefaultMotor(Robot.ss_DriveTrainLeft.leftMotors, true, true, dtLStartIndex);
     		
     		// driveTrainRight
-    		logDefaultMotor(Robot.ss_DriveTrain.rightMotors, true, true, dtRStartIndex);
+    		logDefaultMotor(Robot.ss_DriveTrainRight.rightMotors, true, true, dtRStartIndex);
 
     		// fuelCollector
     		logDefaultMotor(Robot.ss_FuelCollector.collectorMotors, false, false, fCollStartIndex);

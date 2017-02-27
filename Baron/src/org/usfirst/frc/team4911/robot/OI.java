@@ -135,7 +135,7 @@ public class OI {
 		//rightBumper.whileHeld(new C_GearOnPeg());
 		
 		/********TestingStick*******/
-		testCmd = new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true);
+//		testCmd = new C_TunePID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true);
 //		kp = ?
 //		ticks = 10000
 //		testCmd = new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, true);
@@ -181,6 +181,10 @@ public class OI {
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
 //		testBtnX.whileHeld(new CG_TestAutonomous());
+		
+		Command shooterPID = new C_TunePID(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, false);
+		testBtnX.whenPressed(shooterPID);
+		testBtnB.whenPressed(new C_StopCommand(shooterPID));
 		
 		// autoTest
 		// to use auto test, hold the start button and press the select button

@@ -12,24 +12,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CG_TestAutonomous extends CommandGroup {
 
     public CG_TestAutonomous() {
-        // Add Commands here:
-        // e.g. addSequential(new Command1());
-        //      addSequential(new Command2());
-        // these will run in order.
-    	addParallel(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));
-    	addParallel(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
-		
-
-        // To run multiple commands at the same time,
-        // use addParallel()
-        // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
-        // Command1 and Command2 will run in parallel.
-
-        // A command group will require all of the subsystems that each member
-        // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm,
-        // a CommandGroup containing them would require both the chassis and the
-        // arm.
+    	//double targetDist, int ticksPerRev, int encoderTicksPerRev, double kp, double kd, double ki, double kf, int iZone, double peakOutputVoltage
+        addSequential(new C_MoveToPosInInches(71.5, 1024, 256, 0.5, 0.0, 0.0, 0.0, 0, 12.0));
     }
 }

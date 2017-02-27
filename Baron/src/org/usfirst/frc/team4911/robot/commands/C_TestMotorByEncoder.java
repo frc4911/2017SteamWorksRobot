@@ -3,8 +3,6 @@ package org.usfirst.frc.team4911.robot.commands;
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
 
-import com.ctre.CANTalon;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -31,7 +29,7 @@ public class C_TestMotorByEncoder extends Command {
 	
 	double startTime;
 	double endTime;
-	double distTravelled;
+	double distTraveled;
 	double velocity;
 	
 	boolean hitTarget = false;
@@ -56,6 +54,8 @@ public class C_TestMotorByEncoder extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	hitTarget = false;
+    	
     	talon.zeroEnc();
     	
     	startTime = Timer.getFPGATimestamp();
@@ -76,6 +76,8 @@ public class C_TestMotorByEncoder extends Command {
     				else {
     					talon.spin(-0.5);
     				}
+    				
+    				Robot.ss_AutoTestStats.putData(subsystem, talon, direction, targetPos, encError);
 		    	} else {
 		    		talon.stop();
 		    	}
@@ -86,7 +88,6 @@ public class C_TestMotorByEncoder extends Command {
 		SmartDashboard.putNumber("current draw "+ dir + " " + talon.getDescription(), talon.getOutputVoltage(false));
 		SmartDashboard.putNumber("curr pos " + dir + " " + talon.getDescription(), talon.getEncPos());
 		
-		Robot.ss_AutoTestStats.putData(subsystem, talon, direction, targetPos, encError, (endTime - Timer.getFPGATimestamp()));
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -96,12 +97,23 @@ public class C_TestMotorByEncoder extends Command {
     		return false;
     	}
     	
-		distTravelled = talon.getEncPos();
-		if(encError <= Math.abs(targetPos * 0.03)) {
-			hitTarget = true;
+		distTraveled = talon.getEncPos();
+		// 3% of error allowed
+		// TODO: test to see if the hitTarget completion stuff works
+		if(direction) {
+			if((Math.abs(distTraveled) + (targetPos * 0.03)) <= targetPos) {
+				hitTarget = true;
+			} else {
+				hitTarget = false;
+			}
 		} else {
-			hitTarget = false;
+			if((Math.abs(distTraveled) + (targetPos * 0.03)) >= targetPos) {
+				hitTarget = true;
+			} else {
+				hitTarget = false;
+			}
 		}
+		
 		return true;
 	}
     
@@ -109,21 +121,15 @@ public class C_TestMotorByEncoder extends Command {
     protected void end() {
     	talon.stop();
     	
-    	Robot.ss_AutoTestStats.smartCompletion(hitTarget);
+    	Robot.ss_AutoTestStats.smartCompletion(hitTarget, (endTime - Timer.getFPGATimestamp()), distTraveled);
     	
+    	String desc = talon.getDescription();
     	//ticks/millisecond
-    	velocity = ((distTravelled) / ((realEndTime - startTime) * 1000));
-    	SmartDashboard.putNumber("ave velocity " + dir + " " + talon.getDescription(), velocity);
-    	SmartDashboard.putNumber("dist " + dir + " " + talon.getDescription(), distTravelled);
+//    	velocity = ((distTraveled) / ((realEndTime - startTime) * 1000));
+//    	SmartDashboard.putNumber("ave velocity " + dir + " " + desc, velocity);
+//    	SmartDashboard.putNumber("dist " + dir + " " + desc, distTraveled);
     	
-    	//3% error allowed
-    	if((Math.abs(distTravelled) + (targetPos * 0.03)) >= targetPos) {
-    		SmartDashboard.putString(("dist reached " + dir + " " + talon.getDescription()), "yes");
-    	} else {
-    		SmartDashboard.putString(("dist reached " + dir + " " + talon.getDescription()), "no");
-    	}
-    	
-    	SmartDashboard.putNumber("ave curr draw " + dir + " " + talon.getDescription(), (totalBV / BVDataCount));
+//    	SmartDashboard.putNumber("ave curr draw " + dir + " " + desc, (totalBV / BVDataCount));
     }
 
     // Called when another command which requires one or more of the same
