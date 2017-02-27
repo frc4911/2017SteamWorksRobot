@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.JButton;
 
 public class AutoTestData {
 	final int delay = 20; //milliseconds
@@ -71,7 +72,7 @@ public class AutoTestData {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 840, 680);
+		frame.setBounds(100, 100, 840, 580);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLabel lblAutoTest = new JLabel("Auto Test");
@@ -79,98 +80,122 @@ public class AutoTestData {
 		lblAutoTest.setFont(new Font("Tahoma", Font.PLAIN, 72));
 		
 		JLabel lblCurrentSubsystem = new JLabel("Current Subsystem");
-		lblCurrentSubsystem.setBounds(422, 21, 178, 26);
+		lblCurrentSubsystem.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lblCurrentSubsystem.setBounds(422, 32, 186, 26);
 		
 		JLabel lblDTLDirection = new JLabel("Direction");
-		lblDTLDirection.setBounds(612, 21, 83, 26);
+		lblDTLDirection.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lblDTLDirection.setBounds(612, 32, 186, 26);
 		
 		JLabel lblTalonvalue = new JLabel("TalonValue");
-		lblTalonvalue.setBounds(21, 170, 103, 26);
+		lblTalonvalue.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		lblTalonvalue.setBounds(21, 149, 182, 26);
 		
 		JLabel lblStickyfaults = new JLabel("StickyFaults");
-		lblStickyfaults.setBounds(21, 214, 109, 26);
+		lblStickyfaults.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		lblStickyfaults.setBounds(21, 214, 182, 26);
 		
 		JLabel lblOutcurrent = new JLabel("OutCurrent");
-		lblOutcurrent.setBounds(21, 258, 105, 26);
+		lblOutcurrent.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		lblOutcurrent.setBounds(21, 258, 182, 26);
 		
 		JLabel lblOutvolts = new JLabel("OutVolts");
-		lblOutvolts.setBounds(21, 302, 79, 26);
+		lblOutvolts.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		lblOutvolts.setBounds(21, 302, 182, 26);
 		
 		txtCurrsub = new JTextField();
+		txtCurrsub.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		txtCurrsub.setBounds(422, 65, 186, 32);
 		txtCurrsub.setText("currSub");
 		txtCurrsub.setColumns(10);
 		
 		txtDTLDir = new JTextField();
+		txtDTLDir.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		txtDTLDir.setBounds(612, 65, 186, 32);
 		txtDTLDir.setText("dir");
 		txtDTLDir.setColumns(10);
 		
 		txtTalonval = new JTextField();
-		txtTalonval.setBounds(224, 167, 186, 32);
+		txtTalonval.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		txtTalonval.setBounds(224, 146, 186, 32);
 		txtTalonval.setText("talonVal");
 		txtTalonval.setColumns(10);
 		
 		txtStickyfau = new JTextField();
+		txtStickyfau.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		txtStickyfau.setBounds(224, 211, 186, 32);
 		txtStickyfau.setText("stickyFau");
 		txtStickyfau.setColumns(10);
 		
 		txtOutcur = new JTextField();
+		txtOutcur.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		txtOutcur.setBounds(224, 255, 186, 32);
 		txtOutcur.setText("outCur");
 		txtOutcur.setColumns(10);
 		
 		txtOutvol = new JTextField();
+		txtOutvol.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		txtOutvol.setBounds(224, 299, 186, 32);
 		txtOutvol.setText("outVol");
 		txtOutvol.setColumns(10);
 		
 		JLabel lblFstickyfaults = new JLabel("fStickyFaults");
-		lblFstickyfaults.setBounds(21, 346, 116, 26);
+		lblFstickyfaults.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		lblFstickyfaults.setBounds(431, 214, 177, 26);
 		
 		JLabel lblFoutcurrent = new JLabel("fOutCurrent");
-		lblFoutcurrent.setBounds(21, 390, 112, 26);
+		lblFoutcurrent.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		lblFoutcurrent.setBounds(431, 261, 177, 26);
 		
 		JLabel lblFoutvolts = new JLabel("fOutVolts");
-		lblFoutvolts.setBounds(21, 434, 86, 26);
+		lblFoutvolts.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		lblFoutvolts.setBounds(431, 302, 177, 26);
 		
 		txtFstickyfau = new JTextField();
-		txtFstickyfau.setBounds(224, 343, 186, 32);
+		txtFstickyfau.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		txtFstickyfau.setBounds(612, 211, 186, 32);
 		txtFstickyfau.setText("fStickyFau");
 		txtFstickyfau.setColumns(10);
 		
 		txtFoutcur = new JTextField();
-		txtFoutcur.setBounds(224, 387, 186, 32);
+		txtFoutcur.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		txtFoutcur.setBounds(612, 258, 186, 32);
 		txtFoutcur.setText("fOutCur");
 		txtFoutcur.setColumns(10);
 		
 		txtFoutvol = new JTextField();
-		txtFoutvol.setBounds(224, 431, 186, 32);
+		txtFoutvol.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		txtFoutvol.setBounds(612, 299, 186, 32);
 		txtFoutvol.setText("fOutVol");
 		txtFoutvol.setColumns(10);
 		
 		JLabel lblEncposition = new JLabel("EncPosition");
-		lblEncposition.setBounds(21, 478, 106, 26);
+		lblEncposition.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		lblEncposition.setBounds(21, 378, 182, 26);
 		
 		JLabel lblTargetposition = new JLabel("TargetPosition");
-		lblTargetposition.setBounds(21, 519, 133, 26);
+		lblTargetposition.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		lblTargetposition.setBounds(21, 422, 182, 26);
 		
 		JLabel lblEncerror = new JLabel("EncError");
-		lblEncerror.setBounds(21, 569, 81, 26);
+		lblEncerror.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		lblEncerror.setBounds(21, 466, 182, 26);
 		
 		txtTargetpos = new JTextField();
-		txtTargetpos.setBounds(224, 519, 186, 32);
+		txtTargetpos.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		txtTargetpos.setBounds(224, 419, 186, 32);
 		txtTargetpos.setText("targetPos");
 		txtTargetpos.setColumns(10);
 		
 		txtEncerr_1 = new JTextField();
-		txtEncerr_1.setBounds(224, 566, 186, 32);
+		txtEncerr_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		txtEncerr_1.setBounds(224, 463, 186, 32);
 		txtEncerr_1.setText("encErr");
 		txtEncerr_1.setColumns(10);
 		
 		txtEncpos = new JTextField();
-		txtEncpos.setBounds(224, 475, 186, 32);
+		txtEncpos.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		txtEncpos.setBounds(224, 375, 186, 32);
 		txtEncpos.setText("EncPos");
 		txtEncpos.setColumns(10);
 		frame.getContentPane().setLayout(null);
@@ -200,9 +225,15 @@ public class AutoTestData {
 		frame.getContentPane().add(lblTargetposition);
 		frame.getContentPane().add(lblEncerror);
 		
-		String dtl = "DriveTrainLeft ";
-		String dtr = "DriveTrainRight ";
+		JButton btnButton1 = new JButton("Button 1");
+		btnButton1.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		btnButton1.setBounds(422, 145, 186, 35);
+		frame.getContentPane().add(btnButton1);
 		
+		JButton btnButton2 = new JButton("Button 2");
+		btnButton2.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		btnButton2.setBounds(612, 145, 186, 35);
+		frame.getContentPane().add(btnButton2);
 		
 		String talonVal = "TalonValue ";
 		String sticky = "StickyFaults ";
@@ -215,31 +246,31 @@ public class AutoTestData {
 		
 		ActionListener taskPerformer = new ActionListener() {
 			  public void actionPerformed(ActionEvent evt) {
-				  	String currSub = table.getString("currSub", "null");
+				  	String currSub = table.getString("currSub", null);
 					boolean direction = table.getBoolean("Direction", true);
 				  	
 					txtCurrsub.setText(currSub);
 					txtDTLDir.setText("" + direction);
 
-					String desc = dtl + direction;
+					String desc = table.getString("Descrition", null);
 					
 					// Power Input
-					txtTalonval.setText(table.getString(talonVal + desc, "null"));
+					txtTalonval.setText(table.getString(talonVal + desc, null));
 					
 					// Controlled
-					txtStickyfau.setText(table.getString(sticky + desc, "null"));
-					txtOutcur.setText(table.getString(volt + desc, "null"));
-					txtOutvol.setText(table.getString(curr + desc, "null"));
+					txtStickyfau.setText(table.getString(sticky + desc, null));
+					txtOutcur.setText(table.getString(volt + desc, null));
+					txtOutvol.setText(table.getString(curr + desc, null));
 					
 					// Follower
-					txtFstickyfau.setText(table.getString(sticky + "f" + desc, "null"));
-					txtFoutcur.setText(table.getString(volt + "f" + desc, "null"));
-					txtFoutvol.setText(table.getString(curr + "f" + desc, "null"));
+					txtFstickyfau.setText(table.getString(sticky + "f" + desc, null));
+					txtFoutcur.setText(table.getString(volt + "f" + desc, null));
+					txtFoutvol.setText(table.getString(curr + "f" + desc, null));
 					
 					// Encoder
-					txtTargetpos.setText(table.getString(encPos + desc, "null"));
-					txtEncerr_1.setText(table.getString(target + desc, "null"));						
-					txtEncpos.setText(table.getString(error + desc, "null"));	
+					txtTargetpos.setText(table.getString(encPos + desc, null));
+					txtEncerr_1.setText(table.getString(target + desc, null));						
+					txtEncpos.setText(table.getString(error + desc, null));	
 		      }
 		  };
 		  new Timer(delay, taskPerformer).start();

@@ -56,13 +56,13 @@ public class SS_AutoTestStats extends Subsystem {
     	smart("TimeOut " + desc, "" + timeOut);
     }
     
-    public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction, double targetPos, double encError) {
+    public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction, double encError, double targetPos) {
     	this.subsystem = subsystem;
     	
     	this.direction = direction;
     	
-    	this.targetPos = targetPos;
     	this.encError = encError;
+    	this.targetPos = targetPos;
     	
     	displaySmart(talon, talon.hasFollower(), true);
     }
@@ -77,6 +77,7 @@ public class SS_AutoTestStats extends Subsystem {
     
     private void displaySmart(DefaultMotor talon, boolean hasFollower, boolean hasEncoder) {
     	desc = talon.getDescription() + " " + direction;
+    	table.putString("Description", desc);
 		smartDefaultMotor(talon, hasFollower, hasEncoder);
     }
     
