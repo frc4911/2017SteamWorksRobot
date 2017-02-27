@@ -3,8 +3,6 @@ package org.usfirst.frc.team4911.robot.commands;
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
 
-import com.ctre.CANTalon;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -101,11 +99,21 @@ public class C_TestMotorByEncoder extends Command {
     	
 		distTraveled = talon.getEncPos();
 		// 3% of error allowed
-		if((Math.abs(distTraveled) + (targetPos * 0.03)) >= targetPos) {
-			hitTarget = true;
+		// TODO: test to see if the hitTarget completion stuff works
+		if(direction) {
+			if((Math.abs(distTraveled) + (targetPos * 0.03)) <= targetPos) {
+				hitTarget = true;
+			} else {
+				hitTarget = false;
+			}
 		} else {
-			hitTarget = false;
+			if((Math.abs(distTraveled) + (targetPos * 0.03)) >= targetPos) {
+				hitTarget = true;
+			} else {
+				hitTarget = false;
+			}
 		}
+		
 		return true;
 	}
     

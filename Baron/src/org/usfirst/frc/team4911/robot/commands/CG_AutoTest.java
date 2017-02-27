@@ -1,17 +1,20 @@
 package org.usfirst.frc.team4911.robot.commands;
 
-import java.util.Objects;
-
 import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  *
  */
 public class CG_AutoTest extends CommandGroup {
-	private final double timeOut = 2;
+	private final double TIMEOUT = 2;
+	private final int TARGET = 5000;
+	
+	NetworkTable table;
+	final String IP = "10.49.11.84";
+	final String TABLENAME = "AutoTest";
 	
     public CG_AutoTest() {
         // Add Commands here:
@@ -31,28 +34,43 @@ public class CG_AutoTest extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
+    	NetworkTable.setIPAddress(IP);
+		table = NetworkTable.getTable(TABLENAME);
+    	table.putBoolean("start", true);
+		
     	// drive train
-    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, true, 5000, timeOut));
-    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, false, -5000, timeOut));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, true, TARGET, TIMEOUT));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, false, -TARGET, TIMEOUT));
     	
-    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, true, -5000, timeOut));
-    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, false, 5000,timeOut));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, true, -TARGET, TIMEOUT));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, false, TARGET,TIMEOUT));
     	
     	// fuel collector
-//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, true, timeOut));
-//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, false, timeOut));
+    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, true, TIMEOUT));
+    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, false, TIMEOUT));
     	
     	// fuel hoppper
-//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, true, timeOut));
-//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, false, timeOut));
+    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, true, TIMEOUT));
+    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, false, TIMEOUT));
 
     	// shooter feeder
-//    	addSequential(new C_TestMotorEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.feederMotor, true, 10500, 4));
+//    	addSequential(new C_TestMotorEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.feederMotor, true, target, timeOut));
+//    	addSequential(new C_TestMotorEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.feederMotor, false, target, timeOut));
+
     	
     	// shooter flywheel
-//    	addSequential(new C_TestMotorEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, true, 10500, 4));
-    	
+//    	addSequential(new C_TestMotorEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, true, target, timeOut));
+//    	addSequential(new C_TestMotorEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, false, target, timeOut));
+
     	// climber
-//    	addSequential(new C_TestMotorByTime(Robot.ss_Climber, Robot.ss_Climber.climberMotors, true, 2));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_Climber, Robot.ss_Climber.climberMotors, true, timeOut));
+    	
+    	// gear collector
+    	// TODO: in
+    	// TODO: out
+    	
+    	// gear arm
+    	// TODO: up
+    	// TODO: down
     }
 }

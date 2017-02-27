@@ -1,20 +1,18 @@
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
 import java.awt.Font;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.Timer;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.JButton;
+import javax.swing.JProgressBar;
+import java.awt.Color;
 
 public class AutoTestData {
 	final int delay = 20; //milliseconds
@@ -72,7 +70,7 @@ public class AutoTestData {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 840, 580);
+		frame.setBounds(100, 100, 840, 620);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLabel lblAutoTest = new JLabel("Auto Test");
@@ -226,54 +224,82 @@ public class AutoTestData {
 		frame.getContentPane().add(lblEncerror);
 		
 		JButton btnButton1 = new JButton("Button 1");
+		btnButton1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				table.putBoolean("start", true);
+			}
+		});
 		btnButton1.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		btnButton1.setBounds(422, 145, 186, 35);
 		frame.getContentPane().add(btnButton1);
 		
 		JButton btnButton2 = new JButton("Button 2");
+		btnButton2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				table.putString("done", "complete");
+			}
+		});
 		btnButton2.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		btnButton2.setBounds(612, 145, 186, 35);
 		frame.getContentPane().add(btnButton2);
 		
-		String talonVal = "TalonValue ";
-		String sticky = "StickyFaults ";
-		String volt = "OutVolt ";
-		String curr = "OutCurr ";
+		JProgressBar progressBar = new JProgressBar();
+		progressBar.setForeground(new Color(50, 205, 50));
+		progressBar.setBounds(21, 109, 777, 19);
+		frame.getContentPane().add(progressBar);
 		
-		String encPos = "EncPos ";
-		String target = "TargetPos ";
-		String error = "EncError ";
+		final String TALONVALUE = "TalonValue ";
+		final String STICKY = "StickyFaults ";
+		final String VOLT = "OutVolt ";
+		final String CURR = "OutCurr ";
+		
+		final String ENCPOS = "EncPos ";
+		final String TARGET = "TargetPos ";
+		final String ERROR = "EncError ";
+		
+//		final int PROGRESS = 13;
+		final int PROGRESS = 6;
+
 		
 		ActionListener taskPerformer = new ActionListener() {
 			  public void actionPerformed(ActionEvent evt) {
 				  	String currSub = table.getString("currSub", null);
 					boolean direction = table.getBoolean("Direction", true);
-				  	
+					
 					txtCurrsub.setText(currSub);
 					txtDTLDir.setText("" + direction);
 
 					String desc = table.getString("Descrition", null);
 					
 					// Power Input
-					txtTalonval.setText(table.getString(talonVal + desc, null));
+					txtTalonval.setText(table.getString(TALONVALUE + desc, null));
 					
 					// Controlled
-					txtStickyfau.setText(table.getString(sticky + desc, null));
-					txtOutcur.setText(table.getString(volt + desc, null));
-					txtOutvol.setText(table.getString(curr + desc, null));
+					txtStickyfau.setText(table.getString(STICKY + desc, null));
+					txtOutcur.setText(table.getString(VOLT + desc, null));
+					txtOutvol.setText(table.getString(CURR + desc, null));
 					
 					// Follower
-					txtFstickyfau.setText(table.getString(sticky + "f" + desc, null));
-					txtFoutcur.setText(table.getString(volt + "f" + desc, null));
-					txtFoutvol.setText(table.getString(curr + "f" + desc, null));
+					txtFstickyfau.setText(table.getString(STICKY + "f" + desc, null));
+					txtFoutcur.setText(table.getString(VOLT + "f" + desc, null));
+					txtFoutvol.setText(table.getString(CURR + "f" + desc, null));
 					
 					// Encoder
-					txtTargetpos.setText(table.getString(encPos + desc, null));
-					txtEncerr_1.setText(table.getString(target + desc, null));						
-					txtEncpos.setText(table.getString(error + desc, null));	
+					txtTargetpos.setText(table.getString(ENCPOS + desc, null));
+					txtEncerr_1.setText(table.getString(TARGET + desc, null));						
+					txtEncpos.setText(table.getString(ERROR + desc, null));	
+					
+					if(table.getBoolean("start", true)) {
+						progressBar.setValue(0);
+						table.putBoolean("start",  false);
+					} else if(Objects.equals(table.getString("done", "incomplete"), "complete")) {
+						progressBar.setValue(progressBar.getValue() + PROGRESS);
+						table.putString("done", "incomplete");
+					}
 		      }
 		  };
 		  new Timer(delay, taskPerformer).start();
 	}
+	
 }
 
