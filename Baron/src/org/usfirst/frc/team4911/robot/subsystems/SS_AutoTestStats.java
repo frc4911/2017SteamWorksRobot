@@ -52,6 +52,8 @@ public class SS_AutoTestStats extends Subsystem {
     
     public void smartCompletion(double timeOut) {
     	smart("TimeOut " + desc, "" + timeOut);
+    	
+    	smart("done", "complete");
     }
     
     public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction, double encError, double targetPos) {
@@ -77,7 +79,6 @@ public class SS_AutoTestStats extends Subsystem {
     	desc = talon.getDescription() + " " + direction;
     	table.putString("Descrition", desc);
 		smartDefaultMotor(talon, hasFollower, hasEncoder);
-		
     }
     
     private void smartDefaultMotor(DefaultMotor talon, boolean hasFollower, boolean hasEncoder) {
