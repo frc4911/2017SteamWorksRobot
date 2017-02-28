@@ -145,7 +145,6 @@ public class OI {
 		//testBtn11.whileHeld(testCmd);
 		
 		//testBtn7.whenReleased(new CG_AutoTest());
-		
 		//testDriveJoystick = new C_TriggerWhileHeld(new C_TestDriveByJoystick(), autoTestGamepad, false);
 		//testDriveSet =      new C_TriggerWhileHeld(new C_TestDriveBySet(),      autoTestGamepad, true);
 		
@@ -164,7 +163,7 @@ public class OI {
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
 
 		Command shooterPID = new C_TunePID(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, false);
-		testBtnX.whenPressed(shooterPID);
+		testBtnX.whileHeld(shooterPID);
 //		testBtnB.whenPressed(new C_StopCommand(shooterPID));
 		testBtnB.whenPressed(new C_ZeroEncoders());
 		// autoTest

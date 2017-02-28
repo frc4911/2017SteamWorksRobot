@@ -15,7 +15,6 @@ public class SS_FuelShooter extends Subsystem {
 	int tPortFeeder = 8;
 	int tPortShooter = 9;
 	int tPortShooterF = 10;
-	int tPortShooterF2 = 20;
 	
 	public DefaultMotor feederMotor = new DefaultMotor(tPortFeeder, Robot.ss_Config.shooterFeederConst, "ShooterFeeder");
 	public DefaultMotor shooterMotors = new DefaultMotor(tPortShooter, tPortShooterF, Robot.ss_Config.shooterFlywheelConst, "ShooterFlywheel");
