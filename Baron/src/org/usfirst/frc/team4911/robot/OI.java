@@ -168,16 +168,10 @@ public class OI {
 		//testBtn7.whenReleased(new CG_AutoTest());
 		
 		testDriveJoystick = new C_TriggerWhileHeld(new C_TestDriveByJoystick(), autoTestGamepad, false);
-		testDriveSet = new C_TriggerWhileHeld(new C_TestDriveBySet(), autoTestGamepad, true);
 		
 		// change the talon num
 		testLeftBumper.whenPressed(new C_TestSetTalonNum(false));
 		testRightBumper.whenPressed(new C_TestSetTalonNum(true));
-		
-		// change the motor speed
-
-		testBtnA.whenPressed(new C_TestSetMotorSpeed(false));
-		testBtnY.whenPressed(new C_TestSetMotorSpeed(true));
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
 		
