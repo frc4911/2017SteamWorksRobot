@@ -95,7 +95,7 @@ public class SS_AutoTestStats extends Subsystem {
 			smart("StickyFaults " + "f" + desc, "" + talon.checkStickyFaults(talon, true));
 			smart("OutVolt " + "f" + desc, "" + DF.format(talon.getOutputVoltage(true)));
 			smart("OutCurr " + "f" + desc, "" + DF.format(talon.getOutputCurrent(true)));
-		} // TODO: add null
+		}
 		
 		smart("TalonSpeed " + desc, "" + DF.format(talon.getTalonSpeed()));
 		
@@ -103,7 +103,7 @@ public class SS_AutoTestStats extends Subsystem {
 			smart("EncPos " + desc, "" + DF.format(talon.getEncPos()));
 			smart("TargetPos " + desc, "" + DF.format(targetPos));
 			smart("EncError " + desc, "" + DF.format(encError));
-		} // TODO: add null
+		}
     }
     
     private void smart(String key, String data) {

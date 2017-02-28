@@ -12,10 +12,6 @@ public class CG_AutoTest extends CommandGroup {
 	private final double TIMEOUT = 2;
 	private final int TARGET = 5000;
 	
-	NetworkTable table;
-	final String IP = "10.49.11.84";
-	final String TABLENAME = "AutoTest";
-	
     public CG_AutoTest() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
@@ -33,10 +29,6 @@ public class CG_AutoTest extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	
-    	NetworkTable.setIPAddress(IP);
-		table = NetworkTable.getTable(TABLENAME);
-    	table.putBoolean("start", true);
 		
     	// drive train
     	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, true, TARGET, TIMEOUT));
