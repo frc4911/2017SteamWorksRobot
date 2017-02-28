@@ -11,6 +11,8 @@ public class SS_TestMotor extends Subsystem {
     }
 
     DefaultMotor[] motors = new DefaultMotor[9];
+    Subsystem[] subsystems = new Subsystem[9];
+    
     double maxCurrent = 0;
     String maxCurrStr = "maxCurrent";
     double maxSpeed = 0;
@@ -23,16 +25,41 @@ public class SS_TestMotor extends Subsystem {
     public SS_TestMotor(){
     	
         motors[0] = Robot.ss_Climber.climberMotors;
+        subsystems[0] = Robot.ss_Climber;
+        
         motors[1] = Robot.ss_DriveTrainLeft.leftMotors;
+        subsystems[1] = Robot.ss_DriveTrainLeft;
+        
         motors[2] = Robot.ss_DriveTrainRight.rightMotors;
+        subsystems[2] = Robot.ss_DriveTrainRight;
+        
         motors[3] = Robot.ss_FuelCollector.collectorMotors;
+        subsystems[3] = Robot.ss_FuelCollector;
+        
         motors[4] = Robot.ss_FuelHopper.hopperMotor;
+        subsystems[4] = Robot.ss_FuelHopper;
+        
         motors[5] = Robot.ss_FuelShooter.feederMotor;
+        subsystems[5] = Robot.ss_FuelShooter;
+        
         motors[6] = Robot.ss_FuelShooter.shooterMotors;
+        subsystems[6] = Robot.ss_FuelShooter;
+        
         motors[7] = Robot.ss_GearIntake.gearIntakeMotor;
+        subsystems[7] = Robot.ss_GearIntake;
+        
         motors[8] = Robot.ss_GearLift.gearLiftMotor;
+        subsystems[8] = Robot.ss_GearLift;    
     }
 
+    public Subsystem getSubsystem(){
+    	return subsystems[currMotor];
+    }
+    
+    public int getCurrIndex(){
+    	return currMotor;
+    }
+    
     String key = "currTestMotor";
     public void runMotor() {
     	runMotor(motorSpeed);

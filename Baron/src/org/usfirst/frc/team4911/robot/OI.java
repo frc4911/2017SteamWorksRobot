@@ -15,7 +15,6 @@ import org.usfirst.frc.team4911.robot.commands.C_GearLiftLower;
 import org.usfirst.frc.team4911.robot.commands.C_GearSpit;
 import org.usfirst.frc.team4911.robot.commands.C_HopperSpin;
 import org.usfirst.frc.team4911.robot.commands.C_StopCommand;
-import org.usfirst.frc.team4911.robot.commands.C_TestDriveByJoystick;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetMotorSpeed;
 import org.usfirst.frc.team4911.robot.commands.C_TestSetTalonNum;
@@ -29,11 +28,8 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
-/**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
- */
 public class OI {
 	public Joystick stickL = new Joystick(0);
 	public Joystick stickR = new Joystick(1);
@@ -43,8 +39,6 @@ public class OI {
 	JoystickButton dtRightTrigger = new JoystickButton(stickR, 1);
 	JoystickButton dtRight2 = new JoystickButton(stickR, 2);
 	JoystickButton dtRight3 = new JoystickButton(stickR, 3);
-	
-	
 	
 	JoystickButton btnA = new JoystickButton(opGamepad, 1);
 	JoystickButton btnB = new JoystickButton(opGamepad, 2);
@@ -56,20 +50,7 @@ public class OI {
 	JoystickButton rightBumper = new JoystickButton(opGamepad, 6);
 	
 	/**********Testing**********/
-//	public Joystick autoTestStick = new Joystick(3);	
-
-//	JoystickButton testStickBtn1 = new JoystickButton(autoTestStick, 1);
-//	JoystickButton testStickBtn2 = new JoystickButton(autoTestStick, 2);
-//	JoystickButton testStickBtn3 = new JoystickButton(autoTestStick, 3);
-//	JoystickButton testStickBtn4 = new JoystickButton(autoTestStick, 4);
-//	JoystickButton testStickBtn5 = new JoystickButton(autoTestStick, 5);
-//	JoystickButton testStickBtn6 = new JoystickButton(autoTestStick, 6);
-//	JoystickButton testStickBtn7 = new JoystickButton(autoTestStick, 7);
-//	JoystickButton testStickBtn11 = new JoystickButton(autoTestStick, 11);
-//	JoystickButton testStickBtn12 = new JoystickButton(autoTestStick, 12);
-	
 	public Joystick autoTestGamepad = new Joystick(3);
-	
 
 	JoystickButton testBtnA = new JoystickButton(autoTestGamepad, 1);
 	JoystickButton testBtnB = new JoystickButton(autoTestGamepad, 2);
@@ -85,8 +66,8 @@ public class OI {
 	public Command flywheel;
 	public Command stopFlywheel;
 	
-	public Command testDriveJoystick;
-	public Command testDriveSet;
+//	public Command testDriveJoystick;
+//	public Command testDriveSet;
 	public Command testCmd;
 	public Command autoTest;
 	
@@ -120,12 +101,10 @@ public class OI {
 		
 		rightBumper.whileHeld(feedFuel);
 		feeder = new C_TriggerWhileHeld(hopperReverse, opGamepad, false);
-//		feeder.start();
 		
 		flywheel = new C_SpinFlywheel();
 		leftBumper.whenPressed(flywheel);
 		stopFlywheel = new C_TriggerWhenPressed(new C_StopCommand(flywheel), opGamepad, true);
-//		stopFlywheel.start();
 		
 		//Command flywheel = new C_TriggerWhenPressed(shooterPID, opGamepad, true);
 		//flywheel.start();
@@ -166,50 +145,31 @@ public class OI {
 		//testBtn11.whileHeld(testCmd);
 		
 		//testBtn7.whenReleased(new CG_AutoTest());
+		//testDriveJoystick = new C_TriggerWhileHeld(new C_TestDriveByJoystick(), autoTestGamepad, false);
+		//testDriveSet =      new C_TriggerWhileHeld(new C_TestDriveBySet(),      autoTestGamepad, true);
 		
-		testDriveJoystick = new C_TriggerWhileHeld(new C_TestDriveByJoystick(), autoTestGamepad, false);
+		// change the talon num for individual motor group test with joystick axis
+		testLeftBumper.whenPressed(new C_TestSetTalonNum(false)); //select next motor in list
+		testRightBumper.whenPressed(new C_TestSetTalonNum(true)); //select previous motor in list
+		testBtnA.whileHeld(new C_TestDriveOneMotorGroup());       //while held move lower left stick to drive motor
 		
-		// change the talon num
-		testLeftBumper.whenPressed(new C_TestSetTalonNum(false));
-		testRightBumper.whenPressed(new C_TestSetTalonNum(true));
+		// test complete autonomous, release button to stop
+		CommandGroup completeAutonomous = new CG_TestAutonomous();
+		testBtnSelect.whenPressed(completeAutonomous);
+		testBtnSelect.whenReleased(new C_StopCommand(completeAutonomous));
+	
+		// test a single PID whileHeld
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));
-//		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
-		
+//		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
+
 		Command shooterPID = new C_TunePID(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, false);
-		testBtnX.whenPressed(shooterPID);
-		testBtnB.whenPressed(new C_StopCommand(shooterPID));
-		
+		testBtnX.whileHeld(shooterPID);
+//		testBtnB.whenPressed(new C_StopCommand(shooterPID));
+		testBtnB.whenPressed(new C_ZeroEncoders());
 		// autoTest
 		// to use auto test, hold the start button and press the select button
-
-		testBtnSelect.whenPressed(new C_RunAutoTest());
-		testBtnSelect.whenReleased(new C_StopCommand(autoTest));
+//
+//		testBtnSelect.whenPressed(new C_RunAutoTest());
+//		testBtnSelect.whenReleased(new C_StopCommand(autoTest));
 	}
-	//// CREATING BUTTONS
-	// One type of button is a joystick button which is any button on a
-	//// joystick.
-	// You create one by telling it which joystick it's on and which button
-	// number it is.
-	// Joystick stick = new Joystick(port);
-	// Button button = new JoystickButton(stick, buttonNumber);
-
-	// There are a few additional built in buttons you can use. Additionally,
-	// by subclassing Button you can create custom triggers and bind those to
-	// commands the same as any other Button.
-
-	//// TRIGGERING COMMANDS WITH BUTTONS
-	// Once you have a button, it's trivial to bind it to a button in one of
-	// three ways:
-
-	// Start the command when the button is pressed and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenPressed(new ExampleCommand());
-
-	// Run the command while the button is being held down and interrupt it once
-	// the button is released.
-	// button.whileHeld(new ExampleCommand());
-
-	// Start the command when the button is released and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenReleased(new ExampleCommand());
 }

@@ -5,6 +5,7 @@ import org.usfirst.frc.team4911.robot.commands.C_GearLiftLower;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SS_Camera extends Subsystem {
 
@@ -24,6 +25,7 @@ public class SS_Camera extends Subsystem {
 
     public void setPosition(double pos){
     	servo.set(pos);
+    	SmartDashboard.putNumber("Camera Position", pos);
     }
 }
 
