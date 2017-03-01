@@ -18,8 +18,10 @@ public class SS_GearIntake extends Subsystem {
 		gearIntakeMotor.setPowLimit(0.7);
 		gearIntakeMotor.enablePowLimit(true);		
 		
+//		gearIntakeMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+//		gearIntakeMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(false);
 		gearIntakeMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(false);
-		//gearIntakeMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(false);
+		gearIntakeMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(true);
 
 	}
 	

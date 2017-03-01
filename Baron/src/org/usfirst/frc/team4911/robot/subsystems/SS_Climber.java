@@ -16,6 +16,11 @@ public class SS_Climber extends Subsystem {
 		climberMotors.setPowLimit(0.7);
 		climberMotors.enablePowLimit(true);
 		climberMotors.setBrakeMode(true);
+		climberMotors.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+		climberMotors.getTalon().ConfigRevLimitSwitchNormallyOpen(true);
+		climberMotors.getFollowerTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+		climberMotors.getFollowerTalon().ConfigRevLimitSwitchNormallyOpen(true);
+		
 	}
 	
     public void initDefaultCommand() {

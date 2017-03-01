@@ -17,12 +17,14 @@ public class SS_GearLift extends Subsystem {
 	
 	int tPortLift = 5;
 	
-	public final double lowPotValue = 230.0;
-	public final double topPotValue = 1000.0;
+	final double lowPotValue = 100;//230.0;
+	public final double topPotValue = 880;//1000.0;
+
 	
 	AnalogInput gearPot = new AnalogInput(0);
 
 	public DefaultMotor gearLiftMotor = new DefaultMotor(tPortLift, Robot.ss_Config.gearIntakeConst, topPotValue, lowPotValue,"GearLift");
+//	public DefaultMotor gearLiftMotor = new DefaultMotor(tPortLift, Robot.ss_Config.gearIntakeConst, "GearLift");
 	
 	public SS_GearLift() {
 		gearLiftMotor.setPowLimit(0.7);
@@ -30,8 +32,8 @@ public class SS_GearLift extends Subsystem {
 		gearLiftMotor.setSensor(CANTalon.FeedbackDevice.AnalogPot);
 		gearLiftMotor.setBrakeMode(true);
 		
-		gearLiftMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(false);
-		gearLiftMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(false);
+		gearLiftMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(true); //change when limit switch is added
+		gearLiftMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(true); //change when limit switch is added
 
 	}
 

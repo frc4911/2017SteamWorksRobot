@@ -86,12 +86,12 @@ public class OI {
 		
 		btnB.whileHeld(new C_GearInOut(true));
 		//btnSelect.whileHeld(new C_HopperSpin(false));
-		//btnY.whileHeld(new C_GearLiftLower(true));
+//		btnY.whileHeld(new C_GearLiftLower(true));
 //		Command gMoveUp = new C_GearLiftLower(true);
 //		btnY.whenPressed(gMoveUp);
 //		btnY.whenReleased(new C_StopCommand(gMoveUp));
 		
-		//btnA.whileHeld(new C_GearLiftLower(false));
+//		btnA.whileHeld(new C_GearLiftLower(false));
 		//Command gMoveDown = new C_GearLiftLower(false);
 		//btnA.whenPressed(gMoveDown);
 		//btnA.whenReleased(new C_StopCommand(gMoveDown));
