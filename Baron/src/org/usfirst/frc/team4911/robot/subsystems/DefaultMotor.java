@@ -91,6 +91,12 @@ public class DefaultMotor {
 			setSoftLimits(talon);
 			enableSoftLimits(talon, true);
 		}
+		else {
+			enableSoftLimits(talon, false);
+			if (motorPair){
+				enableSoftLimits(fTalon, false);				
+			}
+		}
 	}
 	
 	public void moveToEncPos(int ticks, int tickPerRev, int encoderTicksPerRev, double kp, double kd, double ki, double kf, double rampRate, int iZone, 

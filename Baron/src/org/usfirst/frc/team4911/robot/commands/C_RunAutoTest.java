@@ -3,11 +3,15 @@ package org.usfirst.frc.team4911.robot.commands;
 import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  *
  */
 public class C_RunAutoTest extends Command {
+	NetworkTable table;
+	final String IP = "10.49.11.84";
+	final String TABLENAME = "AutoTest";
 	
     public C_RunAutoTest() {
         // Use requires() here to declare subsystem dependencies
@@ -16,11 +20,14 @@ public class C_RunAutoTest extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	NetworkTable.setIPAddress(IP);
+    	table = NetworkTable.getTable(TABLENAME);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(Robot.oi.testBtnStart.get() && !Robot.oi.autoTest.isRunning()) {
+    		table.putBoolean("start", true);
     		Robot.oi.autoTest.start();
     	}
     }

@@ -25,6 +25,17 @@ public class SS_FuelShooter extends Subsystem {
 		
 		shooterMotors.enablePowLimit(false);
 		feederMotor.enablePowLimit(true);
+		
+		feederMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+		feederMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(true);
+		
+		shooterMotors.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+		shooterMotors.getTalon().ConfigRevLimitSwitchNormallyOpen(true);
+		shooterMotors.getFollowerTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+		shooterMotors.getFollowerTalon().ConfigRevLimitSwitchNormallyOpen(true);
+//		shooterMotors.getFollowerTalon2().ConfigFwdLimitSwitchNormallyOpen(true); //not added yet
+//		shooterMotors.getFollowerTalon2().ConfigRevLimitSwitchNormallyOpen(true);
+		
 	}
 	
     public void initDefaultCommand() {

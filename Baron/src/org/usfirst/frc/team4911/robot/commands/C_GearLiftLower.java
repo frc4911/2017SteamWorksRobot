@@ -52,10 +52,10 @@ public class C_GearLiftLower extends Command {
     }
 
     protected void end() {
-		if (pidRunning){
-    		pidRunning = false;
-    		motor.stopPID();
-		}
+//		if (pidRunning){
+//    		pidRunning = false;
+//    		motor.stopPID();
+//		}
 //		else
 			motor.stop();
     }

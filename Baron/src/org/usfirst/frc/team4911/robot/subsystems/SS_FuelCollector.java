@@ -17,6 +17,8 @@ public class SS_FuelCollector extends Subsystem {
 	public SS_FuelCollector() {
 		collectorMotors.setPowLimit(0.7);
 		collectorMotors.enablePowLimit(true);
+		collectorMotors.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+		collectorMotors.getTalon().ConfigRevLimitSwitchNormallyOpen(true);
 	}
 	
     public void initDefaultCommand() {
