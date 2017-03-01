@@ -77,7 +77,7 @@ public class SS_AutoTestStats extends Subsystem {
     
     private void displaySmart(DefaultMotor talon, boolean hasFollower, boolean hasEncoder) {
     	desc = talon.getDescription() + " " + direction;
-    	table.putString("Descrition", desc);
+    	table.putString("Description", desc);
 		smartDefaultMotor(talon, hasFollower, hasEncoder);
     }
     
