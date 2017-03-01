@@ -23,7 +23,7 @@ public class SS_FuelShooter extends Subsystem {
 		shooterMotors.setPowLimit(0.7);
 		feederMotor.setPowLimit(0.7);
 		
-		shooterMotors.enablePowLimit(true);
+		shooterMotors.enablePowLimit(false);
 		feederMotor.enablePowLimit(true);
 	}
 	
