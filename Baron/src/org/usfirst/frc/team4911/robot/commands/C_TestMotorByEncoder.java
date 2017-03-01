@@ -34,7 +34,9 @@ public class C_TestMotorByEncoder extends Command {
 	
 	boolean hitTarget = false;
 	
-    public C_TestMotorByEncoder(Subsystem subsystem, DefaultMotor talon, boolean direction, double targetPos, double duration) {
+	double power;
+	
+    public C_TestMotorByEncoder(Subsystem subsystem, DefaultMotor talon, boolean direction, double targetPos, double duration, double power) {
         // Use requires() here to declare subsystem dependencies
         requires(subsystem);
         this.subsystem = subsystem;
@@ -42,6 +44,7 @@ public class C_TestMotorByEncoder extends Command {
         this.talon = talon;
         this.targetPos = targetPos;
         this.duration = duration;
+        this.power = power;
         
 //        this.motorConst = motorConst;
 //        this.encoderConst = encoderConst;
@@ -72,9 +75,9 @@ public class C_TestMotorByEncoder extends Command {
     	if(Timer.getFPGATimestamp() < endTime && 
     	   encError > Math.abs(targetPos * 0.1)) {
     				if(direction)
-    					talon.spin(0.5);
+    					talon.spin(power);
     				else {
-    					talon.spin(-0.5);
+    					talon.spin(-power);
     				}
     				
     				Robot.ss_AutoTestStats.putData(subsystem, talon, direction, targetPos, encError);

@@ -28,13 +28,16 @@ public class C_TestMotorByTime extends Command {
 	double startTime;
 	double endTime;
 	
-    public C_TestMotorByTime(Subsystem subsystem, DefaultMotor talon, boolean direction, double duration) {
+	double power;
+	
+    public C_TestMotorByTime(Subsystem subsystem, DefaultMotor talon, boolean direction, double duration, double power) {
         // Use requires() here to declare subsystem dependencies
     	requires(subsystem);
         this.subsystem = subsystem;
     	this.direction = direction;
         this.talon = talon;
         this.duration = duration;
+        this.power = power;
         
         if(direction)
         	dir = "forward";
@@ -54,9 +57,9 @@ public class C_TestMotorByTime extends Command {
     	
     	if(Timer.getFPGATimestamp() < endTime) {
 			if(direction)
-				talon.spin(0.5);
+				talon.spin(power);
 			else {
-				talon.spin(-0.5);
+				talon.spin(-power);
 			}
 			
 			Robot.ss_AutoTestStats.putData(subsystem, talon, direction);

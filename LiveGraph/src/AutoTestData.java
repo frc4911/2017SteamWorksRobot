@@ -13,6 +13,10 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JProgressBar;
 import java.awt.Color;
+import javax.swing.SwingConstants;
+import javax.swing.JToggleButton;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class AutoTestData {
 	final int delay = 20; //milliseconds
@@ -31,7 +35,7 @@ public class AutoTestData {
 	private JTextField txtFoutcur;
 	private JTextField txtFoutvol;
 	private JTextField txtTargetpos;
-	private JTextField txtEncerr_1;
+	private JTextField txtEncerr;
 	private JTextField txtEncpos;
 
 	/**
@@ -185,11 +189,11 @@ public class AutoTestData {
 		txtTargetpos.setText("targetPos");
 		txtTargetpos.setColumns(10);
 		
-		txtEncerr_1 = new JTextField();
-		txtEncerr_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		txtEncerr_1.setBounds(224, 463, 186, 32);
-		txtEncerr_1.setText("encErr");
-		txtEncerr_1.setColumns(10);
+		txtEncerr = new JTextField();
+		txtEncerr.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		txtEncerr.setBounds(224, 463, 186, 32);
+		txtEncerr.setText("encErr");
+		txtEncerr.setColumns(10);
 		
 		txtEncpos = new JTextField();
 		txtEncpos.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -211,7 +215,7 @@ public class AutoTestData {
 		frame.getContentPane().add(txtFstickyfau);
 		frame.getContentPane().add(txtFoutcur);
 		frame.getContentPane().add(txtFoutvol);
-		frame.getContentPane().add(txtEncerr_1);
+		frame.getContentPane().add(txtEncerr);
 		frame.getContentPane().add(txtEncpos);
 		frame.getContentPane().add(txtTargetpos);
 		frame.getContentPane().add(lblAutoTest);
@@ -223,28 +227,37 @@ public class AutoTestData {
 		frame.getContentPane().add(lblTargetposition);
 		frame.getContentPane().add(lblEncerror);
 		
-		JButton btnButton1 = new JButton("Button 1");
-		btnButton1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnButton1.setFont(new Font("Tahoma", Font.PLAIN, 26));
-		btnButton1.setBounds(422, 145, 186, 35);
-		frame.getContentPane().add(btnButton1);
-		
-		JButton btnButton2 = new JButton("Button 2");
-		btnButton2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnButton2.setFont(new Font("Tahoma", Font.PLAIN, 26));
-		btnButton2.setBounds(612, 145, 186, 35);
-		frame.getContentPane().add(btnButton2);
+		JButton btnLowerGearLift = new JButton("Lower Gear Lift");
+		btnLowerGearLift.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		btnLowerGearLift.setBounds(612, 145, 186, 35);
+		frame.getContentPane().add(btnLowerGearLift);
 		
 		JProgressBar progressBar = new JProgressBar();
 		progressBar.setForeground(new Color(50, 205, 50));
 		progressBar.setBounds(21, 109, 777, 19);
 		frame.getContentPane().add(progressBar);
+		
+		JLabel lbltheGearLift = new JLabel("**The gear lift MUST be placed in the\r\n");
+		lbltheGearLift.setHorizontalAlignment(SwingConstants.LEFT);
+		lbltheGearLift.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lbltheGearLift.setForeground(new Color(255, 51, 51));
+		lbltheGearLift.setBounds(431, 375, 367, 31);
+		frame.getContentPane().add(lbltheGearLift);
+		
+		JLabel lblInTheLowered = new JLabel("lowered position for auto test**\r\n");
+		lblInTheLowered.setForeground(new Color(255, 51, 51));
+		lblInTheLowered.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lblInTheLowered.setBounds(431, 402, 367, 32);
+		frame.getContentPane().add(lblInTheLowered);
+		
+		JToggleButton tglGear = new JToggleButton("Gear Disabled");
+		tglGear.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+			}
+		});
+		tglGear.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		tglGear.setBounds(422, 146, 186, 32);
+		frame.getContentPane().add(tglGear);
 		
 		final String TALONVALUE = "TalonValue ";
 		final String STICKY = "StickyFaults ";
@@ -283,9 +296,9 @@ public class AutoTestData {
 					txtFoutvol.setText(table.getString(CURR + "f" + desc, null));
 					
 					// Encoder
-					txtTargetpos.setText(table.getString(ENCPOS + desc, null));
-					txtEncerr_1.setText(table.getString(TARGET + desc, null));						
-					txtEncpos.setText(table.getString(ERROR + desc, null));	
+					txtEncpos.setText(table.getString(ENCPOS + desc, null));
+					txtTargetpos.setText(table.getString(TARGET + desc, null));						
+					txtEncerr.setText(table.getString(ERROR + desc, null));	
 					
 					if(table.getBoolean("start", true)) {
 						progressBar.setValue(0);
@@ -294,10 +307,25 @@ public class AutoTestData {
 						progressBar.setValue(progressBar.getValue() + PROGRESS);
 						table.putString("done", "incomplete");
 					}
+					
+					if(tglGear.isSelected()) {
+						table.putBoolean("enabled", true);
+						tglGear.setText("Gear Enabled");
+						tglGear.setForeground(Color.GREEN);
+						if(btnLowerGearLift.isSelected()) {
+							progressBar.setValue(50);
+						}
+						
+					} else {
+						table.putBoolean("enabled", false);
+						tglGear.setText("Gear Disabled");
+						tglGear.setForeground(Color.RED);
+						tglGear.setBackground(Color.DARK_GRAY);
+
+					}
 		      }
 		  };
 		  new Timer(delay, taskPerformer).start();
 	}
-	
 }
 
