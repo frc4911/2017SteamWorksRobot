@@ -16,14 +16,14 @@ public class SS_FuelShooter extends Subsystem {
 	int tPortShooter = 9;
 	int tPortShooterF = 10;
 	
-	public DefaultMotor feederMotor = new DefaultMotor(tPortFeeder, Robot.ss_Config.shooterFeederConst, "ShooterFeeder");
-	public DefaultMotor shooterMotors = new DefaultMotor(tPortShooter, tPortShooterF, Robot.ss_Config.shooterFlywheelConst, "ShooterFlywheel");
+	public DefaultMotor feederMotor = new DefaultMotor(tPortFeeder, -1 /*Robot.ss_Config.shooterFeederConst*/, "ShooterFeeder");
+	public DefaultMotor shooterMotors = new DefaultMotor(tPortShooter, tPortShooterF, -1/*Robot.ss_Config.shooterFlywheelConst*/, "ShooterFlywheel");
 
 	public SS_FuelShooter() {
-		shooterMotors.setPowLimit(0.7);
+		shooterMotors.setPowLimit(0.9);
 		feederMotor.setPowLimit(0.7);
 		
-		shooterMotors.enablePowLimit(false);
+		shooterMotors.enablePowLimit(true);
 		feederMotor.enablePowLimit(true);
 		
 		feederMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
