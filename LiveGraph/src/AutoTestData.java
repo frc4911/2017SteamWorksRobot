@@ -70,7 +70,7 @@ public class AutoTestData {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 840, 620);
+		frame.setBounds(100, 100, 845, 580);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLabel lblAutoTest = new JLabel("Auto Test");
@@ -139,7 +139,7 @@ public class AutoTestData {
 		
 		JLabel lblFstickyfaults = new JLabel("fStickyFaults");
 		lblFstickyfaults.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		lblFstickyfaults.setBounds(431, 214, 177, 26);
+		lblFstickyfaults.setBounds(431, 217, 177, 26);
 		
 		JLabel lblFoutcurrent = new JLabel("fOutCurrent");
 		lblFoutcurrent.setFont(new Font("Tahoma", Font.PLAIN, 28));
@@ -151,7 +151,7 @@ public class AutoTestData {
 		
 		txtFstickyfau = new JTextField();
 		txtFstickyfau.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		txtFstickyfau.setBounds(612, 211, 186, 32);
+		txtFstickyfau.setBounds(612, 215, 186, 32);
 		txtFstickyfau.setText("fStickyFau");
 		txtFstickyfau.setColumns(10);
 		
@@ -163,7 +163,7 @@ public class AutoTestData {
 		
 		txtFoutvol = new JTextField();
 		txtFoutvol.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		txtFoutvol.setBounds(612, 299, 186, 32);
+		txtFoutvol.setBounds(612, 300, 186, 32);
 		txtFoutvol.setText("fOutVol");
 		txtFoutvol.setColumns(10);
 		
@@ -226,7 +226,6 @@ public class AutoTestData {
 		JButton btnButton1 = new JButton("Button 1");
 		btnButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				table.putBoolean("start", true);
 			}
 		});
 		btnButton1.setFont(new Font("Tahoma", Font.PLAIN, 26));
@@ -236,7 +235,6 @@ public class AutoTestData {
 		JButton btnButton2 = new JButton("Button 2");
 		btnButton2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				table.putString("done", "complete");
 			}
 		});
 		btnButton2.setFont(new Font("Tahoma", Font.PLAIN, 26));

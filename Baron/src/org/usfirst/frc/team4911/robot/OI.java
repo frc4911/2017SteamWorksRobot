@@ -145,7 +145,6 @@ public class OI {
 		//testBtn11.whileHeld(testCmd);
 		
 		//testBtn7.whenReleased(new CG_AutoTest());
-		
 		//testDriveJoystick = new C_TriggerWhileHeld(new C_TestDriveByJoystick(), autoTestGamepad, false);
 		//testDriveSet =      new C_TriggerWhileHeld(new C_TestDriveBySet(),      autoTestGamepad, true);
 		
@@ -155,22 +154,24 @@ public class OI {
 		testBtnA.whileHeld(new C_TestDriveOneMotorGroup());       //while held move lower left stick to drive motor
 		
 		// test complete autonomous, release button to stop
-		CommandGroup completeAutonomous = new CG_TestAutonomous();
-		testBtnSelect.whenPressed(completeAutonomous);
-		testBtnSelect.whenReleased(new C_StopCommand(completeAutonomous));
+//		CommandGroup completeAutonomous = new CG_TestAutonomous();
+//		testBtnSelect.whenPressed(completeAutonomous);
+//		testBtnSelect.whenReleased(new C_StopCommand(completeAutonomous));
 	
 		// test a single PID whileHeld
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
 
 		Command shooterPID = new C_TunePID(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, false);
-		testBtnX.whenPressed(shooterPID);
+		testBtnX.whileHeld(shooterPID);
 //		testBtnB.whenPressed(new C_StopCommand(shooterPID));
 		testBtnB.whenPressed(new C_ZeroEncoders());
 		// autoTest
 		// to use auto test, hold the start button and press the select button
 //
-//		testBtnSelect.whenPressed(new C_RunAutoTest());
-//		testBtnSelect.whenReleased(new C_StopCommand(autoTest));
+		// Auto Test
+		// select and start buttons are reserved for auto test
+		testBtnSelect.whenPressed(new C_RunAutoTest());
+		testBtnSelect.whenReleased(new C_StopCommand(autoTest));
 	}
 }

@@ -52,6 +52,8 @@ public class SS_AutoTestStats extends Subsystem {
     
     public void smartCompletion(double timeOut) {
     	smart("TimeOut " + desc, "" + timeOut);
+    	
+    	smart("done", "complete");
     }
     
     public void putData(Subsystem subsystem, DefaultMotor talon, boolean direction, double encError, double targetPos) {
@@ -77,7 +79,6 @@ public class SS_AutoTestStats extends Subsystem {
     	desc = talon.getDescription() + " " + direction;
     	table.putString("Descrition", desc);
 		smartDefaultMotor(talon, hasFollower, hasEncoder);
-		
     }
     
     private void smartDefaultMotor(DefaultMotor talon, boolean hasFollower, boolean hasEncoder) {
@@ -94,7 +95,7 @@ public class SS_AutoTestStats extends Subsystem {
 			smart("StickyFaults " + "f" + desc, "" + talon.checkStickyFaults(talon, true));
 			smart("OutVolt " + "f" + desc, "" + DF.format(talon.getOutputVoltage(true)));
 			smart("OutCurr " + "f" + desc, "" + DF.format(talon.getOutputCurrent(true)));
-		} // TODO: add null
+		}
 		
 		smart("TalonSpeed " + desc, "" + DF.format(talon.getTalonSpeed()));
 		
@@ -102,7 +103,7 @@ public class SS_AutoTestStats extends Subsystem {
 			smart("EncPos " + desc, "" + DF.format(talon.getEncPos()));
 			smart("TargetPos " + desc, "" + DF.format(targetPos));
 			smart("EncError " + desc, "" + DF.format(encError));
-		} // TODO: add null
+		}
     }
     
     private void smart(String key, String data) {
