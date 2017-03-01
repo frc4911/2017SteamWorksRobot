@@ -26,6 +26,7 @@ public class C_RunAutoTest extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	if(Robot.oi.testBtnStart.get() && !Robot.oi.autoTest.isRunning()) {
     		table.putBoolean("start", true);
     		Robot.oi.autoTest.start();

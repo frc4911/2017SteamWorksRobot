@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.robot.commands;
 
+import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
 
 import com.ctre.CANTalon;
@@ -64,6 +65,7 @@ public class C_MoveToEncPos extends Command {
     
     private final double TOLERANCE = 0.01;
     protected void execute() {
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	timeToEnd();
     	if((Math.abs(motor.getEncPos() - ticks)) > (ticks * TOLERANCE)) {
     		time = 0.0;

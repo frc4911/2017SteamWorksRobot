@@ -12,7 +12,6 @@ import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
 import org.usfirst.frc.team4911.robot.commands.C_MoveToEncPos;
 import org.usfirst.frc.team4911.robot.commands.C_RunAutoTest;
 import org.usfirst.frc.team4911.robot.commands.C_GearLiftLower;
-import org.usfirst.frc.team4911.robot.commands.C_GearSpit;
 import org.usfirst.frc.team4911.robot.commands.C_HopperSpin;
 import org.usfirst.frc.team4911.robot.commands.C_StopCommand;
 import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;

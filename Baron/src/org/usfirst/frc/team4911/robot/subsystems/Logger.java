@@ -80,6 +80,8 @@ public class Logger extends Subsystem {
     
     int climberStartIndex = 0;
     
+    int cameraIndex = 0;
+    
     public Logger() {
     	// talon constants
     	talonConstIndex = Robot.ss_Logging.addColumn("talonConstants");
@@ -127,6 +129,8 @@ public class Logger extends Subsystem {
     	climberStartIndex = addMotorIndices(Robot.ss_Climber.climberMotors.getDescription(), false, false);
 		
 		navXStartIndex = addNAVXIndices();
+		
+		cameraIndex = Robot.ss_Logging.addColumn("Camera angle");
     }
 
     boolean logConstants = true;
@@ -197,6 +201,7 @@ public class Logger extends Subsystem {
     		SmartDashboard.putBoolean("SS_Logging present", false);
     	}
     	
+    	smartLog(true, true, cameraIndex, ""+Robot.ss_Camera.getAngle());
     	runningCommands = "";
     	stoppedCommands = "";
     }

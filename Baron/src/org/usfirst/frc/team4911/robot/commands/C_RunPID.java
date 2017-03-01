@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.robot.commands;
 
+import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.subsystems.DashboardDoubleValue;
 import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
 
@@ -79,6 +80,7 @@ public class C_RunPID extends Command {
     }
 
     protected void execute() {
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     }
 
     final int LIMIT = 50;

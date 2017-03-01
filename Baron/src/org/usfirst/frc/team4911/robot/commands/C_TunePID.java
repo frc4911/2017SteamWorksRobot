@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.robot.commands;
 
+import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.subsystems.DashboardDoubleValue;
 import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
 
@@ -115,6 +116,7 @@ public class C_TunePID extends Command {
     }
 
     protected void execute() {
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	switch(PIDType) {
 	    	case Position: 
 	    		SmartDashboard.putNumber("Tuning Curr PID Pos(pos)", motor.getEncPos()); 

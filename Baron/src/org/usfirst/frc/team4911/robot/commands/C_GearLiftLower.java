@@ -24,27 +24,27 @@ public class C_GearLiftLower extends Command {
 
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
-//    	if (Robot.oi.opGamepad.getRawButton(4)){
-//    		if (pidRunning){
-//        		pidRunning = false;
-//        		motor.stopPID();
-//    		}
-//    		motor.spin(speed);
-//    	}
-//    	else if(Robot.oi.opGamepad.getRawButton(1)){
-//    		if (pidRunning){
-//        		pidRunning = false;
-//        		motor.stopPID();
-//    		}
-//    		motor.spin(-speed);    		
-//    	}
-//    	else if(!pidRunning){
-//    		int gearPos = (int)motor.getSensorPosition();
+    	if (Robot.oi.opGamepad.getRawButton(4)){
+    		if (pidRunning){
+        		pidRunning = false;
+        		motor.stopPID();
+    		}
+    		motor.spin(speed);
+    	}
+    	else if(Robot.oi.opGamepad.getRawButton(1)){
+    		if (pidRunning){
+        		pidRunning = false;
+        		motor.stopPID();
+    		}
+    		motor.spin(-speed);    		
+    	}
+    	else if(!pidRunning){
+    		int gearPos = (int)motor.getSensorPosition();
 //    		if (gearPos > (Robot.ss_GearLift.topPotValue-30))
 //    			gearPos = (int) Robot.ss_GearLift.topPotValue;
-//        	//motor.moveToEncPos(gearPos, 1, 1, 2.0, 0, 0, 0, 0, 0, 12.0, 0, CANTalon.TalonControlMode.Position, false, false);
-//    		//pidRunning = true;
-//    	}
+        	motor.moveToEncPos(gearPos, 1, 1, 2.0, 0, 0, 0, 0, 0, 12.0, 0, CANTalon.TalonControlMode.Position, false, false);
+    		pidRunning = true;
+    	}
     }
 
     protected boolean isFinished() {
@@ -52,12 +52,12 @@ public class C_GearLiftLower extends Command {
     }
 
     protected void end() {
-//		if (pidRunning){
-//    		pidRunning = false;
-//    		motor.stopPID();
-//		}
-//		else
-			motor.stop();
+		if (pidRunning){
+    		pidRunning = false;
+    		motor.stopPID();
+		}
+
+		motor.stop();
     }
 
     protected void interrupted() {
