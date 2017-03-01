@@ -6,14 +6,11 @@ import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Drives a given motor with a given speed for a given time.
- * Additionally, all of the data collected is put to the 
- * "AutoTest" NetworkTable.
+ * Drives given motor for given amount of time with a given speed
  */
-public class C_TestMotorByTime extends Command {
+public class C_MoveMotorByTime extends Command {
 	Subsystem subsystem;
 	
 	DefaultMotor talon;
@@ -26,7 +23,7 @@ public class C_TestMotorByTime extends Command {
 	
 	double power;
 	
-    public C_TestMotorByTime(Subsystem subsystem, DefaultMotor talon, boolean direction, double duration, double power) {
+    public C_MoveMotorByTime(Subsystem subsystem, DefaultMotor talon, boolean direction, double duration, double power) {
         // Use requires() here to declare subsystem dependencies
     	requires(subsystem);
         this.subsystem = subsystem;
@@ -71,8 +68,6 @@ public class C_TestMotorByTime extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	talon.stop();
-    	
-    	Robot.ss_AutoTestStats.smartCompletion(endTime - Timer.getFPGATimestamp());
     }
 
     // Called when another command which requires one or more of the same

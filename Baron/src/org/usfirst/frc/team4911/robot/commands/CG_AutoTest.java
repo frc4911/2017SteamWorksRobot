@@ -3,14 +3,15 @@ package org.usfirst.frc.team4911.robot.commands;
 import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  *
  */
 public class CG_AutoTest extends CommandGroup {
 	private final int TARGET = 4500;
+	
 	private final double TIMEOUT = 2;
+	
 	private final double POWER = 0.5;
 	
 	private final double GEAR_LIFT_POWER = 0.3;
@@ -65,5 +66,14 @@ public class CG_AutoTest extends CommandGroup {
     	// gear arm
     	addSequential(new C_TestMotorByTime(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, true, TIMEOUT, GEAR_LIFT_POWER));
     	addSequential(new C_TestMotorByTime(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, false, TIMEOUT, GEAR_LIFT_POWER));
+    	
+    	// camera
+    	// TODO: add camera
+    	
+    	// NAVX
+    	// TODO: add NAVX
+    	
+    	// LIDAR
+    	// TODO: add LIDAR
     }
 }

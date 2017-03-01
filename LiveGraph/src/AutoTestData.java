@@ -10,13 +10,9 @@ import javax.swing.Timer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.JProgressBar;
 import java.awt.Color;
 import javax.swing.SwingConstants;
-import javax.swing.JToggleButton;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
 public class AutoTestData {
 	final int delay = 20; //milliseconds
@@ -227,37 +223,23 @@ public class AutoTestData {
 		frame.getContentPane().add(lblTargetposition);
 		frame.getContentPane().add(lblEncerror);
 		
-		JButton btnLowerGearLift = new JButton("Lower Gear Lift");
-		btnLowerGearLift.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		btnLowerGearLift.setBounds(612, 145, 186, 35);
-		frame.getContentPane().add(btnLowerGearLift);
-		
 		JProgressBar progressBar = new JProgressBar();
 		progressBar.setForeground(new Color(50, 205, 50));
 		progressBar.setBounds(21, 109, 777, 19);
 		frame.getContentPane().add(progressBar);
 		
-		JLabel lbltheGearLift = new JLabel("**The gear lift MUST be placed in the\r\n");
+		JLabel lbltheGearLift = new JLabel("**The gear lift MUST be placed in\r\n");
 		lbltheGearLift.setHorizontalAlignment(SwingConstants.LEFT);
 		lbltheGearLift.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		lbltheGearLift.setForeground(new Color(255, 51, 51));
-		lbltheGearLift.setBounds(431, 375, 367, 31);
+		lbltheGearLift.setBounds(431, 142, 367, 31);
 		frame.getContentPane().add(lbltheGearLift);
 		
-		JLabel lblInTheLowered = new JLabel("lowered position for auto test**\r\n");
+		JLabel lblInTheLowered = new JLabel("the lowered position for auto test**\r\n");
 		lblInTheLowered.setForeground(new Color(255, 51, 51));
 		lblInTheLowered.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lblInTheLowered.setBounds(431, 402, 367, 32);
+		lblInTheLowered.setBounds(431, 169, 367, 32);
 		frame.getContentPane().add(lblInTheLowered);
-		
-		JToggleButton tglGear = new JToggleButton("Gear Disabled");
-		tglGear.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-			}
-		});
-		tglGear.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		tglGear.setBounds(422, 146, 186, 32);
-		frame.getContentPane().add(tglGear);
 		
 		final String TALONVALUE = "TalonValue ";
 		final String STICKY = "StickyFaults ";
@@ -280,7 +262,7 @@ public class AutoTestData {
 					txtCurrsub.setText(currSub);
 					txtDTLDir.setText("" + direction);
 
-					String desc = table.getString("Descrition", null);
+					String desc = table.getString("Description", null);
 					
 					// Power Input
 					txtTalonval.setText(table.getString(TALONVALUE + desc, null));
@@ -306,22 +288,6 @@ public class AutoTestData {
 					} else if(Objects.equals(table.getString("done", "incomplete"), "complete")) {
 						progressBar.setValue(progressBar.getValue() + PROGRESS);
 						table.putString("done", "incomplete");
-					}
-					
-					if(tglGear.isSelected()) {
-						table.putBoolean("enabled", true);
-						tglGear.setText("Gear Enabled");
-						tglGear.setForeground(Color.GREEN);
-						if(btnLowerGearLift.isSelected()) {
-							progressBar.setValue(50);
-						}
-						
-					} else {
-						table.putBoolean("enabled", false);
-						tglGear.setText("Gear Disabled");
-						tglGear.setForeground(Color.RED);
-						tglGear.setBackground(Color.DARK_GRAY);
-
 					}
 		      }
 		  };

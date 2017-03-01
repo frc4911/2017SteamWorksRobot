@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class SS_GearLift extends Subsystem {
+	// Positive input to move up
+	// Negative input to move down
+	
 	
 	int tPortLift = 5;
 	

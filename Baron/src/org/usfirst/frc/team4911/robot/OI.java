@@ -114,6 +114,31 @@ public class OI {
 		//rightBumper.whileHeld(new C_GearOnPeg());
 		
 		/********TestingStick*******/
+				
+		// change the talon num for individual motor group test with joystick axis
+		testLeftBumper.whenPressed(new C_TestSetTalonNum(false)); //select next motor in list
+		testRightBumper.whenPressed(new C_TestSetTalonNum(true)); //select previous motor in list
+//		testBtnA.whileHeld(new C_TestDriveOneMotorGroup());       //while held move lower left stick to drive motor
+				
+		// change the motor speed
+		testBtnY.whenPressed(new C_TestSetMotorSpeed(true)); // bump the speed up
+		testBtnA.whenPressed(new C_TestSetMotorSpeed(false)); // bump the speed down
+	
+		// while holding the right trigger, the left joystick can be used to move the motor
+		Command testDriveJoystick = new C_TriggerWhileHeld(new C_TestDriveByJoystick(), autoTestGamepad, false);
+		
+		// Auto Test
+		autoTest = new CG_AutoTest();
+		
+		// select and start buttons are reserved for auto test
+		testBtnSelect.whenPressed(new C_RunAutoTest());
+		testBtnSelect.whenReleased(new C_StopCommand(autoTest));
+		
+		// auto gear placement test
+		Command placeGear = new CG_PlaceGearAuto();
+		testBtnB.whenPressed(placeGear);
+		testBtnB.whenReleased(new C_StopCommand(placeGear));
+		
 //		testCmd = new C_TunePID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true);
 //		kp = ?
 //		ticks = 10000
@@ -121,37 +146,8 @@ public class OI {
 //		kf = 1
 //		ticks = 300
 //		testCmd = new C_TunePID(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, 1, 1, CANTalon.TalonControlMode.Position, false, false);
-		autoTest = new CG_AutoTest();
 		//kp 1.5 to 3.0
-		
-//		testBtnStart.whileHeld(new CG_TuneDriveTrainPID());
-		
-//		testStickBtn11.whileHeld(testCmd);
-//		
-//		//testBtn7.whenReleased(new CG_AutoTest());
-//		
-//		testStickBtn1.whileHeld(new C_TestDriveByJoystick());
-//		testStickBtn2.whileHeld(new C_TestDriveBySet());
-//		
-//		// change the talon num
-//		testStickBtn5.whenPressed(new C_TestSetTalonNum(false));
-//		testStickBtn6.whenPressed(new C_TestSetTalonNum(true));
-//		
-//		// change the motor speed
-//		testStickBtn3.whenPressed(new C_TestSetMotorSpeed(false));
-//		testStickBtn4.whenPressed(new C_TestSetMotorSpeed(true));
-		
-		//testBtn11.whileHeld(testCmd);
-		
-		//testBtn7.whenReleased(new CG_AutoTest());
-		//testDriveJoystick = new C_TriggerWhileHeld(new C_TestDriveByJoystick(), autoTestGamepad, false);
-		//testDriveSet =      new C_TriggerWhileHeld(new C_TestDriveBySet(),      autoTestGamepad, true);
-		
-		// change the talon num for individual motor group test with joystick axis
-		testLeftBumper.whenPressed(new C_TestSetTalonNum(false)); //select next motor in list
-		testRightBumper.whenPressed(new C_TestSetTalonNum(true)); //select previous motor in list
-		testBtnA.whileHeld(new C_TestDriveOneMotorGroup());       //while held move lower left stick to drive motor
-		
+				
 		// test complete autonomous, release button to stop
 //		CommandGroup completeAutonomous = new CG_TestAutonomous();
 //		testBtnSelect.whenPressed(completeAutonomous);
@@ -161,16 +157,9 @@ public class OI {
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
 
-		Command shooterPID = new C_TunePID(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, false);
-		testBtnX.whileHeld(shooterPID);
+//		Command shooterPID = new C_TunePID(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, false);
+//		testBtnX.whileHeld(shooterPID);
 //		testBtnB.whenPressed(new C_StopCommand(shooterPID));
-		testBtnB.whenPressed(new C_ZeroEncoders());
-		// autoTest
-		// to use auto test, hold the start button and press the select button
-//
-		// Auto Test
-		// select and start buttons are reserved for auto test
-		testBtnSelect.whenPressed(new C_RunAutoTest());
-		testBtnSelect.whenReleased(new C_StopCommand(autoTest));
+//		testBtnB.whenPressed(new C_ZeroEncoders());
 	}
 }
