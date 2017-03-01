@@ -14,7 +14,8 @@ public class C_CameraUpDown extends Command {
     }
 
     protected void execute() {
-        final double bump = .25;
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
+        final double bump = .01;
         
     	int povPosition = Robot.oi.stickR.getPOV(0);
     	

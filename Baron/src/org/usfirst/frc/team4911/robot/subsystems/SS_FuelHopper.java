@@ -18,6 +18,8 @@ public class SS_FuelHopper extends Subsystem {
 	public SS_FuelHopper() {
 		hopperMotor.setPowLimit(0.7);
 		hopperMotor.enablePowLimit(true);
+		hopperMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+		hopperMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(true);
 	}
 	
     public void initDefaultCommand() {

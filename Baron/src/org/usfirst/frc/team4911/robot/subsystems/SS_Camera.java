@@ -24,8 +24,14 @@ public class SS_Camera extends Subsystem {
     }
 
     public void setPosition(double pos){
-    	servo.set(pos);
-    	SmartDashboard.putNumber("Camera Position", pos);
+    	double currentPos = servo.getPosition();
+    	
+    	if ((currentPos < pos) && (pos < .895)){
+    		servo.set(pos);
+    	}
+    	else if ((currentPos > pos) && (pos > .555)){
+    		servo.set(pos);
+    	}
     }
 }
 

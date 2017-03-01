@@ -15,6 +15,13 @@ public class SS_DriveTrainRight extends Subsystem {
 	
 	public DefaultMotor rightMotors = new DefaultMotor(tPortDriveTrainFrontRight, tPortDriveTrainRearRight, Robot.ss_Config.driveMotorsRightConst, "DriveTrainRight");
 	
+	public SS_DriveTrainRight(){
+		rightMotors.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+		rightMotors.getTalon().ConfigRevLimitSwitchNormallyOpen(true);
+		rightMotors.getFollowerTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+		rightMotors.getFollowerTalon().ConfigRevLimitSwitchNormallyOpen(true);
+	}
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
     	setDefaultCommand(new C_DriveByJoystick(false));
