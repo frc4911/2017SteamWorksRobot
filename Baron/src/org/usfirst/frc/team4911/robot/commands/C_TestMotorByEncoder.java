@@ -37,7 +37,12 @@ public class C_TestMotorByEncoder extends Command {
 	
 	double power;
 	
-    public C_TestMotorByEncoder(Subsystem subsystem, DefaultMotor talon, boolean direction, double targetPos, double duration, double power) {
+    public C_TestMotorByEncoder(Subsystem subsystem, 
+    		DefaultMotor talon, 
+    		boolean direction, 
+    		double targetPos, 
+    		double duration, 
+    		double power) {
         // Use requires() here to declare subsystem dependencies
         requires(subsystem);
         this.subsystem = subsystem;
@@ -64,11 +69,12 @@ public class C_TestMotorByEncoder extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
-    	if(!talon.hasFollower()) {
-    		current = talon.getOutputCurrent(false) < MAX_CURRENT;
-    	} else {
-    		current = (talon.getOutputCurrent(false) < MAX_CURRENT) && (talon.getOutputCurrent(true) < MAX_CURRENT);
-    	}
+    	current = true;
+//    	if(!talon.hasFollower()) {
+//    		current = talon.getOutputCurrent(false) < MAX_CURRENT;
+//    	} else {
+//    		current = (talon.getOutputCurrent(false) < MAX_CURRENT) && (talon.getOutputCurrent(true) < MAX_CURRENT);
+//    	}
     	
     	encError = Math.abs(talon.getEncPos() - targetPos);
     	if((Timer.getFPGATimestamp() < endTime) && 
