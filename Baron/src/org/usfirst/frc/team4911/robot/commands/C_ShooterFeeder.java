@@ -41,7 +41,7 @@ public class C_ShooterFeeder extends Command {
 //    		Robot.oi.flywheel.start();
 //    	}
     	
-    	Robot.ss_FuelShooter.feederMotor.spin(-1);
+    	Robot.ss_FuelShooter.feederMotor.spin(1);
     }
 
     // Make this return true when this Command no longer needs to run execute()
