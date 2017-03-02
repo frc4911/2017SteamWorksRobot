@@ -75,6 +75,7 @@ public class C_RunPID extends Command {
     }
     
     protected void initialize() {
+    	Robot.pidTargetReached = false;
     	motor.zeroEnc();
     	motor.moveToEncPos(ticks, ticksPerRev, encoderTicksPerRev, kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType, encoderFlip, flipMotorDir);
     }
@@ -100,6 +101,7 @@ public class C_RunPID extends Command {
     }
 
     protected void end() {
+    	Robot.pidTargetReached = true;
     	motor.stopPID();
     }
 

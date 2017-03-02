@@ -75,7 +75,7 @@ public class OI {
 		//btn2 = Reverse Drive
 		
 		dtRightTrigger.whileHeld(new C_FuelCollect(true));
-		dtRight3.whileHeld(new C_FuelCollect(false));
+		dtRight2.whileHeld(new C_FuelCollect(false));
 		
 		/*********OpGamepad*********/
 		btnX.whileHeld(new C_GearInOut(false));
@@ -120,9 +120,7 @@ public class OI {
 		testRightBumper.whenPressed(new C_TestSetTalonNum(true)); //select previous motor in list
 //		testBtnA.whileHeld(new C_TestDriveOneMotorGroup());       //while held move lower left stick to drive motor
 				
-		// change the motor speed
-		testBtnY.whenPressed(new C_TestSetMotorSpeed(true)); // bump the speed up
-		testBtnA.whenPressed(new C_TestSetMotorSpeed(false)); // bump the speed down
+		testBtnY.whileHeld(new CG_TestAutonomous());
 	
 		// while holding the right trigger, the left joystick can be used to move the motor
 		Command testDriveJoystick = new C_TriggerWhileHeld(new C_TestDriveByJoystick(), autoTestGamepad, false);

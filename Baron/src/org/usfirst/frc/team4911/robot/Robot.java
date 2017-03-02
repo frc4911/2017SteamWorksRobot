@@ -43,6 +43,8 @@ public class Robot extends IterativeRobot {
 	public static Logger ss_UpdateLog = null;
 	
 	public static OI oi;
+	
+	public static boolean pidTargetReached;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
