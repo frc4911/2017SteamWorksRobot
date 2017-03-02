@@ -75,13 +75,14 @@ public class MinimalStaticChart implements Runnable {
 			switch (choice){
 				case 0:
 					pt = MainLiveGraph.cd.speedRPM;
-					if (pt > 2500){
-						if (counter > 2)
+					if (pt > 5000){
+						if (counter > 2){
 							trace.addPoint(counter++,pt);
+						}
 						else if (counter == 0)
-							trace.addPoint(counter++,2800);
+							trace.addPoint(counter++,7000);
 						else
-							trace.addPoint(counter++,3300);
+							trace.addPoint(counter++,9000);
 					}
 					break;
 				case 1:

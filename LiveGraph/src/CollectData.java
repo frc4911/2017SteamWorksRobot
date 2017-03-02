@@ -26,7 +26,9 @@ public class CollectData implements Runnable {
 		
 		while (keepGoing){
 			try { Thread.sleep(100); } catch (InterruptedException e) {}
-//			speedRPM = table.getNumber("encoder speed (RPM)2",-999);
+//			speedRPM = table.getNumber("I am alive",-999);
+			speedRPM = Double.parseDouble(table.getString("ShooterFlywheel getSpeed","-999"));
+			//System.out.println(speedRPM);
 			
 //			if (speedRPM == last){
 //				counter++;
