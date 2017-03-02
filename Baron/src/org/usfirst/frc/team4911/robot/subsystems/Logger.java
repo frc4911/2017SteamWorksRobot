@@ -80,6 +80,8 @@ public class Logger extends Subsystem {
     
     int climberStartIndex = 0;
     
+    int cameraIndex = 0;
+    
     public Logger() {
     	// talon constants
     	talonConstIndex = Robot.ss_Logging.addColumn("talonConstants");
@@ -102,10 +104,10 @@ public class Logger extends Subsystem {
     	rightJoystickYIndex = Robot.ss_Logging.addColumn("rightStickY");
     	
     	// driveTrainLeft
-    	dtLStartIndex = addMotorIndices(Robot.ss_DriveTrain.leftMotors.getDescription(), true, true);
+    	dtLStartIndex = addMotorIndices(Robot.ss_DriveTrainLeft.leftMotors.getDescription(), true, true);
     	
     	// driveTrainRight
-    	dtRStartIndex = addMotorIndices(Robot.ss_DriveTrain.rightMotors.getDescription(), true, true);
+    	dtRStartIndex = addMotorIndices(Robot.ss_DriveTrainRight.rightMotors.getDescription(), true, true);
     	
     	// fuelCollector
 		fCollStartIndex = addMotorIndices(Robot.ss_FuelCollector.collectorMotors.getDescription(), false, false);
@@ -127,6 +129,8 @@ public class Logger extends Subsystem {
     	climberStartIndex = addMotorIndices(Robot.ss_Climber.climberMotors.getDescription(), false, false);
 		
 		navXStartIndex = addNAVXIndices();
+		
+		cameraIndex = Robot.ss_Logging.addColumn("Camera angle");
     }
 
     boolean logConstants = true;
@@ -167,10 +171,10 @@ public class Logger extends Subsystem {
     		smartLog(joySmart, joyLog, rightJoystickYIndex, "" + Robot.oi.stickR.getY());
     		
     		// driveTrainLeft
-    		logDefaultMotor(Robot.ss_DriveTrain.leftMotors, true, true, dtLStartIndex);
+    		logDefaultMotor(Robot.ss_DriveTrainLeft.leftMotors, true, true, dtLStartIndex);
     		
     		// driveTrainRight
-    		logDefaultMotor(Robot.ss_DriveTrain.rightMotors, true, true, dtRStartIndex);
+    		logDefaultMotor(Robot.ss_DriveTrainRight.rightMotors, true, true, dtRStartIndex);
 
     		// fuelCollector
     		logDefaultMotor(Robot.ss_FuelCollector.collectorMotors, false, false, fCollStartIndex);
@@ -197,6 +201,7 @@ public class Logger extends Subsystem {
     		SmartDashboard.putBoolean("SS_Logging present", false);
     	}
     	
+    	smartLog(true, true, cameraIndex, ""+Robot.ss_Camera.getAngle());
     	runningCommands = "";
     	stoppedCommands = "";
     }
@@ -222,18 +227,18 @@ public class Logger extends Subsystem {
     	boolean smart = false;
 		boolean log = true;
 		smartLog(smart, log, index++, "" + motor.getTalonValue(false));
-		smartLog(smart, log, index++,motor.checkStickyFaults(motor, false));
-		smartLog(smart, log, index++,"" + motor.getOutputVoltage(false));
-		smartLog(true, log, index++, "" + motor.getOutputCurrent(false));// hardcode to dashboard for debug 
+		smartLog(smart, log, index++, "" +motor.checkStickyFaults(motor, false));
+		smartLog(smart, log, index++, "" + motor.getOutputVoltage(false));
+		smartLog(true, log, index++, "" + motor.getOutputCurrent(false)); // hardcode to dashboard for debug 
 				
 		if(hasFollower) {
-			smartLog(smart, log, index++,motor.checkStickyFaults(motor, true));
-			smartLog(smart, log, index++,"" + motor.getOutputVoltage(true));
-			smartLog(smart, log, index++,"" + motor.getOutputCurrent(true));
+			smartLog(smart, log, index++, "" +motor.checkStickyFaults(motor, true));
+			smartLog(smart, log, index++, "" + motor.getOutputVoltage(true));
+			smartLog(smart, log, index++, "" + motor.getOutputCurrent(true));
 		}
 		smartLog(smart, log, index++, "" + motor.getTalonSpeed());
 		if(hasEncoder) {
-			smartLog(true, log, index++,"" + motor.getEncPos());
+			smartLog(true, log, index++, "" + motor.getEncPos());
 		}
     }
     

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class SS_Climber extends Subsystem {
 	
 	int tPortClimber = 11;
-	int tPortClimberF = 20;
+	int tPortClimberF = 13;
 	
 	public DefaultMotor climberMotors = new DefaultMotor(tPortClimber, tPortClimberF, Robot.ss_Config.climberConst, "Climber");
 	
@@ -16,6 +16,11 @@ public class SS_Climber extends Subsystem {
 		climberMotors.setPowLimit(0.7);
 		climberMotors.enablePowLimit(true);
 		climberMotors.setBrakeMode(true);
+		climberMotors.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+		climberMotors.getTalon().ConfigRevLimitSwitchNormallyOpen(true);
+		climberMotors.getFollowerTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+		climberMotors.getFollowerTalon().ConfigRevLimitSwitchNormallyOpen(true);
+		
 	}
 	
     public void initDefaultCommand() {

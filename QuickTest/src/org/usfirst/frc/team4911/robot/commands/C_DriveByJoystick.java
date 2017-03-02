@@ -1,17 +1,17 @@
 package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.robot.Robot;
-import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class C_ClimberUp extends Command {
-    public C_ClimberUp() {
+public class C_DriveByJoystick extends Command {
+
+    public C_DriveByJoystick() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_Climber);
+        requires(Robot.ss_DriveMotor);
     }
 
     // Called just before this Command runs the first time
@@ -20,13 +20,7 @@ public class C_ClimberUp extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
-    	double input = -1 * Robot.oi.opGamepad.getRawAxis(1); //Thumbstick normally is inverted, reversing input by -1 *
-    	if(input < 0) {
-    		input = 0;
-    	}
-    	
-    	Robot.ss_Climber.climberMotors.spin(input);
+    	Robot.ss_DriveMotor.drive(-Robot.oi.stick.getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -36,12 +30,10 @@ public class C_ClimberUp extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_Climber.climberMotors.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
     }
 }

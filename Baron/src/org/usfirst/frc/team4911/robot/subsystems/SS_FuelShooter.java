@@ -15,17 +15,27 @@ public class SS_FuelShooter extends Subsystem {
 	int tPortFeeder = 8;
 	int tPortShooter = 9;
 	int tPortShooterF = 10;
-	int tPortShooterF2 = 20;
 	
-	public DefaultMotor feederMotor = new DefaultMotor(tPortFeeder, Robot.ss_Config.shooterFeederConst, "ShooterFeeder");
-	public DefaultMotor shooterMotors = new DefaultMotor(tPortShooter, tPortShooterF, tPortShooterF2, Robot.ss_Config.shooterFlywheelConst, "ShooterFlywheel");
+	public DefaultMotor feederMotor = new DefaultMotor(tPortFeeder, -1 /*Robot.ss_Config.shooterFeederConst*/, "ShooterFeeder");
+	public DefaultMotor shooterMotors = new DefaultMotor(tPortShooter, tPortShooterF, -1/*Robot.ss_Config.shooterFlywheelConst*/, "ShooterFlywheel");
 
 	public SS_FuelShooter() {
-		shooterMotors.setPowLimit(0.7);
+		shooterMotors.setPowLimit(0.9);
 		feederMotor.setPowLimit(0.7);
 		
-		shooterMotors.enablePowLimit(false);
-		feederMotor.enablePowLimit(false);
+		shooterMotors.enablePowLimit(true);
+		feederMotor.enablePowLimit(true);
+		
+		feederMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+		feederMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(true);
+		
+		shooterMotors.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+		shooterMotors.getTalon().ConfigRevLimitSwitchNormallyOpen(true);
+		shooterMotors.getFollowerTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+		shooterMotors.getFollowerTalon().ConfigRevLimitSwitchNormallyOpen(true);
+//		shooterMotors.getFollowerTalon2().ConfigFwdLimitSwitchNormallyOpen(true); //not added yet
+//		shooterMotors.getFollowerTalon2().ConfigRevLimitSwitchNormallyOpen(true);
+		
 	}
 	
     public void initDefaultCommand() {

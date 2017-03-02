@@ -22,6 +22,7 @@ public class C_FuelCollect extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	if(dir) {
     		Robot.ss_FuelCollector.collectorMotors.spin(0.5);
     	} else {

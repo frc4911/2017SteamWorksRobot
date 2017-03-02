@@ -14,11 +14,15 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class SS_GearLift extends Subsystem {
+	// Positive input to move up
+	// Negative input to move down
+	
 	
 	int tPortLift = 5;
 	
-	final double lowPotValue = 652.0;
-	public final double topPotValue = 1023.0;
+	final double lowPotValue = 100;//230.0;
+	public final double topPotValue = 1020;//1000.0;
+
 	
 	AnalogInput gearPot = new AnalogInput(0);
 
@@ -29,6 +33,10 @@ public class SS_GearLift extends Subsystem {
 		gearLiftMotor.enablePowLimit(true);
 		gearLiftMotor.setSensor(CANTalon.FeedbackDevice.AnalogPot);
 		gearLiftMotor.setBrakeMode(true);
+		
+		gearLiftMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(true); //change when limit switch is added
+		gearLiftMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(true); //change when limit switch is added
+
 	}
 
 	public void initDefaultCommand() {

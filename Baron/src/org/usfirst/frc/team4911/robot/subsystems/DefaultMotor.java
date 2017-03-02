@@ -91,6 +91,12 @@ public class DefaultMotor {
 			setSoftLimits(talon);
 			enableSoftLimits(talon, true);
 		}
+		else {
+			enableSoftLimits(talon, false);
+			if (motorPair){
+				enableSoftLimits(fTalon, false);				
+			}
+		}
 	}
 	
 	public void moveToEncPos(int ticks, int tickPerRev, int encoderTicksPerRev, double kp, double kd, double ki, double kf, double rampRate, int iZone, 
@@ -118,7 +124,7 @@ public class DefaultMotor {
 			pid = null;
 		}
 		
-		zeroEnc();
+		//zeroEnc();
 	}
 	
 	public double spin(double pow) {
@@ -181,6 +187,10 @@ public class DefaultMotor {
 	
 	public CANTalon getFollowerTalon() {
 		return fTalon;
+	}
+	
+	public CANTalon getFollowerTalon2() {
+		return fTalon2;
 	}
 	
 	public CANTalonPID getPID() {
@@ -281,6 +291,10 @@ public class DefaultMotor {
 	
 	public String getDescription() {
 		return description;
+	}
+	
+	public boolean hasFollower() {
+		return motorPair;
 	}
 }
 

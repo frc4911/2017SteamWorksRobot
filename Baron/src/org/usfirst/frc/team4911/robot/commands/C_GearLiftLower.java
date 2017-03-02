@@ -40,8 +40,8 @@ public class C_GearLiftLower extends Command {
     	}
     	else if(!pidRunning){
     		int gearPos = (int)motor.getSensorPosition();
-    		if (gearPos > (Robot.ss_GearLift.topPotValue-30))
-    			gearPos = (int) Robot.ss_GearLift.topPotValue;
+//    		if (gearPos > (Robot.ss_GearLift.topPotValue-30))
+//    			gearPos = (int) Robot.ss_GearLift.topPotValue;
         	motor.moveToEncPos(gearPos, 1, 1, 2.0, 0, 0, 0, 0, 0, 12.0, 0, CANTalon.TalonControlMode.Position, false, false);
     		pidRunning = true;
     	}
@@ -56,8 +56,8 @@ public class C_GearLiftLower extends Command {
     		pidRunning = false;
     		motor.stopPID();
 		}
-		else
-			motor.stop();
+
+		motor.stop();
     }
 
     protected void interrupted() {

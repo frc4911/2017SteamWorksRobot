@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.robot.commands;
 
+import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.subsystems.DashboardDoubleValue;
 import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
 
@@ -44,7 +45,7 @@ public class C_TunePID extends Command {
 	
     public C_TunePID(Subsystem subsystem, DefaultMotor motor, int ticksPerRev, int encoderTicksPerRev, CANTalon.TalonControlMode PIDType, boolean encoderFlip, boolean flipMotorDir) {
         // Use requires() here to declare subsystem dependencies
-        //requires(subsystem);
+        requires(subsystem);
         this.motor = motor;
         this.ticksPerRev = ticksPerRev;
         this.encoderTicksPerRev = encoderTicksPerRev;
@@ -115,6 +116,7 @@ public class C_TunePID extends Command {
     }
 
     protected void execute() {
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	switch(PIDType) {
 	    	case Position: 
 	    		SmartDashboard.putNumber("Tuning Curr PID Pos(pos)", motor.getEncPos()); 

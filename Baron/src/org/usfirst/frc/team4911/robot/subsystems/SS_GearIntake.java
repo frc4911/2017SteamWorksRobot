@@ -14,11 +14,15 @@ public class SS_GearIntake extends Subsystem {
 	public DefaultMotor gearIntakeMotor = new DefaultMotor(tPortGearIntake, Robot.ss_Config.gearIntakeConst, "GearIntake");
 	
 	public SS_GearIntake() {
-		//gearIntakeMotor.getTalon().reset();
-		gearIntakeMotor.setPowLimit(0.7);
-		gearIntakeMotor.enablePowLimit(true);
-//		gearIntakeMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(false);
-		//gearIntakeMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(false);
+		
+		gearIntakeMotor.setPowLimit(0.75);
+		gearIntakeMotor.enablePowLimit(true);		
+		
+//		gearIntakeMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+//		gearIntakeMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(false);
+		gearIntakeMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(false);
+		gearIntakeMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(true);
+
 	}
 	
 	private DigitalInput lsIntake = new DigitalInput(0);

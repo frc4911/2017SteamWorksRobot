@@ -2,16 +2,21 @@ package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.robot.Robot;
 
-import com.ctre.CANTalon;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class CG_TuneDriveTrainPID extends CommandGroup {
-
-    public CG_TuneDriveTrainPID() {
+public class CG_PlaceGearAuto extends CommandGroup {
+	// gear lift
+	final double LIFT_RUNTIME = 1;
+	final double LIFT_SPEED = 0.4;
+	
+	// gear intake
+	final double INTAKE_RUNTIME = 0.75;
+	final double INTAKE_SPEED = 0.4;
+	
+    public CG_PlaceGearAuto() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -29,7 +34,7 @@ public class CG_TuneDriveTrainPID extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addParallel(new C_TunePID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, true));
-    	addParallel(new C_TunePID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Speed, true, false));
+    	addParallel(new C_MoveMotorByTime(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, false, LIFT_RUNTIME, LIFT_SPEED));
+    	addParallel(new C_MoveMotorByTime(Robot.ss_GearIntake, Robot.ss_GearIntake.gearIntakeMotor, false, INTAKE_RUNTIME, INTAKE_SPEED));
     }
 }

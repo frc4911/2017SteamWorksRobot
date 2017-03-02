@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4911.robot.commands;
 
+import org.usfirst.frc.team4911.robot.Robot;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -36,6 +38,7 @@ public class C_TriggerWhenPressed extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
 //    	if((gamepad.getRawAxis(axis) > TOLERANCE) && changeOnce) {
 //    		if(onOff) {
 //    			start = true;

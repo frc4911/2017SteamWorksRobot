@@ -8,14 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * Drives a given motor with a given speed for a given time.
- * Additionally, all of the data collected is put to the 
- * "AutoTest" NetworkTable.
+ * Drives given motor for given amount of time with a given speed
  */
-public class C_TestMotorByTime extends Command {
-	final double MAX_CURRENT = 30.0;
-	boolean current;
-
+public class C_MoveMotorByTime extends Command {
 	Subsystem subsystem;
 	
 	DefaultMotor talon;
@@ -28,9 +23,7 @@ public class C_TestMotorByTime extends Command {
 	
 	double power;
 	
-	boolean passed;
-	
-    public C_TestMotorByTime(Subsystem subsystem, DefaultMotor talon, boolean direction, double duration, double power) {
+    public C_MoveMotorByTime(Subsystem subsystem, DefaultMotor talon, boolean direction, double duration, double power) {
         // Use requires() here to declare subsystem dependencies
     	requires(subsystem);
         this.subsystem = subsystem;
@@ -50,14 +43,7 @@ public class C_TestMotorByTime extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
-    	if(!talon.hasFollower()) {
-    		current = talon.getOutputCurrent(false) < MAX_CURRENT;
-    	} else {
-    		current = (talon.getOutputCurrent(false) < MAX_CURRENT) && (talon.getOutputCurrent(true) < MAX_CURRENT);
-    	}
-    	    	
-    	if((Timer.getFPGATimestamp() < endTime) &&
-    			current) {
+    	if(Timer.getFPGATimestamp() < endTime) {
 			if(direction)
 				talon.spin(power);
 			else {
@@ -72,24 +58,16 @@ public class C_TestMotorByTime extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if((Timer.getFPGATimestamp() < endTime) &&
-    			current) {
+    	if(Timer.getFPGATimestamp() < endTime) {
     		return false;
     	}
         	
-    	if(current) {
-    		passed = true;
-    	} else {
-    		passed = false;
-    	}
 		return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	talon.stop();
-    	
-    	Robot.ss_AutoTestStats.smartCompletion(endTime - Timer.getFPGATimestamp(), passed);
     }
 
     // Called when another command which requires one or more of the same
