@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class C_DriveByJoystick extends Command {
 	private boolean leftDriveTrain;
+	private boolean reversed;
 	
     public C_DriveByJoystick(Boolean leftDriveTrain) {
         if(leftDriveTrain) {
@@ -21,11 +22,19 @@ public class C_DriveByJoystick extends Command {
 
     protected void initialize() {
     }
-
+    
+    private boolean changeOnce = true;
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
-    	if (Robot.oi.stickR.getRawButton(2)){
+    	if((Robot.oi.stickR.getRawButton(2) && changeOnce)) {
+    		reversed = true;
+    		changeOnce = false;
+    	} else if(!Robot.oi.stickR.getRawButton(2)) {
+    		changeOnce = true;
+    	}
+    	
+    	if (reversed) {
     		// flip front to back
     		if(leftDriveTrain) {
     			Robot.ss_DriveTrainLeft.leftMotors.spin(Robot.oi.stickR.getY());

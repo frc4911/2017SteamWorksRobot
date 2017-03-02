@@ -29,6 +29,7 @@ public class Robot extends IterativeRobot {
 	public static SS_FuelCollector ss_FuelCollector = null;
 	public static SS_FuelHopper ss_FuelHopper = null;
 	public static SS_FuelShooter ss_FuelShooter = null;
+	public static SS_FuelFeeder ss_FuelFeeder = null;
 	public static SS_GearIntake ss_GearIntake = null;
 	public static SS_GearLift ss_GearLift = null;
 	public static SS_Camera ss_Camera = null;
@@ -61,6 +62,7 @@ public class Robot extends IterativeRobot {
 		ss_FuelCollector = new SS_FuelCollector();
 		ss_FuelHopper = new SS_FuelHopper();
 		ss_FuelShooter = new SS_FuelShooter();
+		ss_FuelFeeder = new SS_FuelFeeder();
 		ss_GearIntake = new SS_GearIntake();
 		ss_GearLift = new SS_GearLift();
 		ss_Camera = new SS_Camera();

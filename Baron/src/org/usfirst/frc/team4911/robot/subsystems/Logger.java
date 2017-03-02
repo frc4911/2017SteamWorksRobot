@@ -69,6 +69,7 @@ public class Logger extends Subsystem {
     
     int fFeederStartIndex = 0;
     int fShooterStartIndex = 0;
+    int fShooterGetSpeedIndex = 0;
     
     int gCollLimitSwitchIndex = 0;
     int gCollStartIndex = 0;
@@ -116,9 +117,10 @@ public class Logger extends Subsystem {
     	fHopStartIndex = addMotorIndices(Robot.ss_FuelHopper.hopperMotor.getDescription(), false, false);
     	
 		// fuelShooter
-    	fFeederStartIndex = addMotorIndices(Robot.ss_FuelShooter.feederMotor.getDescription(), false, true);
+    	fFeederStartIndex = addMotorIndices(Robot.ss_FuelFeeder.feederMotor.getDescription(), false, true);
 		fShooterStartIndex = addMotorIndices(Robot.ss_FuelShooter.shooterMotors.getDescription(), true, true);
-    	
+		fShooterGetSpeedIndex = Robot.ss_Logging.addColumn(Robot.ss_FuelShooter.shooterMotors.getDescription()+" getSpeed");
+		
 		// gear assembly
     	gCollLimitSwitchIndex = Robot.ss_Logging.addColumn(Robot.ss_GearIntake.gearIntakeMotor.getDescription() + " limitSwitch");
 		gCollStartIndex = addMotorIndices(Robot.ss_GearIntake.gearIntakeMotor.getDescription(), false , false);
@@ -183,8 +185,9 @@ public class Logger extends Subsystem {
     		logDefaultMotor(Robot.ss_FuelHopper.hopperMotor, false, false, fHopStartIndex);
     		
     		// fuelShooter
-    		logDefaultMotor(Robot.ss_FuelShooter.feederMotor, false, true, fFeederStartIndex);
+    		logDefaultMotor(Robot.ss_FuelFeeder.feederMotor, false, true, fFeederStartIndex);
     		logDefaultMotor(Robot.ss_FuelShooter.shooterMotors, true, true, fShooterStartIndex);
+    		smartLog(true, true, fShooterGetSpeedIndex, ""+Robot.ss_FuelShooter.shooterMotors.getTalon().getSpeed());
     		
     		// gear assembly
     		logDefaultMotor(Robot.ss_GearIntake.gearIntakeMotor, false, false, gCollStartIndex);
