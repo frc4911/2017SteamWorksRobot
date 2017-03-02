@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class CG_AutoTest extends CommandGroup {
-	private final int TARGET = 4500;
+	private final int TARGET = 50000;
 	
 	private final double TIMEOUT = 2;
 	
@@ -49,12 +49,12 @@ public class CG_AutoTest extends CommandGroup {
     	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, false, TIMEOUT, POWER));
 
     	// shooter feeder
-//    	addSequential(new C_TestMotorByEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.feederMotor, true, TARGET, TIMEOUT, POWER));
-//    	addSequential(new C_TestMotorByEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.feederMotor, false, TARGET, TIMEOUT, POWER));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_FuelShooter, Robot.ss_FuelFeeder.feederMotor, true, TARGET, TIMEOUT, POWER));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_FuelShooter, Robot.ss_FuelFeeder.feederMotor, false, TARGET, TIMEOUT, POWER));
     	
     	// shooter flywheel
-//    	addSequential(new C_TestMotorByEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, true, TARGET, TIMEOUT, POWER));
-//    	addSequential(new C_TestMotorByEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, false, TARGET, TIMEOUT, POWER));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, true, TARGET, TIMEOUT, POWER));
+    	addSequential(new C_TestMotorByEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, false, TARGET, TIMEOUT, POWER));
 
     	// climber
     	addSequential(new C_TestMotorByTime(Robot.ss_Climber, Robot.ss_Climber.climberMotors, true, TIMEOUT, POWER));
