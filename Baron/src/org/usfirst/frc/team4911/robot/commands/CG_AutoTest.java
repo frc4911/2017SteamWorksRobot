@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class CG_AutoTest extends CommandGroup {
-	private final int TARGET = 4500;
+	private final int TARGET = 50000;
 	
 	private final double TIMEOUT = 2;
 	
@@ -34,19 +34,19 @@ public class CG_AutoTest extends CommandGroup {
         // arm.
 		
     	// drive train
-    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, true, TARGET, TIMEOUT, POWER));
-    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, false, -TARGET, TIMEOUT, POWER));
+//    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, true, TARGET, TIMEOUT, POWER));
+//    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, false, -TARGET, TIMEOUT, POWER));
     	
-    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, true, -TARGET, TIMEOUT, POWER));
+//    	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, true, -TARGET, TIMEOUT, POWER));
     	addSequential(new C_TestMotorByEncoder(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, false, TARGET,TIMEOUT, POWER));
     	
     	// fuel collector
-    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, true, TIMEOUT, POWER));
-    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, false, TIMEOUT, POWER));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, true, TIMEOUT, POWER));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelCollector, Robot.ss_FuelCollector.collectorMotors, false, TIMEOUT, POWER));
     	
     	// fuel hoppper
-    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, true, TIMEOUT, POWER));
-    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, false, TIMEOUT, POWER));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, true, TIMEOUT, POWER));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_FuelHopper, Robot.ss_FuelHopper.hopperMotor, false, TIMEOUT, POWER));
 
     	// shooter feeder
 //    	addSequential(new C_TestMotorByEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.feederMotor, true, TARGET, TIMEOUT, POWER));
@@ -57,15 +57,15 @@ public class CG_AutoTest extends CommandGroup {
 //    	addSequential(new C_TestMotorByEncoder(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, false, TARGET, TIMEOUT, POWER));
 
     	// climber
-    	addSequential(new C_TestMotorByTime(Robot.ss_Climber, Robot.ss_Climber.climberMotors, true, TIMEOUT, POWER));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_Climber, Robot.ss_Climber.climberMotors, true, TIMEOUT, POWER));
     	
     	// gear collector
-    	addSequential(new C_TestMotorByTime(Robot.ss_GearIntake, Robot.ss_GearIntake.gearIntakeMotor, true, TIMEOUT, POWER));
-    	addSequential(new C_TestMotorByTime(Robot.ss_GearIntake, Robot.ss_GearIntake.gearIntakeMotor, false, TIMEOUT, POWER));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_GearIntake, Robot.ss_GearIntake.gearIntakeMotor, true, TIMEOUT, POWER));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_GearIntake, Robot.ss_GearIntake.gearIntakeMotor, false, TIMEOUT, POWER));
     	
     	// gear arm
-    	addSequential(new C_TestMotorByTime(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, true, TIMEOUT, GEAR_LIFT_POWER));
-    	addSequential(new C_TestMotorByTime(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, false, TIMEOUT, GEAR_LIFT_POWER));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, true, TIMEOUT, GEAR_LIFT_POWER));
+//    	addSequential(new C_TestMotorByTime(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, false, TIMEOUT, GEAR_LIFT_POWER));
     	
     	// camera
     	// TODO: add camera

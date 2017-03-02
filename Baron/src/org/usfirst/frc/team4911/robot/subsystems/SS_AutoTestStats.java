@@ -50,7 +50,8 @@ public class SS_AutoTestStats extends Subsystem {
     	smart("done", "complete");
     }
     
-    public void smartCompletion(double timeOut) {
+    public void smartCompletion(double timeOut, boolean passed) {
+    	smart("HitTarget " + desc, "" + passed);
     	smart("TimeOut " + desc, "" + timeOut);
     	
     	smart("done", "complete");
