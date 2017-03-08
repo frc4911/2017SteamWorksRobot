@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class C_GearInOut extends Command {
 
-	double speed = -.4;
+	double speed = -0.5;
 	DefaultMotor motor = null;
 
 	public C_GearInOut(boolean intake) {

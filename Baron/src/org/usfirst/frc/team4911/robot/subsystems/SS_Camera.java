@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class SS_Camera extends Subsystem {
 
 	Servo servo = new Servo(0);
-	public final double topAngle = 95;
-	public final double bottomAngle = 135;
+	public final double topAngle = 105;
+	public final double bottomAngle = 145;
 	
     public void initDefaultCommand() {
     	setDefaultCommand(new C_CameraUpDown());

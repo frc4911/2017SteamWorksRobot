@@ -27,14 +27,14 @@ public class C_DriveByJoystick extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
-    	if((Robot.oi.stickR.getRawButton(2) && changeOnce)) {
-    		reversed = true;
-    		changeOnce = false;
-    	} else if(!Robot.oi.stickR.getRawButton(2)) {
-    		changeOnce = true;
-    	}
+//    	if((Robot.oi.stickR.getRawButton(2) && changeOnce)) {
+//    		reversed = true;
+//    		changeOnce = false;
+//    	} else if(!Robot.oi.stickR.getRawButton(2)) {
+//    		changeOnce = true;
+//    	}
     	
-    	if (reversed) {
+    	if (Robot.oi.stickR.getRawButton(3)) {
     		// flip front to back
     		if(leftDriveTrain) {
     			Robot.ss_DriveTrainLeft.leftMotors.spin(Robot.oi.stickR.getY());

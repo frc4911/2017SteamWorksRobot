@@ -18,7 +18,7 @@ public class SS_FuelShooter extends Subsystem {
 	public DefaultMotor shooterMotors = new DefaultMotor(tPortShooter, tPortShooterF, -1/*Robot.ss_Config.shooterFlywheelConst*/, "ShooterFlywheel");
 
 	public SS_FuelShooter() {
-		shooterMotors.setPowLimit(1.0);
+		shooterMotors.setPowLimit(0.77);
 		shooterMotors.setBrakeMode(false);
 		shooterMotors.enablePowLimit(true);
 		

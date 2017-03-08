@@ -15,7 +15,7 @@ public class SS_FuelFeeder extends Subsystem {
 	public DefaultMotor feederMotor = new DefaultMotor(tPortFeeder, -1 /*Robot.ss_Config.shooterFeederConst*/, "ShooterFeeder");
 
 	public SS_FuelFeeder() {
-		feederMotor.setPowLimit(0.7);
+		feederMotor.setPowLimit(0.55);
 		feederMotor.setBrakeMode(false);
 		feederMotor.enablePowLimit(true);
 		

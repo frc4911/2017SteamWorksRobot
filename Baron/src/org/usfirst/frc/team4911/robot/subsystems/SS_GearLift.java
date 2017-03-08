@@ -20,16 +20,17 @@ public class SS_GearLift extends Subsystem {
 	
 	int tPortLift = 5;
 	
-	final double lowPotValue = 90; // black 100;
-	public final double topPotValue = 900; //black 1000.0;
+	final double lowPotValue = 250; // black 130		Silver 90
+	public final double topPotValue = 1023; //black 950		Silver 900
 
 	
 	AnalogInput gearPot = new AnalogInput(0);
 
-	public DefaultMotor gearLiftMotor = new DefaultMotor(tPortLift, Robot.ss_Config.gearIntakeConst, topPotValue, lowPotValue,"GearLift");
+	//public DefaultMotor gearLiftMotor = new DefaultMotor(tPortLift, Robot.ss_Config.gearIntakeConst, topPotValue, lowPotValue, "GearLift");
+	public DefaultMotor gearLiftMotor = new DefaultMotor(tPortLift, Robot.ss_Config.gearIntakeConst, "GearLift");
 	
 	public SS_GearLift() {
-		gearLiftMotor.setPowLimit(0.7);
+		gearLiftMotor.setPowLimit(0.6);
 		gearLiftMotor.enablePowLimit(true);
 		gearLiftMotor.setSensor(CANTalon.FeedbackDevice.AnalogPot);
 		gearLiftMotor.setBrakeMode(true);

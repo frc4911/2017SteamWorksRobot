@@ -1,6 +1,9 @@
 
 package org.usfirst.frc.team4911.robot;
-
+import java.awt.*;
+import org.usfirst.frc.team4911.robot.commands.CG_DrivePastBaseline;
+import org.usfirst.frc.team4911.robot.commands.CG_GearAutonomous;
+import org.usfirst.frc.team4911.robot.commands.CG_TestAutonomous;
 import org.usfirst.frc.team4911.robot.subsystems.*;
 
 import edu.wpi.cscore.UsbCamera;
@@ -48,7 +51,8 @@ public class Robot extends IterativeRobot {
 	public static boolean pidTargetReached;
 
 	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	//SendableChooser<Command> chooser = new SendableChooser<>();
+	int chooser;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -78,7 +82,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		//chooser.addDefault("Default Auto", <insert command here>);
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		SmartDashboard.putNumber("Auto mode", chooser);
 		cameraManager();
 		//updateSDForPIDTuning();
 		ss_Config.updateConfigFile("/c/config.txt");
@@ -133,8 +137,21 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
-
+		//autonomousCommand = chooser.getSelected();
+		chooser = SmartDashboard.getInt("Auto mode", 0);
+		switch(chooser) {
+			case 1:
+				autonomousCommand = new CG_GearAutonomous();
+				break;
+			case 2:
+				autonomousCommand = new CG_DrivePastBaseline();
+				break;
+			default:
+				//nothing;
+				autonomousCommand = null;
+				break;
+		}
+		
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

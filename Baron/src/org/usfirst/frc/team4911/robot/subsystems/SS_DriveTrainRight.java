@@ -13,7 +13,7 @@ public class SS_DriveTrainRight extends Subsystem {
 	int tPortDriveTrainFrontRight = 1; //0;
 	int tPortDriveTrainRearRight = 0; //1;
 	
-	public DefaultMotor rightMotors = new DefaultMotor(tPortDriveTrainFrontRight, tPortDriveTrainRearRight, Robot.ss_Config.driveMotorsRightConst, "DriveTrainRight");
+	public DefaultMotor rightMotors = new DefaultMotor(tPortDriveTrainFrontRight, tPortDriveTrainRearRight, -1 /*Robot.ss_Config.driveMotorsRightConst*/, "DriveTrainRight");
 	
 	public SS_DriveTrainRight(){
 		rightMotors.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
