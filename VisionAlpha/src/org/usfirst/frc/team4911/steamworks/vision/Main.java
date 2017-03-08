@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
 
@@ -17,7 +16,6 @@ import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
 import org.usfirst.frc.team4911.opencv.Imshow;
@@ -26,31 +24,18 @@ import org.usfirst.frc.team4911.opencv.Imshow.ImshowJFrame;
 public class Main {
 	private static final Logger log = Logger.getLogger("Main");
 
-	private static String R_LEFT_L = "/gear-fake-retro-samples/sample-rotate/left_large.jpg";
-	private static String R_LEFT_M = "/gear-fake-retro-samples/sample-rotate/left_med.jpg";
-	private static String R_LEFT_S = "/gear-fake-retro-samples/sample-rotate/left_small.jpg";
-	private static String R_STRAIGHT = "/gear-fake-retro-samples/sample-rotate/straight.jpg";
-	private static String R_RIGHT_S = "/gear-fake-retro-samples/sample-rotate/right_small.jpg";
-	private static String R_RIGHT_M = "/gear-fake-retro-samples/sample-rotate/right_med.jpg";
-	private static String R_RIGHT_L = "/gear-fake-retro-samples/sample-rotate/right_large.jpg";
-
 	public static void main(String[] args) throws Exception {
 		openCVInstallCheck();
-
-		// new Main().runStaticImages();
 
 		Properties p = new Properties(System.getProperties());
 		if (args.length > 0) {
 			log.info("Reading properties from: " + args[0]);
-			// p.load(Main.class.getResourceAsStream(args[0]));
-			// System.out.println(Arrays.toString(new File(".").listFiles()));
 			p.load(new FileInputStream(args[0]));
-			p.list(System.out);
 		}
 
-		InetAddress broadcastAddress = InetAddress.getByName(p.getProperty("broadcastAddress", "10.111.1.255"));
+		InetAddress broadcastAddress = InetAddress.getByName(p.getProperty("broadcastAddress", "10.49.11.5"));
 		int broadcastPort = Integer
-				.parseInt(p.getProperty("broadcastPort", Integer.toString(RemoteTrackingServer.DEFAULT_PORT)));
+				.parseInt(p.getProperty("broadcastPort", Integer.toString(RemoteTrackingSender.DEFAULT_PORT)));
 		new Main().runCameraCapture(broadcastAddress, broadcastPort);
 	}
 
@@ -58,72 +43,102 @@ public class Main {
 	private List<Mat> rawImages;
 
 	public Main() {
-		this.vision = new BoilerVision(false);
+		this.vision = new BoilerVision(1);
 	}
 
-	public void runStaticImages() {
-		this.rawImages = // Arrays.asList(R_LEFT_L, R_LEFT_M, R_LEFT_S,
-							// R_STRAIGHT, R_RIGHT_S, R_RIGHT_M, R_RIGHT_L)
-				Arrays.asList("/pi-sample.jpg").stream()
-						.map(path -> Imgcodecs.imread(Main.class.getResource(path).getPath()))
-						.collect(Collectors.toList());
-
+	public void runCameraCapture(InetAddress broadcastAddress, int broadcastPort) throws InterruptedException {
 		Mat image = new Mat();
-		for (Mat rawImage : rawImages) {
-			// Imgproc.resize(rawImage, image, new Size(640, 480));
-			Imgproc.resize(rawImage, image, new Size((int) (640 * .75), (int) (480 * .75)));
-			Point error = vision.calculateError(image, true);
-			Point target = new Point(image.width() / 2, image.height() / 2);
-			Imgproc.arrowedLine(image, target, new Point(target.x + error.x, target.y + error.y), new Scalar(0, 255, 0),
-					5, 8, 0, .1);
-			// Core.arrowedLine(image, new Point(target.x - error.x, target.y -
-			// error.y), target, new Scalar(0, 255, 0));
+		VideoCapture videoCapture = new VideoCapture(0);
+		Debugger debugger = new Debugger(videoCapture, vision);
 
-			Imshow.show("Error", image);
-		}
-	}
-
-	public void runCameraCapture(InetAddress broadcastAddress, int broadcastPort) {
-		Mat image = new Mat();
-		VideoCapture videoCapture = new VideoCapture(1);
-		if (!GraphicsEnvironment.isHeadless()) {
-			new CameraPropertyEditor(videoCapture);
-		}
-
-		videoCapture.set(VideoConstants.CV_CAP_PROP_EXPOSURE, 0);
-		ImshowJFrame frame = null;
-
-		RemoteTrackingServer tracker = new RemoteTrackingServer(broadcastAddress, broadcastPort);
+		RemoteTrackingSender tracker = new RemoteTrackingSender(broadcastAddress, broadcastPort);
 
 		while (true) {
-			long captureTimer = System.currentTimeMillis();
+			debugger.captureTimer.start();
 			if (!videoCapture.read(image)) {
+				System.out.println("Failed to capture image");
+				Thread.sleep(500);
 				continue;
 			}
-			captureTimer = System.currentTimeMillis() - captureTimer;
+			debugger.captureTimer.stop();
 
-			long processTimer = System.currentTimeMillis();
+			debugger.processingTimer.start();
 			Imgproc.resize(image, image, new Size(640, 480));
-			Point error = vision.calculateError(image, true);
-			processTimer = System.currentTimeMillis() - processTimer;
-			Point target = new Point(image.width() / 2, image.height() / 2);
-			tracker.sendError(error);
-			// Core.arrowedLine(image, new Point(target.x - error.x, target.y -
-			// error.y), target, new Scalar(0, 255, 0));
+			Point error = vision.calculateError(image);
+			debugger.processingTimer.stop();
 
-			// Arrow from center to target, shows the direction to move the
-			// bot/center
+			tracker.sendError(error);
+
+			debugger.update(image, error);
+
+		}
+	}
+
+	private static class Debugger {
+		ImshowJFrame rawFrame = null;
+		ImshowJFrame debugFrame = null;
+
+		Timer captureTimer = new Timer();
+		Timer processingTimer = new Timer();
+		PropertyEditor propertyEditor;
+		Mat rawImage = new Mat();
+		Mat debugImage = new Mat();
+		Mat debugChannel1 = new Mat();
+		Mat debugChannel2 = new Mat();
+		BoilerVision vision;
+
+		public Debugger(VideoCapture videoCapture, BoilerVision vision) {
+			this.vision = vision;
+			if (!GraphicsEnvironment.isHeadless()) {
+				// new CameraPropertyEditor(videoCapture);
+				this.propertyEditor = new PropertyEditor();
+				this.propertyEditor.addSlider("Hue Min", 0d, 25d, 255d, 1d, vision::setHueMin);
+				this.propertyEditor.addSlider("Hue Max", 0d, 35d, 255d, 1d, vision::setHueMax);
+				this.propertyEditor.addSlider("Sat Min", 0d, 25d, 255d, 1d, vision::setSatMin);
+				this.propertyEditor.addSlider("Sat Max", 0d, 95d, 255d, 1d, vision::setSatMax);
+				this.propertyEditor.addSlider("Dilate", 1, 12, 20, 1, vision::setDilateSize);
+				this.propertyEditor.addSlider("Errode", 1, 6, 20, 1, vision::setErrodeSize);
+
+				this.propertyEditor.display();
+			}
+		}
+
+		public void update(Mat image, Point error) {
+			// System.out.println("Targeting Error: capture=" +
+			// captureTimer.elappsed() + "ms" + ", process="
+			// + processingTimer.elappsed() + "ms, error=" + error);
+
+			Point target = new Point(image.width() / 2, image.height() / 2);
+
 			Imgproc.arrowedLine(image, target, new Point(target.x + error.x, target.y + error.y), new Scalar(0, 255, 0),
 					3, 8, 0, .1);
 
-			// TODO make imshow accept an empty image...
-			if (frame == null && !GraphicsEnvironment.isHeadless()) {
-				frame = Imshow.show(image);
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			} else {
-				frame.update("Targeting Error: capture=" + captureTimer + "ms" + ", process=" + processTimer + "ms",
-						image);
+			if (!GraphicsEnvironment.isHeadless()) {
+				if (rawFrame == null) {
+					rawFrame = Imshow.show(image);
+					rawFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+					makeDebugImage();
+					debugFrame = Imshow.show(debugImage);
+					debugFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				} else {
+					rawFrame.update("Targeting Error: capture=" + captureTimer.elappsed() + "ms" + ", process="
+							+ processingTimer.elappsed() + "ms", image);
+
+					makeDebugImage();					
+					debugFrame.update(debugImage);
+				}
 			}
+		}
+
+		private void makeDebugImage() {
+			Core.extractChannel(vision.colorProcessedImage, debugChannel1, 0);
+			Core.extractChannel(vision.colorProcessedImage, debugChannel2, 1);
+			List<Mat> imgs = Arrays.asList(debugChannel1, debugChannel2, vision.thresholdedImage, vision.sizeAdjustedImage);
+			for (Mat img : imgs) {
+				Imgproc.resize(img, img, new Size(320, 240));
+			}
+			Core.hconcat(imgs, debugImage);
 		}
 	}
 

@@ -29,6 +29,8 @@ public class Imshow {
 		private JLabel label;
 		private Mat rawImage;
 		private String rawTitle;
+		private String givenTitle = "";
+		private String debugTitle = "";
 
 		public ImshowJFrame(String title, Mat img) {
 			super(title);
@@ -51,7 +53,8 @@ public class Imshow {
 		}
 
 		public void update(String title, Mat img) {
-			this.setTitle(title);
+			this.givenTitle = title;
+			this.setTitle(title + debugTitle);
 			update(img);
 		}
 
@@ -59,7 +62,8 @@ public class Imshow {
 		public void mouseClicked(MouseEvent e) {
 			Point point = label.getMousePosition(true);
 			double[] pixel = rawImage.get(point.y, point.x);
-			setTitle(String.format("%s: x=%s, y=%s (%s)", rawTitle, point.x, point.y, Arrays.toString(pixel)));
+			debugTitle = String.format(" - %s: x=%s, y=%s (%s)", rawTitle, point.x, point.y, Arrays.toString(pixel));
+			this.setTitle(givenTitle + debugTitle);
 		}
 
 		@Override

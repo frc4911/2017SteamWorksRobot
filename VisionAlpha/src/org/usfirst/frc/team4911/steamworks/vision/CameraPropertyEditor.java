@@ -25,10 +25,11 @@ public class CameraPropertyEditor extends JFrame {
 		content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
 		setContentPane(content);
 		createSlider("AutoExposure", VideoConstants.CV_CAP_PROP_AUTO_EXPOSURE, 0, 0, 1, .25);
-		createSlider("Exposure", VideoConstants.CV_CAP_PROP_EXPOSURE, 0, .5, 1, .05);
+		createSlider("Exposure", VideoConstants.CV_CAP_PROP_EXPOSURE, 0, 0, 24, .5);
 		createSlider("Gain", VideoConstants.CV_CAP_PROP_GAIN, 0, .5, 1, .05);
 		createSlider("Brightness", VideoConstants.CV_CAP_PROP_BRIGHTNESS, 0, .5, 1, .05);
 		createSlider("Contrast", VideoConstants.CV_CAP_PROP_CONTRAST, 0, .5, 1, .05);
+		createSlider("Gamma", VideoConstants.CV_CAP_PROP_GAMMA, 0, .5, 1, .05);
 
 		pack();
 		setVisible(true);

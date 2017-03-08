@@ -12,7 +12,6 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
-import org.usfirst.frc.team4911.opencv.Imshow;
 
 /**
  * This class is not thread-safe!
@@ -26,15 +25,59 @@ public class BoilerVision extends VisionBase {
 	}
 
 	private Mat image;
+	public Mat colorProcessedImage = new Mat();
+	public Mat thresholdedImage = new Mat();
+	public Mat sizeAdjustedImage = new Mat();
+	
+	
 	private Mat dilateElement;
 	private Mat erodeElement;
-	private boolean debug;
+	private int debug;
+	private double hueMin = 25;
+	private double hueMax= 35;
+	
+	private double satMin = 25;
+	private double satMax= 75;
 
-	public BoilerVision(boolean enableDebug) {
-		this.image = new Mat(); // this is not threadsafe!
-		this.dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(24, 24));
-		this.erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(12, 12));
-		this.debug = enableDebug;
+	public BoilerVision(int debug) {
+		// this is not threadsafe to share this matrix across threads
+		this.image = new Mat();
+
+		this.dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(12, 12));
+		this.erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(6, 6));
+		this.debug = debug;
+	}
+	
+	public void setHueMin(double v) {
+		if (v < hueMax) {
+			hueMin = v; 
+		}
+	}
+	
+	public void setHueMax(double v) {
+		if (v > hueMin) {
+			hueMax = v; 
+		}
+	}
+	
+	public void setSatMin(double v) {
+		if (v < satMax) {
+			satMin = v; 
+		}
+	}
+	
+	public void setSatMax(double v) {
+		if (v > satMin) {
+			satMax = v; 
+		}
+	}
+	
+	public void setDilateSize(int size) {
+		this.dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(size, size));
+	}
+	
+	public void setErrodeSize(int size) {
+		this.erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(size, size));
 	}
 
 	/**
@@ -43,7 +86,7 @@ public class BoilerVision extends VisionBase {
 	 * 
 	 * @return the error in the x and y direction
 	 */
-	public Point calculateError(Mat image, boolean debug) {
+	public Point calculateError(Mat image) {
 		List<MatOfPoint> contours = detectColorMarkers(image);
 
 		// find the two largest blobs, assume they are the two
@@ -82,7 +125,7 @@ public class BoilerVision extends VisionBase {
 		Rect maxBounds1 = findBoundingRect(max1);
 		Rect maxBounds2 = findBoundingRect(max2);
 		Rect combinedBounds = findBoundingRect(maxBounds1, maxBounds2);
-		if (debug) {
+		if (debug > 0) {
 			drawRect(image, maxBounds1);
 			drawRect(image, maxBounds2);
 			drawRect(image, combinedBounds);
@@ -100,18 +143,15 @@ public class BoilerVision extends VisionBase {
 		List<MatOfPoint> contours = new ArrayList<>();
 
 		Imgproc.cvtColor(cameraImage, image, Imgproc.COLOR_RGB2GRAY);
-
 		Imgproc.threshold(image, image, 155, 255, Imgproc.THRESH_BINARY);
 		Imgproc.erode(image, image, erodeElement);
 		// Imgproc.erode(image, image, erodeElement);
 		Imgproc.dilate(image, image, dilateElement);
 		// Imgproc.dilate(image, image, dilateElement);
 
-		Mat cMat = new Mat();
-		image.copyTo(cMat);
-		Imgproc.findContours(cMat, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+		Imgproc.findContours(image, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
-		if (debug) {
+		if (debug > 0) {
 			for (int i = 0; i < contours.size(); i++) {
 				Imgproc.drawContours(cameraImage, contours, i, new Scalar(255, 0, 255), 2);
 				Point p = new Point(contours.get(i).get(0, 0));
@@ -127,30 +167,32 @@ public class BoilerVision extends VisionBase {
 		List<MatOfPoint> contours = new ArrayList<>();
 
 		// extract the hue channel
-		Imgproc.cvtColor(cameraImage, image, Imgproc.COLOR_RGB2HSV);
-		Core.extractChannel(image, image, 0);
-		if (debug) {
-			Imshow.show("Hue", image);
+		Imgproc.cvtColor(cameraImage, image, Imgproc.COLOR_BGR2HSV);
+		//Core.extractChannel(image, image, 0);
+		if (debug > 0) {
+			image.copyTo(colorProcessedImage);
+		}
+	
+
+		Core.inRange(image, new Scalar(hueMin, satMin, 0), new Scalar(hueMax, satMax, 255), image);
+		if (debug > 0) {
+			image.copyTo(thresholdedImage);
 		}
 
-		Core.inRange(image, new Scalar(25), new Scalar(75), image);
-		if (debug) {
-			Imshow.show("Threshold", image);
-		}
-
+		// errode to get rid of tiny blobs
 		Imgproc.erode(image, image, erodeElement);
-		// Imgproc.erode(image, image, erodeElement);
+		
+		// dialate to fill in small gaps
 		Imgproc.dilate(image, image, dilateElement);
-		// Imgproc.dilate(image, image, dilateElement);
-		if (debug) {
-			Imshow.show("Error/Dilate	", image);
+		image.copyTo(sizeAdjustedImage);
+		
+		if (debug > 0) {
+			image.copyTo(sizeAdjustedImage);
 		}
 
-		Mat cMat = new Mat();
-		image.copyTo(cMat);
-		Imgproc.findContours(cMat, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+		Imgproc.findContours(image, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
-		if (debug) {
+		if (debug >= 1) {
 			for (int i = 0; i < contours.size(); i++) {
 				Imgproc.drawContours(cameraImage, contours, i, new Scalar(255, 0, 255), 2);
 				Point p = new Point(contours.get(i).get(0, 0));

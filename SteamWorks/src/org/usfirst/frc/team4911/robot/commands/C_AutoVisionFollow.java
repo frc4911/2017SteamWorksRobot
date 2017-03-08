@@ -31,27 +31,29 @@ public class C_AutoVisionFollow extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		System.out.println("Intializing Remote Tracker");
 		tracker = new RemoteTrackingListener(RemoteTrackingListener.DEFAULT_PORT);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		isInterrupted = false;
-		while (!isInterrupted) {
-			TargetError error = tracker.getCurrentError();
-			turn(error.getX());
-		}
+		// isInterrupted = false;
+		// while (!isInterrupted) {
+		TargetError error = tracker.getCurrentError();
+		turn(error.getX());
+		System.out.println(error);
+		// }
 	}
 
 	private void turn(double amount) {
 		if (amount < MIN_ERROR_TO_MOVE) {
 			return;
 		}
-		
+
 		// start with zero-point turns
 		amount = limit(amount, -.2, .2);
-		
+
 		Robot.ss_DriveTrain.drive(amount, amount);
 	}
 

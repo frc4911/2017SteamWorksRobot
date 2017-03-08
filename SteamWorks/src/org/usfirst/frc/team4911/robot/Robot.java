@@ -1,22 +1,18 @@
 
 package org.usfirst.frc.team4911.robot;
 
+import org.usfirst.frc.team4911.robot.commands.C_AutoVisionFollow;
 import org.usfirst.frc.team4911.robot.subsystems.SS_Arm;
 import org.usfirst.frc.team4911.robot.subsystems.SS_Config;
 import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrain;
-import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrainCaleb;
+import org.usfirst.frc.team4911.robot.subsystems.SS_Shooter;
+import org.usfirst.frc.team4911.robot.subsystems.SS_TestDefaultMotor;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrainCaleb;
-import org.usfirst.frc.team4911.robot.subsystems.SS_Logging2;
-import org.usfirst.frc.team4911.robot.subsystems.SS_Shooter;
-import org.usfirst.frc.team4911.robot.subsystems.SS_TestDefaultMotor;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -86,7 +82,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		autonomousCommand = new C_AutoVisionFollow(.1);
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",

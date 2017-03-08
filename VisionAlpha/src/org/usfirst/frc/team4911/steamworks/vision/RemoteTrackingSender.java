@@ -18,23 +18,23 @@ import org.opencv.core.Point;
  * 
  * @author nathanieltroutman
  */
-public class RemoteTrackingServer {
-	private static final Logger log = Logger.getLogger(RemoteTrackingServer.class.getName());
+public class RemoteTrackingSender {
+	private static final Logger log = Logger.getLogger(RemoteTrackingSender.class.getName());
 
-	private InetAddress broadcastAddress;
+	private InetAddress listenerAddress;
 	private TrackingPacketSender sender;
-	private int broadcastPort;
+	private int listenerPort;
 	public static int DEFAULT_PORT = 1194;
 
 	private LinkedBlockingDeque<TargetError> queue = new LinkedBlockingDeque<>();
 
 	/**
 	 * @param trackingHost
-	 *            address of the host sending tracking commands
+	 *            address of the host to send tracking commands too
 	 */
-	public RemoteTrackingServer(InetAddress clientAddress, int broadcastPort) {
-		this.broadcastAddress = clientAddress;
-		this.broadcastPort = broadcastPort;
+	public RemoteTrackingSender(InetAddress listenerAddress, int listenerPort) {
+		this.listenerAddress = listenerAddress;
+		this.listenerPort = listenerPort;
 
 		this.sender = new TrackingPacketSender();
 		this.sender.start();
@@ -48,8 +48,8 @@ public class RemoteTrackingServer {
 		private DatagramSocket socket;
 
 		public TrackingPacketSender() {
-			super("TrackingSender-" + broadcastAddress + ":" + broadcastPort);
-			log.info("Broadcasting on: " + broadcastAddress + ":" + broadcastPort + ", multi=" + broadcastAddress.isMulticastAddress());
+			super("TrackingSender-" + listenerAddress + ":" + listenerPort);
+			log.info("Sending to: " + listenerAddress + ":" + listenerPort);
 			// don't let this listener keep the JVM alive
 			this.setDaemon(true);
 
@@ -58,7 +58,7 @@ public class RemoteTrackingServer {
 				this.socket.setBroadcast(true);
 			} catch (SocketException e) {
 				throw new RuntimeException(
-						"Unable to create socket to listen to tracking host: " + broadcastAddress + ":" + broadcastPort,
+						"Unable to create socket to listen to tracking host: " + listenerAddress + ":" + listenerPort,
 						e);
 			}
 		}
@@ -69,8 +69,8 @@ public class RemoteTrackingServer {
 			ByteBuffer buffer = ByteBuffer.allocate(1024);
 
 			// have the packet use the backing array
-			DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), broadcastAddress,
-					broadcastPort);
+			DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), listenerAddress,
+					listenerPort);
 			while (!isInterrupted()) {
 				try {
 					TargetError error = queue.poll(60, TimeUnit.SECONDS);
@@ -86,7 +86,6 @@ public class RemoteTrackingServer {
 					buffer.rewind();
 
 					socket.send(packet);
-					System.out.println(error);
 				} catch (IOException e) {
 					// FIXME log the error
 					// silently accept any error reading from the socket.
