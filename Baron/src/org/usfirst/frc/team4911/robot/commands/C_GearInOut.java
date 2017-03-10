@@ -4,6 +4,7 @@ import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class C_GearInOut extends Command {
 
@@ -17,12 +18,28 @@ public class C_GearInOut extends Command {
         	speed = -speed;
     }
 
-    protected void initialize() {
-    }
+	double currentThreshold = 0.0;
 
+    protected void initialize() {
+    	currentThreshold = Robot.ss_GearIntake.currentThreshold;
+    }
+	
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
-   		motor.spin(speed);
+
+    	if (speed >= 0){
+    		motor.spin(speed);
+    		Robot.ss_GearIntake.gearIn = false;
+    	}
+    	else{
+    		if (!Robot.ss_GearIntake.gearIn && (motor.getOutputCurrent(false) < currentThreshold)){
+    			motor.spin(speed);
+    		}
+    		else {
+    			motor.stop();
+    			Robot.ss_GearIntake.gearIn = true;
+    		}
+    	}
     }
 
     protected boolean isFinished() {
