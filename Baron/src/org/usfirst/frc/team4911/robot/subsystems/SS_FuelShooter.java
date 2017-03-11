@@ -12,8 +12,8 @@ public class SS_FuelShooter extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	int tPortShooter = 10;
-	int tPortShooterF = 9;
+	int tPortShooter = 9;
+	int tPortShooterF = 10;
 	
 	public DefaultMotor shooterMotors = new DefaultMotor(tPortShooter, tPortShooterF, -1/*Robot.ss_Config.shooterFlywheelConst*/, "ShooterFlywheel");
 

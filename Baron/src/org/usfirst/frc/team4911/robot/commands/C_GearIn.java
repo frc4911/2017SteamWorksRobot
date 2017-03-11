@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class C_GearInOut extends Command {
 
-	double speed = -0.5;
+	double speed = 0.6;
 	DefaultMotor motor = null;
 
 	public C_GearInOut(boolean intake) {
@@ -19,25 +19,37 @@ public class C_GearInOut extends Command {
     }
 
 	double currentThreshold = 0.0;
+	final int TIMEOUT = 25;
+	int startupCounter = TIMEOUT;
 
     protected void initialize() {
     	currentThreshold = Robot.ss_GearIntake.currentThreshold;
+    	startupCounter = TIMEOUT;
     }
 	
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
 
-    	if (speed >= 0){
+    	if (speed <= 0){
     		motor.spin(speed);
     		Robot.ss_GearIntake.gearIn = false;
     	}
     	else{
-    		if (!Robot.ss_GearIntake.gearIn && (motor.getOutputCurrent(false) < currentThreshold)){
-    			motor.spin(speed);
+    		if (!Robot.ss_GearIntake.gearIn){
+    			if (startupCounter > 0){
+        			motor.spin(speed);
+    			}    				
+    			else {	
+    				if (motor.getOutputCurrent(false) < currentThreshold){
+    	    			motor.spin(speed);
+    				}
+    				else{
+    	    			Robot.ss_GearIntake.gearIn = true;
+    				}
+    			}
     		}
     		else {
     			motor.stop();
-    			Robot.ss_GearIntake.gearIn = true;
     		}
     	}
     }

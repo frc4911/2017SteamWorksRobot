@@ -35,8 +35,8 @@ public class OI {
 	public Joystick opGamepad = new Joystick(2);
 	
 	JoystickButton dtLeftTrigger = new JoystickButton(stickL, 1);
-	JoystickButton dtLeft11 = new JoystickButton(stickL, 11);
-	JoystickButton dtLeft12 = new JoystickButton(stickL, 12);
+	JoystickButton dtLeft3 = new JoystickButton(stickL, 3);
+	JoystickButton dtLeft4 = new JoystickButton(stickL, 4);
 	JoystickButton dtRightTrigger = new JoystickButton(stickR, 1);
 	JoystickButton dtRight2 = new JoystickButton(stickR, 2);
 	JoystickButton dtRight3 = new JoystickButton(stickR, 3);
@@ -80,12 +80,12 @@ public class OI {
 		dtRight2.whileHeld(new C_FuelCollect(false));
 		
 		/*********OpGamepad*********/
-		btnX.whileHeld(new C_GearInOut(false));
+		btnX.whileHeld(new C_GearInOut(true)); // suck gear in
 //		Command gColl = new C_GearIntake();
 //		btnX.whenPressed(gColl);
 //		btnX.whenReleased(new C_StopCommand(gColl));
 		
-		btnB.whileHeld(new C_GearInOut(true));
+		btnB.whileHeld(new C_GearInOut(false)); // spit gear out
 		//btnSelect.whileHeld(new C_HopperSpin(false));
 //		btnY.whileHeld(new C_GearLiftLower(true));
 //		Command gMoveUp = new C_GearLiftLower(true);
@@ -163,9 +163,9 @@ public class OI {
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
 
-		Command shooterPID = new C_TunePID(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, 1440, 360, CANTalon.TalonControlMode.Speed, false, false);
-		dtLeft11.whenPressed(shooterPID);
-		dtLeft12.whenPressed(new C_StopCommand(shooterPID));
+		Command shooterPID = new C_TunePID(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, 1440, 360, CANTalon.TalonControlMode.Speed, false, true);
+		//dtLeft3.whenPressed(shooterPID);
+		//dtLeft4.whenPressed(new C_StopCommand(shooterPID));
 //		testBtnX.whileHeld(shooterPID);
 //		testBtnB.whenPressed(new C_StopCommand(shooterPID));
 //		testBtnB.whenPressed(new C_ZeroEncoders());
