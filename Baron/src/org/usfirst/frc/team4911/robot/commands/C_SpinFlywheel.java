@@ -22,7 +22,7 @@ public class C_SpinFlywheel extends Command {
 
     	if (usePID){
                                                       // ticks, ticksPerRev, encoderTicksPerRev, kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType, encoderFlip, flipMotorDir);
-    		Robot.ss_FuelShooter.shooterMotors.moveToEncPos(-3000, 1440, 360, 0.2, 0, 0, 0, 0, 0, 11.0, 0, CANTalon.TalonControlMode.Speed, false, false);
+    		Robot.ss_FuelShooter.shooterMotors.moveToEncPos(-6250, 1440, 360, 0.6, 12.0, 0, 0.05, 0, 0, 12.0, 0, CANTalon.TalonControlMode.Speed, false, false);
     	}
     }
 

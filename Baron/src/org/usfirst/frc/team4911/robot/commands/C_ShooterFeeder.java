@@ -14,7 +14,7 @@ public class C_ShooterFeeder extends Command {
 	boolean shooterSpinning;
 	private final double TOLERANCE = 0.03;
 	private final double SHOOTERSPEED = 3000.0;
-	private final double SPEED = 1.0;
+	private final double SPEED = 0.2;
 	
     public C_ShooterFeeder() {
         // Use requires() here to declare subsystem dependencies
