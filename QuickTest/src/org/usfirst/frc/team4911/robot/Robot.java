@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4911.robot.subsystems.SS_DriveMotor;
+import org.usfirst.frc.team4911.robot.subsystems.SS_Lidar;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -20,6 +21,7 @@ import org.usfirst.frc.team4911.robot.subsystems.SS_DriveMotor;
 public class Robot extends IterativeRobot {
 
 	public static final SS_DriveMotor ss_DriveMotor = new SS_DriveMotor();
+	public static final SS_Lidar ss_Lidar = new SS_Lidar();
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -103,6 +105,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putString("Lidar distance", ""+ss_Lidar.getDistance());
 	}
 
 	/**

@@ -41,6 +41,7 @@ public class Robot extends IterativeRobot {
 	public static SS_AutoTestStats ss_AutoTestStats = null;
 	
 	public static SS_NAVX ss_NAVX = null;
+	public static SS_Lidar ss_Lidar = null;
 	
 	// all subsystems must be created before logging
 	public static LoggingEngine ss_Logging = null;
@@ -77,6 +78,8 @@ public class Robot extends IterativeRobot {
 		ss_AutoTestStats = new SS_AutoTestStats();
 		
 		//ss_NAVX = new SS_NAVX();
+		//ss_Lidar = new SS_Lidar();
+		
 		ss_Logging = new LoggingEngine();
 		ss_UpdateLog = new Logger();
 		oi = new OI();
