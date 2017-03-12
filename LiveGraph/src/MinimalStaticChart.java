@@ -14,7 +14,8 @@ import info.monitorenter.gui.chart.traces.Trace2DSimple;
 public class MinimalStaticChart implements Runnable {
 
 	Chart2D chart = null;
-	ITrace2D trace = null;
+	ITrace2D traceFlywheel = null;
+	ITrace2D traceFeeder = null;
 	
 	public MinimalStaticChart() {
 		//super();
@@ -25,9 +26,11 @@ public class MinimalStaticChart implements Runnable {
 		// Create a chart:  
 		chart = new Chart2D();
 		// Create an ITrace: 
-		trace = new Trace2DSimple(); 
+		traceFlywheel = new Trace2DSimple(); 
+		traceFeeder = new Trace2DSimple(); 
 		// Add the trace to the chart. This has to be done before adding points (deadlock prevention): 
-		chart.addTrace(trace);    
+		chart.addTrace(traceFlywheel);    
+		//chart.addTrace(traceFeeder);    
 		// Add all points, as it is static: 
 //		for(int i=100;i>=0;i--){
 //			//trace.addPoint(i,random.nextDouble()*10.0+i);
@@ -74,40 +77,44 @@ public class MinimalStaticChart implements Runnable {
 			int choice = 0;
 			switch (choice){
 				case 0:
-					pt = MainLiveGraph.cd.speedRPM;
-					if (pt > 2500){
-						if (counter > 2)
-							trace.addPoint(counter++,pt);
-						else if (counter == 0)
-							trace.addPoint(counter++,2800);
-						else
-							trace.addPoint(counter++,3300);
+					pt = MainLiveGraph.cd.speedRPMFlywheel;
+					if (pt > 5500){
+						traceFlywheel.addPoint(counter,pt);
+						//traceFeeder.addPoint(counter,MainLiveGraph.cd.speedRPMFeeder);
+						counter++;
+						if (counter > 1){
+							traceFlywheel.addPoint(counter++,pt);
+						}
+//						else if (counter == 0)
+//							traceFlywheel.addPoint(counter++,5500);
+//						else
+//							traceFlywheel.addPoint(counter++,6250);
 					}
 					break;
 				case 1:
 					pt = MainLiveGraph.cd.current;
 					if (pt != -999)
-						trace.addPoint(counter++,pt);
+						traceFlywheel.addPoint(counter++,pt);
 					break;
 				case 2:
 					pt = MainLiveGraph.cd.voltage;
 					if (pt != -999)
-						trace.addPoint(counter++,pt);
+						traceFlywheel.addPoint(counter++,pt);
 					break;
 				case 3:
 					pt = MainLiveGraph.cd.position;
 					if (pt != -999)
-						trace.addPoint(counter++,pt);
+						traceFlywheel.addPoint(counter++,pt);
 					break;
 				case 4:
 					pt = MainLiveGraph.cd.get;
 					if (pt != -999)
-						trace.addPoint(counter++,pt);
+						traceFlywheel.addPoint(counter++,pt);
 					break;
 				case 5:
 					pt = MainLiveGraph.cd.lineCount;
 					if (pt != -999)
-						trace.addPoint(counter++,pt);
+						traceFlywheel.addPoint(counter++,pt);
 					break;
 			}
 			
@@ -118,7 +125,7 @@ public class MinimalStaticChart implements Runnable {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			trace.removeAllPoints();
+			traceFlywheel.removeAllPoints();
 			counter =0;
 			
 		}

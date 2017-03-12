@@ -1,6 +1,9 @@
 
 package org.usfirst.frc.team4911.robot;
-
+import java.awt.*;
+import org.usfirst.frc.team4911.robot.commands.CG_DrivePastBaseline;
+import org.usfirst.frc.team4911.robot.commands.CG_GearAutonomous;
+import org.usfirst.frc.team4911.robot.commands.CG_TestAutonomous;
 import org.usfirst.frc.team4911.robot.subsystems.*;
 
 import edu.wpi.cscore.UsbCamera;
@@ -29,6 +32,7 @@ public class Robot extends IterativeRobot {
 	public static SS_FuelCollector ss_FuelCollector = null;
 	public static SS_FuelHopper ss_FuelHopper = null;
 	public static SS_FuelShooter ss_FuelShooter = null;
+	public static SS_FuelFeeder ss_FuelFeeder = null;
 	public static SS_GearIntake ss_GearIntake = null;
 	public static SS_GearLift ss_GearLift = null;
 	public static SS_Camera ss_Camera = null;
@@ -37,15 +41,19 @@ public class Robot extends IterativeRobot {
 	public static SS_AutoTestStats ss_AutoTestStats = null;
 	
 	public static SS_NAVX ss_NAVX = null;
+	public static SS_Lidar ss_Lidar = null;
 	
 	// all subsystems must be created before logging
 	public static LoggingEngine ss_Logging = null;
 	public static Logger ss_UpdateLog = null;
 	
 	public static OI oi;
+	
+	public static boolean pidTargetReached;
 
 	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	//SendableChooser<Command> chooser = new SendableChooser<>();
+	int chooser;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -61,6 +69,7 @@ public class Robot extends IterativeRobot {
 		ss_FuelCollector = new SS_FuelCollector();
 		ss_FuelHopper = new SS_FuelHopper();
 		ss_FuelShooter = new SS_FuelShooter();
+		ss_FuelFeeder = new SS_FuelFeeder();
 		ss_GearIntake = new SS_GearIntake();
 		ss_GearLift = new SS_GearLift();
 		ss_Camera = new SS_Camera();
@@ -69,12 +78,14 @@ public class Robot extends IterativeRobot {
 		ss_AutoTestStats = new SS_AutoTestStats();
 		
 		//ss_NAVX = new SS_NAVX();
+		//ss_Lidar = new SS_Lidar();
+		
 		ss_Logging = new LoggingEngine();
 		ss_UpdateLog = new Logger();
 		oi = new OI();
 		//chooser.addDefault("Default Auto", <insert command here>);
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		SmartDashboard.putNumber("Auto mode", chooser);
 		cameraManager();
 		//updateSDForPIDTuning();
 		ss_Config.updateConfigFile("/c/config.txt");
@@ -129,8 +140,21 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
-
+		//autonomousCommand = chooser.getSelected();
+		chooser = SmartDashboard.getInt("Auto mode", 0);
+		switch(chooser) {
+			case 1:
+				autonomousCommand = new CG_GearAutonomous();
+				break;
+			case 2:
+				autonomousCommand = new CG_DrivePastBaseline();
+				break;
+			default:
+				//nothing;
+				autonomousCommand = null;
+				break;
+		}
+		
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

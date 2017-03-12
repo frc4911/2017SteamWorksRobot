@@ -35,6 +35,8 @@ public class OI {
 	public Joystick opGamepad = new Joystick(2);
 	
 	JoystickButton dtLeftTrigger = new JoystickButton(stickL, 1);
+	JoystickButton dtLeft3 = new JoystickButton(stickL, 3);
+	JoystickButton dtLeft4 = new JoystickButton(stickL, 4);
 	JoystickButton dtRightTrigger = new JoystickButton(stickR, 1);
 	JoystickButton dtRight2 = new JoystickButton(stickR, 2);
 	JoystickButton dtRight3 = new JoystickButton(stickR, 3);
@@ -59,6 +61,7 @@ public class OI {
 	public JoystickButton testBtnSelect = new JoystickButton(autoTestGamepad, 7);
 	JoystickButton testLeftBumper = new JoystickButton(autoTestGamepad, 5);
 	JoystickButton testRightBumper = new JoystickButton(autoTestGamepad, 6);
+	JoystickButton testRightAxisPress = new JoystickButton(autoTestGamepad, 10);
 	
 	/**********Commands*********/
 	public Command feeder;
@@ -73,17 +76,16 @@ public class OI {
 	public OI() {
 		/*******DriveJoysticks******/
 		//btn2 = Reverse Drive
-		
 		dtRightTrigger.whileHeld(new C_FuelCollect(true));
-		dtRight3.whileHeld(new C_FuelCollect(false));
+		dtRight2.whileHeld(new C_FuelCollect(false));
 		
 		/*********OpGamepad*********/
-		btnX.whileHeld(new C_GearInOut(false));
+		btnX.whileHeld(new C_GearInOut(true)); // suck gear in
 //		Command gColl = new C_GearIntake();
 //		btnX.whenPressed(gColl);
 //		btnX.whenReleased(new C_StopCommand(gColl));
 		
-		btnB.whileHeld(new C_GearInOut(true));
+		btnB.whileHeld(new C_GearInOut(false)); // spit gear out
 		//btnSelect.whileHeld(new C_HopperSpin(false));
 //		btnY.whileHeld(new C_GearLiftLower(true));
 //		Command gMoveUp = new C_GearLiftLower(true);
@@ -95,8 +97,8 @@ public class OI {
 		//btnA.whenPressed(gMoveDown);
 		//btnA.whenReleased(new C_StopCommand(gMoveDown));
 		
-		Command feedFuel = new CG_FeedFuel();
-		Command hopperReverse = new C_HopperSpin(false);
+		Command feedFuel = new CG_FeedFuel(true);
+		Command hopperReverse = new CG_FeedFuel(false);
 		
 		rightBumper.whileHeld(feedFuel);
 		feeder = new C_TriggerWhileHeld(hopperReverse, opGamepad, false);
@@ -118,11 +120,13 @@ public class OI {
 		// change the talon num for individual motor group test with joystick axis
 		testLeftBumper.whenPressed(new C_TestSetTalonNum(false)); //select next motor in list
 		testRightBumper.whenPressed(new C_TestSetTalonNum(true)); //select previous motor in list
-//		testBtnA.whileHeld(new C_TestDriveOneMotorGroup());       //while held move lower left stick to drive motor
+		testBtnA.whileHeld(new C_TestDriveOneMotorGroup());       //while held move lower left stick to drive motor
 				
 		// change the motor speed
-		testBtnY.whenPressed(new C_TestSetMotorSpeed(true)); // bump the speed up
-		testBtnA.whenPressed(new C_TestSetMotorSpeed(false)); // bump the speed down
+//		testBtnY.whenPressed(new C_TestSetMotorSpeed(true)); // bump the speed up
+//		testBtnA.whenPressed(new C_TestSetMotorSpeed(false)); // bump the speed down
+		testBtnY.whileHeld(new CG_TestAutonomous());
+
 	
 		// while holding the right trigger, the left joystick can be used to move the motor
 		Command testDriveJoystick = new C_TriggerWhileHeld(new C_TestDriveByJoystick(), autoTestGamepad, false);
@@ -139,6 +143,8 @@ public class OI {
 		testBtnB.whenPressed(placeGear);
 		testBtnB.whenReleased(new C_StopCommand(placeGear));
 		
+		testBtnX.whileHeld(new CG_CompleteShoot());
+		
 //		testCmd = new C_TunePID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true);
 //		kp = ?
 //		ticks = 10000
@@ -149,15 +155,17 @@ public class OI {
 		//kp 1.5 to 3.0
 				
 		// test complete autonomous, release button to stop
-//		CommandGroup completeAutonomous = new CG_TestAutonomous();
-//		testBtnSelect.whenPressed(completeAutonomous);
-//		testBtnSelect.whenReleased(new C_StopCommand(completeAutonomous));
+		CommandGroup completeAutonomous = new CG_TestAutonomous();
+		testRightAxisPress.whenPressed(completeAutonomous);
+		testRightAxisPress.whenReleased(new C_StopCommand(completeAutonomous));
 	
 		// test a single PID whileHeld
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
 
-//		Command shooterPID = new C_TunePID(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, false);
+		Command shooterPID = new C_TunePID(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, 1440, 360, CANTalon.TalonControlMode.Speed, false, true);
+		//dtLeft3.whenPressed(shooterPID);
+		//dtLeft4.whenPressed(new C_StopCommand(shooterPID));
 //		testBtnX.whileHeld(shooterPID);
 //		testBtnB.whenPressed(new C_StopCommand(shooterPID));
 //		testBtnB.whenPressed(new C_ZeroEncoders());

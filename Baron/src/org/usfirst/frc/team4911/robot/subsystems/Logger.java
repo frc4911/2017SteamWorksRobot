@@ -69,6 +69,7 @@ public class Logger extends Subsystem {
     
     int fFeederStartIndex = 0;
     int fShooterStartIndex = 0;
+    int fShooterGetSpeedIndex = 0;
     
     int gCollLimitSwitchIndex = 0;
     int gCollStartIndex = 0;
@@ -81,6 +82,8 @@ public class Logger extends Subsystem {
     int climberStartIndex = 0;
     
     int cameraIndex = 0;
+    
+    int lidarIndex = 0;
     
     public Logger() {
     	// talon constants
@@ -116,9 +119,10 @@ public class Logger extends Subsystem {
     	fHopStartIndex = addMotorIndices(Robot.ss_FuelHopper.hopperMotor.getDescription(), false, false);
     	
 		// fuelShooter
-    	fFeederStartIndex = addMotorIndices(Robot.ss_FuelShooter.feederMotor.getDescription(), false, true);
+    	fFeederStartIndex = addMotorIndices(Robot.ss_FuelFeeder.feederMotor.getDescription(), false, true);
 		fShooterStartIndex = addMotorIndices(Robot.ss_FuelShooter.shooterMotors.getDescription(), true, true);
-    	
+		fShooterGetSpeedIndex = Robot.ss_Logging.addColumn(Robot.ss_FuelShooter.shooterMotors.getDescription()+" getSpeed");
+		
 		// gear assembly
     	gCollLimitSwitchIndex = Robot.ss_Logging.addColumn(Robot.ss_GearIntake.gearIntakeMotor.getDescription() + " limitSwitch");
 		gCollStartIndex = addMotorIndices(Robot.ss_GearIntake.gearIntakeMotor.getDescription(), false , false);
@@ -131,6 +135,8 @@ public class Logger extends Subsystem {
 		navXStartIndex = addNAVXIndices();
 		
 		cameraIndex = Robot.ss_Logging.addColumn("Camera angle");
+		
+		lidarIndex = Robot.ss_Logging.addColumn("lidar ");
     }
 
     boolean logConstants = true;
@@ -183,8 +189,9 @@ public class Logger extends Subsystem {
     		logDefaultMotor(Robot.ss_FuelHopper.hopperMotor, false, false, fHopStartIndex);
     		
     		// fuelShooter
-    		logDefaultMotor(Robot.ss_FuelShooter.feederMotor, false, true, fFeederStartIndex);
+    		logDefaultMotor(Robot.ss_FuelFeeder.feederMotor, false, true, fFeederStartIndex);
     		logDefaultMotor(Robot.ss_FuelShooter.shooterMotors, true, true, fShooterStartIndex);
+    		smartLog(true, true, fShooterGetSpeedIndex, ""+Robot.ss_FuelShooter.shooterMotors.getTalon().getSpeed());
     		
     		// gear assembly
     		logDefaultMotor(Robot.ss_GearIntake.gearIntakeMotor, false, false, gCollStartIndex);
@@ -194,6 +201,8 @@ public class Logger extends Subsystem {
     		logDefaultMotor(Robot.ss_Climber.climberMotors, false, false, climberStartIndex);
     		
     		//logNAVX(navXStartIndex);
+        	smartLog(true, true, cameraIndex, ""+Robot.ss_Camera.getAngle());
+        	//smartLog(true, true, lidarIndex, ""+Robot.ss_Lidar.getDistance());
     		// flush
     		Robot.ss_Logging.logFlush();
     	}
@@ -201,7 +210,6 @@ public class Logger extends Subsystem {
     		SmartDashboard.putBoolean("SS_Logging present", false);
     	}
     	
-    	smartLog(true, true, cameraIndex, ""+Robot.ss_Camera.getAngle());
     	runningCommands = "";
     	stoppedCommands = "";
     }
@@ -330,44 +338,44 @@ public class Logger extends Subsystem {
     	boolean smart = true;
     	boolean log = false;
 
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.isConnected());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getYaw());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getPitch());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRoll());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getCompassHeading());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getUpdateCount());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getByteCount());
-
-        /* These functions are compatible w/the WPI Gyro Class */
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getAngle());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRate());
-
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getWorldLinearAccelX());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getWorldLinearAccelY());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.isMoving());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getTempC());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.isCalibrating());
-
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getVelocityX() );
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getVelocityY() );
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getDisplacementX() );
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getDisplacementY() );
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.isConnected());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getYaw());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getPitch());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRoll());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getCompassHeading());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getUpdateCount());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getByteCount());
+//
+//        /* These functions are compatible w/the WPI Gyro Class */
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getAngle());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRate());
+//
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getWorldLinearAccelX());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getWorldLinearAccelY());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.isMoving());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getTempC());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.isCalibrating());
+//
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getVelocityX() );
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getVelocityY() );
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getDisplacementX() );
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getDisplacementY() );
 
         /* Display Raw Gyro/Accelerometer/Magnetometer Values                       */
         /* NOTE:  These values are not normally necessary, but are made available   */
         /* for advanced users.  Before using this data, please consider whether     */
         /* the processed data (see above) will suit your needs.                     */
 
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawGyroX());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawGyroY());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawGyroZ());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawAccelX());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawAccelY());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawAccelZ());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawMagX());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawMagY());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawMagZ());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getTempC());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawGyroX());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawGyroY());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawGyroZ());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawAccelX());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawAccelY());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawAccelZ());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawMagX());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawMagY());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getRawMagZ());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getTempC());
         /* Omnimount Yaw Axis Information                                           */
         /* For more info, see http://navx-mxp.kauailabs.com/installation/omnimount  */
 //        AHRS::BoardYawAxis yaw_axis = ahrs->GetBoardYawAxis();
@@ -375,17 +383,17 @@ public class Logger extends Subsystem {
 //        SmartDashboard::PutNumber(  "YawAxis",              yaw_axis.board_axis );
 
         /* Sensor Board Information                                                 */
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getFirmwareVersion());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getFirmwareVersion());
 
         /* Quaternion Data                                                          */
         /* Quaternions are fascinating, and are the most compact representation of  */
         /* orientation data.  All of the Yaw, Pitch and Roll Values can be derived  */
         /* from the Quaternions.  If interested in motion processing, knowledge of  */
         /* Quaternions is highly recommended.                                       */
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getQuaternionW());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getQuaternionX());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getQuaternionY());
-		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getQuaternionZ());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getQuaternionW());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getQuaternionX());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getQuaternionY());
+//		smartLog(smart, log, index++, "" + Robot.ss_NAVX.navX.getQuaternionZ());
     }
 }
 

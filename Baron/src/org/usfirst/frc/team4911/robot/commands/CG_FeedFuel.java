@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class CG_FeedFuel extends CommandGroup {
 
-    public CG_FeedFuel() {
+    public CG_FeedFuel(boolean reverseHopper) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -26,6 +26,6 @@ public class CG_FeedFuel extends CommandGroup {
         // arm.
     	
     	addParallel(new C_ShooterFeeder());
-    	addParallel(new C_HopperSpin(true));
+    	addParallel(new C_HopperSpin(reverseHopper));
     }
 }

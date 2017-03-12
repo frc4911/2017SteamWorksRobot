@@ -39,7 +39,7 @@ public class SS_TestMotor extends Subsystem {
         motors[4] = Robot.ss_FuelHopper.hopperMotor;
         subsystems[4] = Robot.ss_FuelHopper;
         
-        motors[5] = Robot.ss_FuelShooter.feederMotor;
+        motors[5] = Robot.ss_FuelFeeder.feederMotor;
         subsystems[5] = Robot.ss_FuelShooter;
         
         motors[6] = Robot.ss_FuelShooter.shooterMotors;

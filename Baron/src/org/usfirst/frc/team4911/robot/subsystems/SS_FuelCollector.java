@@ -15,7 +15,7 @@ public class SS_FuelCollector extends Subsystem {
 	public DefaultMotor collectorMotors = new DefaultMotor(tPortCollector, tPortCollectorF, Robot.ss_Config.fuelCollectorConst, "FuelCollector");
 	
 	public SS_FuelCollector() {
-		collectorMotors.setPowLimit(0.7);
+		collectorMotors.setPowLimit(0.8);
 		collectorMotors.enablePowLimit(true);
 		collectorMotors.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
 		collectorMotors.getTalon().ConfigRevLimitSwitchNormallyOpen(true);

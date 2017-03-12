@@ -18,9 +18,9 @@ public class SS_GearIntake extends Subsystem {
 		gearIntakeMotor.setPowLimit(0.75);
 		gearIntakeMotor.enablePowLimit(true);		
 		
-//		gearIntakeMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
+		gearIntakeMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
 //		gearIntakeMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(false);
-		gearIntakeMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(false);
+//		gearIntakeMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(false);
 		gearIntakeMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(true);
 
 	}
@@ -32,7 +32,10 @@ public class SS_GearIntake extends Subsystem {
 		return lsIntake.get();
 	}
 	
-    public void initDefaultCommand() {
+	public boolean gearIn = false;
+	public double currentThreshold = 16.0;
+
+	public void initDefaultCommand() {
     }
 }
 

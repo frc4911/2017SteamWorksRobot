@@ -5,6 +5,7 @@ import java.util.Objects;
 import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -13,11 +14,11 @@ public class C_ShooterFeeder extends Command {
 	boolean shooterSpinning;
 	private final double TOLERANCE = 0.03;
 	private final double SHOOTERSPEED = 3000.0;
-	private final double SPEED = 1.0;
+	private final double SPEED = 0.2;
 	
     public C_ShooterFeeder() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ss_FuelShooter);
+        requires(Robot.ss_FuelFeeder);
     }
     
     private boolean isShooterUpToSpeed() {
@@ -36,12 +37,16 @@ public class C_ShooterFeeder extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
 //    	if(isShooterUpToSpeed()) {
-//    		Robot.ss_FuelShooter.feederMotor.spin(SPEED);
+//    		Robot.ss_FuelFeeder.feederMotor.spin(SPEED);
 //    	} else if(!Objects.equals(Robot.ss_FuelShooter.shooterMotors.getPID(), null)) {
 //    		Robot.oi.flywheel.start();
 //    	}
-    	
-    	Robot.ss_FuelShooter.feederMotor.spin(1);
+//    	double speed = SmartDashboard.getNumber("FeederSpeed",1.1);
+//    	if (speed == 1.1){
+//    		SmartDashboard.putNumber("FeederSpeed",1.0);
+//    	}
+//    	Robot.ss_FuelFeeder.feederMotor.spin(speed);
+    	Robot.ss_FuelFeeder.feederMotor.spin(SPEED);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -51,7 +56,7 @@ public class C_ShooterFeeder extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ss_FuelShooter.feederMotor.stop();
+    	Robot.ss_FuelFeeder.feederMotor.stop();
     }
 
     // Called when another command which requires one or more of the same
