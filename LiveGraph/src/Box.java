@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 public class Box {
 		private final int LINE_THICKNESS = 5;
 		
-		final int WIDTH_THRES = 6;
-		final int MAX_TRIES = 3;
+		private final int WIDTH_THRES = 6;
+		private final int MAX_TRIES = 4;
 		
 		private int winWidth;
 		private int winHeight;
@@ -179,8 +179,7 @@ public class Box {
 			return img;
 		}
 		
-		// Finds the actual width of the box
-		// excluding outliers.
+		// finds the actual width of the box excluding outliers
 		public int normalWidth() {
 			int biggestWidth = -1;
 			int numTries = 0;
@@ -189,19 +188,20 @@ public class Box {
 			index = -1;
 			for(int i = 0; i < validLines; i++) {
 				width = rightX[i] - leftX[i];
-//				System.out.println(width);
+//				System.out.print(width);
 				
-				if((width + WIDTH_THRES > biggestWidth) &&
-						(numTries < MAX_TRIES)) {
+				if(		   (width > biggestWidth + WIDTH_THRES)
+						&& (numTries < MAX_TRIES)) {
 					biggestWidth = width;
-					
+//					System.out.print("_" + biggestWidth);
 					index = i;
 					numTries = 0;
 				} else {
 					numTries++;
 				}
+//				System.out.print(", ");
 			}
-			
+
 			return biggestWidth;
 		}
 		
@@ -335,7 +335,7 @@ public class Box {
 		// returns all of the corners
 		public Point[] getCorners() {
 //			System.out.println("Height: " + (validLines - 1));
-			System.out.println("Width: " + normalWidth());
+			normalWidth();
 //			System.out.println("Index: " + index);
 
 			return new Point[] {
