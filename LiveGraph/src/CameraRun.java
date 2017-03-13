@@ -1,14 +1,15 @@
 //package src;
 
 import java.awt.Color;
-import java.awt.Component;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.PrintStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -28,6 +29,9 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class CameraRun {
 	final int camNum = 0;
+	
+	private PrintStream out;
+
 	
 	VideoCapture camera;
 	Mat mat;
@@ -88,14 +92,17 @@ public class CameraRun {
 	}
 	
 	public void run()
-	{
+	{	
+		int imgWidth = 120;
+		int imgHeight = 160;
+		
 		if (camera.isOpened())
 		{
 			System.out.println("Yay! I see something  ");
 			camera.read(mat);
 			updateJFrame(mat);
 
-			netTable();
+//			netTable();
 			
 //			try
 //			{
@@ -106,17 +113,32 @@ public class CameraRun {
 //			{
 //			}
 			
+//			frame.setSize(imgWidth, imgHeight);
 			frame.setSize(mat.width()+20,mat.height()+45);
 			frame.setVisible(true);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					
 			
-			int calebNum = 0;
+			try {
+				out = new PrintStream(new File("C:\\Test\\log.txt"));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			boolean badMat = false;
+			
+//			BufferedImage img = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_3BYTE_BGR);
+//			boolean badMat = false;
 			while (true)
 			{
-				table.putNumber("Calebs Number", calebNum++);
-
+				/* try {
+					img = ImageIO.read(new File("C:\\2016CameraImages\\START-Img1489115487089.jpg"));
+					updateJFrame(img);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} */
+				
 				if (camera.isOpened())
 				{
 					try
@@ -126,8 +148,9 @@ public class CameraRun {
 					}
 					catch (Exception e)
 					{
-						System.out.println("e " + e.getMessage());
-					}					
+						e.printStackTrace();
+//						System.out.println("e1 " + e.getMessage());
+					}				
 				}
 				else
 				{
@@ -146,6 +169,17 @@ public class CameraRun {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void updateJFrame(BufferedImage img)
+	{
+//		frame.remove(label);//not sure this is needed?
+		buffImg = modifyImage(img);
+
+		image = new ImageIcon(buffImg);
+		label.setIcon(image);
+		frame.add(label);
+		frame.repaint();
 	}
 
 	public void updateJFrame(Mat Mat)
@@ -172,26 +206,16 @@ public class CameraRun {
 	}
 	
 	//Constants for image converting	
-	final int red = 80;
-	final int green = 245;
-	final int blue = 125;
+	final int RED = 80; 	// 80
+	final int GREEN = 245;	// 245
+	final int BLUE = 125;	// 125
 	
-	final int threshold = 10;
+	final int THRESHOLD = 10;
 	
-	final int numBoxes = 12;
+	final int NUM_BOXES= 1;
 	
 	//	ArrayList<Box> boxes = new ArrayList(10);
 	
-	public static BufferedImage testBox(BufferedImage img) {
-		for(int y = 20; y < 30; y++) {
-			for(int x = 20; x < 30; x++) {
-				img.setRGB(x, y, new Color(200, 0, 200).getRGB());
-			}
-		}
-		
-		return img;
-	}
-		
 	private BufferedImage modifyImage(BufferedImage img) {	
 		int width = img.getWidth();
 		int height = img.getHeight();
@@ -199,8 +223,8 @@ public class CameraRun {
 		int[] rgbArray = new int[width * height];
 		rgbArray = img.getRGB(0, 0, width, height, rgbArray, 0, width);	
 
-		for(int numBoxes = 0; numBoxes < numBoxes; numBoxes++) {
-			
+		for(int numBoxes = 0; numBoxes < this.NUM_BOXES; numBoxes++) {
+						
 			Box currBox = new Box(width, height);
 			int validStartX = -1;
 					
@@ -216,20 +240,26 @@ public class CameraRun {
 					int greenC = (rgb & 0x0000ff00) >> 8;
 					int blueC = (rgb & 0x000000ff);
 					
-					if((redC > red) && (greenC > green) && (blueC > blue))
+					if((redC > RED) && (greenC > GREEN) && (blueC > BLUE))
 					{	
 						if(validStartX == -1) {
 							validStartX = x;
 						}
 	
 						currBox.addToCurrWidth(1); // increments the box with
-					} else if(currBox.getCurrentBoxWidth() < threshold) {
+					} else if(currBox.getCurrentBoxWidth() < THRESHOLD) {
 						currBox.setCurrentBoxWidth(0);
 						validStartX = -1;
 						
 					} else { //if(validWidth > threshold) {
-						currBox.setLeftX(validStartX, currBox.getValidLines());
-						currBox.setRightX(validStartX + currBox.getCurrentBoxWidth(), currBox.getValidLines());
+						if(validStartX > width || (validStartX + currBox.getCurrentBoxWidth()) > width) {
+							out.println("leftX " + validStartX + ", rightX " + (validStartX + currBox.getCurrentBoxWidth()));
+						}
+						int leftX = validStartX;
+						int rightX = validStartX + currBox.getCurrentBoxWidth();
+								
+						currBox.setLeftX(leftX, currBox.getValidLines());
+						currBox.setRightX(rightX, currBox.getValidLines());
 						
 						currBox.addToValidLines(1);
 						
@@ -241,17 +271,23 @@ public class CameraRun {
 					}
 				}
 					
-					if((currBox.getTopY() > -1) && 
-							((currBox.getCurrentBoxWidth() < threshold) || (y >= width - 1)) && 
-							(currBox.getBottomY() == -1)) {
-						
-						currBox.setBottomY(y);
-						break;
+				if((currBox.getTopY() > -1) && 
+						((currBox.getCurrentBoxWidth() < THRESHOLD) || (y >= width - 1)) && 
+						(currBox.getBottomY() == -1)) {
+					currBox.setBottomY(y);
+					break;
 				}
 			}
 			
 			img = currBox.drawBox(img);
+//			img = currBox.drawRect(img);
 			drawBox(rgbArray, currBox, width);	
+			
+			Point[] pts = currBox.getCorners();
+//			System.out.println("TopLeft :" + pts[0]);
+//			System.out.println("TopRight :" + pts[1]);
+//			System.out.println("BottomLeft :" + pts[2]);
+//			System.out.println("BottomRight :" + pts[3]);	
 			
 		}
 		
@@ -273,6 +309,40 @@ public class CameraRun {
 				rgbArray[row + x] = 0;
 			}
 			i++;
+		}
+	}
+	
+	public double findAngle(Point left, Point right) {
+		double angle = -1;
+		
+		if(left.getY() >= right.getY()) {
+			// tape is to the right
+			angle = findAngle(left, right, true);
+
+		} else if(left.getY() < right.getY()) {
+			// tape is to the left
+			angle = findAngle(right, left, false);	
+		}
+		
+		return angle;
+	}
+	
+	private double findAngle(Point a, Point b, boolean hasLeftSide) {
+		double opp = a.getY() - b.getY();
+		double adj = a.getX() - b.getX();
+		double hyp = Math.hypot(opp, adj);
+		
+		double tan = Math.tanh(hyp / adj);
+		double oppAngle;
+		if(hasLeftSide)
+			oppAngle = Math.sinh(adj / hyp);
+		else
+			oppAngle = Math.cosh(adj/ hyp);
+			
+		if((89.8 < tan + oppAngle) && (tan + oppAngle <= 90.2)) {
+			return 0;
+		} else {
+			return tan;
 		}
 	}
 	
