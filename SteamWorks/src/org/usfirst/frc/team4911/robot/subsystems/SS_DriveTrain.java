@@ -1,12 +1,13 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
-import static  org.usfirst.frc.team4911.robot.MathUtils.limit;
+import static org.usfirst.frc.team4911.robot.MathUtils.limit;
 
 import org.usfirst.frc.team4911.robot.Robot;
 
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -61,9 +62,10 @@ public class SS_DriveTrain extends Subsystem {
 	public void drive(double leftTrain, double rightTrain) {
 		// weird drive constants are due to mechanical issues
 		// causing one side to drive slower than the other
-		double leftInput = limit(leftTrain, -1, 1) * 0.48;
-		double rightInput = limit(rightTrain, -1, 1) * 0.5;
+		double leftInput = limit(leftTrain, -1, 1); // * 0.48;
+		double rightInput = limit(rightTrain, -1, 1); // * 0.5;
 
+		SmartDashboard.putString("Drive", "left=" + leftInput + ", right=" + rightInput);
 		DriveMotorFrontLeft.set(leftInput);
 		DriveMotorRearLeft.set(leftInput);
 

@@ -42,17 +42,16 @@ public class C_AutoVisionFollow extends Command {
 		// while (!isInterrupted) {
 		TargetError error = tracker.getCurrentError();
 		turn(error.getX());
-		System.out.println(error);
 		// }
 	}
 
 	private void turn(double amount) {
-		if (amount < MIN_ERROR_TO_MOVE) {
+		if (amount < Math.abs(MIN_ERROR_TO_MOVE)) {
 			return;
 		}
 
 		// start with zero-point turns
-		amount = limit(amount, -.2, .2);
+		amount = limit(amount/255.0, -1, 1);
 
 		Robot.ss_DriveTrain.drive(amount, amount);
 	}

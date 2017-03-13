@@ -28,16 +28,15 @@ public class BoilerVision extends VisionBase {
 	public Mat colorProcessedImage = new Mat();
 	public Mat thresholdedImage = new Mat();
 	public Mat sizeAdjustedImage = new Mat();
-	
-	
+
 	private Mat dilateElement;
 	private Mat erodeElement;
 	private int debug;
 	private double hueMin = 25;
-	private double hueMax= 35;
-	
+	private double hueMax = 35;
+
 	private double satMin = 25;
-	private double satMax= 75;
+	private double satMax = 75;
 
 	public BoilerVision(int debug) {
 		// this is not threadsafe to share this matrix across threads
@@ -47,35 +46,35 @@ public class BoilerVision extends VisionBase {
 		this.erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(6, 6));
 		this.debug = debug;
 	}
-	
+
 	public void setHueMin(double v) {
 		if (v < hueMax) {
-			hueMin = v; 
+			hueMin = v;
 		}
 	}
-	
+
 	public void setHueMax(double v) {
 		if (v > hueMin) {
-			hueMax = v; 
+			hueMax = v;
 		}
 	}
-	
+
 	public void setSatMin(double v) {
 		if (v < satMax) {
-			satMin = v; 
+			satMin = v;
 		}
 	}
-	
+
 	public void setSatMax(double v) {
 		if (v > satMin) {
-			satMax = v; 
+			satMax = v;
 		}
 	}
-	
+
 	public void setDilateSize(int size) {
 		this.dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(size, size));
 	}
-	
+
 	public void setErrodeSize(int size) {
 		this.erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(size, size));
 	}
@@ -99,11 +98,15 @@ public class BoilerVision extends VisionBase {
 			// we are looking for horizontal stripes on the boiler, reject
 			// targets that are not wider than tall
 			Rect bounds = findBoundingRect(c);
-			if (bounds.width < bounds.height) {
+			if (bounds.width / (float) bounds.height < 2) {
 				continue;
 			}
 
+			// skip small things
 			double area = Imgproc.contourArea(c);
+			if (area < 40) {
+				continue;
+			}
 
 			if (area > max1area) {
 				// the new countour is larger than the old largest, this means
@@ -168,11 +171,10 @@ public class BoilerVision extends VisionBase {
 
 		// extract the hue channel
 		Imgproc.cvtColor(cameraImage, image, Imgproc.COLOR_BGR2HSV);
-		//Core.extractChannel(image, image, 0);
+		// Core.extractChannel(image, image, 0);
 		if (debug > 0) {
 			image.copyTo(colorProcessedImage);
 		}
-	
 
 		Core.inRange(image, new Scalar(hueMin, satMin, 0), new Scalar(hueMax, satMax, 255), image);
 		if (debug > 0) {
@@ -181,11 +183,11 @@ public class BoilerVision extends VisionBase {
 
 		// errode to get rid of tiny blobs
 		Imgproc.erode(image, image, erodeElement);
-		
+
 		// dialate to fill in small gaps
 		Imgproc.dilate(image, image, dilateElement);
 		image.copyTo(sizeAdjustedImage);
-		
+
 		if (debug > 0) {
 			image.copyTo(sizeAdjustedImage);
 		}

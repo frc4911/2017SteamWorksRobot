@@ -2,11 +2,8 @@
 package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.robot.commands.C_AutoVisionFollow;
-import org.usfirst.frc.team4911.robot.subsystems.SS_Arm;
 import org.usfirst.frc.team4911.robot.subsystems.SS_Config;
 import org.usfirst.frc.team4911.robot.subsystems.SS_DriveTrain;
-import org.usfirst.frc.team4911.robot.subsystems.SS_Shooter;
-import org.usfirst.frc.team4911.robot.subsystems.SS_TestDefaultMotor;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,18 +19,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	
-	//public static final SS_Logging2 ss_logging2 = new SS_Logging2();
-
 	public static final SS_DriveTrain ss_DriveTrain = new SS_DriveTrain();
-	public static final SS_Shooter ss_Shooter = new SS_Shooter();
-	public static final SS_Arm ss_Arm = new SS_Arm();
-	public static OI oi;
-	
 	public static final SS_Config ss_Config = new SS_Config();
 	
-	public static final SS_TestDefaultMotor ss_TestFreeSpinMotor = new SS_TestDefaultMotor();
-
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -43,8 +31,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		oi = new OI();
-		
 //		SmartDashboard.putData("Auto mode", chooser);
 //		
 //		SmartDashboard.putNumber("driveTime", 0);
@@ -84,13 +70,6 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		autonomousCommand = new C_AutoVisionFollow(.1);
 
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -120,8 +99,6 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-//		SmartDashboard.putNumber("pow p", this.ss_TestFreeSpinMotor.pMotor.pTalon.get());
-//		SmartDashboard.putNumber("pow f", this.ss_TestFreeSpinMotor.pMotor.fTalon.get());
 		Scheduler.getInstance().run();
 	}
 

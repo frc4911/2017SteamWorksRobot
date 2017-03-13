@@ -66,15 +66,18 @@ public class Main {
 			Imgproc.resize(image, image, new Size(640, 480));
 			Point error = vision.calculateError(image);
 			debugger.processingTimer.stop();
+			debugger.error = error;
 
 			tracker.sendError(error);
 
+			Imgproc.resize(image, image, new Size(320, 240));
 			debugger.update(image, error);
 
 		}
 	}
 
 	private static class Debugger {
+		public Point error;
 		ImshowJFrame rawFrame = null;
 		ImshowJFrame debugFrame = null;
 
@@ -93,11 +96,11 @@ public class Main {
 				// new CameraPropertyEditor(videoCapture);
 				this.propertyEditor = new PropertyEditor();
 				this.propertyEditor.addSlider("Hue Min", 0d, 25d, 255d, 1d, vision::setHueMin);
-				this.propertyEditor.addSlider("Hue Max", 0d, 35d, 255d, 1d, vision::setHueMax);
-				this.propertyEditor.addSlider("Sat Min", 0d, 25d, 255d, 1d, vision::setSatMin);
-				this.propertyEditor.addSlider("Sat Max", 0d, 95d, 255d, 1d, vision::setSatMax);
-				this.propertyEditor.addSlider("Dilate", 1, 12, 20, 1, vision::setDilateSize);
-				this.propertyEditor.addSlider("Errode", 1, 6, 20, 1, vision::setErrodeSize);
+				this.propertyEditor.addSlider("Hue Max", 0d, 90d, 255d, 1d, vision::setHueMax);
+				this.propertyEditor.addSlider("Sat Min", 0d, 150d, 255d, 1d, vision::setSatMin);
+				this.propertyEditor.addSlider("Sat Max", 0d, 255d, 255d, 1d, vision::setSatMax);
+				this.propertyEditor.addSlider("Dilate", 1, 3, 20, 1, vision::setDilateSize);
+				this.propertyEditor.addSlider("Errode", 1, 3, 20, 1, vision::setErrodeSize);
 
 				this.propertyEditor.display();
 			}
@@ -122,10 +125,11 @@ public class Main {
 					debugFrame = Imshow.show(debugImage);
 					debugFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				} else {
-					rawFrame.update("Targeting Error: capture=" + captureTimer.elappsed() + "ms" + ", process="
-							+ processingTimer.elappsed() + "ms", image);
+					rawFrame.update("Targeting Error: cap=" + captureTimer.elappsed() + "ms" + ", proc="
+							+ processingTimer.elappsed() + "ms, "
+							+ String.format("error=%sx%s", error.x, error.y), image);
 
-					makeDebugImage();					
+					makeDebugImage();
 					debugFrame.update(debugImage);
 				}
 			}
@@ -134,7 +138,8 @@ public class Main {
 		private void makeDebugImage() {
 			Core.extractChannel(vision.colorProcessedImage, debugChannel1, 0);
 			Core.extractChannel(vision.colorProcessedImage, debugChannel2, 1);
-			List<Mat> imgs = Arrays.asList(debugChannel1, debugChannel2, vision.thresholdedImage, vision.sizeAdjustedImage);
+			List<Mat> imgs = Arrays.asList(debugChannel1, debugChannel2, vision.thresholdedImage,
+					vision.sizeAdjustedImage);
 			for (Mat img : imgs) {
 				Imgproc.resize(img, img, new Size(320, 240));
 			}

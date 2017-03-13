@@ -50,9 +50,9 @@ public class PropertyEditor extends JFrame {
 			double newValue = ((JSlider) e.getSource()).getValue() * delta;
 			log.info(String.format("%s=%s", label, newValue));
 			action.accept(newValue);
-			;
 		});
 		addLabeled(label, slider, value, delta);
+		action.accept(value);
 		pack();
 	}
 

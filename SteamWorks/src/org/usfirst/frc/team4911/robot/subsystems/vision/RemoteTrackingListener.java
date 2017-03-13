@@ -6,6 +6,8 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * A RemoteTrackingListener is a generic concept for a system that listens to a
  * remote host for tracking updates for a "target" and updates the error
@@ -64,6 +66,7 @@ public class RemoteTrackingListener {
 
 			try {
 				this.socket = new DatagramSocket(trackingPort);
+				SmartDashboard.putNumber("Tracking Port", trackingPort);
 			} catch (SocketException e) {
 				throw new RemoteTrackerException("Unable to create socket to listen to tracking host on port: " + trackingPort,
 						e);
@@ -76,12 +79,15 @@ public class RemoteTrackingListener {
 			ByteBuffer buffer = ByteBuffer.allocate(1024);
 
 			// have the packet use the backing array
+			SmartDashboard.putString("Received", "Running...");
+
 			DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity());
 			while (!isInterrupted()) {
 				try {
 					// reset the buffer before receiving the next packet
 					buffer.rewind();
 					socket.receive(packet);
+					SmartDashboard.putString("Received", "Packet!");
 					// since the packet is using the buffer's backing array we
 					// only need to pass the buffer around, not the packet
 					handlePacket(buffer);
@@ -94,7 +100,8 @@ public class RemoteTrackingListener {
 
 		private void handlePacket(ByteBuffer buffer) {
 			// TODO Auto-generated method stub
-			int messageType = buffer.get();
+			int messageType = buffer.getInt();
+			SmartDashboard.putString("Received", "messageType=" + messageType);
 			switch (messageType) {
 			case 1:
 				handleSimpleTargetErrorPacket(buffer);
@@ -109,7 +116,7 @@ public class RemoteTrackingListener {
 			// read in the X, Y, Z error from the buffer replace the current
 			// error object
 			TargetError error = new TargetError(buffer.getDouble(), buffer.getDouble(), buffer.getDouble());
-			System.out.println(error);
+			SmartDashboard.putString("Error", error.toString());
 			currentError = error;
 		}
 	}
