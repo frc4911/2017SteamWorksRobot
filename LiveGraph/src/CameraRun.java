@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -129,7 +130,9 @@ public class CameraRun {
 			
 //			BufferedImage img = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_3BYTE_BGR);
 //			boolean badMat = false;
-			while (true)
+			int i = 0;
+//			while (true)
+			while (i < 0)
 			{
 				/* try {
 					img = ImageIO.read(new File("C:\\2016CameraImages\\START-Img1489115487089.jpg"));
@@ -138,7 +141,6 @@ public class CameraRun {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} */
-				
 				if (camera.isOpened())
 				{
 					try
@@ -226,6 +228,102 @@ public class CameraRun {
 		for(int numBoxes = 0; numBoxes < this.NUM_BOXES; numBoxes++) {
 						
 			Box currBox = new Box(width, height);
+			int validStartY = -1;
+				
+			for(int x = width - 1; x >= 0; x--) {
+				
+				currBox.setCurrentBoxWidth(0);
+				validStartY = -1;
+				
+				for(int y =0; y < height; y++) {
+					int rgb = rgbArray[y*width+x];
+					int redC = (rgb & 0x00ff0000) >> 16;
+					int greenC = (rgb & 0x0000ff00) >> 8;
+					int blueC = (rgb & 0x000000ff);
+					
+					if((redC > RED) && (greenC > GREEN) && (blueC > BLUE))
+					{	
+						img.setRGB(x, y, Color.BLACK.getRGB());
+						if(validStartY == -1) {
+							validStartY = y;
+						}
+						currBox.addToCurrWidth(1); // increments the box with
+						
+					} else if(currBox.getCurrentBoxWidth() < THRESHOLD) {
+						currBox.setCurrentBoxWidth(0);
+						validStartY = -1;
+						
+					} else { //if(validWidth > threshold) {
+						int leftY = validStartY;
+						int rightY = validStartY + currBox.getCurrentBoxWidth();
+						
+						currBox.setLeftX(leftY, currBox.getValidLines());
+						currBox.setRightX(rightY, currBox.getValidLines());
+						
+						currBox.addToValidLines(1);
+						
+						// set the top y axis of the box
+						if(currBox.getTopY() == -1) {
+							currBox.setTopY(y);
+						}
+								
+						break;
+					}
+				}
+				
+				// set the bottom y axis of the box
+				if(		   (currBox.getTopY() > -1) 
+						&& ((currBox.getCurrentBoxWidth() < THRESHOLD) || (x >= width - 1)) 
+						&& (currBox.getBottomY() == -1)) {
+					currBox.setBottomY(x);
+
+					break;
+				}
+			}
+			
+			System.out.println("topY: " + currBox.getTopY());
+			System.out.println("bottomY: " + currBox.getBottomY());
+			
+			System.out.println("validLines: " + currBox.getValidLines());
+			
+			for(int i = 0; i < currBox.getValidLines(); i++) {
+				System.out.print(currBox.getLeftX(i) + ", ");
+			}
+			System.out.println();
+			for(int i = 0; i < currBox.getValidLines(); i++) {
+				System.out.print(currBox.getRightX(i) + ", ");
+			}
+			System.out.println();
+			
+			// draws the box to the image
+			img = currBox.drawBox(img);
+			img = currBox.drawRect(img);
+			
+			// Eliminates the box from rgbArray so that the
+			// box wont be scanned again.
+			drawBox(rgbArray, currBox, width);	
+			
+//			Point[] pts = currBox.getCorners();
+//			System.out.println("TopLeft :" + pts[0]);
+//			System.out.println("TopRight :" + pts[1]);
+//			System.out.println("BottomLeft :" + pts[2]);
+//			System.out.println("BottomRight :" + pts[3]);	
+			
+		}
+		
+		return img;
+	}
+	
+	/* private BufferedImage modifyImage(BufferedImage img) {	
+		int width = img.getWidth();
+		int height = img.getHeight();
+					
+		int[] rgbArray = new int[width * height];
+		rgbArray = img.getRGB(0, 0, width, height, rgbArray, 0, width);	
+
+		for(int numBoxes = 0; numBoxes < this.NUM_BOXES; numBoxes++) {
+						
+			Box currBox = new Box(width, height);
 			int validStartX = -1;
 					
 			for(int y = 0; y < height; y++) {
@@ -252,9 +350,6 @@ public class CameraRun {
 						validStartX = -1;
 						
 					} else { //if(validWidth > threshold) {
-						if(validStartX > width || (validStartX + currBox.getCurrentBoxWidth()) > width) {
-							out.println("leftX " + validStartX + ", rightX " + (validStartX + currBox.getCurrentBoxWidth()));
-						}
 						int leftX = validStartX;
 						int rightX = validStartX + currBox.getCurrentBoxWidth();
 								
@@ -263,27 +358,48 @@ public class CameraRun {
 						
 						currBox.addToValidLines(1);
 						
+						// set the top y axis of the box
 						if(currBox.getTopY() == -1) {
-							currBox.setTopY(y);;
+							currBox.setTopY(y);
 						}
 						
 						break;
 					}
 				}
 					
-				if((currBox.getTopY() > -1) && 
-						((currBox.getCurrentBoxWidth() < THRESHOLD) || (y >= width - 1)) && 
-						(currBox.getBottomY() == -1)) {
+				// set the bottom y axis of the box
+				if(		   (currBox.getTopY() > -1) 
+						&& ((currBox.getCurrentBoxWidth() < THRESHOLD) || (y >= width - 1)) 
+						&& (currBox.getBottomY() == -1)) {
 					currBox.setBottomY(y);
+					
 					break;
 				}
 			}
 			
+//			System.out.println("topY: " + currBox.getTopY());
+//			System.out.println("bottomY: " + currBox.getBottomY());
+//			
+//			System.out.println("validLines: " + currBox.getValidLines());
+//			
+//			for(int i = 0; i < currBox.getValidLines(); i++) {
+//				System.out.print(currBox.getLeftX(i) + ", ");
+//			}
+//			System.out.println();
+//			for(int i = 0; i < currBox.getValidLines(); i++) {
+//				System.out.print(currBox.getRightX(i) + ", ");
+//			}
+//			System.out.println();
+			
+			// draws the box to the image
 			img = currBox.drawBox(img);
 //			img = currBox.drawRect(img);
+			
+			// Eliminates the box from rgbArray so that the
+			// box wont be scanned again.
 			drawBox(rgbArray, currBox, width);	
 			
-			Point[] pts = currBox.getCorners();
+//			Point[] pts = currBox.getCorners();
 //			System.out.println("TopLeft :" + pts[0]);
 //			System.out.println("TopRight :" + pts[1]);
 //			System.out.println("BottomLeft :" + pts[2]);
@@ -292,7 +408,7 @@ public class CameraRun {
 		}
 		
 		return img;
-	}
+	} */
 		
 	public void drawBox(int[] rgbArray, Box box, int imgWidth) {
 		int i = 0;
