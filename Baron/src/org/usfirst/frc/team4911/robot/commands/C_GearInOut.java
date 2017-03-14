@@ -19,7 +19,7 @@ public class C_GearInOut extends Command {
     }
 
 	double currentThreshold = 0.0;
-	final int TIMEOUT = 25;
+	final int TIMEOUT = 15;
 	int startupCounter = TIMEOUT;
 
     protected void initialize() {
@@ -29,7 +29,7 @@ public class C_GearInOut extends Command {
 	
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
-
+    	
     	if (speed <= 0){
     		motor.spin(speed);
     		Robot.ss_GearIntake.gearIn = false;
@@ -51,7 +51,9 @@ public class C_GearInOut extends Command {
     		else {
     			motor.stop();
     		}
+    		startupCounter--;
     	}
+    	SmartDashboard.putBoolean("gearIn", Robot.ss_GearIntake.gearIn);
     }
 
     protected boolean isFinished() {

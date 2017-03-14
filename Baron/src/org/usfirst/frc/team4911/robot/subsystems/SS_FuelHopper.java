@@ -13,7 +13,7 @@ public class SS_FuelHopper extends Subsystem {
     // here. Call these from Commands.
 	
 	int tPortHopper = 7;
-	public DefaultMotor hopperMotor = new DefaultMotor(tPortHopper, -1 /*Robot.ss_Config.hopperConst*/, "Hopper");
+	public DefaultMotor hopperMotor = new DefaultMotor(tPortHopper, /*-1 Black Bot*/ Robot.ss_Config.hopperConst, "Hopper");
 	
 	public SS_FuelHopper() {
 		hopperMotor.setPowLimit(0.7);

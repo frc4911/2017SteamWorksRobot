@@ -35,6 +35,7 @@ public class OI {
 	public Joystick opGamepad = new Joystick(2);
 	
 	JoystickButton dtLeftTrigger = new JoystickButton(stickL, 1);
+	JoystickButton dtLeft2 = new JoystickButton(stickL, 2);
 	JoystickButton dtLeft3 = new JoystickButton(stickL, 3);
 	JoystickButton dtLeft4 = new JoystickButton(stickL, 4);
 	JoystickButton dtRightTrigger = new JoystickButton(stickR, 1);
@@ -76,6 +77,8 @@ public class OI {
 	public OI() {
 		/*******DriveJoysticks******/
 		//btn2 = Reverse Drive
+		
+		dtLeft2.whenPressed(new C_ZeroEncoders());
 		dtRightTrigger.whileHeld(new C_FuelCollect(true));
 		dtRight2.whileHeld(new C_FuelCollect(false));
 		
@@ -139,7 +142,7 @@ public class OI {
 		testBtnSelect.whenReleased(new C_StopCommand(autoTest));
 		
 		// auto gear placement test
-		Command placeGear = new CG_PlaceGearAuto();
+		Command placeGear = new CG_GearPlaceOnSpring();
 		testBtnB.whenPressed(placeGear);
 		testBtnB.whenReleased(new C_StopCommand(placeGear));
 		

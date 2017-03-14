@@ -75,7 +75,7 @@ public class Logger extends Subsystem {
     int gCollStartIndex = 0;
     int gLiftStartIndex = 0;
     
-    int gPotIndex = 0;
+//    int gPotIndex = 0;
     
     int navXStartIndex = 0;
     
@@ -126,8 +126,8 @@ public class Logger extends Subsystem {
 		// gear assembly
     	gCollLimitSwitchIndex = Robot.ss_Logging.addColumn(Robot.ss_GearIntake.gearIntakeMotor.getDescription() + " limitSwitch");
 		gCollStartIndex = addMotorIndices(Robot.ss_GearIntake.gearIntakeMotor.getDescription(), false , false);
-		gLiftStartIndex = addMotorIndices(Robot.ss_GearLift.gearLiftMotor.getDescription(), false , false);
-		gPotIndex = Robot.ss_Logging.addColumn(" gearPotentiometer");
+		gLiftStartIndex = addMotorIndices(Robot.ss_GearLift.gearLiftMotor.getDescription(), false , true);
+//		gPotIndex = Robot.ss_Logging.addColumn(" gearPotentiometer");
 		
 		// climber
     	climberStartIndex = addMotorIndices(Robot.ss_Climber.climberMotors.getDescription(), false, false);
@@ -195,8 +195,8 @@ public class Logger extends Subsystem {
     		
     		// gear assembly
     		logDefaultMotor(Robot.ss_GearIntake.gearIntakeMotor, false, false, gCollStartIndex);
-    		logDefaultMotor(Robot.ss_GearLift.gearLiftMotor, false, false, gLiftStartIndex);
-    		smartLog(true, true, gPotIndex, ""+Robot.ss_GearLift.getGearLiftPot());
+    		logDefaultMotor(Robot.ss_GearLift.gearLiftMotor, false, true, gLiftStartIndex);
+    		//smartLog(true, true, gPotIndex, ""+Robot.ss_GearLift.getGearLiftPot());
     		// climber
     		logDefaultMotor(Robot.ss_Climber.climberMotors, false, false, climberStartIndex);
     		

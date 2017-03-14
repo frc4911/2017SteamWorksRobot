@@ -84,7 +84,7 @@ public class C_RunPID extends Command {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     }
 
-    final int LIMIT = 50;
+    final int LIMIT = 20;
     int lastValue = -1;
     int sameCount = LIMIT;
     
@@ -97,6 +97,10 @@ public class C_RunPID extends Command {
     		sameCount = LIMIT;
     		lastValue = currentValue;
     	}
+    	
+//    	if (Math.abs(ticks - currentValue) < 20)
+//    		return true;
+    	
     	return sameCount <= 0;
     }
 

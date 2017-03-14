@@ -4,6 +4,7 @@ import org.usfirst.frc.team4911.robot.Robot;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SensorBase;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -16,15 +17,32 @@ public class SS_Lidar extends SensorBase {
 	byte[] distance;
 	int[] dataSet = new int[3];
 	
-	public SS_Lidar(){
-		i2c = new I2C(I2C.Port.kOnboard,0x62);
-		//i2c = new I2C(I2C.Port.kMXP,0x62); i don't think this one works
-		i2c.write(0x45, 0x04);
-		i2c.write(0x04, 0x20);
-		i2c.write(0x11, 0xff);
-		i2c.write(0x00, 0x04);
-		//SmartDashboard.putNumber("LidarValuesThrownOut:", 0);
-		//I don't remember what these are
+
+	public int getDistanceOld() {
+
+	byte[] buffer; 
+	buffer = new byte[2];
+
+	i2c.write(0x00, 0x04);
+	Timer.delay(0.04);
+	i2c.read(0x8f, 2, buffer); 
+
+
+	return (int)Integer.toUnsignedLong(buffer[0] << 8) + Byte.toUnsignedInt(buffer[1]);	
+	}
+	
+	public SS_Lidar(boolean old){
+		//i2c = new I2C(I2C.Port.kOnboard,0x62); // this one does not work
+		i2c = new I2C(I2C.Port.kMXP,0x62); //this one works
+
+		if (!old){
+			i2c.write(0x45, 0x04);
+			i2c.write(0x04, 0x20);
+			i2c.write(0x11, 0xff);
+			i2c.write(0x00, 0x04);
+			//SmartDashboard.putNumber("LidarValuesThrownOut:", 0);
+			//I don't remember what these are
+		}
 	}
 	public int getDistance(){
 		byte[] distanceArray = new byte[2];
@@ -42,7 +60,7 @@ public class SS_Lidar extends SensorBase {
 		if(isDataArrayFilled()){
 			if((Math.abs(getDataAverage() - distance) > 50)){
 				distance = dataSet[1];
-				SmartDashboard.putNumber("LidarValuesThrownOut:", SmartDashboard.getNumber("LidarValuesThrownOut:")+1);
+				SmartDashboard.putNumber("LidarValuesThrownOut:", SmartDashboard.getNumber("LidarValuesThrownOut:",-20)+1);
 			}
 		}
 		return distance;

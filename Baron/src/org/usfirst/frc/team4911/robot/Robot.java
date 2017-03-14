@@ -1,8 +1,11 @@
 
 package org.usfirst.frc.team4911.robot;
 import java.awt.*;
+
+import org.usfirst.frc.team4911.robot.commands.CG_AutoTwistAndShoot;
 import org.usfirst.frc.team4911.robot.commands.CG_DrivePastBaseline;
 import org.usfirst.frc.team4911.robot.commands.CG_GearAutonomous;
+import org.usfirst.frc.team4911.robot.commands.CG_GearSideAuto;
 import org.usfirst.frc.team4911.robot.commands.CG_TestAutonomous;
 import org.usfirst.frc.team4911.robot.subsystems.*;
 
@@ -53,7 +56,7 @@ public class Robot extends IterativeRobot {
 
 	Command autonomousCommand;
 	//SendableChooser<Command> chooser = new SendableChooser<>();
-	int chooser;
+	int chooser = 0;// default to do nothing
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -85,7 +88,9 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		//chooser.addDefault("Default Auto", <insert command here>);
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putNumber("Auto mode", chooser);
+//		int testRead = (int)SmartDashboard.getNumber("Auto mode", -654);
+//		if (testRead == -654)
+			SmartDashboard.putNumber("Auto mode", chooser);
 		cameraManager();
 		//updateSDForPIDTuning();
 		ss_Config.updateConfigFile("/c/config.txt");
@@ -141,13 +146,19 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		//autonomousCommand = chooser.getSelected();
-		chooser = SmartDashboard.getInt("Auto mode", 0);
+		chooser = (int) SmartDashboard.getNumber("Auto mode", 0);
 		switch(chooser) {
 			case 1:
 				autonomousCommand = new CG_GearAutonomous();
 				break;
 			case 2:
 				autonomousCommand = new CG_DrivePastBaseline();
+				break;
+			case 3:
+				autonomousCommand = new CG_AutoTwistAndShoot();
+				break;
+			case 4:
+				autonomousCommand = new CG_GearSideAuto();
 				break;
 			default:
 				//nothing;
@@ -199,7 +210,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		SmartDashboard.putNumber("I am alive", counter++);
-		SmartDashboard.putNumber("Gear Pot", ss_GearLift.getGearLiftPot());
 		Scheduler.getInstance().run();
 	}
 

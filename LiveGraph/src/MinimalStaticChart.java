@@ -78,7 +78,7 @@ public class MinimalStaticChart implements Runnable {
 			switch (choice){
 				case 0:
 					pt = MainLiveGraph.cd.speedRPMFlywheel;
-					if (pt > 5500){
+					if (pt >5500){ //5500
 						traceFlywheel.addPoint(counter,pt);
 						//traceFeeder.addPoint(counter,MainLiveGraph.cd.speedRPMFeeder);
 						counter++;

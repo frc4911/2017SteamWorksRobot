@@ -100,11 +100,17 @@ public class DefaultMotor {
 	}
 	
 	public void moveToEncPos(int ticks, int tickPerRev, int encoderTicksPerRev, double kp, double kd, double ki, double kf, double rampRate, int iZone, 
-							 double peakOutputVoltage, double nominalOutputVoltage, CANTalon.TalonControlMode PIDType, boolean encoderFlip, boolean flipMotorDir) {
+			 double peakOutputVoltage, double nominalOutputVoltage, CANTalon.TalonControlMode PIDType, boolean encoderFlip, boolean flipMotorDir) {
 		pid = new CANTalonPID(talon, sensor, tickPerRev, encoderTicksPerRev, false,
-				   			  kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType, ticks, encoderFlip, flipMotorDir);
+  			  kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType, ticks, encoderFlip, flipMotorDir);
 	}
-	
+
+	public void moveToEncPosDontResetEncoder(int ticks, int tickPerRev, int encoderTicksPerRev, double kp, double kd, double ki, double kf, double rampRate, int iZone, 
+			 double peakOutputVoltage, double nominalOutputVoltage, CANTalon.TalonControlMode PIDType, boolean encoderFlip, boolean flipMotorDir) {
+		pid = new CANTalonPID(talon, sensor, tickPerRev, encoderTicksPerRev, false,
+  			  kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType, ticks, encoderFlip, flipMotorDir, true);// add boolean to end to hit other constructor
+	}
+
 	public void setSensor(CANTalon.FeedbackDevice sensor){
 		this.sensor = sensor;
 		talon.setFeedbackDevice(sensor);

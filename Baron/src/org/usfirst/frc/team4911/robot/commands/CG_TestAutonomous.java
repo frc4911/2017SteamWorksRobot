@@ -13,18 +13,17 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CG_TestAutonomous extends CommandGroup {
 
     public CG_TestAutonomous() {
-    	Command holdGear =  new C_HoldGear();
-    	
-    	//double targetDist, int ticksPerRev, int encoderTicksPerRev, double kp, double kd, double ki, double kf, int iZone, double peakOutputVoltage
-        //addSequential(new C_MoveToPosInInches(71.5, 1024, 256, 0.5, 0.0, 0.0, 0.0, 0, 12.0));
-    	// drive forward from wall to airship
+    	//Command holdGear =  new C_GearLiftUp();
+    	// lift gear
+    	//addParallel(holdGear);
+    	// while driving forward from wall to airship
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
         		-5450, 2.0, 0, 0, 0, 0, 0, 2.9, 0));
-    	addParallel(holdGear);
     	addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
     			5450, 2.0, 0, 0, 0, 0, 0, 3.0, 0));
+    	
     	// deploy gear
-    	addSequential(new CG_PlaceGearAuto());
+    	addSequential(new CG_GearPlaceOnSpring());
     	
     	// backup to clear spike
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,

@@ -17,26 +17,28 @@ public class SS_GearLift extends Subsystem {
 	// Positive input to move up
 	// Negative input to move down
 	
-	
 	int tPortLift = 5;
 	
-	final double lowPotValue = 250; // black 130		Silver 90
-	public final double topPotValue = 1023; //black 950		Silver 900
-
+	public final double topEncoderValue = 650;
 	
-	AnalogInput gearPot = new AnalogInput(0);
+	//AnalogInput gearPot = new AnalogInput(0);
+	
+	public boolean keepGearUp = true;
 
 	//public DefaultMotor gearLiftMotor = new DefaultMotor(tPortLift, Robot.ss_Config.gearIntakeConst, topPotValue, lowPotValue, "GearLift");
-	public DefaultMotor gearLiftMotor = new DefaultMotor(tPortLift, Robot.ss_Config.gearIntakeConst, "GearLift");
+	//public DefaultMotor gearLiftMotor = new DefaultMotor(tPortLift, Robot.ss_Config.gearIntakeConst, "GearLift");
+	public DefaultMotor gearLiftMotor = new DefaultMotor(tPortLift, Robot.ss_Config.gearIntakeConst, topEncoderValue, 0, "GearLift");
 	
 	public SS_GearLift() {
 		gearLiftMotor.setPowLimit(0.6);
 		gearLiftMotor.enablePowLimit(true);
-		gearLiftMotor.setSensor(CANTalon.FeedbackDevice.AnalogPot);
+		gearLiftMotor.setSensor(CANTalon.FeedbackDevice.QuadEncoder);
 		gearLiftMotor.setBrakeMode(true);
 		
 		gearLiftMotor.getTalon().ConfigFwdLimitSwitchNormallyOpen(true); //change when limit switch is added
 		gearLiftMotor.getTalon().ConfigRevLimitSwitchNormallyOpen(true); //change when limit switch is added
+		
+		gearLiftMotor.zeroEnc(); // assume homed (down) when code starts
 
 	}
 

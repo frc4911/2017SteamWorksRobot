@@ -8,6 +8,7 @@ public class CANTalonPID{
 	CANTalon talon;
 	int currTicks = 0;
 	
+	// original constructor always clears encoder
 	public CANTalonPID(
 			CANTalon talon, 
 			CANTalon.FeedbackDevice encoderType, 
@@ -24,6 +25,74 @@ public class CANTalonPID{
 			boolean encoderFlip,
 			boolean flipMotorDir)
 	{
+		talon.setEncPosition(0);  // zero encoder
+		construct(talon, 
+				encoderType, 
+				ticksPerRev, 
+				encoderCodesPerRev, 
+				reverseSensor, 
+				kp, kd, ki, kf, 
+				rampRate, 
+				iZone, 
+				peakOutputVoltage, 
+				nominalOutputVoltage, 
+				PIDType,
+				ticks,
+				encoderFlip,
+				flipMotorDir);
+		}
+	
+	// this constructor does not zero encoder
+		public CANTalonPID(
+				CANTalon talon, 
+				CANTalon.FeedbackDevice encoderType, 
+				int ticksPerRev, 
+				int encoderCodesPerRev, 
+				boolean reverseSensor, 
+				double kp, double kd, double ki, double kf, 
+				double rampRate, 
+				int iZone, 
+				double peakOutputVoltage, 
+				double nominalOutputVoltage, 
+				CANTalon.TalonControlMode PIDType,
+				int ticks,
+				boolean encoderFlip,
+				boolean flipMotorDir,
+				boolean doNotZeroEncoder){
+			
+			construct(talon, 
+					encoderType, 
+					ticksPerRev, 
+					encoderCodesPerRev, 
+					reverseSensor, 
+					kp, kd, ki, kf, 
+					rampRate, 
+					iZone, 
+					peakOutputVoltage, 
+					nominalOutputVoltage, 
+					PIDType,
+					ticks,
+					encoderFlip,
+					flipMotorDir);
+		}
+		
+		// do the work
+		void construct(
+				CANTalon talon, 
+				CANTalon.FeedbackDevice encoderType, 
+				int ticksPerRev, 
+				int encoderCodesPerRev, 
+				boolean reverseSensor, 
+				double kp, double kd, double ki, double kf, 
+				double rampRate, 
+				int iZone, 
+				double peakOutputVoltage, 
+				double nominalOutputVoltage, 
+				CANTalon.TalonControlMode PIDType,
+				int ticks,
+				boolean encoderFlip,
+				boolean flipMotorDir)
+		{
 		
     	int profile = 0;
 
@@ -40,7 +109,7 @@ public class CANTalonPID{
     	this.talon.changeControlMode(PIDType);
     	this.talon.setVoltageRampRate(rampRate);
     	this.talon.setCloseLoopRampRate(rampRate);
-    	this.talon.setEncPosition(0);
+    	//this.talon.setEncPosition(0); do this above when needed
     	double set = 0;
     	if (encoderType == CANTalon.FeedbackDevice.QuadEncoder){
     		if (PIDType == CANTalon.TalonControlMode.Position){

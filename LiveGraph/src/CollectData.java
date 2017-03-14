@@ -29,7 +29,8 @@ public class CollectData implements Runnable {
 			try { Thread.sleep(100); } catch (InterruptedException e) {}
 //			speedRPM = table.getNumber("I am alive",-999);
 			speedRPMFlywheel = Double.parseDouble(table.getString("ShooterFlywheel getSpeed","-999"));
-			speedRPMFeeder = Double.parseDouble(table.getString("ShooterFeeder getSpeed","-999"));
+			//speedRPMFlywheel = Double.parseDouble(table.getString("GearIntake TalonCurrent","-999"));
+			//speedRPMFeeder = Double.parseDouble(table.getString("ShooterFeeder getSpeed","-999"));
 			//System.out.println(speedRPM);
 			
 //			if (speedRPM == last){

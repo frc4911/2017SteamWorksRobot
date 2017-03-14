@@ -10,6 +10,6 @@ public class CG_CompleteShoot extends CommandGroup {
     public CG_CompleteShoot() {
         addParallel(new C_SpinFlywheel());
         addSequential(new C_Delay(1.0));
-        addSequential(new CG_FeedFuel(true));
+        addSequential(new CG_FeedFuel(false));
     }
 }

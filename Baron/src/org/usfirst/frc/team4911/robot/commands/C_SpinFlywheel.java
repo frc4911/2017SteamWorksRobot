@@ -15,14 +15,14 @@ public class C_SpinFlywheel extends Command {
     public C_SpinFlywheel() {
         // Use requires() here to declare subsystem dependencies
     }
-    boolean usePID = false;
+    boolean usePID = true;
 
     // Called just before this Command runs the first time
     protected void initialize() {
 
     	if (usePID){
                                                       // ticks, ticksPerRev, encoderTicksPerRev, kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType, encoderFlip, flipMotorDir);
-    		Robot.ss_FuelShooter.shooterMotors.moveToEncPos(-6250, 1440, 360, 0.6, 12.0, 0, 0.05, 0, 0, 12.0, 0, CANTalon.TalonControlMode.Speed, false, false);
+    		Robot.ss_FuelShooter.shooterMotors.moveToEncPos(6500, 1440, 360, 0.22, 5.0, 0, 0.052, 0, 0, 12.0, 0, CANTalon.TalonControlMode.Speed, false, true);
     	}
     }
 
