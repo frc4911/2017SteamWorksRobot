@@ -57,6 +57,7 @@ public class C_GearInOut extends Command {
     }
 
     protected boolean isFinished() {
+    	Robot.ss_GearIntake.gearIn = false;
     	return false;
     }
 

@@ -157,7 +157,7 @@ public class Robot extends IterativeRobot {
 			case 3:
 				autonomousCommand = new CG_AutoTwistAndShoot();
 				break;
-			case 4:
+			case 0://4:
 				autonomousCommand = new CG_GearSideAuto();
 				break;
 			default:
