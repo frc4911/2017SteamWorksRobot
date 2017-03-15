@@ -14,11 +14,11 @@ public class DashboardDoubleValue {
 		this.key = key;
 		this.defaultValue = defaultValue;
 		
-//		double value = SmartDashboard.getNumber(key, defaultValue);
-//
-//		if(value == defaultValue){
-//			SmartDashboard.putNumber(key, defaultValue);
-//		}
+		double value = SmartDashboard.getNumber(key, defaultValue);
+
+		if(value == defaultValue){
+			SmartDashboard.putNumber(key, defaultValue);
+		}
 	}
 	
 	public void putDouble(double newValue){

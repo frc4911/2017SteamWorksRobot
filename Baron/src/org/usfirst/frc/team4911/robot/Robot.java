@@ -2,11 +2,14 @@
 package org.usfirst.frc.team4911.robot;
 import java.awt.*;
 
-import org.usfirst.frc.team4911.robot.commands.CG_AutoTwistAndShoot;
+import org.usfirst.frc.team4911.robot.commands.CG_AutoLineBoilerShoot;
+import org.usfirst.frc.team4911.robot.commands.CG_AutoShootDrive;
+import org.usfirst.frc.team4911.robot.commands.CG_AutoTwistShootLine;
 import org.usfirst.frc.team4911.robot.commands.CG_DrivePastBaseline;
 import org.usfirst.frc.team4911.robot.commands.CG_GearAutonomous;
 import org.usfirst.frc.team4911.robot.commands.CG_GearSideAuto;
 import org.usfirst.frc.team4911.robot.commands.CG_TestAutonomous;
+import org.usfirst.frc.team4911.robot.commands.C_AutoTest;
 import org.usfirst.frc.team4911.robot.subsystems.*;
 
 import edu.wpi.cscore.UsbCamera;
@@ -54,6 +57,9 @@ public class Robot extends IterativeRobot {
 	
 	public static boolean pidTargetReached;
 
+	public static double pid1 = 0;
+	public static double pid2 = 0;
+	
 	Command autonomousCommand;
 	//SendableChooser<Command> chooser = new SendableChooser<>();
 	int chooser = 0;// default to do nothing
@@ -155,10 +161,16 @@ public class Robot extends IterativeRobot {
 				autonomousCommand = new CG_DrivePastBaseline();
 				break;
 			case 3:
-				autonomousCommand = new CG_AutoTwistAndShoot();
+				autonomousCommand = new CG_AutoLineBoilerShoot();
 				break;
-			case 0://4:
+			case 4:
 				autonomousCommand = new CG_GearSideAuto();
+				break;
+			case 5:
+				autonomousCommand = new CG_AutoTwistShootLine();
+				break;
+			case 6:
+				autonomousCommand = new CG_AutoShootDrive();
 				break;
 			default:
 				//nothing;

@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class CG_AutoTwistAndShoot extends CommandGroup {
+public class CG_AutoLineBoilerShoot extends CommandGroup {
 
-    public CG_AutoTwistAndShoot() {
+    public CG_AutoLineBoilerShoot() {
         // drive across base line with a kick left at end
         addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
         		-5880, 2.0, 0, 0, 0, 0, 0, 5.0, 0));

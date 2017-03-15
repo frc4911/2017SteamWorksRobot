@@ -22,8 +22,8 @@ public class CG_GearAutonomous extends CommandGroup {
     	// drive forward from wall to airship
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
         		-5750, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
-    	addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-    			5750, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
+    	addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
+    			-5750, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
     	
     	// if above stops short then this can be added
 //    	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
@@ -35,8 +35,8 @@ public class CG_GearAutonomous extends CommandGroup {
     	// push gear on
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
         		-625, 2.0, 0, 0, 0, 0, 0, 3.0, 0));
-        addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		625, 2.0, 0, 0, 0, 0, 0, 3.0, 0));
+        addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
+        		-625, 2.0, 0, 0, 0, 0, 0, 3.0, 0));
 
     	// deploy gear
     	addSequential(new CG_GearPlaceOnSpring());
@@ -44,8 +44,8 @@ public class CG_GearAutonomous extends CommandGroup {
     	// backup to clear spike
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
         		1500, 2.0, 0, 0, 0, 0, 0, 3.0, 0));
-        addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		-1500, 2.0, 0, 0, 0, 0, 0, 3.0, 0));
+        addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
+        		1500, 2.0, 0, 0, 0, 0, 0, 3.0, 0));
 
         //    	
 //        // turn towards boiler
