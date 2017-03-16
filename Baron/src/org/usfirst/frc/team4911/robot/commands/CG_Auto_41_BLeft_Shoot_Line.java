@@ -9,11 +9,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class CG_AutoShootDrive extends CommandGroup {
+public class CG_Auto_41_BLeft_Shoot_Line extends CommandGroup {
 
-    public CG_AutoShootDrive() {
+    public CG_Auto_41_BLeft_Shoot_Line() {
+    	
         // spin up flywheel
-        addParallel(new C_SpinFlywheel());
+        addParallel(new C_SpinFlywheel(6700)); // speed up pid due to gap from boiler
         addSequential(new C_Delay(1));
         
         // shoot - start feeder and hopper simultaneously
@@ -21,17 +22,17 @@ public class CG_AutoShootDrive extends CommandGroup {
     	addParallel(new C_HopperSpin(true));
         addSequential(new C_Delay(7));
 
-    	// drive to boiler with kick left at end to align with boiler face
+    	// twist away from boiler
         addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		-2800, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
+        		-2000, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
+        addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
+        		1000, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
+        
+    	// drive to line
+        addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
+        		-4400, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
         addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
         		-4400, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
-        
-    	// drive to boiler with kick left at end to align with boiler face
-        addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		-3600, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
-        addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
-        		-3600, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
 
     }
 }

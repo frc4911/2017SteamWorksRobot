@@ -2,12 +2,15 @@
 package org.usfirst.frc.team4911.robot;
 import java.awt.*;
 
-import org.usfirst.frc.team4911.robot.commands.CG_AutoLineBoilerShoot;
-import org.usfirst.frc.team4911.robot.commands.CG_AutoShootDrive;
+import org.usfirst.frc.team4911.robot.commands.CG_Auto_30_BRight_Line_Shoot;
+import org.usfirst.frc.team4911.robot.commands.CG_Auto_31_BRight_Shoot_Line;
+import org.usfirst.frc.team4911.robot.commands.CG_Auto_40_BLeft_Line_Shoot;
+import org.usfirst.frc.team4911.robot.commands.CG_Auto_41_BLeft_Shoot_Line;
+import org.usfirst.frc.team4911.robot.commands.CG_Auto_5_LeftGear;
 import org.usfirst.frc.team4911.robot.commands.CG_AutoTwistShootLine;
-import org.usfirst.frc.team4911.robot.commands.CG_DrivePastBaseline;
-import org.usfirst.frc.team4911.robot.commands.CG_GearAutonomous;
-import org.usfirst.frc.team4911.robot.commands.CG_GearSideAuto;
+import org.usfirst.frc.team4911.robot.commands.CG_Auto_1_Line;
+import org.usfirst.frc.team4911.robot.commands.CG_Auto_6_CenterGear;
+import org.usfirst.frc.team4911.robot.commands.CG_Auto_7_RightGear;
 import org.usfirst.frc.team4911.robot.commands.CG_TestAutonomous;
 import org.usfirst.frc.team4911.robot.commands.C_AutoTest;
 import org.usfirst.frc.team4911.robot.subsystems.*;
@@ -96,7 +99,7 @@ public class Robot extends IterativeRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 //		int testRead = (int)SmartDashboard.getNumber("Auto mode", -654);
 //		if (testRead == -654)
-			SmartDashboard.putNumber("Auto mode", chooser);
+		SmartDashboard.putNumber("Auto choice", chooser);
 		cameraManager();
 		//updateSDForPIDTuning();
 		ss_Config.updateConfigFile("/c/config.txt");
@@ -152,30 +155,36 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		//autonomousCommand = chooser.getSelected();
-		chooser = (int) SmartDashboard.getNumber("Auto mode", 0);
+		chooser = (int) SmartDashboard.getNumber("Auto choice", 0);
 		switch(chooser) {
-			case 1:
-				autonomousCommand = new CG_GearAutonomous();
-				break;
-			case 2:
-				autonomousCommand = new CG_DrivePastBaseline();
-				break;
-			case 3:
-				autonomousCommand = new CG_AutoLineBoilerShoot();
-				break;
-			case 4:
-				autonomousCommand = new CG_GearSideAuto();
-				break;
-			case 5:
-				autonomousCommand = new CG_AutoTwistShootLine();
-				break;
-			case 6:
-				autonomousCommand = new CG_AutoShootDrive();
-				break;
-			default:
-				//nothing;
-				autonomousCommand = null;
-				break;
+		case 1:
+			autonomousCommand = new CG_Auto_1_Line();
+			break;
+		case 5:
+			autonomousCommand = new CG_Auto_5_LeftGear();
+			break;
+		case 6:
+			autonomousCommand = new CG_Auto_6_CenterGear();
+			break;
+		case 7:
+			autonomousCommand = new CG_Auto_7_RightGear();
+			break;
+		case 30:
+			autonomousCommand = new CG_Auto_30_BRight_Line_Shoot();
+			break;
+		case 31:
+			autonomousCommand = new CG_Auto_31_BRight_Shoot_Line();
+			break;
+		case 40:
+			autonomousCommand = new CG_Auto_40_BLeft_Line_Shoot();
+			break;
+		case 41:
+			autonomousCommand = new CG_Auto_41_BLeft_Shoot_Line();
+			break;
+		default:
+			//nothing;
+			autonomousCommand = null;
+			break;
 		}
 		
 		/*

@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class SS_FuelCollector extends Subsystem {
-
 	int tPortCollector = 6;
 	int tPortCollectorF = 12;
 

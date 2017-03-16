@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class C_FuelCollect extends Command {
+	private final double SPEED = 0.8;
 	boolean dir;
 	
     public C_FuelCollect(boolean dir) {
@@ -24,9 +25,9 @@ public class C_FuelCollect extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	if(dir) {
-    		Robot.ss_FuelCollector.collectorMotors.spin(0.5);
+    		Robot.ss_FuelCollector.collectorMotors.spin(SPEED);
     	} else {
-    		Robot.ss_FuelCollector.collectorMotors.spin(-0.5);
+    		Robot.ss_FuelCollector.collectorMotors.spin(-SPEED);
     	}
     }
 

@@ -7,14 +7,19 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
 public class C_SpinFlywheel extends Command {
 
+	final int DEFAULTTICKS = 6500;
+	int ticks = 6500;
+	
     public C_SpinFlywheel() {
-        // Use requires() here to declare subsystem dependencies
+    	ticks = DEFAULTTICKS;
     }
+    
+    public C_SpinFlywheel(int ticks) {
+    	this.ticks = ticks;
+    }
+    
     boolean usePID = true;
 
     // Called just before this Command runs the first time
@@ -22,7 +27,7 @@ public class C_SpinFlywheel extends Command {
 
     	if (usePID){
                                                       // ticks, ticksPerRev, encoderTicksPerRev, kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType, encoderFlip, flipMotorDir);
-    		Robot.ss_FuelShooter.shooterMotors.moveToEncPos(6500, 1440, 360, 0.22, 5.0, 0, 0.052, 0, 0, 12.0, 0, CANTalon.TalonControlMode.Speed, false, true);
+    		Robot.ss_FuelShooter.shooterMotors.moveToEncPos(ticks, 1440, 360, 0.22, 5.0, 0, 0.052, 0, 0, 12.0, 0, CANTalon.TalonControlMode.Speed, false, true);
     	}
     }
 

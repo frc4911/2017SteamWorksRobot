@@ -6,9 +6,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class SS_FuelFeeder extends Subsystem {
-
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+	public double speed = 0.2;
 	
 	int tPortFeeder = 8;
 	

@@ -12,21 +12,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class C_ShooterFeeder extends Command {
 	boolean shooterSpinning;
-	private final double TOLERANCE = 0.03;
-	private final double SHOOTERSPEED = 3000.0;
-	private final double SPEED = 0.2;
+	private final double TOLERANCE = 0.90;
+	private final double DEFAULT_SPEED = 0.2;
+	private final double INCREASE_RATE = 0.004;
 	
     public C_ShooterFeeder() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.ss_FuelFeeder);
-    }
-    
-    private boolean isShooterUpToSpeed() {
-    	if(Math.abs((Robot.ss_FuelShooter.shooterMotors.getTalonSpeed() - SHOOTERSPEED) / SHOOTERSPEED) <= TOLERANCE) {
-    		return true;
-    	} else {
-    		return false;
-    	}
     }
 
     // Called just before this Command runs the first time
@@ -36,17 +28,27 @@ public class C_ShooterFeeder extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
-//    	if(isShooterUpToSpeed()) {
-//    		Robot.ss_FuelFeeder.feederMotor.spin(SPEED);
-//    	} else if(!Objects.equals(Robot.ss_FuelShooter.shooterMotors.getPID(), null)) {
-//    		Robot.oi.flywheel.start();
-//    	}
 //    	double speed = SmartDashboard.getNumber("FeederSpeed",1.1);
 //    	if (speed == 1.1){
 //    		SmartDashboard.putNumber("FeederSpeed",1.0);
 //    	}
 //    	Robot.ss_FuelFeeder.feederMotor.spin(speed);
-    	Robot.ss_FuelFeeder.feederMotor.spin(SPEED);
+    	
+    	double input = Robot.oi.opGamepad.getRawAxis(5) * -1;
+    	if(Math.abs(input) > TOLERANCE) {
+    		Robot.ss_FuelFeeder.speed += Math.signum(input) * INCREASE_RATE;
+    	} else if(Robot.oi.opGamepad.getRawButton(10)) {
+    		Robot.ss_FuelFeeder.speed = DEFAULT_SPEED;
+    	}
+    	
+    	if(Robot.ss_FuelFeeder.speed < DEFAULT_SPEED) {
+    		Robot.ss_FuelFeeder.speed = DEFAULT_SPEED;
+    	} else if(Robot.ss_FuelFeeder.speed > 1.0) {
+    		Robot.ss_FuelFeeder.speed = 1.0;
+    	}
+    	
+    	SmartDashboard.putNumber("Fuel Feeder Input", Robot.ss_FuelFeeder.speed);
+    	Robot.ss_FuelFeeder.feederMotor.spin(Robot.ss_FuelFeeder.speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

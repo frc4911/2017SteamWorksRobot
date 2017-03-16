@@ -15,7 +15,7 @@ public class CollectData implements Runnable {
 	}
 	
 	public void run(){
-		String ip = "10.49.11.85"; // silver "10.49.11.85";
+		String ip = "10.49.11.85";// eli "10.49.11.34"; // silver "10.49.11.85";
 		String tableName = "SmartDashboard";
 		
 		NetworkTable.setClientMode();
