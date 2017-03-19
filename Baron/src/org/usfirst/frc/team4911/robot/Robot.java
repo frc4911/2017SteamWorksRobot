@@ -99,7 +99,6 @@ public class Robot extends IterativeRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 //		int testRead = (int)SmartDashboard.getNumber("Auto mode", -654);
 //		if (testRead == -654)
-		SmartDashboard.putNumber("Auto choice", chooser);
 		cameraManager();
 		//updateSDForPIDTuning();
 		ss_Config.updateConfigFile("/c/config.txt");
