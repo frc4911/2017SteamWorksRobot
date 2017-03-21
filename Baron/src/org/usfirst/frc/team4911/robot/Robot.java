@@ -85,6 +85,8 @@ public class Robot extends IterativeRobot {
 		ss_Logging = new LoggingEngine();
 		ss_UpdateLog = new Logger();
 		oi = new OI();
+		
+		SmartDashboard.putNumber("Auto choice", 0);
 		//chooser.addDefault("Default Auto", <insert command here>);
 		// chooser.addObject("My Auto", new MyAutoCommand());
 //		int testRead = (int)SmartDashboard.getNumber("Auto mode", -654);
