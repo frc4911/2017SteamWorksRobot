@@ -18,9 +18,9 @@ public class CG_Auto_7_RightGear extends CommandGroup {
     	
     	// drive forward from wall and turn to airship
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		-8625, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
+        		-8385, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
     	addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
-    			-6350, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
+    			-6110, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
     	
     	// drive forward to airship
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
