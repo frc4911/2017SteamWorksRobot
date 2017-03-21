@@ -2,17 +2,7 @@
 package org.usfirst.frc.team4911.robot;
 import java.awt.*;
 
-import org.usfirst.frc.team4911.robot.commands.CG_Auto_30_BRight_Line_Shoot;
-import org.usfirst.frc.team4911.robot.commands.CG_Auto_31_BRight_Shoot_Line;
-import org.usfirst.frc.team4911.robot.commands.CG_Auto_40_BLeft_Line_Shoot;
-import org.usfirst.frc.team4911.robot.commands.CG_Auto_41_BLeft_Shoot_Line;
-import org.usfirst.frc.team4911.robot.commands.CG_Auto_5_LeftGear;
-import org.usfirst.frc.team4911.robot.commands.CG_AutoTwistShootLine;
-import org.usfirst.frc.team4911.robot.commands.CG_Auto_1_Line;
-import org.usfirst.frc.team4911.robot.commands.CG_Auto_6_CenterGear;
-import org.usfirst.frc.team4911.robot.commands.CG_Auto_7_RightGear;
-import org.usfirst.frc.team4911.robot.commands.CG_TestAutonomous;
-import org.usfirst.frc.team4911.robot.commands.C_AutoTest;
+import org.usfirst.frc.team4911.robot.commands.*;
 import org.usfirst.frc.team4911.robot.subsystems.*;
 
 import edu.wpi.cscore.UsbCamera;

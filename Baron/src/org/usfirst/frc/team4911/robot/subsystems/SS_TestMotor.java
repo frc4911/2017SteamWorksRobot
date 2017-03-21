@@ -71,24 +71,24 @@ public class SS_TestMotor extends Subsystem {
     	double value = motors[currMotor].getOutputCurrent(false);
     	if (value > maxCurrent){
     		maxCurrent = value;
-        	SmartDashboard.putString(maxCurrStr, ""+maxCurrent);
+//        	SmartDashboard.putString(maxCurrStr, ""+maxCurrent);
     	}
     	
     	value = motors[currMotor].getOutputVoltage(false);
     	if (value > maxVoltage){
     		maxVoltage = value;
-        	SmartDashboard.putString(maxVoltageStr, ""+maxVoltage);
+//        	SmartDashboard.putString(maxVoltageStr, ""+maxVoltage);
     	}
     	
     	if (speed > maxSpeed){
     		maxSpeed = speed;
-        	SmartDashboard.putString(maxSpeedStr, ""+maxSpeed);
+//        	SmartDashboard.putString(maxSpeedStr, ""+maxSpeed);
     	}
     	
     	value = motors[currMotor].getInputVoltage(false);
     	if (value < minVoltage){
     		minVoltage = value;
-        	SmartDashboard.putString(minVoltageStr, ""+minVoltage);
+//        	SmartDashboard.putString(minVoltageStr, ""+minVoltage);
     	}
     }
     
@@ -108,13 +108,13 @@ public class SS_TestMotor extends Subsystem {
     		}
     	}
     	maxCurrent = 0;
-    	SmartDashboard.putString(maxCurrStr, ""+maxCurrent);
+//    	SmartDashboard.putString(maxCurrStr, ""+maxCurrent);
     	maxVoltage = 0;
-    	SmartDashboard.putString(maxVoltageStr, ""+maxVoltage);
+//    	SmartDashboard.putString(maxVoltageStr, ""+maxVoltage);
     	maxSpeed = 0;
-    	SmartDashboard.putString(maxSpeedStr, ""+maxSpeed);
+//  	SmartDashboard.putString(maxSpeedStr, ""+maxSpeed);
     	minVoltage = 100;
-    	SmartDashboard.putString(minVoltageStr, ""+minVoltage);
+//  	SmartDashboard.putString(minVoltageStr, ""+minVoltage);
     	
     	SmartDashboard.putString(key, motors[currMotor].getDescription());
     }
@@ -137,7 +137,7 @@ public class SS_TestMotor extends Subsystem {
     			motorSpeed = -1;
     		}
     	}
-    	SmartDashboard.putNumber("motorTestSpeed", motorSpeed);
+//    	SmartDashboard.putNumber("motorTestSpeed", motorSpeed);
     }
     
     public int getNumMotors() {

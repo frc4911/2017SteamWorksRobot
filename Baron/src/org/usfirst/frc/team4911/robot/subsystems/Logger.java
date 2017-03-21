@@ -143,7 +143,7 @@ public class Logger extends Subsystem {
     public void log() {
     	if (Robot.ss_Logging != null){
 
-    		SmartDashboard.putBoolean("SS_Logging present", true);
+//    		SmartDashboard.putBoolean("SS_Logging present", true);
 
     		// talon constants
     		if(logConstants) {
@@ -207,7 +207,7 @@ public class Logger extends Subsystem {
     		Robot.ss_Logging.logFlush();
     	}
     	else {
-    		SmartDashboard.putBoolean("SS_Logging present", false);
+//    		SmartDashboard.putBoolean("SS_Logging present", false);
     	}
     	
     	runningCommands = "";

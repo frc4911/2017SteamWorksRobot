@@ -193,13 +193,13 @@ public class LoggingEngine {
     	}
     	
 		if (logfileName == null){
-			SmartDashboard.putBoolean("fileCreationFailure", true);
+//			SmartDashboard.putBoolean("fileCreationFailure", true);
 			fileCreationFailure = true;
 			return fileCreationFailure;
 		}
 		
 		if (logfileName != null){
-			SmartDashboard.putBoolean("fileCreationFailure", false);
+//			SmartDashboard.putBoolean("fileCreationFailure", false);
 		}
 
 		File file = new File(logfileName);

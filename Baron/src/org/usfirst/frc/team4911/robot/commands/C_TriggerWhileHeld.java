@@ -37,14 +37,14 @@ public class C_TriggerWhileHeld extends Command {
     int counter=0;
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
-    	SmartDashboard.putNumber("C_TriggerWhileHeld execute", counter++);
-    	SmartDashboard.putNumber("C_TriggerWhileHeld axis", gamepad.getRawAxis(axis));
+//    	SmartDashboard.putNumber("C_TriggerWhileHeld execute", counter++);
+//    	SmartDashboard.putNumber("C_TriggerWhileHeld axis", gamepad.getRawAxis(axis));
     	if(gamepad.getRawAxis(axis) > TOLERANCE) {
     		cmd.start();
-        	SmartDashboard.putNumber("C_TriggerWhileHeld start", counter++);
+//        	SmartDashboard.putNumber("C_TriggerWhileHeld start", counter++);
     	} else if(cmd.isRunning()) {
     		cmd.cancel();
-        	SmartDashboard.putNumber("C_TriggerWhileHeld cancel", counter++);
+//        	SmartDashboard.putNumber("C_TriggerWhileHeld cancel", counter++);
     	}
     }
 

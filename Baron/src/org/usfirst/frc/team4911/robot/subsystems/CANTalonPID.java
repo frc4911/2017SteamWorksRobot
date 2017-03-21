@@ -131,13 +131,13 @@ public class CANTalonPID{
     	}
     	 
     	this.talon.set(set);
-    	SmartDashboard.putString("PID target",""+set);
+//    	SmartDashboard.putString("PID target",""+set);
 	}
 	
 	public void setTicks(int newTicks){
 			talon.set(newTicks);
 			currTicks = newTicks;
-			SmartDashboard.putString("PID target", "" + newTicks);
+//			SmartDashboard.putString("PID target", "" + newTicks);
 	}
 	
 	public int getTicks(){
@@ -149,6 +149,6 @@ public class CANTalonPID{
     	talon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     	talon.setVoltageRampRate(0);
     	talon.set(0);
-    	SmartDashboard.putString("PID target","off" );
+//    	SmartDashboard.putString("PID target","off" );
     }
 }
