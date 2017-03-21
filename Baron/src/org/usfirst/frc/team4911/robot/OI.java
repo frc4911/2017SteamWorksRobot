@@ -1,26 +1,5 @@
 package org.usfirst.frc.team4911.robot;
 
-import org.usfirst.frc.team4911.robot.commands.CG_AutoTest;
-import org.usfirst.frc.team4911.robot.commands.CG_FeedFuel;
-import org.usfirst.frc.team4911.robot.commands.CG_TestAutonomous;
-import org.usfirst.frc.team4911.robot.commands.C_CameraUpDown;
-import org.usfirst.frc.team4911.robot.commands.C_ShooterFeeder;
-import org.usfirst.frc.team4911.robot.commands.C_SpinFlywheel;
-import org.usfirst.frc.team4911.robot.commands.C_FuelCollect;
-import org.usfirst.frc.team4911.robot.commands.C_GearInOut;
-import org.usfirst.frc.team4911.robot.commands.C_ManualTestMotor;
-import org.usfirst.frc.team4911.robot.commands.C_MoveToEncPos;
-import org.usfirst.frc.team4911.robot.commands.C_RunAutoTest;
-import org.usfirst.frc.team4911.robot.commands.C_GearLiftLower;
-import org.usfirst.frc.team4911.robot.commands.C_HopperSpin;
-import org.usfirst.frc.team4911.robot.commands.C_StopCommand;
-import org.usfirst.frc.team4911.robot.commands.C_TestDriveBySet;
-import org.usfirst.frc.team4911.robot.commands.C_TestSetMotorSpeed;
-import org.usfirst.frc.team4911.robot.commands.C_TestSetTalonNum;
-import org.usfirst.frc.team4911.robot.commands.C_TriggerWhenPressed;
-import org.usfirst.frc.team4911.robot.commands.C_TriggerWhileHeld;
-import org.usfirst.frc.team4911.robot.commands.C_TunePID;
-
 import org.usfirst.frc.team4911.robot.commands.*;
 import com.ctre.CANTalon;
 
@@ -128,7 +107,6 @@ public class OI {
 		// change the motor speed
 //		testBtnY.whenPressed(new C_TestSetMotorSpeed(true)); // bump the speed up
 //		testBtnA.whenPressed(new C_TestSetMotorSpeed(false)); // bump the speed down
-		testBtnY.whileHeld(new CG_TestAutonomous());
 
 	
 		// while holding the right trigger, the left joystick can be used to move the motor
@@ -158,9 +136,6 @@ public class OI {
 		//kp 1.5 to 3.0
 				
 		// test complete autonomous, release button to stop
-		CommandGroup completeAutonomous = new CG_TestAutonomous();
-		testRightAxisPress.whenPressed(completeAutonomous);
-		testRightAxisPress.whenReleased(new C_StopCommand(completeAutonomous));
 	
 		// test a single PID whileHeld
 //		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));

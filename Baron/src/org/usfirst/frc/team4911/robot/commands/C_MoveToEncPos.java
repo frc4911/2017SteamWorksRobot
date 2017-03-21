@@ -75,7 +75,7 @@ public class C_MoveToEncPos extends Command {
     // Make this return true when this Command no longer needs to run execute()
     private final double DURATION = 2.0;
     protected boolean isFinished() {
-    	SmartDashboard.putNumber("time", time);
+//    	SmartDashboard.putNumber("time", time);
     	if(time >= DURATION) {
     		return true;
     	} else {

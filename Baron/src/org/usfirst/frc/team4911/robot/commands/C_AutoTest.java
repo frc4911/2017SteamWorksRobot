@@ -23,7 +23,7 @@ public class C_AutoTest extends Command {
     	startTime = Timer.getFPGATimestamp();
         firstTime = true;
 
-		SmartDashboard.putString("stopped Motor","false");
+//		SmartDashboard.putString("stopped Motor","false");
     }
 
     boolean bbb = false;
@@ -64,7 +64,7 @@ public class C_AutoTest extends Command {
     		if ((Robot.ss_DriveTrainLeft.leftMotors.getOutputCurrent(false)>20) || (Robot.ss_DriveTrainRight.rightMotors.getOutputCurrent(false)>20)){
     			left.cancel();
     			right.cancel();
-    			SmartDashboard.putString("stopped Motor","true");
+//    			SmartDashboard.putString("stopped Motor","true");
     		}
     		if (Timer.getFPGATimestamp()>endTime){
     			left.cancel();

@@ -41,7 +41,7 @@ public class C_GearLiftLower extends Command {
     	}
     	else if(!pidRunning){
     		int gearPos = (int)motor.getEncPos();
-    		SmartDashboard.putNumber("gearLift PID Target", gearPos);
+//    		SmartDashboard.putNumber("gearLift PID Target", gearPos);
         	motor.moveToEncPosDontResetEncoder(gearPos, 1024, 256, 4.0, 0, 0, 0, 0, 0, 12.0, 0, CANTalon.TalonControlMode.Position, false, false);
     		pidRunning = true;
     	}
