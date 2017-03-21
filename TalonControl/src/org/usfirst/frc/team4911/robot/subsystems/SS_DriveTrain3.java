@@ -509,8 +509,9 @@ public class SS_DriveTrain3 extends Subsystem {
     			{50.0000000000001,	0	,10}};
 
     public void enterMPMode() {
+    	SmartDashboard.putString("status", "in ss_driveTrain.enterMPMode");
     	mpLeft = new MotionProfiler(DriveMotorFrontLeft,Points,.44,1,0,0,"drive left encoder"); 
-    	mpRight = new MotionProfiler(DriveMotorFrontRight,Points,.44,1,0,0,"drive right encoder"); 
+    	mpRight = new MotionProfiler(DriveMotorFrontRight,Points,.6,1,0,0,"drive right encoder"); 
     	mpLeft.enterMPMode();
     	mpRight.enterMPMode();
 //		_notifier.startPeriodic(0.005);
@@ -518,60 +519,62 @@ public class SS_DriveTrain3 extends Subsystem {
 //    	enterMPModeSub(DriveMotorFrontRight);
 	}
     
-    public void enterMPModeSub(CANTalon talon) {
-    	talon.setPosition(0);
-    	talon.clearMotionProfileTrajectories();
-    	talon.clearMotionProfileHasUnderrun();
-    	talon.changeControlMode(CANTalon.TalonControlMode.MotionProfile);
-    	talon.setF(.44);// brian see calculation in section 6 of ctre motion profile doc
-    	// 1024 encoder ticks/rev, max vel = 1351 rpm 
-    	talon.setP(1);
-    	talon.setD(0);
-    	talon.setI(0);
-    	
-    	CANTalon.TrajectoryPoint point = new CANTalon.TrajectoryPoint();
-    	int totalPoints = Points.length;
-    	
-    	for (int i = 0; i < totalPoints; ++i) {
-			/* for each point, fill our structure and pass it to API */
-			point.position = Points[i][0];
-			point.velocity = Points[i][1];
-			point.timeDurMs = (int) Points[i][2];
-			point.profileSlotSelect = 0; /* which set of gains would you like to use? */
-			point.velocityOnly = false; /* brian set true to not do any position
-										 * servo, just velocity feedforward
-										 */
-			point.zeroPos = false;
-			if (i == 0)
-				point.zeroPos = true; /* set this to true on the first point */
-
-			point.isLastPoint = false;
-			if ((i + 1) == totalPoints)
-				point.isLastPoint = true; /* set this to true on the last point  */
-
-			talon.pushMotionProfileTrajectory(point);
-		}
-    	
-    	talon.changeMotionControlFramePeriod(5);
-    	talon.processMotionProfileBuffer();
-    	talon.processMotionProfileBuffer();
-    	talon.set(CANTalon.SetValueMotionProfile.Enable.value);
-	}
+//    public void enterMPModeSub(CANTalon talon) {
+//    	talon.setPosition(0);
+//    	talon.clearMotionProfileTrajectories();
+//    	talon.clearMotionProfileHasUnderrun();
+//    	talon.changeControlMode(CANTalon.TalonControlMode.MotionProfile);
+//    	talon.setF(.44);// brian see calculation in section 6 of ctre motion profile doc
+//    	// 1024 encoder ticks/rev, max vel = 1351 rpm 
+//    	talon.setP(1);
+//    	talon.setD(0);
+//    	talon.setI(0);
+//    	
+//    	CANTalon.TrajectoryPoint point = new CANTalon.TrajectoryPoint();
+//    	int totalPoints = Points.length;
+//    	
+//    	for (int i = 0; i < totalPoints; ++i) {
+//			/* for each point, fill our structure and pass it to API */
+//			point.position = Points[i][0];
+//			point.velocity = Points[i][1];
+//			point.timeDurMs = (int) Points[i][2];
+//			point.profileSlotSelect = 0; /* which set of gains would you like to use? */
+//			point.velocityOnly = false; /* brian set true to not do any position
+//										 * servo, just velocity feedforward
+//										 */
+//			point.zeroPos = false;
+//			if (i == 0)
+//				point.zeroPos = true; /* set this to true on the first point */
+//
+//			point.isLastPoint = false;
+//			if ((i + 1) == totalPoints)
+//				point.isLastPoint = true; /* set this to true on the last point  */
+//
+//			talon.pushMotionProfileTrajectory(point);
+//		}
+//    	
+//    	talon.changeMotionControlFramePeriod(5);
+//    	talon.processMotionProfileBuffer();
+//    	talon.processMotionProfileBuffer();
+//    	talon.set(CANTalon.SetValueMotionProfile.Enable.value);
+//	}
     
     public void exitMPMode() {
     	mpLeft.exitMPMode();
     	mpRight.exitMPMode();
+
+    	SmartDashboard.putString("status", "in ss_driveTrain.exitMPMode");
 //    	_notifier.stop();
 //    	exitMPModeSub(DriveMotorFrontLeft);
 //    	exitMPModeSub(DriveMotorFrontRight);
     }
     
-    void exitMPModeSub(CANTalon talon) {
-    	talon.set(CANTalon.SetValueMotionProfile.Disable.value);
-    	talon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-    	talon.clearMotionProfileTrajectories();
-    	
-    }
+//    void exitMPModeSub(CANTalon talon) {
+//    	talon.set(CANTalon.SetValueMotionProfile.Disable.value);
+//    	talon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+//    	talon.clearMotionProfileTrajectories();
+//    	
+//    }
 
     void displayMotionProfileStatus(CANTalon.MotionProfileStatus mps){
     	
@@ -605,11 +608,11 @@ public class SS_DriveTrain3 extends Subsystem {
 //    	displayMotionProfileStatus(mps);
     }
     
-    class PeriodicRunnable implements java.lang.Runnable {
-	    public void run() {  
-	    	DriveMotorFrontLeft.processMotionProfileBuffer();    
-	    	DriveMotorFrontRight.processMotionProfileBuffer();
-	    }
-	}
-	Notifier _notifier = new Notifier(new PeriodicRunnable());
+//    class PeriodicRunnable implements java.lang.Runnable {
+//	    public void run() {  
+//	    	DriveMotorFrontLeft.processMotionProfileBuffer();    
+//	    	DriveMotorFrontRight.processMotionProfileBuffer();
+//	    }
+//	}
+//	Notifier _notifier = new Notifier(new PeriodicRunnable());
 }

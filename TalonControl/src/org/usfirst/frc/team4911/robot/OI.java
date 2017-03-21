@@ -74,7 +74,8 @@ public class OI {
     	
 //    	trigger.whenPressed(new C_WriteToRoborio());
     	//trigger.whenPressed(new C_ShooterLiftHome());
-    	trigger.whileHeld(new C_DriveByJoystick());
+    	//trigger.whileHeld(new C_DriveByJoystick());
+    	trigger.whileHeld(new C_DriveByMP());
 //    	b2.whenPressed(new C_ShooterSetBrakeMode(false));
 //    	b3.whenPressed(new C_ShooterSetBrakeMode(true));
 //    	b4.whenPressed(new C_ShooterSetSoftLimits(true,4300,1000));
