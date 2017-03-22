@@ -157,7 +157,7 @@ public class Robot extends IterativeRobot {
 		case 6:
 			autonomousCommand = new CG_Auto_6_CenterGear();
 			break;
-		case 7:
+		case 0://7:
 			autonomousCommand = new CG_Auto_7_RightGear();
 			break;
 		case 30:
@@ -171,6 +171,9 @@ public class Robot extends IterativeRobot {
 			break;
 		case 41:
 			autonomousCommand = new CG_Auto_41_BLeft_Shoot_Line();
+			break;
+		case 100:
+			autonomousCommand = new CG_Auto_100_PreTest();
 			break;
 		default:
 			//nothing;

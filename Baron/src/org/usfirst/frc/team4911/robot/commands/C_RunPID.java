@@ -6,23 +6,24 @@ import org.usfirst.frc.team4911.robot.subsystems.DefaultMotor;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class C_RunPID extends Command {
 
 	DefaultMotor motor;
-	DashboardDoubleValue ddv_ticks = null;
-	DashboardDoubleValue ddv_ticksPerRev = null;
-	DashboardDoubleValue ddv_encoderTicksPerRev = null;
-	DashboardDoubleValue ddv_kp = null;
-	DashboardDoubleValue ddv_kd = null;
-	DashboardDoubleValue ddv_ki = null;
-	DashboardDoubleValue ddv_kf = null;
-	DashboardDoubleValue ddv_rampRate = null;
-	DashboardDoubleValue ddv_iZone = null;
-	DashboardDoubleValue ddv_peakOutputVoltage = null;	
-	DashboardDoubleValue ddv_nominalOutputVoltage = null;
+//	DashboardDoubleValue ddv_ticks = null;
+//	DashboardDoubleValue ddv_ticksPerRev = null;
+//	DashboardDoubleValue ddv_encoderTicksPerRev = null;
+//	DashboardDoubleValue ddv_kp = null;
+//	DashboardDoubleValue ddv_kd = null;
+//	DashboardDoubleValue ddv_ki = null;
+//	DashboardDoubleValue ddv_kf = null;
+//	DashboardDoubleValue ddv_rampRate = null;
+//	DashboardDoubleValue ddv_iZone = null;
+//	DashboardDoubleValue ddv_peakOutputVoltage = null;	
+//	DashboardDoubleValue ddv_nominalOutputVoltage = null;
 	int ticks = 0;
 	double kp = 0;
 	double kd = 0;
@@ -84,13 +85,22 @@ public class C_RunPID extends Command {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     }
 
-    final int LIMIT = 20;
+    final int LIMIT = 10;
     int lastValue = -1;
     int sameCount = LIMIT;
     
     protected boolean isFinished() {
+
     	int currentValue = (int)motor.getEncPos();
-    	if (currentValue == lastValue){
+    	
+//    	if ((ticks > 0) && (currentValue>ticks)){
+//    		return true;
+//    	}
+//    	if ((ticks < 0) && (currentValue<ticks)){
+//    		return true;
+//    	}
+    	
+    	if (Math.abs(currentValue - lastValue)<15){
     		sameCount--;
     	}
     	else{

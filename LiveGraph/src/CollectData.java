@@ -5,6 +5,8 @@ public class CollectData implements Runnable {
 	public boolean keepGoing = true;
 	public double speedRPMFlywheel = 0;
 	public double speedRPMFeeder = 0;
+	public double DriveTrainLeft = -999;
+	public double DriveTrainRight = -999;
 	public double current = 0;
 	public double voltage = 0;
 	public double position = 0;
@@ -15,7 +17,7 @@ public class CollectData implements Runnable {
 	}
 	
 	public void run(){
-		String ip = "10.49.11.85";// eli "10.49.11.34"; // silver "10.49.11.85";
+		String ip = "10.49.11.34";// eli "10.49.11.34"; // silver "10.49.11.84";
 		String tableName = "SmartDashboard";
 		
 		NetworkTable.setClientMode();
@@ -28,9 +30,9 @@ public class CollectData implements Runnable {
 		while (keepGoing){
 			try { Thread.sleep(100); } catch (InterruptedException e) {}
 //			speedRPM = table.getNumber("I am alive",-999);
-			speedRPMFlywheel = Double.parseDouble(table.getString("ShooterFlywheel getSpeed","-999"));
-			//speedRPMFlywheel = Double.parseDouble(table.getString("GearIntake TalonCurrent","-999"));
-			//speedRPMFeeder = Double.parseDouble(table.getString("ShooterFeeder getSpeed","-999"));
+			//speedRPMFlywheel = Double.parseDouble(table.getString("ShooterFlywheel getSpeed","-999"));
+			DriveTrainLeft = Double.parseDouble(table.getString("DriveTrainLeft currEncPos","-999"));
+			DriveTrainRight = Double.parseDouble(table.getString("DriveTrainRight currEncPos","-999"));
 			//System.out.println(speedRPM);
 			
 //			if (speedRPM == last){

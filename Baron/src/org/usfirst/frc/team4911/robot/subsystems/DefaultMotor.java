@@ -25,6 +25,7 @@ public class DefaultMotor {
 	private double powLimit;
 	private boolean powLimited = false;
 	private CANTalon.FeedbackDevice sensor = CANTalon.FeedbackDevice.QuadEncoder;
+	private MotionProfiler motionProfiler = null;
 	
 	private String description;
 	
@@ -109,6 +110,25 @@ public class DefaultMotor {
 			 double peakOutputVoltage, double nominalOutputVoltage, CANTalon.TalonControlMode PIDType, boolean encoderFlip, boolean flipMotorDir) {
 		pid = new CANTalonPID(talon, sensor, tickPerRev, encoderTicksPerRev, false,
   			  kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType, ticks, encoderFlip, flipMotorDir, true);// add boolean to end to hit other constructor
+	}
+
+	public void startMotionProfile(double[][] points, int tickPerRev, int encoderTicksPerRev, double kp, double kd, double ki, double kf, double rampRate, int iZone, 
+			 double peakOutputVoltage, double nominalOutputVoltage, boolean encoderFlip, boolean flipMotorDir) {
+		motionProfiler = new MotionProfiler(talon,points,kf,kp,kd,ki,description, encoderFlip, flipMotorDir);
+		motionProfiler.enterMPMode();
+	}
+	
+	public void motionProfilerStatus(){
+		if (motionProfiler != null){
+			motionProfiler.driveByMP();
+		}
+	}
+
+	public void stopMotionProfile() {
+		if (motionProfiler != null){
+			motionProfiler.exitMPMode();
+			motionProfiler = null;
+		}
 	}
 
 	public void setSensor(CANTalon.FeedbackDevice sensor){

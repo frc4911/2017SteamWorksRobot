@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -16,20 +17,29 @@ public class MinimalStaticChart implements Runnable {
 	Chart2D chart = null;
 	ITrace2D traceFlywheel = null;
 	ITrace2D traceFeeder = null;
+	ITrace2D traceDriveTrainRight = null;
+	ITrace2D traceDriveTrainLeft = null;
 	
 	public MinimalStaticChart() {
 		//super();
 	}
+	
+	Color red = new Color(255,0,0);
 	  
 	public void init(){
 
 		// Create a chart:  
 		chart = new Chart2D();
 		// Create an ITrace: 
-		traceFlywheel = new Trace2DSimple(); 
-		traceFeeder = new Trace2DSimple(); 
+		//traceFlywheel = new Trace2DSimple(); 
+		traceDriveTrainRight = new Trace2DSimple(); 
+		traceDriveTrainLeft = new Trace2DSimple();
+		
+		traceDriveTrainRight.setColor(red);
 		// Add the trace to the chart. This has to be done before adding points (deadlock prevention): 
-		chart.addTrace(traceFlywheel);    
+		//chart.addTrace(traceFlywheel);    
+		chart.addTrace(traceDriveTrainLeft);    
+		chart.addTrace(traceDriveTrainRight);    
 		//chart.addTrace(traceFeeder);    
 		// Add all points, as it is static: 
 //		for(int i=100;i>=0;i--){
@@ -68,21 +78,25 @@ public class MinimalStaticChart implements Runnable {
 
 	int counter = 0;
 	Random random = new Random();
+	double lastValueLeft = -999;
+	double lastValueRight = -999;
+	int sameCount = 5;
+	
 	@Override
 	public void run() {
 		
-		double pt;
+		double pt, pt2;
 		while (true){
 
-			int choice = 0;
+			int choice = 1;
 			switch (choice){
 				case 0:
 					pt = MainLiveGraph.cd.speedRPMFlywheel;
-					if (pt >5500){ //5500
+					if (pt >= 0){ //5500
 						traceFlywheel.addPoint(counter,pt);
 						//traceFeeder.addPoint(counter,MainLiveGraph.cd.speedRPMFeeder);
 						counter++;
-						if (counter > 1){
+						if (counter > 5500){
 							traceFlywheel.addPoint(counter++,pt);
 						}
 //						else if (counter == 0)
@@ -92,9 +106,22 @@ public class MinimalStaticChart implements Runnable {
 					}
 					break;
 				case 1:
-					pt = MainLiveGraph.cd.current;
-					if (pt != -999)
-						traceFlywheel.addPoint(counter++,pt);
+					pt = MainLiveGraph.cd.DriveTrainLeft;
+					pt2 = MainLiveGraph.cd.DriveTrainRight;
+					
+					if ((pt == lastValueLeft) && (pt2 == lastValueRight)){
+						sameCount--;
+					}
+					else{
+						sameCount = 5;
+						lastValueLeft = pt;
+						lastValueRight = pt2;
+					}
+					if (sameCount>0){
+						traceDriveTrainLeft.addPoint(counter,pt);
+						traceDriveTrainRight.addPoint(counter,pt2);
+						counter++;
+					}
 					break;
 				case 2:
 					pt = MainLiveGraph.cd.voltage;
@@ -125,7 +152,9 @@ public class MinimalStaticChart implements Runnable {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			traceFlywheel.removeAllPoints();
+			//traceFlywheel.removeAllPoints();
+			traceDriveTrainLeft.removeAllPoints();
+			traceDriveTrainRight.removeAllPoints();
 			counter =0;
 			
 		}
