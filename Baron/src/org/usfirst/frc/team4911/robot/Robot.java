@@ -56,6 +56,8 @@ public class Robot extends IterativeRobot {
 	Command autonomousCommand;
 	//SendableChooser<Command> chooser = new SendableChooser<>();
 	int chooser = 0;// default to do nothing
+	
+	static public int activeDrivetrainPIDs = 0;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -157,7 +159,7 @@ public class Robot extends IterativeRobot {
 		case 6:
 			autonomousCommand = new CG_Auto_6_CenterGear();
 			break;
-		case 0://7:
+		case 7:
 			autonomousCommand = new CG_Auto_7_RightGear();
 			break;
 		case 30:
@@ -166,11 +168,17 @@ public class Robot extends IterativeRobot {
 		case 31:
 			autonomousCommand = new CG_Auto_31_BRight_Shoot_Line();
 			break;
+		case 32:
+			autonomousCommand = new CG_Auto_32_BRight_Gear_Shoot();
+			break;
 		case 40:
 			autonomousCommand = new CG_Auto_40_BLeft_Line_Shoot();
 			break;
 		case 41:
 			autonomousCommand = new CG_Auto_41_BLeft_Shoot_Line();
+			break;
+		case 42:
+			autonomousCommand = new CG_Auto_42_BLeft_Gear_Shoot();
 			break;
 		case 100:
 			autonomousCommand = new CG_Auto_100_PreTest();

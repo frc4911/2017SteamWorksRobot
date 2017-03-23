@@ -17,32 +17,25 @@ public class CG_Auto_6_CenterGear extends CommandGroup {
     	addParallel(new C_GearLiftUp(false)); // lift gear and hold it up
     	
     	// drive forward from wall to airship
+    	addSequential(new C_ZeroEncoders());
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		-5750, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
-    	addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
-    			-5750, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
+        		-5830, 2.0, 200, 0, 0, 0, 0, 6.3, 0));
+    	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
+    			-5830, 2.0, 200, 0, 0, 0, 0, 6.0, 0));
+    	addSequential(new C_DriveTrainPIDTracker());
     	
-    	// if above stops short then this can be added
-//    	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-//        		-600, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
-//    	addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-//    			600, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
-
-    	addSequential(new C_GearLiftUp(true));// stop holding gear up
+    	// stop holding gear up
+    	addSequential(new C_GearLiftUp(true));
     	
-    	// push gear on
-    	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		-625, 2.0, 0, 0, 0, 0, 0, 3.0, 0));
-        addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
-        		-625, 2.0, 0, 0, 0, 0, 0, 3.0, 0));
-
     	// deploy gear
-    	addSequential(new CG_GearPlaceOnSpring());
-    	
+    	addSequential(new CG_GearPlaceOnSpring());//addParallel
+
     	// backup to clear spike
+    	addSequential(new C_ZeroEncoders());
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		1500, 2.0, 0, 0, 0, 0, 0, 3.0, 0));
-        addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
-        		1500, 2.0, 0, 0, 0, 0, 0, 3.0, 0));
-    }
+        		1500, 2.0, 200, 0, 0, 0, 0, 5.3, 0));
+    	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
+        		1500, 2.0, 200, 0, 0, 0, 0, 5.0, 0));
+    	addSequential(new C_DriveTrainPIDTracker());
+      }
 }

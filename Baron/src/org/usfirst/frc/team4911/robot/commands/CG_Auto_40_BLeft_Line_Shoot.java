@@ -13,19 +13,23 @@ public class CG_Auto_40_BLeft_Line_Shoot extends CommandGroup {
 
     public CG_Auto_40_BLeft_Line_Shoot() {
         // drive across base line with a kick left at end
+    	addSequential(new C_ZeroEncoders());
         addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		-5150, 2.0, 0, 0, 0, 0, 0, 5.0, 0));
-        addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
-        		-6100, 2.0, 0, 0, 0, 0, 0, 5.0, 0));
+        		-5150, 2.0, 200, 0, 0, 0, 0, 8.4, 0));
+        addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
+        		-6100, 2.0, 200, 0, 0, 0, 0, 8.0, 0));
+    	addSequential(new C_DriveTrainPIDTracker());
         
         // spin up flywheel
         addParallel(new C_SpinFlywheel());
         
         // drive to boiler with kick left at end to align with boiler face
+        addSequential(new C_ZeroEncoders());
         addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		5850, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
-        addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
-        		4610, 2.0, 0, 0, 0, 0, 0, 6.0, 0));
+        		5650, 2.0, 200, 0, 0, 0, 0, 8.4, 0));
+        addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
+        		4210, 2.0, 200, 0, 0, 0, 0, 8.0, 0));
+    	addSequential(new C_DriveTrainPIDTracker());
         
         // start feeder and hopper simultaneously
     	addParallel(new C_ShooterFeeder());

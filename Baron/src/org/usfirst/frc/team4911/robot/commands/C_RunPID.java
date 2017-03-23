@@ -76,6 +76,7 @@ public class C_RunPID extends Command {
     }
     
     protected void initialize() {
+        Robot.activeDrivetrainPIDs++;
     	Robot.pidTargetReached = false;
     	motor.zeroEnc();
     	motor.moveToEncPos(ticks, ticksPerRev, encoderTicksPerRev, kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType, encoderFlip, flipMotorDir);
@@ -93,6 +94,7 @@ public class C_RunPID extends Command {
 
     	int currentValue = (int)motor.getEncPos();
     	
+    	// kick out once target reached (not used)
 //    	if ((ticks > 0) && (currentValue>ticks)){
 //    		return true;
 //    	}
@@ -100,6 +102,7 @@ public class C_RunPID extends Command {
 //    		return true;
 //    	}
     	
+    	//kickout when settling close to target
     	if (Math.abs(currentValue - lastValue)<15){
     		sameCount--;
     	}
@@ -107,14 +110,20 @@ public class C_RunPID extends Command {
     		sameCount = LIMIT;
     		lastValue = currentValue;
     	}
-    	
+    	// kickout when close (not used)
 //    	if (Math.abs(ticks - currentValue) < 20)
 //    		return true;
+    	
+    	// kickout if dominate pid reaches end (not used)
+//    	if (Robot.stopDrivetrainPIDs == true){
+//    		return true;
+//    	}
     	
     	return sameCount <= 0;
     }
 
     protected void end() {
+        Robot.activeDrivetrainPIDs--;
     	Robot.pidTargetReached = true;
     	motor.stopPID();
     }

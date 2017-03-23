@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class CG_Auto_7_RightGear extends CommandGroup {
+public class CG_Auto_32_BRight_Gear_Shoot extends CommandGroup {
 
-    public CG_Auto_7_RightGear() {
+    public CG_Auto_32_BRight_Gear_Shoot() {
     	// 72 inches from wall to bumper
     	// lift gear
 
@@ -42,9 +42,24 @@ public class CG_Auto_7_RightGear extends CommandGroup {
     	// backup to clear spike
     	addSequential(new C_ZeroEncoders());
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		1500, 2.0, 200, 0, 0, 0, 0, 5.3, 0));
+        		2400, 2.0, 200, 0, 0, 0, 0, 5.3, 0));
     	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
         		1500, 2.0, 200, 0, 0, 0, 0, 5.0, 0));
     	addSequential(new C_DriveTrainPIDTracker());    	
+
+    	// spin up flywheel
+    	addParallel(new C_SpinFlywheel());
+
+    	addSequential(new C_ZeroEncoders());
+      	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
+      			7310, 2.0, 200, 0, 0, 0, 0, 8.4, 0));
+      	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
+      			7500, 2.0, 200, 0, 0, 0, 0, 8.0, 0));
+    	addSequential(new C_DriveTrainPIDTracker());
+  	
+	  	addParallel(new C_ShooterFeeder());
+	  	addParallel(new C_HopperSpin(true));
+
+
     }
 }

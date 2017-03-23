@@ -34,17 +34,58 @@ public class CG_Auto_100_PreTest extends CommandGroup {
     	
     	// 8.3 12.0
     	
-    	addSequential(new C_ZeroEncoders());
     	// drive straight
 //    	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
 //    			-10000, 2.0, 200, 0, 0, 0.0, 0, 8.4, 0));
 //    	addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
 //    			-10000, 2.0, 200, 0, 0, 0.0, 0, 8.0, 0));
 
-    	// circle
+    	// straight backwards
+    	addSequential(new C_ZeroEncoders());
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-    			-7800, 2.0, 200, 0, 0, 0.0, 0, 8.4, 0));
-    	addSequential(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
-    			7800, 2.0, 200, 0, 0, 0.0, 0, 8.0, 0));
+    			-4000, 2.0, 200, 0, 0, 0.0, 0, 8.4, 0));
+    	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
+    			-4000, 2.0, 200, 0, 0, 0.0, 0, 8.0, 0));
+    	addSequential(new C_DriveTrainPIDTracker());
+
+    	// 1/4 turn right
+    	addSequential(new C_ZeroEncoders());
+    	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
+    			-1950, 2.0, 200, 0, 0, 0.0, 0, 8.4, 0));
+    	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
+    			1950, 2.0, 200, 0, 0, 0.0, 0, 8.0, 0));
+    	addSequential(new C_DriveTrainPIDTracker());
+
+    	// straight forwards
+    	addSequential(new C_ZeroEncoders());
+    	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
+    			4000, 2.0, 200, 0, 0, 0.0, 0, 8.4, 0));
+    	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
+    			4000, 2.0, 200, 0, 0, 0.0, 0, 8.0, 0));
+    	addSequential(new C_DriveTrainPIDTracker());
+
+    	// 1/8 turn left
+    	addSequential(new C_ZeroEncoders());
+    	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
+    			-975, 2.0, 200, 0, 0, 0.0, 0, 8.4, 0));
+    	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
+    			975, 2.0, 200, 0, 0, 0.0, 0, 8.0, 0));
+    	addSequential(new C_DriveTrainPIDTracker());
+
+    	// straight forwards
+    	addSequential(new C_ZeroEncoders());
+    	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
+    			-6000, 2.0, 200, 0, 0, 0.0, 0, 8.4, 0));
+    	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
+    			-4000, 2.0, 200, 0, 0, 0.0, 0, 8.0, 0));
+    	addSequential(new C_DriveTrainPIDTracker());
+
+//    	addSequential(new C_ZeroEncoders());
+//    	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
+//    			7800, 2.0, 200, 0, 0, 0.0, 0, 8.4, 0));
+//    	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
+//    			-7800, 2.0, 200, 0, 0, 0.0, 0, 8.0, 0));
+//    	addSequential(new C_DriveTrainPIDTracker());
+
 }
 }
