@@ -13,7 +13,7 @@ public class SS_Climber extends Subsystem {
 	public DefaultMotor climberMotors = new DefaultMotor(tPortClimber, tPortClimberF, Robot.ss_Config.climberConst, "Climber");
 	
 	public SS_Climber() {
-		climberMotors.setPowLimit(0.8);
+		climberMotors.setPowLimit(1.0); // no limit
 		climberMotors.enablePowLimit(true);
 		climberMotors.setBrakeMode(true);
 		climberMotors.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);

@@ -14,15 +14,18 @@ public class C_UpdateLog extends Command {
         requires(Robot.ss_UpdateLog);
     }
 
+    int counter = 0;
     // Called just before this Command runs the first time
     protected void initialize() {
+    	counter = 0;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
-    	Robot.ss_UpdateLog.log();
+    	if ((counter++ % 3)==0)
+    		Robot.ss_UpdateLog.log();
     }
 
     // Make this return true when this Command no longer needs to run execute()

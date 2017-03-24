@@ -54,9 +54,14 @@ public class Logger extends Subsystem {
     int driveModeIndex = 0;
     int fmsConnectionIndex = 0;
     int brownoutIndex = 0;
-    
+	int DSBatteryVoltageIndex = 0;
+	int allianceIndex = 0;
+	int allianceLocationIndex = 0;
+	int fmsMatchTimeIndex = 0;
+
     int pdpVoltIndex = 0;
     int pdpCurrentIndex = 0;
+    int pdpPortCurrentIndex = 0;
     
     int leftJoystickYIndex = 0;
     int rightJoystickYIndex = 0;
@@ -97,10 +102,15 @@ public class Logger extends Subsystem {
     	driveModeIndex = Robot.ss_Logging.addColumn("driveMode");
     	fmsConnectionIndex = Robot.ss_Logging.addColumn("fmsConnection");
     	brownoutIndex = Robot.ss_Logging.addColumn("brownout");
-    	
+    	DSBatteryVoltageIndex = Robot.ss_Logging.addColumn("dsBatteryVoltage");
+    	allianceIndex = Robot.ss_Logging.addColumn("Alliance");
+    	allianceLocationIndex = Robot.ss_Logging.addColumn("AllianceLocation");
+		fmsMatchTimeIndex = Robot.ss_Logging.addColumn("fmsMatchTime");
+
     	// PDP
     	pdpVoltIndex = Robot.ss_Logging.addColumn("pdpVolt");
     	pdpCurrentIndex = Robot.ss_Logging.addColumn("pdpCurr");
+    	pdpPortCurrentIndex = addPDPPortIndices();
     	
     	// joystickY values
     	leftJoystickYIndex = Robot.ss_Logging.addColumn("leftStickY");
@@ -139,16 +149,16 @@ public class Logger extends Subsystem {
 		lidarIndex = Robot.ss_Logging.addColumn("lidar ");
     }
 
-    boolean logConstants = true;
+    boolean firstTime = true;
+    
     public void log() {
     	if (Robot.ss_Logging != null){
 
 //    		SmartDashboard.putBoolean("SS_Logging present", true);
 
     		// talon constants
-    		if(logConstants) {
+    		if(firstTime) {
 	    		smartLog(false, true, talonConstIndex, Robot.ss_Config.getTalonConstants(div));
-	    		logConstants = false;
     		}
     		
     		// current running command 
@@ -163,13 +173,30 @@ public class Logger extends Subsystem {
     		smartLog(dsSmart, dsLog, driveModeIndex, driveMode());
     		smartLog(dsSmart, dsLog, fmsConnectionIndex, "" + ds.isFMSAttached());
     		smartLog(dsSmart, dsLog, brownoutIndex, "" + ds.isBrownedOut());
+    		smartLog(dsSmart, dsLog, DSBatteryVoltageIndex, "" + ds.getBatteryVoltage());
     		
+    		if(firstTime) {
+	    		if (ds.getAlliance() == DriverStation.Alliance.Blue){
+	    			smartLog(dsSmart, dsLog, allianceIndex, "Blue");	
+	    		}
+	    		else{
+	    			smartLog(dsSmart, dsLog, allianceIndex, "Red");
+	    		}
+	    		smartLog(dsSmart, dsLog, allianceLocationIndex, "" + ds.getLocation());
+	    		smartLog(dsSmart, dsLog, fmsMatchTimeIndex, "" + ds.getMatchTime());
+    		}   
+    		
+        	allianceIndex = Robot.ss_Logging.addColumn("Alliance");
+        	allianceLocationIndex = Robot.ss_Logging.addColumn("Alliance Location");
+    		fmsMatchTimeIndex = Robot.ss_Logging.addColumn("FMS Match Time");
+
     		// PDP
     		boolean pdpSmart = false;
     	    boolean pdpLog = true;
     		smartLog(pdpSmart, pdpLog, pdpVoltIndex, "" + pdp.getVoltage());
     		smartLog(pdpSmart, pdpLog, pdpCurrentIndex, "" + pdp.getTotalCurrent());
-    	
+    		logPDPPorts(pdpSmart, pdpLog,pdpPortCurrentIndex);
+    		
     		// joystickY values
     		boolean joySmart = false;
     		boolean joyLog = true;
@@ -212,8 +239,19 @@ public class Logger extends Subsystem {
     	
     	runningCommands = "";
     	stoppedCommands = "";
+    	firstTime = false;
     }
     
+    private int addPDPPortIndices(){
+    	int startIndex = Robot.ss_Logging.addColumn("PDPCurrentPort 0");
+
+    	for (int i=1; i<16; i++){
+    		Robot.ss_Logging.addColumn("PDPCurrentPort "+i);
+    	}
+    	
+    	return startIndex;
+    }
+
     private int addMotorIndices(String desc, boolean hasFollower, boolean hasEncoder) {
     	int startIndex = Robot.ss_Logging.addColumn(desc + " speed");
     	Robot.ss_Logging.addColumn(desc + " TalonStickyFaultsUnderVolt");
@@ -231,6 +269,12 @@ public class Logger extends Subsystem {
     	return startIndex;
     }
     
+    private void logPDPPorts(boolean smart, boolean log, int index){
+    	for(int i=0; i< 16; i++){
+    		smartLog(smart, log, index++, "" + pdp.getCurrent(i));
+    	}
+    }
+	
     private void logDefaultMotor(DefaultMotor motor, boolean hasFollower, boolean hasEncoder, int index) {
     	boolean smart = false;
 		boolean log = true;

@@ -171,6 +171,12 @@ public class Robot extends IterativeRobot {
 		case 32:
 			autonomousCommand = new CG_Auto_32_BRight_Gear_Shoot();
 			break;
+		case 33:
+			autonomousCommand = new CG_Auto_33_BRight_Hopper_Shoot();
+			break;
+		case 34:
+			autonomousCommand = new CG_Auto_34_BRight_Shoot_Hopper();
+			break;
 		case 40:
 			autonomousCommand = new CG_Auto_40_BLeft_Line_Shoot();
 			break;
@@ -179,6 +185,12 @@ public class Robot extends IterativeRobot {
 			break;
 		case 42:
 			autonomousCommand = new CG_Auto_42_BLeft_Gear_Shoot();
+			break;
+		case 43:
+			autonomousCommand = new CG_Auto_43_BLeft_Hopper_Shoot();
+			break;
+		case 44:
+			autonomousCommand = new CG_Auto_44_BLeft_Shoot_Hopper();
 			break;
 		case 100:
 			autonomousCommand = new CG_Auto_100_PreTest();
