@@ -46,7 +46,7 @@ public class LoggingEngine {
     String logfileName;
 	final String MODE = "rw";
 	final int MINFILENUM = 10;
-	final int MAXFILENUM = 60;
+	final int MAXFILENUM = 30;
 	final String EXTENSION = ".csv";
 
 	int lineCountIndex = 0;
@@ -142,7 +142,7 @@ public class LoggingEngine {
 		headersWritten = true;
     }    
 
-    void writeLine(){
+    private void writeLine(){
     	if (raf == null)
     		return;
     	

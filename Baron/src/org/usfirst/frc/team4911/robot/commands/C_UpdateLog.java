@@ -24,8 +24,8 @@ public class C_UpdateLog extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
     	
-    	if ((counter++ % 3)==0)
-    		Robot.ss_UpdateLog.log();
+//    	if ((counter++ % 3)==0)
+//    		Robot.ss_UpdateLog.log();
     }
 
     // Make this return true when this Command no longer needs to run execute()

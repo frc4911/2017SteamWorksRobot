@@ -8,6 +8,7 @@ import org.usfirst.frc.team4911.robot.subsystems.*;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -43,7 +44,7 @@ public class Robot extends IterativeRobot {
 	public static SS_Lidar ss_Lidar = null;
 	
 	// all subsystems must be created before logging
-	public static LoggingEngine ss_Logging = null;
+//	public static LoggingEngine ss_Logging = null;
 	public static Logger ss_UpdateLog = null;
 	
 	public static OI oi;
@@ -84,7 +85,7 @@ public class Robot extends IterativeRobot {
 		//ss_NAVX = new SS_NAVX();
 		//ss_Lidar = new SS_Lidar();
 		
-		ss_Logging = new LoggingEngine();
+//		ss_Logging = new LoggingEngine();
 		ss_UpdateLog = new Logger();
 		oi = new OI();
 		
@@ -241,10 +242,16 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	int counter = 0;
+	double lastTime = 0;
 	
 	@Override
 	public void teleopPeriodic() {
 		SmartDashboard.putNumber("I am alive", counter++);
+		
+//		double time = Timer.getFPGATimestamp();
+//		System.out.println("delta "+(time-lastTime));
+//		lastTime = time;
+//		
 		Scheduler.getInstance().run();
 	}
 

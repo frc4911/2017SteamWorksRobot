@@ -12,7 +12,7 @@ public class OI {
 	public Joystick stickL = new Joystick(0);
 	public Joystick stickR = new Joystick(1);
 	public Joystick opGamepad = new Joystick(2);
-	public Joystick kStick = new Joystick(4);
+	//public Joystick kStick = new Joystick(4);
 	
 	JoystickButton dtLeftTrigger = new JoystickButton(stickL, 1);
 	JoystickButton dtLeft2 = new JoystickButton(stickL, 2);
@@ -31,7 +31,7 @@ public class OI {
 	JoystickButton leftBumper = new JoystickButton(opGamepad, 5);
 	JoystickButton rightBumper = new JoystickButton(opGamepad, 6);
 	
-	JoystickButton k1 = new JoystickButton(kStick, 1);
+	//JoystickButton k1 = new JoystickButton(kStick, 1);
 	
 	/**********Testing**********/
 	public Joystick autoTestGamepad = new Joystick(3);
@@ -152,6 +152,6 @@ public class OI {
 //		testBtnB.whenPressed(new C_ZeroEncoders());
 		
 		// my own joystick
-		k1.whileHeld(new C_DriveByMotionProfile(Robot.ss_DriveTrainRight,Robot.ss_DriveTrainRight.rightMotors));
+//		k1.whileHeld(new C_DriveByMotionProfile(Robot.ss_DriveTrainRight,Robot.ss_DriveTrainRight.rightMotors));
 	}
 }
