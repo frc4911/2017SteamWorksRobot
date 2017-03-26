@@ -17,9 +17,9 @@ public class CG_Auto_5_LeftGear extends CommandGroup {
     	// drive forward from wall and turn to airship
     	addSequential(new C_ZeroEncoders());
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-    			-5770, 2.0, 200, 0, 0, 0, 0, 8.4, 0));
+    			-5530, 2.0, 200, 0, 0, 0, 0, 8.4, 0)); // shortened 3 inches
     	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
-    			-8540, 2.0, 200, 0, 0, 0, 0, 8.0, 0));
+    			-8460, 2.0, 200, 0, 0, 0, 0, 8.0, 0)); // shortened 1 inch
     	addSequential(new C_DriveTrainPIDTracker());
     	
     	// drive forward to airship
@@ -39,9 +39,9 @@ public class CG_Auto_5_LeftGear extends CommandGroup {
     	// backup to clear spike
     	addSequential(new C_ZeroEncoders());
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		1500, 2.0, 200, 0, 0, 0, 0, 5.3, 0));
+        		1660, 2.0, 200, 0, 0, 0, 0, 5.3, 0)); // increaed distance by 160
     	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
-        		1500, 2.0, 200, 0, 0, 0, 0, 5.0, 0));
+        		1660, 2.0, 200, 0, 0, 0, 0, 5.0, 0)); // increaed distance by 160
     	addSequential(new C_DriveTrainPIDTracker());
     }
 }

@@ -172,6 +172,11 @@ public class DefaultMotor {
 		talon.setReverseSoftLimit(lowLimit);
 	}
 	
+	public void setSoftLimits(CANTalon talon, double upLimit, double lowLimit) {
+		talon.setForwardSoftLimit(upLimit);
+		talon.setReverseSoftLimit(lowLimit);
+	}
+	
 	public void enableSoftLimits(CANTalon talon, boolean onOff) {
 		talon.enableForwardSoftLimit(onOff);
 		talon.enableReverseSoftLimit(onOff);

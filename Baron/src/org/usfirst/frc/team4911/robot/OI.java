@@ -21,6 +21,7 @@ public class OI {
 	JoystickButton dtRightTrigger = new JoystickButton(stickR, 1);
 	JoystickButton dtRight2 = new JoystickButton(stickR, 2);
 	JoystickButton dtRight3 = new JoystickButton(stickR, 3);
+	JoystickButton dtRight13 = new JoystickButton(stickR, 13);
 	
 	JoystickButton btnA = new JoystickButton(opGamepad, 1);
 	JoystickButton btnB = new JoystickButton(opGamepad, 2);
@@ -63,6 +64,7 @@ public class OI {
 		dtLeft2.whenPressed(new C_ZeroEncoders());
 		dtRightTrigger.whileHeld(new C_FuelCollect(true));
 		dtRight2.whileHeld(new C_FuelCollect(false));
+		dtRight13.whenPressed(new C_GearLowerLimitOverride());
 		
 		/*********OpGamepad*********/
 		btnX.whileHeld(new C_GearInOut(true)); // suck gear in

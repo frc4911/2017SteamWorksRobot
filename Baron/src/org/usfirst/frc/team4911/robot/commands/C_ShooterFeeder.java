@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class C_ShooterFeeder extends Command {
 	boolean shooterSpinning;
 	private final double TOLERANCE = 0.90;
-	private final double DEFAULT_SPEED = 0.2;
+	private final double DEFAULT_SPEED = 0.28; // bumped speed from 0.2
+	private final double MIN_SPEED = 0.2;
 	private final double INCREASE_RATE = 0.04;
 	
     public C_ShooterFeeder() {
@@ -41,8 +42,8 @@ public class C_ShooterFeeder extends Command {
     		Robot.ss_FuelFeeder.speed = DEFAULT_SPEED;
     	}
     	
-    	if(Robot.ss_FuelFeeder.speed < DEFAULT_SPEED) {
-    		Robot.ss_FuelFeeder.speed = DEFAULT_SPEED;
+    	if(Robot.ss_FuelFeeder.speed < MIN_SPEED) {
+    		Robot.ss_FuelFeeder.speed = MIN_SPEED;
     	} else if(Robot.ss_FuelFeeder.speed > 1.0) {
     		Robot.ss_FuelFeeder.speed = 1.0;
     	}
