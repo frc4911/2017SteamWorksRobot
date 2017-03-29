@@ -20,7 +20,7 @@ public class CG_Auto_32_BRight_Gear_Shoot extends CommandGroup {
     	// drive forward from wall and turn to airship
     	addSequential(new C_ZeroEncoders());
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		-8800, 2.0, 200, 0, 0, 0, 0, 8.4, 0));
+        		-8480, 2.0, 200, 0, 0, 0, 0, 8.4, 0)); // dropped by 320 or 4 inches
     	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
     			-6110, 2.0, 200, 0, 0, 0, 0, 8.0, 0));
     	addSequential(new C_DriveTrainPIDTracker());
@@ -54,7 +54,7 @@ public class CG_Auto_32_BRight_Gear_Shoot extends CommandGroup {
       	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
       			7310, 2.0, 200, 0, 0, 0, 0, 8.4, 0));
       	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
-      			7500, 2.0, 200, 0, 0, 0, 0, 8.0, 0));
+      			7660, 2.0, 200, 0, 0, 0, 0, 8.0, 0)); // bumped distance by 160
     	addSequential(new C_DriveTrainPIDTracker());
   	
 	  	addParallel(new C_ShooterFeeder());
