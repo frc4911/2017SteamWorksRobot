@@ -17,22 +17,23 @@ public class CollectData implements Runnable {
 	}
 	
 	public void run(){
-		String ip = "10.49.11.34";// eli "10.49.11.34"; // silver "10.49.11.84";
+		String ip = "10.49.11.84";// eli "10.49.11.34"; // silver "10.49.11.84";
 		String tableName = "SmartDashboard";
 		
 		NetworkTable.setClientMode();
 		NetworkTable.setIPAddress(ip);
 		NetworkTable table = NetworkTable.getTable(tableName);
-		
 		double last = 0;
 		int counter=0;
 		
 		while (keepGoing){
+//			System.out.println(table.isConnected());
+			
 			try { Thread.sleep(100); } catch (InterruptedException e) {}
 //			speedRPM = table.getNumber("I am alive",-999);
 			//speedRPMFlywheel = Double.parseDouble(table.getString("ShooterFlywheel getSpeed","-999"));
-			DriveTrainLeft = Double.parseDouble(table.getString("DriveTrainLeft currEncPos","-999"));
-			DriveTrainRight = Double.parseDouble(table.getString("DriveTrainRight currEncPos","-999"));
+			DriveTrainLeft = table.getNumber("DriveTrainLeft encoder", -999);
+			DriveTrainRight = table.getNumber("DriveTrainRight encoder",-999);
 			//System.out.println(speedRPM);
 			
 //			if (speedRPM == last){

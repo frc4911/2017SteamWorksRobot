@@ -196,6 +196,18 @@ public class Robot extends IterativeRobot {
 		case 100:
 			autonomousCommand = new CG_Auto_100_PreTest();
 			break;
+		case 105:
+			autonomousCommand = new CG_Auto_105_LeftGear();
+			break;
+		case 107:
+			autonomousCommand = new CG_Auto_107_RightGear();
+			break;
+		case 132:
+			autonomousCommand = new CG_Auto_132_BRight_Gear_Shoot();
+			break;
+		case 142:
+			autonomousCommand = new CG_Auto_142_BLeft_Gear_Shoot();
+			break;
 		default:
 			//nothing;
 			autonomousCommand = null;

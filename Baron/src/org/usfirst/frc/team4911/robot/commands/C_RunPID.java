@@ -90,6 +90,8 @@ public class C_RunPID extends Command {
     int lastValue = -1;
     int sameCount = LIMIT;
     
+    boolean decrementPIDCount = true;
+    
     protected boolean isFinished() {
 
     	int currentValue = (int)motor.getEncPos();
@@ -119,11 +121,15 @@ public class C_RunPID extends Command {
 //    		return true;
 //    	}
     	
-    	return sameCount <= 0;
+    	if(sameCount <= 0 && decrementPIDCount) {
+    		Robot.activeDrivetrainPIDs--;
+    		decrementPIDCount = false;
+    	}
+    	
+    	return Robot.activeDrivetrainPIDs <= 0;
     }
 
     protected void end() {
-        Robot.activeDrivetrainPIDs--;
     	Robot.pidTargetReached = true;
     	motor.stopPID();
     }

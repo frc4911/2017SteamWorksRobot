@@ -21,7 +21,7 @@ public class C_DriveByJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.ss_DriveTrain.leftDriveTrain(Robot.oi.leftStick.getY());
-//    	Robot.ss_DriveTrain.rightDriveTrain(Robot.oi.rightStick.getY());
+    	Robot.ss_DriveTrain.rightDriveTrain(-Robot.oi.rightStick.getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()

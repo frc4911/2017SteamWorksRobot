@@ -16,6 +16,8 @@ public class SS_DriveTrainRight extends Subsystem {
 	public DefaultMotor rightMotors = new DefaultMotor(tPortDriveTrainFrontRight, tPortDriveTrainRearRight, -1 /*Robot.ss_Config.driveMotorsRightConst*/, "DriveTrainRight");
 	
 	public SS_DriveTrainRight(){
+		rightMotors.setBrakeMode(true);
+		
 		rightMotors.getTalon().ConfigFwdLimitSwitchNormallyOpen(true);
 		rightMotors.getTalon().ConfigRevLimitSwitchNormallyOpen(true);
 		rightMotors.getFollowerTalon().ConfigFwdLimitSwitchNormallyOpen(true);

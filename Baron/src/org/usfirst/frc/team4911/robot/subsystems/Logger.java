@@ -24,7 +24,7 @@ public class Logger extends Subsystem {
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new C_UpdateLog()); brian - removing logging
+        setDefaultCommand(new C_UpdateLog());
     }
     
 //    private String driveMode() {

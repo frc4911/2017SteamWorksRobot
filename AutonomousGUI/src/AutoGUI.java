@@ -2,26 +2,20 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JToggleButton;
-import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
-import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import java.awt.Label;
-import java.awt.Button;
-import java.awt.TextArea;
+import java.awt.Color;
 
 public class AutoGUI {
 	final int DELAY = 20; // time between tics time in miliseconds
@@ -69,7 +63,7 @@ public class AutoGUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 640, 640);
+		frame.setBounds(100, 100, 960, 720);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -113,39 +107,20 @@ public class AutoGUI {
 	    group.add(tglbtnPreset_1);
 	    group.add(tglbtnPreset_2);
 	    
-	    JLabel lblCustomCode = new JLabel("Custom Code");
-	    lblCustomCode.setFont(new Font("Tahoma", Font.PLAIN, 28));
-	    lblCustomCode.setBounds(21, 339, 207, 26);
-	    frame.getContentPane().add(lblCustomCode);
+	    JToggleButton lblGearIn = new JToggleButton("");
+	    lblGearIn.setForeground(Color.BLACK);
+	    lblGearIn.setEnabled(false);
+	    lblGearIn.setBackground(Color.WHITE);
+	    lblGearIn.setHorizontalAlignment(SwingConstants.CENTER);
+	    lblGearIn.setFont(new Font("Tahoma", Font.PLAIN, 28));
+	    lblGearIn.setBounds(614, 185, 290, 91);
+	    frame.getContentPane().add(lblGearIn);
 	    
-	    JButton btnCommand = new JButton("Command 1");
-	    btnCommand.setFont(new Font("Tahoma", Font.PLAIN, 24));
-	    btnCommand.setBounds(21, 402, 207, 35);
-	    frame.getContentPane().add(btnCommand);
-	    
-	    JButton btnCommand_1 = new JButton("Command 2");
-	    btnCommand_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
-	    btnCommand_1.setBounds(21, 458, 207, 35);
-	    frame.getContentPane().add(btnCommand_1);
-	    
-	    JButton btnCommand_2 = new JButton("Command 3");
-	    btnCommand_2.setFont(new Font("Tahoma", Font.PLAIN, 24));
-	    btnCommand_2.setBounds(21, 514, 207, 35);
-	    frame.getContentPane().add(btnCommand_2);
-	    
-	    JButton btnRemove = new JButton("Revert");
-	    btnRemove.setFont(new Font("Tahoma", Font.PLAIN, 24));
-	    btnRemove.setBounds(249, 338, 191, 35);
-	    frame.getContentPane().add(btnRemove);
-	    
-	    JToggleButton tglbtnClear = new JToggleButton("Clear");
-	    tglbtnClear.setFont(new Font("Tahoma", Font.PLAIN, 24));
-	    tglbtnClear.setBounds(461, 338, 132, 35);
-	    frame.getContentPane().add(tglbtnClear);
-	    
-	    TextArea textArea = new TextArea();
-	    textArea.setBounds(249, 402, 344, 145);
-	    frame.getContentPane().add(textArea);
+	    JLabel lblGearIn_1 = new JLabel("Gear In");
+	    lblGearIn_1.setFont(new Font("Tahoma", Font.PLAIN, 28));
+	    lblGearIn_1.setHorizontalAlignment(SwingConstants.CENTER);
+	    lblGearIn_1.setBounds(614, 136, 290, 26);
+	    frame.getContentPane().add(lblGearIn_1);
 		
 		ActionListener taskPerformer = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -156,23 +131,29 @@ public class AutoGUI {
 						tglbtnPreset_1.setSelected(false);
 						tglbtnPreset_2.setSelected(false);
 						
-						table.putString("preset", "preset1");
+						table.putNumber("preset", 1);
 					} else if(tglbtnPreset_1.isSelected()) {
 						tglbtnPreset.setSelected(false);
 						tglbtnPreset_2.setSelected(false);
 						
-						table.putString("preset", "preset2");
+						table.putNumber("preset", 5);
 					} else if(tglbtnPreset_2.isSelected()) {
 						tglbtnPreset.setSelected(false);
 						tglbtnPreset_1.setSelected(false);
 						
-						table.putString("preset", "preset3");
+						table.putNumber("preset", 6);
 					} else {
 						table.putString("preset", "no preset selected");
 					}
 					
 //					textPane.setText(table.getString("description", null));
 					textPane.setText(table.getString("preset", "no preset selected"));
+					
+					if(table.getBoolean("GearIn", false)) {
+						lblGearIn.setBackground(Color.GREEN);
+					} else {
+						lblGearIn.setBackground(Color.RED);
+					}
 		      }
 		  };
 		  new Timer(DELAY, taskPerformer).start();
