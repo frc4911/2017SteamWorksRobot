@@ -193,7 +193,7 @@ public class Robot extends IterativeRobot {
 		case 44:
 			autonomousCommand = new CG_Auto_44_BLeft_Shoot_Hopper();
 			break;
-		case 100:
+		case 0://100:
 			autonomousCommand = new CG_Auto_100_PreTest();
 			break;
 		case 105:

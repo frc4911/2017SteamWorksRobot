@@ -108,7 +108,7 @@ public class CANTalonPID{
     	this.talon.setPID(kp, ki, kd, kf, iZone, rampRate, profile);
     	this.talon.changeControlMode(PIDType);
     	this.talon.setVoltageRampRate(rampRate);
-    	this.talon.setCloseLoopRampRate(rampRate);
+    	//this.talon.setCloseLoopRampRate(rampRate); //brian - temp
     	//this.talon.setEncPosition(0); do this above when needed
     	double set = 0;
     	if (encoderType == CANTalon.FeedbackDevice.QuadEncoder){

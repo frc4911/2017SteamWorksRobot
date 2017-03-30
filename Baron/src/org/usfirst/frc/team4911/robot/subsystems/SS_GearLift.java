@@ -19,7 +19,7 @@ public class SS_GearLift extends Subsystem {
 	
 	int tPortLift = 5;
 	
-	public final double topEncoderValue = 650;
+	public final double topEncoderValue = 600;//orig 650
 	
 	//AnalogInput gearPot = new AnalogInput(0);
 	

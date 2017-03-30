@@ -9,6 +9,7 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class C_RunPID extends Command {
 
@@ -38,6 +39,7 @@ public class C_RunPID extends Command {
 	boolean encoderFlip = false;
 	boolean flipMotorDir = false;
 	CANTalon.TalonControlMode PIDType = CANTalon.TalonControlMode.Position;
+	int minDistance;
 	
     public C_RunPID(
     		Subsystem subsystem, 
@@ -73,6 +75,7 @@ public class C_RunPID extends Command {
         this.iZone = iZone;
         this.peakOutputVoltage = peakOutputVoltage;
         this.nominalOutputVoltage = nominalOutputVoltage;
+        minDistance = Math.abs(ticks/2);
     }
     
     protected void initialize() {
@@ -80,13 +83,14 @@ public class C_RunPID extends Command {
     	Robot.pidTargetReached = false;
     	motor.zeroEnc();
     	motor.moveToEncPos(ticks, ticksPerRev, encoderTicksPerRev, kp, kd, ki, kf, rampRate, iZone, peakOutputVoltage, nominalOutputVoltage, PIDType, encoderFlip, flipMotorDir);
+    	SmartDashboard.putNumber("activeDrivetrainPIDs", Robot.activeDrivetrainPIDs);
     }
 
     protected void execute() {
-    	Robot.ss_UpdateLog.logRunningCommands(this.getName());
+    	SmartDashboard.putNumber("activeDrivetrainPIDs", Robot.activeDrivetrainPIDs);
     }
 
-    final int LIMIT = 10;
+    final int LIMIT = 100;
     int lastValue = -1;
     int sameCount = LIMIT;
     
@@ -96,6 +100,9 @@ public class C_RunPID extends Command {
 
     	int currentValue = (int)motor.getEncPos();
     	
+    	if (Math.abs(currentValue)<minDistance)
+    		return false; // make sure we get rolling first
+    		
     	// kick out once target reached (not used)
 //    	if ((ticks > 0) && (currentValue>ticks)){
 //    		return true;
@@ -130,6 +137,7 @@ public class C_RunPID extends Command {
     }
 
     protected void end() {
+    	SmartDashboard.putNumber("activeDrivetrainPIDs", Robot.activeDrivetrainPIDs);
     	Robot.pidTargetReached = true;
     	motor.stopPID();
     }
