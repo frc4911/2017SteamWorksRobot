@@ -90,7 +90,7 @@ public class C_RunPID extends Command {
     	SmartDashboard.putNumber("activeDrivetrainPIDs", Robot.activeDrivetrainPIDs);
     }
 
-    final int LIMIT = 100;
+    final int LIMIT = 10;
     int lastValue = -1;
     int sameCount = LIMIT;
     

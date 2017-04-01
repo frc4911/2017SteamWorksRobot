@@ -16,7 +16,8 @@ public class C_CameraUpDown extends Command {
     protected void execute() {
     	Robot.ss_UpdateLog.logRunningCommands(this.getName());
         
-    	int povPosition = Robot.oi.stickR.getPOV(0);
+//    	int povPosition = Robot.oi.stickR.getPOV(0);
+    	int povPosition = Robot.oi.opGamepad.getPOV(0);
     	
     	//not pressed
     	if (povPosition < 0)
