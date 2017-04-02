@@ -33,5 +33,38 @@ public class SS_DriveTrainLeft extends Subsystem {
         // Set the default command for a subsystem here.
         setDefaultCommand(new C_DriveByJoystick(true));
     }
+    
+    public int inchesToTicks(double inches) {
+    	final double ticksPerRev = 1024;
+        final double wheelCircum = 13;
+    	final double ticksPerInch = ticksPerRev / wheelCircum;
+    	
+//    	final double skidFactor = 1.5 * ticksPerInch; // 0.0104 // 1.5
+    	final double skidFactor = 1.0104;
+    	final double resistFactor = 1.5 * ticksPerInch;
+    	
+//        final double dist = inches * ticksPerInch + resistFactor + skidFactor; 
+        final double dist = inches * ticksPerInch * skidFactor + resistFactor; 
+        
+        
+        
+    	return (int) Math.round(dist);
+    }
+    
+    public double degreesToTicks(double degrees) {
+    	return inchesToTicks(degreesToInches(degrees));
+    }
+    
+    public double degreesToInches(double degrees) {
+    	final double rightTurnInches = 51;
+    	final double rightTurnDegrees = 90;
+    	final double inchesPerDegree = rightTurnInches / rightTurnDegrees;
+    	
+    	return degrees * inchesPerDegree;	
+    }
+    
+    public double peakSpeedAdjust(double speed) {
+    	return speed * 1;
+    }
 }
 

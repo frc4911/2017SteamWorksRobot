@@ -107,6 +107,7 @@ public class Robot extends IterativeRobot {
 //		VideoMode vm = camera.getVideoMode();
 //		
 //		camera.setVideoMode(vm);
+
 		
 		CameraServer server1;
 		
@@ -115,6 +116,7 @@ public class Robot extends IterativeRobot {
         UsbCamera usbCamera1 = server1.startAutomaticCapture(1);
         usbCamera0.setFPS(15);
         usbCamera1.setFPS(15);
+
 //        usbCamera.setResolution(640, 480);
 //        usbCamera.setResolution(1280, 720);
 	}
