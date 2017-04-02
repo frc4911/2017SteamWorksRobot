@@ -26,6 +26,14 @@ public class AutoGUI {
 
 	/**
 	 * Launch the application.
+	 * auto select
+	 * gear in/out
+	 * match time
+	 * motor currents stats
+	 * motor encoders
+	 * camera
+	 * pid progress
+	 * csv logging
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
