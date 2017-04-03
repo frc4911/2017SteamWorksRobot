@@ -22,7 +22,9 @@ public class OI {
 	JoystickButton dtRight2 = new JoystickButton(stickR, 2);
 	JoystickButton dtRight3 = new JoystickButton(stickR, 3);
 	JoystickButton dtRight13 = new JoystickButton(stickR, 13);
+	JoystickButton dtRight14 = new JoystickButton(stickR, 14);
 	
+	JoystickButton btnLeftStickPress = new JoystickButton(opGamepad, 9);
 	JoystickButton btnA = new JoystickButton(opGamepad, 1);
 	JoystickButton btnB = new JoystickButton(opGamepad, 2);
 	JoystickButton btnX = new JoystickButton(opGamepad, 3);
@@ -65,8 +67,10 @@ public class OI {
 		dtRightTrigger.whileHeld(new C_FuelCollect(true));
 		dtRight2.whileHeld(new C_FuelCollect(false));
 		dtRight13.whenPressed(new C_GearLowerLimitOverride());
+		dtRight14.whileHeld(new C_GearPickup());
 		
 		/*********OpGamepad*********/
+		btnLeftStickPress.whileHeld(new C_GearPickup());
 		btnX.whileHeld(new C_GearInOut(true)); // suck gear in
 //		Command gColl = new C_GearIntake();
 //		btnX.whenPressed(gColl);
