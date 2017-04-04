@@ -41,7 +41,7 @@ public class SS_DriveTrainLeft extends Subsystem {
     	
 //    	final double skidFactor = 1.5 * ticksPerInch; // 0.0104 // 1.5
     	final double skidFactor = 1.0104;
-    	final double resistFactor = 1.5 * ticksPerInch;
+    	final double resistFactor = 1.5 * ticksPerInch; // 1.5
     	
 //        final double dist = inches * ticksPerInch + resistFactor + skidFactor; 
         final double dist = inches * ticksPerInch * skidFactor + resistFactor; 
@@ -51,8 +51,8 @@ public class SS_DriveTrainLeft extends Subsystem {
     	return (int) Math.round(dist);
     }
     
-    public double degreesToTicks(double degrees) {
-    	return inchesToTicks(degreesToInches(degrees));
+    public int degreesToTicks(double degrees) {
+    	return (int) Math.round(inchesToTicks(degreesToInches(degrees)));
     }
     
     public double degreesToInches(double degrees) {

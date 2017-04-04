@@ -15,20 +15,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class CG_Auto_100_PreTest extends CommandGroup {
 
     public CG_Auto_100_PreTest() {
-    	// lift gear
-//    	addParallel(new C_GearLiftUp(false)); // lift gear and hold it up
     	
-    	final SS_DriveTrainLeft dtl = Robot.ss_DriveTrainLeft;
-    	final SS_DriveTrainRight dtr = Robot.ss_DriveTrainRight;
     	
-    	// drive forward to boiler
-    	addSequential(new C_ZeroEncoders());
-    	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		-dtl.inchesToTicks(114 - 6 - 36), 8, 1000, 0, 0, 0.0, 0, dtl.peakSpeedAdjust(8.0), 0)); // add 280 to both sides if numbers are 8500 or 17000 // 180 special number for left side
-    	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
-    			-dtr.inchesToTicks(114 - 6 - 36), 8, 1000, 0, 0, 0.0, 0, dtr.peakSpeedAdjust(8.0), 0)); // right drive train 0.415 higher than left **for Baron**
-    	addSequential(new C_DriveTrainPIDTracker());
-    	
+   	
 //    	final double inches = 100;
 //    	
 //    	final double speed = 8.0;

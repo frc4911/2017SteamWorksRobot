@@ -46,8 +46,8 @@ public class SS_DriveTrainRight extends Subsystem {
     	return (int) Math.round(dist);
     }
     
-    public double degreesToTicks(double degrees) {
-    	return inchesToTicks(degreesToInches(degrees));
+    public int degreesToTicks(double degrees) {
+    	return (int) Math.round(inchesToTicks(degreesToInches(degrees)));
     }
     
     public double degreesToInches(double degrees) {
@@ -59,7 +59,7 @@ public class SS_DriveTrainRight extends Subsystem {
     }
     
     public double peakSpeedAdjust(double speed) {
-    	return speed * 1.04375; // 8.35 / 8.0
+    	return speed * 1.0375; // old: 8.35 / 8.0
     }
 }
 

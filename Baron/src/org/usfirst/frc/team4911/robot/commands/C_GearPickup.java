@@ -13,11 +13,11 @@ public class C_GearPickup extends Command {
         requires(Robot.ss_GearIntake);
     }
     
-    double drivetrainSpeed = -.774; // -.3	-.774	-.9677
-    double gearIntakeSpeed = .8; // .31 	.8		1.0
+    double drivetrainSpeed = -.774; // -.3	   -.774	-.9677
+    double gearIntakeSpeed = .8; 	// .31 	   .8		1.0
 
     protected void initialize() {
-    	double tmp = SmartDashboard.getNumber("gear pickup drivetrain speed",-999);
+    	/*double tmp = SmartDashboard.getNumber("gear pickup drivetrain speed",-999);
     	if (tmp == -999){
     		SmartDashboard.putNumber("gear pickup drivetrain speed",drivetrainSpeed);
     	}
@@ -31,7 +31,7 @@ public class C_GearPickup extends Command {
     	}
     	else {
     		gearIntakeSpeed = tmp;
-    	}
+    	}*/
     }
 
     protected void execute() {
