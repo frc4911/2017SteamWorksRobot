@@ -41,11 +41,6 @@ public class C_GearPickup extends Command {
     }
 
     protected boolean isFinished() {
-    	if(Robot.ss_GearIntake.gearIntakeMotor.getOutputCurrent(false) > Robot.ss_GearIntake.currentThreshold) {
-    		Robot.ss_GearIntake.gearIn = true;
-        	SmartDashboard.putBoolean("gearIn", Robot.ss_GearIntake.gearIn);
-    		return true;
-    	}
         return false;
     }
 
