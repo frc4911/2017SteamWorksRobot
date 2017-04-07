@@ -41,7 +41,7 @@ public class SS_DriveTrainLeft extends Subsystem {
     	
 //    	final double skidFactor = 1.5 * ticksPerInch; // 0.0104 // 1.5
     	final double skidFactor = 1.0104;
-    	final double resistFactor = 1.5 * ticksPerInch; // 1.5
+    	final double resistFactor = 0 * ticksPerInch; // 1.5
     	
 //        final double dist = inches * ticksPerInch + resistFactor + skidFactor; 
         final double dist = inches * ticksPerInch * skidFactor + resistFactor; 
@@ -56,7 +56,7 @@ public class SS_DriveTrainLeft extends Subsystem {
     }
     
     public double degreesToInches(double degrees) {
-    	final double rightTurnInches = 51;
+    	final double rightTurnInches = 52; // Baron: 51 Eli: 52
     	final double rightTurnDegrees = 90;
     	final double inchesPerDegree = rightTurnInches / rightTurnDegrees;
     	

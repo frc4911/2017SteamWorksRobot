@@ -25,11 +25,12 @@ public class CG_Auto_42_BLeft_Gear_Shoot extends CommandGroup {
         addParallel(new C_SpinFlywheel());
     	
     	// finish driving to boiler and kick
+        // increased distance by 97.5 inch
     	addSequential(new C_ZeroEncoders());
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		dtl.inchesToTicks(96.5) + dtr.degreesToTicks(11), 8, 1000, 0, 0, 0.0, 0, dtl.peakSpeedAdjust(8.0), 0)); // add 280 to both sides if numbers are 8500 or 17000 // 180 special number for left side
+        		dtl.inchesToTicks(102) + dtr.degreesToTicks(12), 8, 1000, 0, 0, 0.0, 0, dtl.peakSpeedAdjust(8.0), 0)); // degrees increased by 5
     	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
-    			dtr.inchesToTicks(96.5), 8, 1000, 0, 0, 0.0, 0, dtr.peakSpeedAdjust(8.0), 0)); // right drive train 0.415 higher than left **for Baron**
+    			dtr.inchesToTicks(102), 8, 1000, 0, 0, 0.0, 0, dtr.peakSpeedAdjust(8.0), 0));
     	addSequential(new C_DriveTrainPIDTracker());
         
         // shoot - start feeder and hopper simultaneously

@@ -2,6 +2,7 @@ package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.robot.Robot;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -27,15 +28,25 @@ public class C_UpdateLog extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if((counter++ % 5) == 0) {
+    		// PDB
+    		PowerDistributionPanel pdp = new PowerDistributionPanel();
+    		SmartDashboard.putNumber("PDP 0", pdp.getCurrent(0));
+    		SmartDashboard.putNumber("PDP 1", pdp.getCurrent(1));
+    		SmartDashboard.putNumber("PDP 2", pdp.getCurrent(2));
+    		SmartDashboard.putNumber("PDP 3", pdp.getCurrent(3));    		
+    		
     		// Climber
     		SmartDashboard.putNumber(Robot.ss_Climber.climberMotors.getDescription() + CURR, Robot.ss_Climber.climberMotors.getOutputCurrent(false));
     		
     		// DriveTrainLeft
-    		SmartDashboard.putNumber(Robot.ss_DriveTrainLeft.leftMotors.getDescription() + CURR, Robot.ss_DriveTrainLeft.leftMotors.getOutputCurrent(false));
+    		SmartDashboard.putNumber(Robot.ss_DriveTrainLeft.leftMotors.getDescription() + CURR + " leader", Robot.ss_DriveTrainLeft.leftMotors.getOutputCurrent(false));
+    		SmartDashboard.putNumber(Robot.ss_DriveTrainLeft.leftMotors.getDescription() + CURR + " follower", Robot.ss_DriveTrainLeft.leftMotors.getOutputCurrent(true));
+
     		SmartDashboard.putNumber(Robot.ss_DriveTrainLeft.leftMotors.getDescription() + ENC, Robot.ss_DriveTrainLeft.leftMotors.getEncPos());
     		
     		// DriveTrainRight
-    		SmartDashboard.putNumber(Robot.ss_DriveTrainRight.rightMotors.getDescription() + CURR, Robot.ss_DriveTrainRight.rightMotors.getOutputCurrent(false));
+    		SmartDashboard.putNumber(Robot.ss_DriveTrainRight.rightMotors.getDescription() + CURR + " leader", Robot.ss_DriveTrainRight.rightMotors.getOutputCurrent(false));
+    		SmartDashboard.putNumber(Robot.ss_DriveTrainRight.rightMotors.getDescription() + CURR + " follower", Robot.ss_DriveTrainRight.rightMotors.getOutputCurrent(true));
     		SmartDashboard.putNumber(Robot.ss_DriveTrainRight.rightMotors.getDescription() + ENC, Robot.ss_DriveTrainRight.rightMotors.getEncPos());
     		
     		// Fuel Collector

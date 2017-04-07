@@ -180,9 +180,9 @@ public class Robot extends IterativeRobot {
 		case 42:
 			autonomousCommand = new CG_Auto_42_BLeft_Gear_Shoot();
 			break;
-//		case 0://100:
-//			autonomousCommand = new CG_Auto_100_PreTest();
-//			break;
+		case 100:
+			autonomousCommand = new CG_Auto_100_PreTest();
+			break;
 		default:
 			//nothing;
 			autonomousCommand = null;

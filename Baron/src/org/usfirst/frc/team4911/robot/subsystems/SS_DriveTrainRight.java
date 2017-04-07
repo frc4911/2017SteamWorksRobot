@@ -51,7 +51,7 @@ public class SS_DriveTrainRight extends Subsystem {
     }
     
     public double degreesToInches(double degrees) {
-    	final double rightTurnInches = 53;
+    	final double rightTurnInches = 51; // Baron: 53 Eli: 51
     	final double rightTurnDegrees = 90;
     	final double inchesPerDegree = rightTurnInches / rightTurnDegrees;
     	
@@ -59,7 +59,7 @@ public class SS_DriveTrainRight extends Subsystem {
     }
     
     public double peakSpeedAdjust(double speed) {
-    	return speed * 1.0375; // old: 8.35 / 8.0
+    	return speed * 1.0375; // Baron: 1.0375 Eli: (old) 1.0375 (new) 1.0
     }
 }
 
