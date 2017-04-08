@@ -27,9 +27,9 @@ public class CG_Auto_7_RightGear extends CommandGroup {
     	addSequential(new C_ZeroEncoders());
     	// Baron: + 5 inches Eli: - 3 inches
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		-dtl.inchesToTicks(111.66 +5 - 36) - dtl.degreesToTicks(58), 8, 1000, 0, 0, 0.0, 0, dtl.peakSpeedAdjust(8.0), 0)); // add 280 to both sides if numbers are 8500 or 17000 // 180 special number for left side
+        		-dtl.inchesToTicks(111.66 + 3 - 36) - dtl.degreesToTicks(58), 8, 1000, 0, 0, 0.0, 0, dtl.peakSpeedAdjust(8.0), 0)); // add 280 to both sides if numbers are 8500 or 17000 // 180 special number for left side
     	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
-    			-dtr.inchesToTicks(111.66 +5 - 36), 8, 1000, 0, 0, 0.0, 0, dtr.peakSpeedAdjust(8.0), 0)); // right drive train 0.415 higher than left **for Baron**
+    			-dtr.inchesToTicks(111.66 + 3 - 36), 8, 1000, 0, 0, 0.0, 0, dtr.peakSpeedAdjust(8.0), 0)); // right drive train 0.415 higher than left **for Baron**
     	addSequential(new C_DriveTrainPIDTracker());
     	
     	// drive forward to airship
@@ -50,7 +50,7 @@ public class CG_Auto_7_RightGear extends CommandGroup {
     	// drive away from airship and turn to boiler
     	addSequential(new C_ZeroEncoders());
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		dtl.inchesToTicks(15) + dtl.degreesToTicks(24), 8, 1000, 0, 0, 0.0, 0, dtl.peakSpeedAdjust(8.0), 0)); // add 280 to both sides if numbers are 8500 or 17000 // 180 special number for left side
+        		dtl.inchesToTicks(15) + dtl.degreesToTicks(22), 8, 1000, 0, 0, 0.0, 0, dtl.peakSpeedAdjust(8.0), 0)); // 24 degrees
     	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
     			dtr.inchesToTicks(15), 8, 1000, 0, 0, 0.0, 0, dtr.peakSpeedAdjust(8.0), 0)); // right drive train 0.415 higher than left **for Baron**
     	addSequential(new C_DriveTrainPIDTracker());

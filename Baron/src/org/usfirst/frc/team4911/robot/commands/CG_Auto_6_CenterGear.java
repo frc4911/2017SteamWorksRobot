@@ -28,9 +28,9 @@ public class CG_Auto_6_CenterGear extends CommandGroup {
     	// drive forward to airship
     	addSequential(new C_ZeroEncoders());
     	addParallel(new C_RunPID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false,
-        		-dtl.inchesToTicks(114 - 1.5 - 36), 8, 1000, 0, 0, 0.0, 0, dtl.peakSpeedAdjust(6.0), 0)); // add 280 to both sides if numbers are 8500 or 17000 // 180 special number for left side
+        		-dtl.inchesToTicks(114 - 1.5 - 36), 8, 1000, 0, 0, 0.0, 0, 6.0, 0)); // add 280 to both sides if numbers are 8500 or 17000 // 180 special number for left side
     	addParallel(new C_RunPID(Robot.ss_DriveTrainRight, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true,
-    			-dtr.inchesToTicks(114 - 1.5 - 36), 8, 1000, 0, 0, 0.0, 0, dtr.peakSpeedAdjust(6.0), 0)); // right drive train 0.415 higher than left **for Baron**
+    			-dtr.inchesToTicks(114 - 1.5 - 36), 8, 1000, 0, 0, 0.0, 0, 6.0, 0)); // right drive train 0.415 higher than left **for Baron**
     	addSequential(new C_DriveTrainPIDTracker());
     	
     	// stop holding gear up
