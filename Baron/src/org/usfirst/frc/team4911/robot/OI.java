@@ -37,17 +37,18 @@ public class OI {
 	//JoystickButton k1 = new JoystickButton(kStick, 1);
 	
 	/**********Testing**********/
-	public Joystick autoTestGamepad = new Joystick(3);
+	boolean createTestController = false;
+	public Joystick autoTestGamepad;
 
-	JoystickButton testBtnA = new JoystickButton(autoTestGamepad, 1);
-	JoystickButton testBtnB = new JoystickButton(autoTestGamepad, 2);
-	JoystickButton testBtnX = new JoystickButton(autoTestGamepad, 3);
-	JoystickButton testBtnY = new JoystickButton(autoTestGamepad, 4);
-	public JoystickButton testBtnStart = new JoystickButton(autoTestGamepad, 8);
-	public JoystickButton testBtnSelect = new JoystickButton(autoTestGamepad, 7);
-	JoystickButton testLeftBumper = new JoystickButton(autoTestGamepad, 5);
-	JoystickButton testRightBumper = new JoystickButton(autoTestGamepad, 6);
-	JoystickButton testRightAxisPress = new JoystickButton(autoTestGamepad, 10);
+	JoystickButton testBtnA;
+	JoystickButton testBtnB;
+	JoystickButton testBtnX;
+	JoystickButton testBtnY;
+	public JoystickButton testBtnStart;
+	public JoystickButton testBtnSelect;
+	JoystickButton testLeftBumper;
+	JoystickButton testRightBumper;
+	JoystickButton testRightAxisPress;
 	
 	/**********Commands*********/
 	public Command feeder;
@@ -107,48 +108,52 @@ public class OI {
 		//rightBumper.whileHeld(new C_GearOnPeg());
 		
 		/********TestingStick*******/
-				
-		// change the talon num for individual motor group test with joystick axis
-		testLeftBumper.whenPressed(new C_TestSetTalonNum(false)); //select next motor in list
-		testRightBumper.whenPressed(new C_TestSetTalonNum(true)); //select previous motor in list
-		testBtnA.whileHeld(new C_TestDriveOneMotorGroup());       //while held move lower left stick to drive motor
-				
-		// change the motor speed
-//		testBtnY.whenPressed(new C_TestSetMotorSpeed(true)); // bump the speed up
-//		testBtnA.whenPressed(new C_TestSetMotorSpeed(false)); // bump the speed down
+		
+		if(createTestController) {
+			testController();
+			
+			// change the talon num for individual motor group test with joystick axis
+			testLeftBumper.whenPressed(new C_TestSetTalonNum(false)); //select next motor in list
+			testRightBumper.whenPressed(new C_TestSetTalonNum(true)); //select previous motor in list
+			testBtnA.whileHeld(new C_TestDriveOneMotorGroup());       //while held move lower left stick to drive motor
+					
+			// change the motor speed
+//			testBtnY.whenPressed(new C_TestSetMotorSpeed(true)); // bump the speed up
+//			testBtnA.whenPressed(new C_TestSetMotorSpeed(false)); // bump the speed down
 
-	
-		// while holding the right trigger, the left joystick can be used to move the motor
-		Command testDriveJoystick = new C_TriggerWhileHeld(new C_TestDriveByJoystick(), autoTestGamepad, false);
 		
-		// Auto Test
-		autoTest = new CG_AutoTest();
+			// while holding the right trigger, the left joystick can be used to move the motor
+			Command testDriveJoystick = new C_TriggerWhileHeld(new C_TestDriveByJoystick(), autoTestGamepad, false);
+			
+			// Auto Test
+			autoTest = new CG_AutoTest();
+			
+			// select and start buttons are reserved for auto test
+			testBtnSelect.whenPressed(new C_RunAutoTest());
+			testBtnSelect.whenReleased(new C_StopCommand(autoTest));
+			
+			// auto gear placement test
+			Command placeGear = new CG_GearPlaceOnSpring();
+			testBtnB.whenPressed(placeGear);
+			testBtnB.whenReleased(new C_StopCommand(placeGear));
+			
+			testBtnX.whileHeld(new CG_CompleteShoot());
+			
+//			testCmd = new C_TunePID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true);
+//			kp = ?
+//			ticks = 10000
+//			testCmd = new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, true);
+//			kf = 1
+//			ticks = 300
+//			testCmd = new C_TunePID(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, 1, 1, CANTalon.TalonControlMode.Position, false, false);
+			//kp 1.5 to 3.0
+					
+			// test complete autonomous, release button to stop
 		
-		// select and start buttons are reserved for auto test
-		testBtnSelect.whenPressed(new C_RunAutoTest());
-		testBtnSelect.whenReleased(new C_StopCommand(autoTest));
-		
-		// auto gear placement test
-		Command placeGear = new CG_GearPlaceOnSpring();
-		testBtnB.whenPressed(placeGear);
-		testBtnB.whenReleased(new C_StopCommand(placeGear));
-		
-		testBtnX.whileHeld(new CG_CompleteShoot());
-		
-//		testCmd = new C_TunePID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainRight.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true);
-//		kp = ?
-//		ticks = 10000
-//		testCmd = new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Speed, false, true);
-//		kf = 1
-//		ticks = 300
-//		testCmd = new C_TunePID(Robot.ss_GearLift, Robot.ss_GearLift.gearLiftMotor, 1, 1, CANTalon.TalonControlMode.Position, false, false);
-		//kp 1.5 to 3.0
-				
-		// test complete autonomous, release button to stop
-	
-		// test a single PID whileHeld
-//		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));
-//		testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
+			// test a single PID whileHeld
+//			testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrain, Robot.ss_DriveTrain.rightMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, true));
+//			testBtnX.whileHeld(new C_TunePID(Robot.ss_DriveTrainLeft, Robot.ss_DriveTrainLeft.leftMotors, 1024, 256, CANTalon.TalonControlMode.Position, false, false));
+		}
 
 		Command shooterPID = new C_TunePID(Robot.ss_FuelShooter, Robot.ss_FuelShooter.shooterMotors, 1440, 360, CANTalon.TalonControlMode.Speed, false, true);
 		//dtLeft3.whenPressed(shooterPID);
@@ -159,5 +164,19 @@ public class OI {
 		
 		// my own joystick
 //		k1.whileHeld(new C_DriveByMotionProfile(Robot.ss_DriveTrainRight,Robot.ss_DriveTrainRight.rightMotors));
+	}
+	
+	public void testController() {
+		autoTestGamepad = new Joystick(3);
+		
+		 testBtnA = new JoystickButton(autoTestGamepad, 1);
+		 testBtnB = new JoystickButton(autoTestGamepad, 2);
+		 testBtnX = new JoystickButton(autoTestGamepad, 3);
+		 testBtnY = new JoystickButton(autoTestGamepad, 4);
+		 testBtnStart = new JoystickButton(autoTestGamepad, 8);
+		 testBtnSelect = new JoystickButton(autoTestGamepad, 7);
+		 testLeftBumper = new JoystickButton(autoTestGamepad, 5);
+		 testRightBumper = new JoystickButton(autoTestGamepad, 6);
+		 testRightAxisPress = new JoystickButton(autoTestGamepad, 10);
 	}
 }

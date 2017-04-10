@@ -45,7 +45,7 @@ public class C_GearPickup extends Command {
     }
 
     protected void end() {
-    	Robot.ss_DriveTrainLeft.leftMotors.stop();;
+    	Robot.ss_DriveTrainLeft.leftMotors.stop();
     	Robot.ss_DriveTrainRight.rightMotors.stop();
     	Robot.ss_GearIntake.gearIntakeMotor.stop();
     }
