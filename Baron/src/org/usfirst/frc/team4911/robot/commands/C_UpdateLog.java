@@ -66,7 +66,8 @@ public class C_UpdateLog extends Command {
     		SmartDashboard.putNumber(Robot.ss_FuelHopper.hopperMotor.getDescription() + CURR, Robot.ss_FuelHopper.hopperMotor.getOutputCurrent(false));
     		
     		// Fuel Shooter
-    		SmartDashboard.putNumber(Robot.ss_FuelShooter.shooterMotors.getDescription() + CURR, Robot.ss_FuelShooter.shooterMotors.getOutputCurrent(false));
+    		SmartDashboard.putNumber(Robot.ss_FuelShooter.shooterMotors.getDescription() + CURR + " leader", Robot.ss_FuelShooter.shooterMotors.getOutputCurrent(false));
+    		SmartDashboard.putNumber(Robot.ss_FuelShooter.shooterMotors.getDescription() + CURR + " follower", Robot.ss_FuelShooter.shooterMotors.getOutputCurrent(true));
     		SmartDashboard.putNumber(Robot.ss_FuelShooter.shooterMotors.getDescription() + ENC, Robot.ss_FuelShooter.shooterMotors.getEncPos());
     		
     		// Gear Intake
