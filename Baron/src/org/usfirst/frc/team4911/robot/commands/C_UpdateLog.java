@@ -2,6 +2,7 @@ package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.robot.Robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,9 +12,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class C_UpdateLog extends Command {
 
+	PowerDistributionPanel pdp;
+	DriverStation ds;
+	
     public C_UpdateLog() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.ss_UpdateLog);
+        pdp = new PowerDistributionPanel();
+        ds = DriverStation.getInstance();
+        
     }
 
     int counter = 0;
@@ -28,15 +35,14 @@ public class C_UpdateLog extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if((counter++ % 5) == 0) {
-    		// PDB
-    		PowerDistributionPanel pdp = new PowerDistributionPanel();
-    		SmartDashboard.putNumber("PDP 0", pdp.getCurrent(0));
-    		SmartDashboard.putNumber("PDP 1", pdp.getCurrent(1));
-    		SmartDashboard.putNumber("PDP 2", pdp.getCurrent(2));
-    		SmartDashboard.putNumber("PDP 3", pdp.getCurrent(3));    		
+  		
+    		SmartDashboard.putNumber("Battery volts", pdp.getVoltage());
+    		SmartDashboard.putNumber("Battery amps", pdp.getTotalCurrent());
+    		SmartDashboard.putNumber("Match time", ds.getMatchTime());
     		
     		// Climber
-    		SmartDashboard.putNumber(Robot.ss_Climber.climberMotors.getDescription() + CURR, Robot.ss_Climber.climberMotors.getOutputCurrent(false));
+    		SmartDashboard.putNumber(Robot.ss_Climber.climberMotors.getDescription() + CURR + " leader", Robot.ss_Climber.climberMotors.getOutputCurrent(false));
+    		SmartDashboard.putNumber(Robot.ss_Climber.climberMotors.getDescription() + CURR + " follower", Robot.ss_Climber.climberMotors.getOutputCurrent(true));
     		
     		// DriveTrainLeft
     		SmartDashboard.putNumber(Robot.ss_DriveTrainLeft.leftMotors.getDescription() + CURR + " leader", Robot.ss_DriveTrainLeft.leftMotors.getOutputCurrent(false));
